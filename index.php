@@ -204,13 +204,15 @@
                         </div>
                         <div>
                             <label for="time" class="block text-sm font-medium mb-1">Čas *</label>
-                            <input
-                                type="time"
-                                id="time"
-                                name="time"
-                                required
-                                class="w-full rounded-lg bg-[#F5EDE1] border border-[#8C7560] px-3 py-2 text-sm text-[#231814] focus:outline-none focus:ring-2 focus:ring-[#2E7D5A]"
-                            >
+                            <select
+                                     id="time"
+                                     name="time"
+                                     required
+                                     class="w-full rounded-lg bg-[#F5EDE1] border border-[#8C7560] px-3 py-2 text-sm text-[#231814] focus:outline-none focus:ring-2 focus:ring-[#2E7D5A]"
+                                    >
+                            <option value="">Nejprve vyber datum</option>
+                            </select>
+
                         </div>
                     </div>
 
@@ -343,7 +345,99 @@
             return;
         }
     });
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const dateInput = document.getElementById('date');
+    const timeSelect = document.getElementById('time');
+
+    if (!dateInput || !timeSelect) return;
+
+    // všechny možné časy (můžeš si je pak změnit)
+    const allTimes = [
+        "09:00", "09:30",
+        "10:00", "10:30",
+        "11:00", "11:30",
+        "12:00", "12:30",
+        "13:00", "13:30",
+        "14:00", "14:30",
+        "15:00", "15:30",
+        "16:00", "16:30",
+        "17:00", "17:30",
+        "18:00", "18:30"
+    ];
+
+    async function loadAvailableTimes() {
+        const date = dateInput.value;
+
+        // nic nevybráno → disable select
+        if (!date) {
+            timeSelect.innerHTML = "";
+            const opt = document.createElement('option');
+            opt.value = "";
+            opt.textContent = "Nejprve vyber datum";
+            opt.disabled = true;
+            opt.selected = true;
+            timeSelect.appendChild(opt);
+            timeSelect.disabled = true;
+            return;
+        }
+
+        try {
+            const res = await fetch('load_times.php?date=' + encodeURIComponent(date));
+            const booked = await res.json(); // např. ["10:00","11:30"]
+
+            // z allTimes odečteme obsazené
+            const freeTimes = allTimes.filter(t => !booked.includes(t));
+
+            timeSelect.innerHTML = "";
+
+            if (freeTimes.length === 0) {
+                const opt = document.createElement('option');
+                opt.value = "";
+                opt.textContent = "Žádné volné časy";
+                opt.disabled = true;
+                opt.selected = true;
+                timeSelect.appendChild(opt);
+                timeSelect.disabled = true;
+                return;
+            }
+
+            timeSelect.disabled = false;
+
+            const placeholder = document.createElement('option');
+            placeholder.value = "";
+            placeholder.textContent = "Vyber čas";
+            placeholder.disabled = true;
+            placeholder.selected = true;
+            timeSelect.appendChild(placeholder);
+
+            freeTimes.forEach(time => {
+                const opt = document.createElement('option');
+                opt.value = time;
+                opt.textContent = time;
+                timeSelect.appendChild(opt);
+            });
+        } catch (err) {
+            console.error('Chyba při načítání časů:', err);
+        }
+    }
+
+    dateInput.addEventListener('change', loadAvailableTimes);
+
+    // inicializace – dokud není datum, zamkneme výběr času
+    timeSelect.innerHTML = "";
+    const opt = document.createElement('option');
+    opt.value = "";
+    opt.textContent = "Nejprve vyber datum";
+    opt.disabled = true;
+    opt.selected = true;
+    timeSelect.appendChild(opt);
+    timeSelect.disabled = true;
+});
 </script>
+
+
 
 </body>
 </html>

@@ -1,99 +1,92 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: index.php');
-    exit;
-}
+// Napojení na databázi
+require __DIR__ . '/db.php';
 
-// Pomocná funkce na očištění vstupu
-function safe($key) {
-    return htmlspecialchars(trim($_POST[$key] ?? ''), ENT_QUOTES, 'UTF-8');
-}
+// 1) Data z formuláře – názvy MUSÍ sedět s name="" v index.php
+$name    = trim($_POST['name']    ?? '');
+$email   = trim($_POST['email']   ?? '');
+$phone   = trim($_POST['phone']   ?? '');
+$date    = trim($_POST['date']    ?? '');
+$time    = trim($_POST['time']    ?? '');
+$service = trim($_POST['service'] ?? '');
+$note    = trim($_POST['note']    ?? '');
 
-// Načtení dat z formuláře
-$name    = safe('name');
-$email   = safe('email');
-$phone   = safe('phone');
-$date    = safe('date');
-$time    = safe('time');
-$service = safe('service');
-$note    = safe('note');
+// checkbox – podle toho jak se jmenuje v tvém formuláři
+$gdpr    = isset($_POST['gdpr']);   // jestli máš name="gdpr"
 
-// Mapování ceny podle služby
+// 2) Ceník – uprav podle toho, co máš na webu
 $prices = [
-    "Klasický střih"       => 350,
-    "Skin fade + styling"  => 450,
-    "Střih + vousy"        => 550,
-    "Úprava vousů"         => 250
+    'Klasický střih'        => 350,
+    'Skin fade + styling'   => 450,
+    'Střih + vousy'         => 550,
+    'Úprava vousů'          => 250,
 ];
 
 $price = $prices[$service] ?? null;
 
-// Základní validace
-if (!$name || !$email || !$phone || !$date || !$time || !$service) {
-    $error = "Některé povinné údaje chybí. Zkuste to prosím znovu.";
-} else {
-    $error = '';
+// 3) Validace
+$errors = [];
+
+if ($name === '')   $errors[] = 'Jméno je povinné.';
+if ($email === '')  $errors[] = 'E-mail je povinný.';
+if ($phone === '')  $errors[] = 'Telefon je povinný.';
+if ($date === '')   $errors[] = 'Datum je povinné.';
+if ($time === '')   $errors[] = 'Čas je povinný.';
+if ($service === '' || $price === null) $errors[] = 'Musíš vybrat platnou službu.';
+if (!$gdpr)         $errors[] = 'Musíš souhlasit se zpracováním osobních údajů.';
+
+// kontrola minulého data
+$today = (new DateTime('today'))->format('Y-m-d');
+if ($date < $today) {
+    $errors[] = 'Nemůžeš si rezervovat termín v minulosti.';
 }
 
-// Uložení do CSV
-if (!$error) {
-    $folder = __DIR__ . "/reservations";
-    if (!is_dir($folder)) {
-        mkdir($folder, 0777, true);
-    }
-
-    $file = $folder . "/reservations.csv";
-
-    $dataRow = [
-        date("Y-m-d H:i:s"),
-        $name,
-        $email,
-        $phone,
-        $date,
-        $time,
-        $service,
-        $price,
-        $note
-    ];
-
-    $f = fopen($file, 'a');
-if ($f) {
-    
-    if (filesize($file) === 0) {
-        fputcsv(
-            $f,
-            [
-                'Vytvořeno',
-                'Jméno',
-                'E-mail',
-                'Telefon',
-                'Datum',
-                'Čas',
-                'Služba',
-                'Cena',
-                'Poznámka'
-            ],
-            ';',
-            '"',
-            '\\'
-        );
-    }
-
-
-    fputcsv(
-        $f,
-        $dataRow,
-        ';',
-        '"',
-        '\\'
-    );
-
-    fclose($f);
-} else {
-    $error = "Nepodařilo se uložit data do souboru.";
+if (!empty($errors)) {
+    // jednoduchá error stránka
+    ?>
+    <!DOCTYPE html>
+    <html lang="cs">
+    <head>
+        <meta charset="UTF-8">
+        <title>Chyba rezervace</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-[#1F1B18] text-[#F5EDE1] min-h-screen flex items-center justify-center">
+        <div class="bg-[#3F332A] border border-[#6A654E] rounded-2xl px-8 py-6 max-w-md w-full shadow-xl">
+            <h1 class="text-2xl font-bold mb-4">Něco se nepovedlo 😕</h1>
+            <ul class="list-disc list-inside space-y-1 text-sm">
+                <?php foreach ($errors as $e): ?>
+                    <li><?= htmlspecialchars($e) ?></li>
+                <?php endforeach; ?>
+            </ul>
+            <a href="index.php#reservation" class="inline-block mt-6 text-sm px-4 py-2 rounded-lg bg-[#C9BFA7] text-[#1F1B18] font-semibold hover:bg-[#E0D6BD]">
+                Zpět na formulář
+            </a>
+        </div>
+    </body>
+    </html>
+    <?php
+    exit;
 }
 
-}
+// 4) Uložení do databáze
+$stmt = $pdo->prepare("
+    INSERT INTO reservations (name, email, phone, date, time, service, price, note)
+    VALUES (:name, :email, :phone, :date, :time, :service, :price, :note)
+");
+
+$stmt->execute([
+    ':name'    => $name,
+    ':email'   => $email,
+    ':phone'   => $phone,
+    ':date'    => $date,
+    ':time'    => $time,
+    ':service' => $service,
+    ':price'   => $price,
+    ':note'    => $note === '' ? null : $note,
+]);
+
+// 5) Thank you stránka
 ?>
 <!DOCTYPE html>
 <html lang="cs">
@@ -102,42 +95,26 @@ if ($f) {
     <title>Potvrzení rezervace</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<body class="bg-[#1F1B18] text-[#F5EDE1] min-h-screen flex items-center justify-center">
+    <div class="bg-[#3F332A] border border-[#6A654E] rounded-2xl px-8 py-6 max-w-md w-full shadow-xl">
+        <h1 class="text-2xl font-bold mb-4">Rezervace odeslána! 💈</h1>
+        <p class="mb-2">Díky, <strong><?= htmlspecialchars($name) ?></strong>. Tvoje rezervace byla úspěšně zaznamenána.</p>
 
-<body class="min-h-screen bg-[#F5EDE1] text-[#231814] flex items-center justify-center p-4">
-    <div class="max-w-lg w-full bg-[#6B5947] rounded-3xl p-6 border border-[#3F332A] shadow-lg text-[#F5EDE1]">
-        
-        <?php if ($error): ?>
-            <h1 class="text-2xl font-bold text-red-300">Chyba!</h1>
-            <p class="mt-3 text-sm"><?php echo $error; ?></p>
-        <?php else: ?>
-            <h1 class="text-2xl font-bold text-[#F5EDE1]">Rezervace odeslána!</h1>
-            <p class="mt-3 text-sm">
-                Díky, <span class="font-semibold"><?php echo $name; ?></span>.
-                Vaše rezervace byla úspěšně zaznamenána.
-            </p>
+        <h2 class="text-lg font-semibold mt-4 mb-2">Shrnutí rezervace:</h2>
+        <ul class="text-sm space-y-1">
+            <li><strong>Služba:</strong> <?= htmlspecialchars($service) ?> (<?= $price ?> Kč)</li>
+            <li><strong>Datum:</strong> <?= htmlspecialchars($date) ?></li>
+            <li><strong>Čas:</strong> <?= htmlspecialchars($time) ?></li>
+            <li><strong>Telefon:</strong> <?= htmlspecialchars($phone) ?></li>
+            <li><strong>E-mail:</strong> <?= htmlspecialchars($email) ?></li>
+            <?php if ($note): ?>
+                <li><strong>Poznámka:</strong> <?= nl2br(htmlspecialchars($note)) ?></li>
+            <?php endif; ?>
+        </ul>
 
-            <div class="mt-4 bg-[#4F4036] p-4 rounded-2xl border border-[#3F332A] text-sm">
-                <h2 class="text-lg font-semibold mb-2">Shrnutí rezervace:</h2>
-                <p><strong>Služba:</strong> <?php echo $service; ?> (<?php echo $price; ?> Kč)</p>
-                <p><strong>Datum:</strong> <?php echo $date; ?></p>
-                <p><strong>Čas:</strong> <?php echo $time; ?></p>
-                <p><strong>Telefon:</strong> <?php echo $phone; ?></p>
-                <p><strong>E-mail:</strong> <?php echo $email; ?></p>
-                <?php if ($note): ?>
-                    <p><strong>Poznámka:</strong> <?php echo nl2br($note); ?></p>
-                <?php endif; ?>
-            </div>
-
-            <p class="text-xs mt-3 text-[#F0E7DB]">
-                Data jsou uložena v: <code>reservations/reservations.csv</code>
-            </p>
-        <?php endif; ?>
-
-        <a href="index.php#booking"
-           class="block mt-6 text-center bg-[#2E7D5A] hover:bg-[#245F44] text-[#F5EDE1] font-semibold py-2 rounded-full transition">
-            Zpět na formulář
+        <a href="index.php" class="inline-block mt-6 text-sm px-4 py-2 rounded-lg border border-[#6A654E] hover:bg-[#2A231E]">
+            Zpět na web
         </a>
     </div>
 </body>
 </html>
-
