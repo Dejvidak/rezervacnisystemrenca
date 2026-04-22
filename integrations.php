@@ -36,6 +36,12 @@ function app_send_reservation_emails(array $reservation): array
         return $result;
     }
 
+    $configurationErrors = app_email_configuration_errors();
+    if (!empty($configurationErrors)) {
+        $result['errors'] = array_merge($result['errors'], $configurationErrors);
+        return $result;
+    }
+
     $ownerEmail = app_owner_email();
     $result['owner_email_sent'] = app_send_plain_email(
         $ownerEmail,
@@ -62,6 +68,43 @@ function app_send_reservation_emails(array $reservation): array
     }
 
     return $result;
+}
+
+function app_email_configuration_errors(): array
+{
+    $errors = [];
+
+    if (trim((string) getenv('SMTP_HOST')) === '') {
+        return $errors;
+    }
+
+    $port = (int) (getenv('SMTP_PORT') ?: 465);
+    $username = trim((string) getenv('SMTP_USERNAME'));
+    $password = (string) getenv('SMTP_PASSWORD');
+    $encryption = strtolower(trim((string) (getenv('SMTP_ENCRYPTION') ?: 'ssl')));
+    $from = trim((string) (getenv('SMTP_FROM') ?: app_from_email()));
+
+    if ($port <= 0) {
+        $errors[] = 'SMTP_PORT není platný.';
+    }
+
+    if (!in_array($encryption, ['ssl', 'tls', 'none'], true)) {
+        $errors[] = 'SMTP_ENCRYPTION musí být ssl, tls nebo none.';
+    }
+
+    if ($username === '') {
+        $errors[] = 'SMTP_USERNAME není nastavený, e-maily se neposlaly.';
+    }
+
+    if ($password === '') {
+        $errors[] = 'SMTP_PASSWORD není nastavené, e-maily se neposlaly.';
+    }
+
+    if ($from === '' || !filter_var($from, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = 'SMTP_FROM není platná e-mailová adresa.';
+    }
+
+    return $errors;
 }
 
 function app_send_plain_email(string $to, string $subject, string $body, ?string $replyTo = null): bool

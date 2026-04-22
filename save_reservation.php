@@ -142,6 +142,9 @@ function h(string $value): string
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }
 
+$displayDate = $dateObject ? $dateObject->format('d.m.Y') : $date;
+$priceLabel = isset($services[$service]) ? app_price_label($service) : '';
+
 ?>
 <!DOCTYPE html>
 <html lang="cs">
@@ -151,38 +154,82 @@ function h(string $value): string
     <title><?= empty($errors) ? 'Potvrzení rezervace' : 'Chyba rezervace' ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-[#1F1B18] text-[#F5EDE1] min-h-screen flex items-center justify-center p-4">
-    <div class="bg-[#3F332A] border border-[#6A654E] rounded-2xl px-8 py-6 max-w-md w-full shadow-xl">
+<body class="min-h-screen bg-[#F4EFE7] text-[#2B211C]">
+    <main class="flex min-h-screen items-center justify-center px-4 py-10">
+        <div class="w-full max-w-2xl overflow-hidden rounded-lg border border-[#D8C8B0] bg-[#F5EDE1] shadow-2xl shadow-[rgba(43,33,28,0.14)]">
         <?php if (!empty($errors)): ?>
-            <h1 class="text-2xl font-bold mb-4">Rezervace se nepovedla</h1>
-            <ul class="list-disc list-inside space-y-1 text-sm">
-                <?php foreach ($errors as $error): ?>
-                    <li><?= h($error) ?></li>
-                <?php endforeach; ?>
-            </ul>
-            <a href="index.php#booking" class="inline-block mt-6 text-sm px-4 py-2 rounded-lg bg-[#C9BFA7] text-[#1F1B18] font-semibold hover:bg-[#E0D6BD]">
-                Zpět na formulář
-            </a>
+            <div class="bg-[#2B211C] px-5 py-6 text-[#F5EDE1] sm:px-8">
+                <p class="text-xs font-bold uppercase tracking-[0.24em] text-[#D6A85E]">Rezervace nebyla uložena</p>
+                <h1 class="mt-2 text-3xl font-extrabold">Ještě to chce upravit</h1>
+                <p class="mt-3 max-w-xl text-sm leading-6 text-[#EDE8DD]">
+                    Něco ve formuláři nesedí. Mrkni na chyby níže a zkus rezervaci odeslat znovu.
+                </p>
+            </div>
+            <div class="px-5 py-6 sm:px-8">
+                <ul class="space-y-2 text-sm">
+                    <?php foreach ($errors as $error): ?>
+                        <li class="rounded-lg border border-[#D8C8B0] bg-[#F9F5EF] px-4 py-3"><?= h($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+                <a href="index.php#booking" class="mt-6 inline-flex rounded-lg bg-[#C08A3E] px-5 py-3 text-sm font-semibold text-[#F5EDE1] shadow-md transition hover:bg-[#94642C]">
+                    Zpět na formulář
+                </a>
+            </div>
         <?php else: ?>
-            <h1 class="text-2xl font-bold mb-4">Rezervace odeslána</h1>
-            <p class="mb-2">Díky, <strong><?= h($name) ?></strong>. Tvoje rezervace byla úspěšně zaznamenána.</p>
-
-            <h2 class="text-lg font-semibold mt-4 mb-2">Shrnutí rezervace:</h2>
-            <ul class="text-sm space-y-1">
-                <li><strong>Služba:</strong> <?= h($service) ?> (<?= h(app_price_label($service)) ?>)</li>
-                <li><strong>Datum:</strong> <?= h($date) ?></li>
-                <li><strong>Čas:</strong> <?= h($time) ?></li>
-                <li><strong>Telefon:</strong> <?= h($phone) ?></li>
-                <li><strong>E-mail:</strong> <?= h($email) ?></li>
+            <div class="bg-[#2B211C] px-5 py-7 text-[#F5EDE1] sm:px-8">
+                <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#C08A3E] text-[#F5EDE1] shadow-lg">
+                    <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M5 12.5l4.2 4.2L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <p class="text-xs font-bold uppercase tracking-[0.24em] text-[#D6A85E]">Rezervace potvrzena</p>
+                <h1 class="mt-2 text-3xl font-extrabold">Díky, <?= h($name) ?>.</h1>
+                <p class="mt-3 max-w-xl text-sm leading-6 text-[#EDE8DD]">
+                    Termín máme uložený. Shrnutí rezervace jsme poslali na e-mail, takže ho budeš mít po ruce.
+                </p>
+            </div>
+            <div class="px-5 py-6 sm:px-8">
+                <div class="grid gap-3 sm:grid-cols-2">
+                    <div class="rounded-lg border border-[#D8C8B0] bg-[#F9F5EF] p-4">
+                        <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#725E4C]">Služba</p>
+                        <p class="mt-1 font-bold"><?= h($service) ?></p>
+                        <?php if ($priceLabel !== ''): ?>
+                            <p class="mt-1 text-sm text-[#5E4E41]"><?= h($priceLabel) ?></p>
+                        <?php endif; ?>
+                    </div>
+                    <div class="rounded-lg border border-[#D8C8B0] bg-[#F9F5EF] p-4">
+                        <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#725E4C]">Termín</p>
+                        <p class="mt-1 font-bold"><?= h($displayDate) ?> v <?= h($time) ?></p>
+                        <p class="mt-1 text-sm text-[#5E4E41]"><?= (int) $duration ?> minut</p>
+                    </div>
+                    <div class="rounded-lg border border-[#D8C8B0] bg-[#F9F5EF] p-4">
+                        <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#725E4C]">Kontakt</p>
+                        <p class="mt-1 font-bold"><?= h($phone) ?></p>
+                        <p class="mt-1 break-words text-sm text-[#5E4E41]"><?= h($email) ?></p>
+                    </div>
+                    <div class="rounded-lg border border-[#D8C8B0] bg-[#F9F5EF] p-4">
+                        <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#725E4C]">Místo</p>
+                        <p class="mt-1 font-bold">Hair By ReneNeme</p>
+                        <p class="mt-1 text-sm text-[#5E4E41]">Vackova 1064/39, Brno</p>
+                    </div>
+                </div>
                 <?php if ($note !== ''): ?>
-                    <li><strong>Poznámka:</strong> <?= nl2br(h($note)) ?></li>
+                    <div class="mt-3 rounded-lg border border-[#D8C8B0] bg-[#F9F5EF] p-4">
+                        <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#725E4C]">Poznámka</p>
+                        <p class="mt-1 text-sm leading-6 text-[#5E4E41]"><?= nl2br(h($note)) ?></p>
+                    </div>
                 <?php endif; ?>
-            </ul>
-
-            <a href="index.php" class="inline-block mt-6 text-sm px-4 py-2 rounded-lg border border-[#6A654E] hover:bg-[#2A231E]">
-                Zpět na web
-            </a>
+                <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+                    <a href="index.php" class="inline-flex justify-center rounded-lg bg-[#C08A3E] px-5 py-3 text-sm font-semibold text-[#F5EDE1] shadow-md transition hover:bg-[#94642C]">
+                        Zpět na web
+                    </a>
+                    <a href="index.php#booking" class="inline-flex justify-center rounded-lg border border-[#4A3A30] px-5 py-3 text-sm font-semibold text-[#2B211C] transition hover:bg-[#2B211C] hover:text-[#F5EDE1]">
+                        Vytvořit další rezervaci
+                    </a>
+                </div>
+            </div>
         <?php endif; ?>
-    </div>
+        </div>
+    </main>
 </body>
 </html>
