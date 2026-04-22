@@ -1,0 +1,6 @@
+storage/*.sqlite
+storage/*.sqlite-*
+local_config.php
+google-service-account*.json
+rezervacnisystemrenca-*.json
+.DS_Store

@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/config.php';
+
+$services = app_services();
+?>
 <!DOCTYPE html>
 <html lang="cs" class="scroll-smooth">
 <head>
@@ -12,8 +17,8 @@
 <header class="sticky top-0 z-50 bg-[#3F332A]/90 border-b border-[#5E4E41] shadow-xl">
     <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
         <a href="#top" class="font-extrabold tracking-tight text-xl">
-            <span class="text-[#F5EDE1]">BarberShop</span>
-            <span class="text-[#D8C8B0]">Skluzavková kotleta</span>
+            <span class="text-[#F5EDE1]">Hair By</span>
+            <span class="text-[#D8C8B0]">ReneNeme</span>
         </a>
         <nav class="flex gap-3 md:gap-6 text-sm text-[#EDE8DD]">
             <a href="#about" class="hover:text-[#C99A5B] transition">O nás</a>
@@ -49,7 +54,7 @@
                 </a>
             </div>
             <p class="mt-8 text-sm text-[#5E4E41]">
-                Otevřeno Po-Pá 9:00-19:00 · So 9:00-14:00 · Ne - zavřeno · Kadeřnická 123, Brno
+                Otevřeno Po-Pá 9:00-19:00 · So 9:00-14:00 Vackova 1064/39, 612 00 Brno-Královo Pole
             </p>
         </div>
         <div>
@@ -69,7 +74,7 @@
     <section id="about" class="py-10 border-t border-[#3F332A] scroll-mt-32">
         <h2 class="text-3xl font-bold mb-4">O nás</h2>
         <p class="text-m text-[#5E4E41] mb-4 max-w-3xl">
-            <strong>Skluzavková kotleta</strong> je malé pánské kadeřnictví, které kombinuje <strong>klasické střihy</strong> a <strong>moderní techniky</strong>.
+            <strong>Hair By ReneNeme</strong> je malé pánské kadeřnictví, které kombinuje <strong>klasické střihy</strong> a <strong>moderní techniky</strong>.
             Zakládáme si na individuálním přístupu, příjemné atmosféře a tom, abys odcházel s účesem,
             se kterým se budeš cítit dobře.
         </p>
@@ -94,23 +99,23 @@
         <h2 class="text-2xl font-bold mb-4">Služby</h2>
         <div class="grid md:grid-cols-2 gap-4 text-sm">
             <div class="bg-[#6B5947] border border-[#3F332A] rounded-xl p-4 text-[#F5EDE1] shadow-xl">
-                <p class="font-semibold mb-1">Klasický střih</p>
-                <p class="mb-1 text-[#F0E7DB]">30 minut · mytí vlasů, střih, styling.</p>
+                <p class="font-semibold mb-1">Pánský střih</p>
+                <p class="mb-1 text-[#F0E7DB]">Pánský střih na sucho bez mytí a vousů. (35 min)</p>
                 
             </div>
             <div class="bg-[#6B5947] border border-[#3F332A] rounded-xl p-4 text-[#F5EDE1] shadow-xl">
-                <p class="font-semibold mb-1">Skin fade + styling</p>
-                <p class="mb-1 text-[#F0E7DB]">40 minut · precizní fade, styling na míru.</p>
+                <p class="font-semibold mb-1">Kompletka 1 (zahrnuje střih a mytí)</p>
+                <p class="mb-1 text-[#F0E7DB]">Pánský střih s mytím či úpravou vousů. (45 min)</p>
                 
             </div>
             <div class="bg-[#6B5947] border border-[#3F332A] rounded-xl p-4 text-[#F5EDE1] shadow-xl">
-                <p class="font-semibold mb-1">Střih + vousy</p>
-                <p class="mb-1 text-[#F0E7DB]">50 minut · střih vlasů, úprava vousů, styling.</p>
+                <p class="font-semibold mb-1">Kompletka 2</p>
+                <p class="mb-1 text-[#F0E7DB]">50 minut · střih vlasů, úprava vousů, styling. (50 min)</p>
                 
             </div>
             <div class="bg-[#6B5947] border border-[#3F332A] rounded-xl p-4 text-[#F5EDE1] shadow-xl">
-                <p class="font-semibold mb-1">Úprava vousů</p>
-                <p class="mb-1 text-[#F0E7DB]">20 minut · zastřižení, zarovnání, olej.</p>
+                <p class="font-semibold mb-1">Dětský střih</p>
+                <p class="mb-1 text-[#F0E7DB]">Chlapecký i holčičí střih Cena se liší dle náročnosti účesu u chlapců například boky úplně vyholené do kůže už by byly za 420,- (30 min)</p>
                 
             </div>
         </div>
@@ -120,18 +125,12 @@
     <section id="pricing" class="py-10 border-t border-[#3F332A] scroll-mt-32">
         <h2 class="text-2xl font-bold mb-4">Ceník</h2>
         <div class="max-w text-m">
-            <div class="flex justify-between border-b border-[#3F332A] py-2">
-                <span>Klasický střih</span><span class="font-bold text-black">350 Kč</span>
-            </div>
-            <div class="flex justify-between border-b border-[#3F332A] py-2">
-                <span>Skin fade + styling</span><span class="font-bold text-black">450 Kč</span>
-            </div>
-            <div class="flex justify-between border-b border-[#3F332A] py-2">
-                <span>Střih + vousy</span><span class="font-bold text-black">550 Kč</span>
-            </div>
-            <div class="flex justify-between border-b border-[#3F332A] py-2">
-                <span>Úprava vousů</span><span class="font-bold text-black">250 Kč</span>
-            </div>
+            <?php foreach ($services as $serviceName => $service): ?>
+                <div class="flex justify-between gap-4 border-b border-[#3F332A] py-2">
+                    <span><?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?></span>
+                    <span class="font-bold text-black whitespace-nowrap"><?= htmlspecialchars($service['price_label'], ENT_QUOTES, 'UTF-8') ?></span>
+                </div>
+            <?php endforeach; ?>
         </div>
         
     </section>
@@ -143,7 +142,7 @@
                 <h2 class="text-2xl font-bold mb-3">Online rezervace</h2>
                 <p class="text-sm text-[#5E4E41] ">
                     Vyplň formulář a zarezervuj si svůj termín. Po odeslání se ti zobrazí shrnutí rezervace
-                    a všechna data jsou uložena do systému (CSV soubor).
+                    a všechna data jsou uložena do rezervační databáze.
                 </p>
 
             </div>
@@ -226,13 +225,14 @@
                             class="w-full rounded-lg bg-[#F5EDE1] border border-[#8C7560] px-3 py-2 text-sm text-[#231814] focus:outline-none focus:ring-2 focus:ring-[#2E7D5A]"
                         >
                             <option value="">Vyber službu...</option>
-                            <option value="Klasický střih">Klasický střih</option>
-                            <option value="Skin fade + styling">Skin fade + styling</option>
-                            <option value="Střih + vousy">Střih + vousy</option>
-                            <option value="Úprava vousů">Úprava vousů</option>
+                            <?php foreach ($services as $serviceName => $service): ?>
+                                <option value="<?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?>">
+                                    <?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
                         <p id="priceInfo" class="mt-1 text-xs text-[#F0E7DB] hidden">
-                            Cena služby: <span id="priceValue"></span> Kč
+                            Cena služby: <span id="priceValue"></span>
                         </p>
                     </div>
 
@@ -292,25 +292,18 @@
     const priceInfo = document.getElementById('priceInfo');
     const priceValue = document.getElementById('priceValue');
     const errorMsg = document.getElementById('errorMsg');
+    const services = <?= json_encode($services, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>;
 
     // Minimální dnešní datum
     const today = new Date();
-    const todayDateStr = today.toISOString().split('T')[0];
+    const todayDateStr = formatLocalDate(today);
     dateInput.min = todayDateStr;
-
-    // Ceník
-    const prices = {
-        "Klasický střih": 350,
-        "Skin fade + styling": 450,
-        "Střih + vousy": 550,
-        "Úprava vousů": 250
-    };
 
     // Zobrazení ceny pod selectem místo alertu
     serviceSelect.addEventListener('change', () => {
         const selected = serviceSelect.value;
-        if (prices[selected]) {
-            priceValue.textContent = prices[selected];
+        if (services[selected]) {
+            priceValue.textContent = services[selected].price_label;
             priceInfo.classList.remove('hidden');
         } else {
             priceInfo.classList.add('hidden');
@@ -328,7 +321,7 @@
         if (!chosenDate || !chosenTime) return;
 
         const now = new Date();
-        const todayStr = now.toISOString().split('T')[0];
+        const todayStr = formatLocalDate(now);
         const nowTimeStr = now.toTimeString().slice(0, 5);
 
         if (chosenDate < todayStr) {
@@ -346,26 +339,21 @@
         }
     });
 
+    function formatLocalDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+</script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const dateInput = document.getElementById('date');
     const timeSelect = document.getElementById('time');
+    const serviceSelect = document.getElementById('service');
 
-    if (!dateInput || !timeSelect) return;
-
-    // všechny možné časy (můžeš si je pak změnit)
-    const allTimes = [
-        "09:00", "09:30",
-        "10:00", "10:30",
-        "11:00", "11:30",
-        "12:00", "12:30",
-        "13:00", "13:30",
-        "14:00", "14:30",
-        "15:00", "15:30",
-        "16:00", "16:30",
-        "17:00", "17:30",
-        "18:00", "18:30"
-    ];
+    if (!dateInput || !timeSelect || !serviceSelect) return;
 
     async function loadAvailableTimes() {
         const date = dateInput.value;
@@ -384,13 +372,29 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         try {
-            const res = await fetch('load_times.php?date=' + encodeURIComponent(date));
-            const booked = await res.json(); // např. ["10:00","11:30"]
+            const params = new URLSearchParams({ date });
+            if (serviceSelect.value) {
+                params.set('service', serviceSelect.value);
+            }
 
-            // z allTimes odečteme obsazené
-            const freeTimes = allTimes.filter(t => !booked.includes(t));
+            const res = await fetch('load_times.php?' + params.toString());
+            const data = await res.json();
+
+            // Server vrací už jen skutečně volné časy.
+            const freeTimes = data.available || [];
 
             timeSelect.innerHTML = "";
+
+            if (data.closed) {
+                const opt = document.createElement('option');
+                opt.value = "";
+                opt.textContent = "V tento den je zavřeno";
+                opt.disabled = true;
+                opt.selected = true;
+                timeSelect.appendChild(opt);
+                timeSelect.disabled = true;
+                return;
+            }
 
             if (freeTimes.length === 0) {
                 const opt = document.createElement('option');
@@ -424,6 +428,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     dateInput.addEventListener('change', loadAvailableTimes);
+    serviceSelect.addEventListener('change', function () {
+        if (dateInput.value) {
+            loadAvailableTimes();
+        }
+    });
 
     // inicializace – dokud není datum, zamkneme výběr času
     timeSelect.innerHTML = "";
