@@ -1,4 +1,9 @@
 <?php
+require_once __DIR__ . '/config.php';
+
+$services = app_services();
+$servicePrices = array_map(static fn(array $service): int => (int) $service['price'], $services);
+$serviceDurations = array_map(static fn(array $service): int => (int) $service['duration'], $services);
 $instagramUrl = 'https://www.instagram.com/hairbyreneneme/';
 $instagramHandle = '@hairbyreneneme';
 ?>
@@ -6,7 +11,7 @@ $instagramHandle = '@hairbyreneneme';
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <title>Kontakt - Hair By ReneNeme</title>
+    <title>Ceník - Hair By ReneNeme</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -19,6 +24,7 @@ $instagramHandle = '@hairbyreneneme';
             --muted-strong: #725E4C;
             --line: #D8C8B0;
             --line-soft: #E8DED0;
+            --field: #F9F5EF;
             --cream: #F5EDE1;
             --cream-soft: #EDE8DD;
             --accent: #C08A3E;
@@ -30,8 +36,8 @@ $instagramHandle = '@hairbyreneneme';
 </head>
 <body class="min-h-screen overflow-x-hidden bg-[var(--page)] text-[color:var(--ink)] antialiased">
 
-<header class="sticky top-0 z-50 bg-[var(--surface)] border-b border-[var(--surface-soft)] shadow-lg">
-    <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+<header class="sticky top-0 z-50 border-b border-[var(--surface-soft)] bg-[var(--surface)] shadow-lg">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <a href="index.php" class="whitespace-nowrap text-xl font-extrabold tracking-tight transition hover:opacity-90 sm:text-2xl md:text-[1.65rem]" aria-label="Hair By ReneNeme">
             <span class="text-[color:var(--cream)]">Hair By</span>
             <span class="text-[color:var(--gold)]">ReneNeme</span>
@@ -41,8 +47,8 @@ $instagramHandle = '@hairbyreneneme';
             <a href="index.php#visit" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Návštěva</a>
             <a href="index.php#services" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Služby</a>
             <a href="index.php#references" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Reference</a>
-            <a href="cenik.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Ceník</a>
-            <a href="contact.php" class="whitespace-nowrap font-semibold text-[color:var(--gold)]">Kontakt</a>
+            <a href="cenik.php" class="whitespace-nowrap font-semibold text-[color:var(--gold)]">Ceník</a>
+            <a href="contact.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Kontakt</a>
             <a
                 href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>"
                 target="_blank"
@@ -78,8 +84,8 @@ $instagramHandle = '@hairbyreneneme';
         <a href="index.php#visit" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Návštěva</a>
         <a href="index.php#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
         <a href="index.php#references" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
-        <a href="cenik.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Ceník</a>
-        <a href="contact.php" class="block rounded-lg px-3 py-3 font-semibold text-[color:var(--gold)] hover:bg-[var(--surface-soft)]">Kontakt</a>
+        <a href="cenik.php" class="block rounded-lg px-3 py-3 font-semibold text-[color:var(--gold)] hover:bg-[var(--surface-soft)]">Ceník</a>
+        <a href="contact.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Kontakt</a>
         <a href="index.php#booking" class="mt-2 inline-flex w-full items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-3 font-semibold text-[color:var(--cream)] shadow-sm transition hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervovat termín</a>
         <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="flex items-center gap-2 rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -92,16 +98,16 @@ $instagramHandle = '@hairbyreneneme';
     </nav>
 </header>
 
-<main class="max-w-6xl mx-auto px-4 py-8 sm:px-6 md:py-16">
-    <section class="grid gap-7 md:grid-cols-[0.85fr_1.15fr] md:items-start">
+<main class="mx-auto max-w-6xl px-4 py-8 sm:px-6 md:py-16">
+    <section class="grid gap-7 md:grid-cols-[0.95fr_1.05fr] md:items-center">
         <div>
-            <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--muted-strong)] sm:text-xs sm:tracking-[0.28em]">Kontakt</p>
+            <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--muted-strong)] sm:text-xs sm:tracking-[0.28em]">Ceník</p>
             <h1 class="text-3xl font-extrabold leading-tight sm:text-4xl md:text-5xl">
-                Hair By <span class="text-[color:var(--accent)]">ReneNeme</span>
+                Přehled služeb a cen
+                <span class="text-[color:var(--accent)]">na jednom místě</span>
             </h1>
             <p class="mt-4 max-w-xl text-sm leading-7 text-[color:var(--muted)] md:text-base">
-                Nejrychlejší cesta k termínu je online rezervace. Pokud potřebujete domluvit detail ke střihu,
-                upravit termín nebo dohledat fakturační údaje, všechno najdete tady
+                V klidu si projdi všechny varianty, porovnej si cenu i délku služby a pak se rovnou proklikni do rezervace bez dalšího hledání
             </p>
             <div class="mt-6 flex flex-col gap-3 sm:flex-row">
                 <a href="index.php" class="inline-flex items-center justify-center rounded-lg border border-[var(--surface-soft)] px-5 py-3 text-sm font-semibold text-[color:var(--surface-soft)] transition hover:-translate-y-0.5 hover:bg-[var(--surface-soft)] hover:text-[color:var(--cream)] focus:outline-none focus:ring-2 focus:ring-[var(--surface-soft)]">
@@ -113,50 +119,74 @@ $instagramHandle = '@hairbyreneneme';
             </div>
         </div>
 
-        <div class="rounded-lg border border-[var(--line)] bg-[var(--cream)] p-5 shadow-xl shadow-[rgba(43,33,28,0.08)] sm:p-7">
-            <div class="grid gap-4 min-[460px]:grid-cols-2">
-                <div class="rounded-lg border border-[var(--line-soft)] bg-[var(--page)] p-4">
-                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Kontaktní osoba</p>
-                    <p class="mt-2 text-lg font-bold">Renata Nemeškalová</p>
-                </div>
-                <div class="rounded-lg border border-[var(--line-soft)] bg-[var(--page)] p-4">
-                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">IČO</p>
-                    <p class="mt-2 text-lg font-bold">19671415</p>
-                </div>
-                <a href="tel:+420608419610" class="rounded-lg border border-[var(--line-soft)] bg-[var(--page)] p-4 transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-md">
-                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Telefon</p>
-                    <p class="mt-2 text-base font-bold min-[420px]:text-lg">608 419 610</p>
-                </a>
-                <a href="mailto:renenemehair@seznam.cz" class="rounded-lg border border-[var(--line-soft)] bg-[var(--page)] p-4 transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-md">
-                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">E-mail</p>
-                    <p class="mt-2 break-words text-base font-bold min-[420px]:text-lg">renenemehair@seznam.cz</p>
-                </a>
-                <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="rounded-lg border border-[var(--line-soft)] bg-[var(--page)] p-4 transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-md">
-                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Instagram</p>
-                    <p class="mt-2 flex items-center gap-2 text-base font-bold min-[420px]:text-lg">
-                        <svg class="h-5 w-5 text-[color:var(--accent)]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                            <rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="2" />
-                            <circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="2" />
-                            <path d="M17 7.2h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                        </svg>
-                        <?= htmlspecialchars($instagramHandle, ENT_QUOTES, 'UTF-8') ?>
-                    </p>
-                </a>
+        <div class="grid gap-3 min-[420px]:grid-cols-2 lg:grid-cols-3">
+            <div class="rounded-2xl border border-[var(--line)] bg-white/78 px-5 py-4 shadow-sm">
+                <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Od</p>
+                <p class="mt-2 text-3xl font-extrabold text-[color:var(--ink)]"><?= htmlspecialchars((string) min($servicePrices), ENT_QUOTES, 'UTF-8') ?> Kč</p>
+                <p class="mt-1 text-sm text-[color:var(--muted)]">nejrychlejší varianta</p>
             </div>
+            <div class="rounded-2xl border border-[var(--line)] bg-white/78 px-5 py-4 shadow-sm">
+                <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Délka</p>
+                <p class="mt-2 text-3xl font-extrabold text-[color:var(--ink)]"><?= htmlspecialchars((string) min($serviceDurations), ENT_QUOTES, 'UTF-8') ?>-<?= htmlspecialchars((string) max($serviceDurations), ENT_QUOTES, 'UTF-8') ?> min</p>
+                <p class="mt-1 text-sm text-[color:var(--muted)]">podle služby</p>
+            </div>
+            <div class="rounded-2xl border border-[var(--line)] bg-white/78 px-5 py-4 shadow-sm">
+                <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Služby</p>
+                <p class="mt-2 text-3xl font-extrabold text-[color:var(--ink)]"><?= htmlspecialchars((string) count($services), ENT_QUOTES, 'UTF-8') ?></p>
+                <p class="mt-1 text-sm text-[color:var(--muted)]">v aktuální nabídce</p>
+            </div>
+        </div>
+    </section>
 
-            <div class="mt-5 rounded-lg bg-[var(--surface)] p-5 text-[color:var(--cream)]">
-                <p class="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--gold)]">Provozovna</p>
-                <p class="mt-2 text-lg font-bold">Vackova 1064/39</p>
-                <p class="text-sm text-[color:var(--cream-soft)]">612 00 Brno-Královo Pole</p>
-                <a
-                    href="https://www.google.com/maps/search/?api=1&query=Vackova%201064%2F39%2C%20612%2000%20Brno-Kr%C3%A1lovo%20Pole"
-                    target="_blank"
-                    rel="noopener"
-                    class="mt-4 inline-flex rounded-lg border border-[var(--gold)] px-4 py-2 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:bg-[var(--gold)] hover:text-[color:var(--surface)]"
-                >
-                    Otevřít v mapě
-                </a>
+    <section class="mt-10 border-t border-[var(--line)] pt-8">
+        <div class="mb-6 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--muted-strong)]">Kompletní ceník</p>
+                <h2 class="mt-1 text-2xl font-bold">Vyber si variantu, která ti sedí</h2>
             </div>
+            <a href="index.php#booking" class="text-sm font-semibold text-[color:var(--accent)] underline decoration-[var(--accent)] underline-offset-4 hover:text-[color:var(--accent-dark)]">
+                Otevřít formulář
+            </a>
+        </div>
+        <div class="grid gap-4 md:grid-cols-2">
+            <?php foreach ($services as $serviceName => $service): ?>
+                <?php $isFeatured = !empty($service['featured']); ?>
+                <article class="group relative overflow-hidden rounded-2xl border <?= $isFeatured ? 'border-[var(--accent)] bg-[linear-gradient(135deg,rgba(43,33,28,0.98),rgba(74,58,48,0.94))] text-[color:var(--cream)] shadow-xl' : 'border-[var(--line)] bg-white/78 text-[color:var(--ink)] shadow-sm' ?>">
+                    <div class="absolute inset-x-0 top-0 h-1 <?= $isFeatured ? 'bg-[linear-gradient(90deg,var(--gold),var(--gold-soft))]' : 'bg-[linear-gradient(90deg,var(--accent),rgba(192,138,62,0.12))]' ?>"></div>
+                    <div class="p-5 sm:p-6">
+                        <div class="flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
+                            <div>
+                                <span class="inline-flex rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'border-[rgba(241,200,121,0.32)] bg-[rgba(241,200,121,0.12)] text-[color:var(--gold-soft)]' : 'border-[var(--line)] bg-[var(--field)] text-[color:var(--muted-strong)]' ?>">
+                                    <?= htmlspecialchars((string) ($service['badge'] ?? 'Služba'), ENT_QUOTES, 'UTF-8') ?>
+                                </span>
+                                <h3 class="mt-4 text-xl font-bold"><?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?></h3>
+                                <p class="mt-2 max-w-md text-sm leading-6 <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">
+                                    <?= htmlspecialchars((string) ($service['description'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
+                                </p>
+                                <p class="mt-3 max-w-md text-sm leading-6 <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">
+                                    <?= htmlspecialchars((string) ($service['service_copy'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
+                                </p>
+                            </div>
+                            <div class="self-start rounded-2xl border px-4 py-3 text-left sm:text-right <?= $isFeatured ? 'border-[rgba(241,200,121,0.28)] bg-[rgba(255,255,255,0.06)]' : 'border-[var(--line)] bg-[var(--field)]' ?>">
+                                <p class="text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--muted-strong)]' ?>">Cena</p>
+                                <p class="mt-2 text-2xl font-extrabold whitespace-nowrap"><?= htmlspecialchars((string) $service['price_label'], ENT_QUOTES, 'UTF-8') ?></p>
+                                <p class="mt-1 text-xs <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">cca <?= htmlspecialchars((string) $service['duration'], ENT_QUOTES, 'UTF-8') ?> minut</p>
+                            </div>
+                        </div>
+                        <div class="mt-5 flex flex-col items-start gap-3 border-t pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between <?= $isFeatured ? 'border-[rgba(241,200,121,0.18)]' : 'border-[var(--line-soft)]' ?>">
+                            <p class="text-sm <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">
+                                <?= htmlspecialchars((string) ($service['meta'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
+                            </p>
+                            <a
+                                href="index.php#booking"
+                                class="inline-flex items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[var(--gold)] <?= $isFeatured ? 'border-[rgba(241,200,121,0.24)] bg-[rgba(255,255,255,0.08)] text-[color:var(--gold-soft)] hover:-translate-y-0.5 hover:border-[rgba(241,200,121,0.5)] hover:bg-[rgba(241,200,121,0.18)] hover:text-[color:var(--cream)]' : 'border-[rgba(74,58,48,0.14)] bg-[rgba(255,255,255,0.62)] text-[color:var(--accent-dark)] shadow-sm hover:-translate-y-0.5 hover:border-[rgba(192,138,62,0.42)] hover:bg-[rgba(192,138,62,0.14)] hover:text-[color:var(--ink)]' ?>"
+                            >
+                                Vybrat a rezervovat
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            <?php endforeach; ?>
         </div>
     </section>
 </main>
@@ -193,7 +223,7 @@ $instagramHandle = '@hairbyreneneme';
                 <a href="index.php#booking" class="block hover:text-[color:var(--gold)]">Rezervace</a>
                 <a href="cenik.php" class="block hover:text-[color:var(--gold)]">Ceník</a>
                 <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="block hover:text-[color:var(--gold)]">Instagram</a>
-                <a href="index.php" class="block hover:text-[color:var(--gold)]">Zpět na web</a>
+                <a href="contact.php" class="block hover:text-[color:var(--gold)]">Kontakt</a>
             </div>
         </div>
     </div>

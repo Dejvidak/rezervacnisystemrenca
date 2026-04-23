@@ -17,6 +17,17 @@ if (!$dateObject || $dateObject->format('Y-m-d') !== $date) {
     exit;
 }
 
+$today = new DateTime('today');
+$lastBookableDate = app_booking_last_date();
+if ($dateObject < $today || $dateObject > $lastBookableDate) {
+    echo json_encode([
+        'available' => [],
+        'booked' => [],
+        'closed' => true,
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
 $services = app_services();
 $duration = isset($services[$service])
     ? (int) $services[$service]['duration']

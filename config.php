@@ -33,6 +33,18 @@ function app_site_url(): string
     return rtrim((string) (getenv('SITE_URL') ?: 'http://127.0.0.1:8000'), '/');
 }
 
+function app_booking_max_advance_days(): int
+{
+    return 7;
+}
+
+function app_booking_last_date(): DateTime
+{
+    $lastDate = new DateTime('today');
+    $lastDate->modify('+' . app_booking_max_advance_days() . ' days');
+    return $lastDate;
+}
+
 function app_services(): array
 {
     return [
@@ -40,21 +52,39 @@ function app_services(): array
             'price' => 420,
             'price_label' => '420 Kč',
             'duration' => 35,
+            'badge' => 'Nejčastější volba',
+            'description' => 'Čistý střih pro svěží každodenní look bez zbytečného zdržování',
+            'service_copy' => 'Rychlý, čistý střih na sucho bez mytí a úpravy vousů',
+            'meta' => 'Ideální pro pravidelnou údržbu a rychlý refresh',
         ],
         'Kompletka 1' => [
             'price' => 520,
             'price_label' => '520 Kč',
             'duration' => 45,
+            'badge' => 'Více času na detail',
+            'description' => 'Delší slot pro pečlivější doladění střihu a pohodovější návštěvu',
+            'service_copy' => 'Střih s mytím, případně úpravou vousů podle domluvy',
+            'service_title' => 'Kompletka 1 (zahrnuje střih a mytí)',
+            'meta' => 'Skvělá volba, když chceš jít o kus víc do detailu',
         ],
         'Kompletka 2' => [
             'price' => 620,
             'price_label' => '620 Kč',
             'duration' => 50,
+            'badge' => 'Premium čas',
+            'description' => 'Nejdelší varianta pro maximální prostor na tvar, detail a finální úpravu',
+            'service_copy' => 'Střih vlasů, úprava vousů a finální styling v jednom termínu',
+            'meta' => 'Pro chvíle, kdy chceš rezervaci bez kompromisů',
+            'featured' => true,
         ],
         'Dětský střih' => [
             'price' => 310,
             'price_label' => '310-420 Kč',
             'duration' => 30,
+            'badge' => 'Pro mladší klienty',
+            'description' => 'Krátká a svižná návštěva s ohledem na věk, délku vlasů i náročnost střihu',
+            'service_copy' => 'Chlapecký i holčičí střih. Cena se liší podle náročnosti, například výrazně vyholené boky mohou být za 420 Kč',
+            'meta' => 'Cena se odvíjí podle délky a náročnosti střihu',
         ],
     ];
 }

@@ -54,10 +54,13 @@ if (!$gdpr) {
 
 if ($dateObject) {
     $today = new DateTime('today');
+    $lastBookableDate = app_booking_last_date();
     $appointment = DateTime::createFromFormat('Y-m-d H:i', $date . ' ' . $time);
 
     if ($dateObject < $today) {
         $errors[] = 'Nemůžeš si rezervovat termín v minulosti.';
+    } elseif ($dateObject > $lastBookableDate) {
+        $errors[] = 'Rezervaci je možné vytvořit nejvýše 7 dní dopředu.';
     } elseif ($appointment && $appointment <= new DateTime()) {
         $errors[] = 'Nemůžeš si rezervovat čas, který už proběhl.';
     }
@@ -183,7 +186,7 @@ $priceLabel = isset($services[$service]) ? app_price_label($service) : '';
                     </svg>
                 </div>
                 <p class="text-xs font-bold uppercase tracking-[0.24em] text-[#D6A85E]">Rezervace potvrzena</p>
-                <h1 class="mt-2 text-3xl font-extrabold">Díky, <?= h($name) ?>.</h1>
+                <h1 class="mt-2 text-3xl font-extrabold">Díky, <?= h($name) ?></h1>
                 <p class="mt-3 max-w-xl text-sm leading-6 text-[#EDE8DD]">
                     Termín máme uložený. Shrnutí rezervace jsme poslali na e-mail, takže ho budeš mít po ruce.
                 </p>

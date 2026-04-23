@@ -2,37 +2,64 @@
 require_once __DIR__ . '/config.php';
 
 $services = app_services();
+$serviceEntries = array_values(array_map(
+    static fn(string $name, array $service): array => ['name' => $name, 'data' => $service],
+    array_keys($services),
+    $services
+));
+$featuredServiceEntry = null;
+foreach ($serviceEntries as $entry) {
+    if (!empty($entry['data']['featured'])) {
+        $featuredServiceEntry = $entry;
+        break;
+    }
+}
+$teaserServices = [];
+if ($featuredServiceEntry !== null) {
+    $teaserServices[] = $featuredServiceEntry;
+}
+foreach ($serviceEntries as $entry) {
+    if (count($teaserServices) >= 2) {
+        break;
+    }
+    if (($featuredServiceEntry['name'] ?? null) === $entry['name']) {
+        continue;
+    }
+    $teaserServices[] = $entry;
+}
+$servicePrices = array_map(static fn(array $service): int => (int) $service['price'], $services);
+$serviceDurations = array_map(static fn(array $service): int => (int) $service['duration'], $services);
 $instagramUrl = 'https://www.instagram.com/hairbyreneneme/';
 $instagramHandle = '@hairbyreneneme';
 $referenceCuts = [
     [
         'title' => 'Přirozený pánský střih',
-        'description' => 'Lehce upravený tvar, čistší kontury a přirozený objem.',
+        'description' => 'Lehce upravený tvar, čistší kontury a přirozený objem',
         'image' => 'assets/references/moderni-pansky-strih.jpg',
     ],
     [
         'title' => 'Krátký fade',
-        'description' => 'Kratší boky, čistý přechod a upravený horní objem.',
+        'description' => 'Kratší boky, čistý přechod a upravený horní objem',
         'image' => 'assets/references/kratky-fade.jpg',
     ],
     [
         'title' => 'Upravený střih',
-        'description' => 'Vyčištěné boky, uhlazený profil a střih připravený na běžné nošení.',
+        'description' => 'Vyčištěné boky, uhlazený profil a střih připravený na běžné nošení',
         'image' => 'assets/references/upraveny-strih.jpg',
     ],
     [
         'title' => 'Klasický styl',
-        'description' => 'Nadčasový pánský střih s přirozenou délkou a měkkým tvarem.',
+        'description' => 'Nadčasový pánský střih s přirozenou délkou a měkkým tvarem',
         'image' => 'assets/references/klasicky-styl.jpg',
     ],
     [
         'title' => 'Čistý fade',
-        'description' => 'Výraznější přechod, čistá linie kolem uší a svěží celkový vzhled.',
+        'description' => 'Výraznější přechod, čistá linie kolem uší a svěží celkový vzhled',
         'image' => 'assets/references/cisty-fade.jpg',
     ],
     [
         'title' => 'Finální styling',
-        'description' => 'Dokončený střih s lehkým stylingem pro upravený výsledný efekt.',
+        'description' => 'Dokončený střih s lehkým stylingem pro upravený výsledný efekt',
         'image' => 'assets/references/finalni-styling.jpg',
     ],
 ];
@@ -63,6 +90,189 @@ $referenceCuts = [
             --accent-dark: #94642C;
             --gold: #D6A85E;
             --gold-soft: #F1C879;
+            --shadow-soft: 0 20px 40px rgba(43, 33, 28, 0.1);
+            --shadow-strong: 0 28px 60px rgba(43, 33, 28, 0.2);
+        }
+
+        .premium-surface {
+            border: 1px solid var(--line);
+            border-radius: 1.25rem;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.72));
+            box-shadow: var(--shadow-soft);
+        }
+
+        .premium-surface-dark {
+            border: 1px solid rgba(214, 168, 94, 0.18);
+            border-radius: 1.5rem;
+            background: linear-gradient(145deg, rgba(43, 33, 28, 0.98), rgba(74, 58, 48, 0.94));
+            box-shadow: var(--shadow-strong);
+        }
+
+        .ui-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem;
+            border-radius: 0.9rem;
+            background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+            padding: 0.9rem 1.35rem;
+            color: var(--cream);
+            font-size: 0.95rem;
+            font-weight: 700;
+            box-shadow: 0 14px 28px rgba(148, 100, 44, 0.22);
+            transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease, background 220ms ease;
+        }
+
+        .ui-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 34px rgba(148, 100, 44, 0.28);
+            filter: saturate(1.04);
+        }
+
+        .ui-button-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem;
+            border: 1px solid rgba(74, 58, 48, 0.16);
+            border-radius: 0.9rem;
+            background: rgba(255, 255, 255, 0.58);
+            padding: 0.9rem 1.35rem;
+            color: var(--surface-soft);
+            font-size: 0.95rem;
+            font-weight: 700;
+            box-shadow: 0 10px 24px rgba(43, 33, 28, 0.08);
+            transition: transform 220ms ease, border-color 220ms ease, color 220ms ease, background 220ms ease, box-shadow 220ms ease;
+        }
+
+        .ui-button-secondary:hover {
+            transform: translateY(-2px);
+            border-color: rgba(192, 138, 62, 0.32);
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--accent-dark);
+            box-shadow: 0 16px 28px rgba(43, 33, 28, 0.12);
+        }
+
+        .ui-button-ghost-dark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem;
+            border: 1px solid rgba(241, 200, 121, 0.18);
+            border-radius: 0.9rem;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.9rem 1.35rem;
+            color: var(--cream);
+            font-size: 0.95rem;
+            font-weight: 700;
+            transition: transform 220ms ease, border-color 220ms ease, color 220ms ease, background 220ms ease;
+        }
+
+        .ui-button-ghost-dark:hover {
+            transform: translateY(-2px);
+            border-color: rgba(241, 200, 121, 0.34);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--gold-soft);
+        }
+
+        .lift-card {
+            transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+        }
+
+        .lift-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 22px 36px rgba(43, 33, 28, 0.14);
+        }
+
+        .accent-link {
+            color: var(--accent);
+            font-weight: 700;
+            text-decoration: underline;
+            text-decoration-color: var(--accent);
+            text-underline-offset: 0.26rem;
+            transition: color 220ms ease, text-decoration-color 220ms ease;
+        }
+
+        .accent-link:hover {
+            color: var(--accent-dark);
+            text-decoration-color: var(--accent-dark);
+        }
+
+        .trust-grid-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trust-grid-card::before {
+            position: absolute;
+            inset: 0 auto auto 0;
+            height: 3px;
+            width: 100%;
+            background: linear-gradient(90deg, var(--gold), rgba(241, 200, 121, 0));
+            content: "";
+        }
+
+        .hero-stage {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .hero-stage::before,
+        .hero-stage::after {
+            position: absolute;
+            z-index: -1;
+            border-radius: 999px;
+            content: "";
+            filter: blur(12px);
+            opacity: 0.72;
+        }
+
+        .hero-stage::before {
+            top: 0;
+            left: -3.5rem;
+            height: 11rem;
+            width: 11rem;
+            background: radial-gradient(circle, rgba(214, 168, 94, 0.22), rgba(214, 168, 94, 0));
+        }
+
+        .hero-stage::after {
+            right: -1.5rem;
+            bottom: 1rem;
+            height: 13rem;
+            width: 13rem;
+            background: radial-gradient(circle, rgba(74, 58, 48, 0.14), rgba(74, 58, 48, 0));
+        }
+
+        .hero-media-frame {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(214, 168, 94, 0.18);
+            border-radius: 1.75rem;
+            background: linear-gradient(145deg, rgba(43, 33, 28, 0.98), rgba(74, 58, 48, 0.94));
+            box-shadow: var(--shadow-strong);
+        }
+
+        .hero-media-frame::before {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(43, 33, 28, 0.08), rgba(43, 33, 28, 0.34));
+            content: "";
+            pointer-events: none;
+        }
+
+        .hero-media-frame::after {
+            position: absolute;
+            inset: 0.85rem;
+            border: 1px solid rgba(245, 237, 225, 0.14);
+            border-radius: 1.15rem;
+            content: "";
+            pointer-events: none;
+        }
+
+        .hero-floating-card {
+            backdrop-filter: blur(14px);
+            background: rgba(43, 33, 28, 0.84);
+            box-shadow: 0 18px 34px rgba(43, 33, 28, 0.22);
         }
 
         .booking-form {
@@ -280,6 +490,10 @@ $referenceCuts = [
         }
 
         @media (prefers-reduced-motion: reduce) {
+            .ui-button,
+            .ui-button-secondary,
+            .ui-button-ghost-dark,
+            .lift-card,
             .about-card__icon,
             .about-popover,
             .about-popover__panel,
@@ -304,7 +518,7 @@ $referenceCuts = [
             <a href="#visit" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Návštěva</a>
             <a href="#services" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Služby</a>
             <a href="#references" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Reference</a>
-            <a href="#pricing" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Ceník</a>
+            <a href="cenik.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Ceník</a>
             <a href="contact.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Kontakt</a>
             <a
                 href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>"
@@ -342,8 +556,9 @@ $referenceCuts = [
         <a href="#visit" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Návštěva</a>
         <a href="#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
         <a href="#references" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
-        <a href="#pricing" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Ceník</a>
+        <a href="cenik.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Ceník</a>
         <a href="contact.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Kontakt</a>
+        <a href="#booking" class="mt-2 inline-flex w-full items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-3 font-semibold text-[color:var(--cream)] shadow-sm transition hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervovat termín</a>
         <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="flex items-center gap-2 rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="2" />
@@ -352,48 +567,52 @@ $referenceCuts = [
             </svg>
             Instagram
         </a>
-        <a href="#booking" class="mt-2 block rounded-lg bg-[var(--accent)] px-3 py-3 text-center font-semibold text-[color:var(--cream)] shadow-sm hover:bg-[var(--accent-dark)]">
-            Rezervovat termín
-        </a>
     </nav>
 </header>
 
 <main id="top" class="max-w-6xl mx-auto px-4 pb-14 sm:px-6 md:pb-16">
 
     <!-- HERO sekce-->
-    <section class="grid gap-8 py-8 md:grid-cols-[0.95fr_1.05fr] md:items-center md:gap-10 md:py-16">
-        <div>
-            <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--muted-strong)] sm:text-xs sm:tracking-[0.28em]">Pánské kadeřnictví · Brno</p>
-            <h1 class="mb-4 text-3xl font-extrabold leading-tight sm:text-4xl md:text-5xl">
-                Pánské střihy, které sedí.
-                V klidu a <span class="text-[color:var(--accent)]">bez čekání</span>.
+    <section class="hero-stage grid gap-7 py-6 md:grid-cols-[0.92fr_1.08fr] md:items-center md:gap-10 md:py-16">
+        <div class="relative">
+            <p class="mb-4 inline-flex items-center gap-2 rounded-full border border-[rgba(192,138,62,0.18)] bg-white/72 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--muted-strong)] shadow-sm sm:text-xs sm:tracking-[0.28em]">
+                <span class="h-2 w-2 rounded-full bg-[var(--accent)]"></span>
+                Pánské kadeřnictví · Brno
+            </p>
+            <h1 class="mb-4 max-w-2xl text-3xl font-extrabold leading-[1.05] sm:text-4xl md:text-5xl">
+                Pánské střihy,
+                které působí
+                <span class="text-[color:var(--accent)]">čistě, přesně a přirozeně</span>
             </h1>
-            <p class="text-sm md:text-base mb-6 text-[color:var(--muted)]">
-                Vyber si službu, volný termín a přijď rovnou do křesla.
+            <p class="max-w-xl text-sm text-[color:var(--muted)] md:text-base md:leading-7">
+                Vyber si službu, volný termín a přijď rovnou do křesla
                 Hair By ReneNeme spojuje pečlivý střih, pohodovou atmosféru a rezervaci bez zbytečného domlouvání.
             </p>
-            <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a href="#booking"
-                   class="inline-flex w-full items-center justify-center rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[color:var(--cream)] shadow-lg transition hover:-translate-y-0.5 hover:bg-[var(--accent-dark)] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[var(--accent)] sm:w-auto sm:py-2.5">
+                   class="ui-button w-full focus:outline-none focus:ring-2 focus:ring-[var(--accent)] sm:w-auto">
                     Rezervovat termín
                 </a>
-                <a href="#pricing"
-                   class="inline-flex w-full items-center justify-center rounded-lg border border-[var(--surface-soft)] px-5 py-3 text-sm font-semibold text-[color:var(--surface-soft)] transition hover:-translate-y-0.5 hover:bg-[var(--surface-soft)] hover:text-[color:var(--cream)] focus:outline-none focus:ring-2 focus:ring-[var(--surface-soft)] sm:w-auto sm:py-2.5">
+                <a href="cenik.php"
+                   class="ui-button-secondary w-full focus:outline-none focus:ring-2 focus:ring-[var(--surface-soft)] sm:w-auto">
                     Podívat se na ceník
                 </a>
             </div>
-            <div class="mt-7 grid max-w-xl grid-cols-1 gap-3 text-sm min-[420px]:grid-cols-3 md:mt-8">
-                <div class="border-l-2 border-[var(--accent)] pl-3">
-                    <p class="font-bold">35-50 min</p>
-                    <p class="text-xs text-[color:var(--muted-strong)]">délka služeb</p>
+            <div class="mt-7 grid max-w-2xl grid-cols-1 gap-3 text-sm min-[420px]:grid-cols-3 md:mt-8">
+                <div class="premium-surface px-4 py-3">
+                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Délka</p>
+                    <p class="mt-2 font-bold text-[color:var(--ink)]">35-50 min</p>
+                    <p class="mt-1 text-xs text-[color:var(--muted)]">podle vybrané služby</p>
                 </div>
-                <div class="border-l-2 border-[var(--accent)] pl-3">
-                    <p class="font-bold">Online</p>
-                    <p class="text-xs text-[color:var(--muted-strong)]">rezervace</p>
+                <div class="premium-surface px-4 py-3">
+                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Rezervace</p>
+                    <p class="mt-2 font-bold text-[color:var(--ink)]">Online</p>
+                    <p class="mt-1 text-xs text-[color:var(--muted)]">bez volání a čekání</p>
                 </div>
-                <div class="border-l-2 border-[var(--accent)] pl-3">
-                    <p class="font-bold">Brno</p>
-                    <p class="text-xs text-[color:var(--muted-strong)]">Královo Pole</p>
+                <div class="premium-surface px-4 py-3">
+                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Lokalita</p>
+                    <p class="mt-2 font-bold text-[color:var(--ink)]">Brno</p>
+                    <p class="mt-1 text-xs text-[color:var(--muted)]">Královo Pole</p>
                 </div>
             </div>
             <div class="mt-7 flex flex-col gap-2 text-sm text-[color:var(--muted)] sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4 md:mt-8">
@@ -409,15 +628,30 @@ $referenceCuts = [
             </div>
         </div>
         <div class="relative">
-            <img
-                src="assets/barbershop-hero.png"
-                alt="Moderní interiér pánského kadeřnictví"
-                class="h-[15rem] w-full rounded-lg border border-[var(--line)] object-cover shadow-2xl min-[420px]:h-[18rem] sm:h-[22rem] md:h-[30rem]"
-            >
-            <div class="absolute bottom-3 left-3 right-3 rounded-lg bg-[rgba(43,33,28,0.9)] p-3 text-[color:var(--cream)] shadow-xl backdrop-blur sm:bottom-4 sm:left-4 sm:right-4 sm:p-4">
+            <div class="hero-media-frame p-3 sm:p-4">
+                <img
+                    src="assets/barbershop-hero.png"
+                    alt="Moderní interiér pánského kadeřnictví"
+                    class="h-[17rem] w-full rounded-[1.2rem] object-cover min-[420px]:h-[20rem] sm:h-[24rem] md:h-[31rem]"
+                >
+            </div>
+            <div class="hero-floating-card relative mt-3 rounded-2xl border border-[rgba(241,200,121,0.18)] px-4 py-3 text-[color:var(--cream)] md:absolute md:left-6 md:top-6 md:mt-0">
+                <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-[color:var(--gold-soft)] sm:text-[11px]">Brno · Královo Pole</p>
+                <p class="mt-2 text-sm font-semibold sm:text-base">Klidné místo pro střih, který drží tvar</p>
+            </div>
+            <div class="hero-floating-card relative mt-3 rounded-2xl border border-[rgba(241,200,121,0.16)] p-4 text-[color:var(--cream)] md:absolute md:bottom-6 md:left-6 md:right-6 md:mt-0 sm:p-5">
                 <p class="text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold)] sm:text-xs sm:tracking-[0.24em]">Rezervace bez volání</p>
-                <p class="mt-1 text-base font-bold sm:text-lg">Vybereš službu, datum a čas.</p>
-                <p class="mt-1 text-sm text-[color:var(--cream-soft)]">Potvrzení dorazí e-mailem a termín se zapíše do kalendáře.</p>
+                <div class="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                        <p class="text-base font-bold sm:text-lg">Vybereš službu, datum a čas</p>
+                        <p class="mt-1 text-sm text-[color:var(--cream-soft)]">Potvrzení dorazí e-mailem a termín se zapíše do kalendáře</p>
+                    </div>
+                    <div class="rounded-xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.05)] px-4 py-3 text-left sm:min-w-[10rem]">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Nejčastější volba</p>
+                        <p class="mt-2 text-sm font-semibold">Pánský střih</p>
+                        <p class="mt-1 text-xs text-[color:var(--cream-soft)]">cca 35 minut</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -431,17 +665,17 @@ $referenceCuts = [
             kolik času mu chceš doma věnovat.
         </p>
         <div class="grid md:grid-cols-3 gap-4 text-sm">
-            <article class="about-card rounded-lg border border-[var(--line)] bg-white/70 p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+            <article class="about-card premium-surface lift-card p-4">
                 <button
                     type="button"
                     class="about-card__button flex w-full items-start justify-between gap-3 text-left"
                     data-about-title="Přátelský přístup"
-                    data-about-summary="Klidná návštěva bez zbytečného spěchu. Sedneš si, domluvíme styl a jde se na věc."
+                    data-about-summary="Klidná návštěva bez zbytečného spěchu. Sedneš si, domluvíme styl a jde se na věc"
                     data-about-detail="Renata se ptá na styl, zvyky i to, jak moc chceš účes ráno řešit. Cílem je střih, který bude vypadat dobře nejen po odchodu z křesla, ale i další dny doma."
                 >
                     <span>
                         <span class="mb-1 block font-semibold">Přátelský přístup</span>
-                        <span class="block text-[color:var(--muted)]">Klidná návštěva bez zbytečného spěchu. Sedneš si, domluvíme styl a jde se na věc.</span>
+                        <span class="block text-[color:var(--muted)]">Klidná návštěva bez zbytečného spěchu. Sedneš si, domluvíme styl a jde se na věc</span>
                     </span>
                     <span class="about-card__icon mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--cream)] text-[color:var(--accent)]" aria-hidden="true">
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
@@ -450,17 +684,17 @@ $referenceCuts = [
                     </span>
                 </button>
             </article>
-            <article class="about-card rounded-lg border border-[var(--line)] bg-white/70 p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+            <article class="about-card premium-surface lift-card p-4">
                 <button
                     type="button"
                     class="about-card__button flex w-full items-start justify-between gap-3 text-left"
                     data-about-title="Moderní střihy"
-                    data-about-summary="Od klasiky po výraznější fade. Vždy tak, aby střih seděl k vlasům i běžnému nošení."
+                    data-about-summary="Od klasiky po výraznější fade. Vždy tak, aby střih seděl k vlasům i běžnému nošení"
                     data-about-detail="Střih může být čistý, výrazný nebo úplně přirozený. Klidně dones fotku inspirace, výsledek se ale vždy upraví podle tvaru hlavy, hustoty vlasů a toho, co ti bude prakticky fungovat."
                 >
                     <span>
                         <span class="mb-1 block font-semibold">Moderní střihy</span>
-                        <span class="block text-[color:var(--muted)]">Od klasiky po výraznější fade. Vždy tak, aby střih seděl k vlasům i běžnému nošení.</span>
+                        <span class="block text-[color:var(--muted)]">Od klasiky po výraznější fade. Vždy tak, aby střih seděl k vlasům i běžnému nošení</span>
                     </span>
                     <span class="about-card__icon mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--cream)] text-[color:var(--accent)]" aria-hidden="true">
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
@@ -469,17 +703,17 @@ $referenceCuts = [
                     </span>
                 </button>
             </article>
-            <article class="about-card rounded-lg border border-[var(--line)] bg-white/70 p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+            <article class="about-card premium-surface lift-card p-4">
                 <button
                     type="button"
                     class="about-card__button flex w-full items-start justify-between gap-3 text-left"
                     data-about-title="Online rezervace"
-                    data-about-summary="Termín si vybereš rovnou online. Bez volání, přepisování zpráv a čekání na potvrzení."
+                    data-about-summary="Termín si vybereš rovnou online. Bez volání, přepisování zpráv a čekání na potvrzení"
                     data-about-detail="Rezervace hlídá délku služby i dostupné časy. Po odeslání máš termín potvrzený e-mailem, takže nemusíš volat ani čekat na odpověď ve zprávách."
                 >
                     <span>
                         <span class="mb-1 block font-semibold">Online rezervace</span>
-                        <span class="block text-[color:var(--muted)]">Termín si vybereš rovnou online. Bez volání, přepisování zpráv a čekání na potvrzení.</span>
+                        <span class="block text-[color:var(--muted)]">Termín si vybereš rovnou online. Bez volání, přepisování zpráv a čekání na potvrzení</span>
                     </span>
                     <span class="about-card__icon mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--cream)] text-[color:var(--accent)]" aria-hidden="true">
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
@@ -502,21 +736,21 @@ $referenceCuts = [
             </p>
         </div>
         <div class="grid gap-4 md:grid-cols-3">
-            <div class="rounded-lg border border-[var(--line)] bg-white/70 p-5 shadow-sm">
+            <div class="premium-surface lift-card p-5">
                 <p class="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--surface)] text-sm font-bold text-[color:var(--gold)]">1</p>
                 <h3 class="font-semibold">Domluvíme styl</h3>
                 <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">
                     Krátce probereme, co chceš, jak se o vlasy staráš a co má dávat smysl i po pár dnech.
                 </p>
             </div>
-            <div class="rounded-lg border border-[var(--line)] bg-white/70 p-5 shadow-sm">
+            <div class="premium-surface lift-card p-5">
                 <p class="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--surface)] text-sm font-bold text-[color:var(--gold)]">2</p>
                 <h3 class="font-semibold">Střih bez spěchu</h3>
                 <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">
                     Během střihu si dáš fresh nápoj a chvíli vypneš. My mezitím doladíme tvar, detaily i styling.
                 </p>
             </div>
-            <div class="rounded-lg border border-[var(--line)] bg-white/70 p-5 shadow-sm">
+            <div class="premium-surface lift-card p-5">
                 <p class="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--surface)] text-sm font-bold text-[color:var(--gold)]">3</p>
                 <h3 class="font-semibold">Finální dojem</h3>
                 <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">
@@ -530,25 +764,61 @@ $referenceCuts = [
     <section id="services" class="scroll-mt-28 border-t border-[var(--line)] py-8 md:scroll-mt-32 md:py-10">
         <h2 class="text-2xl font-bold mb-4">Služby</h2>
         <div class="grid md:grid-cols-2 gap-4 text-sm">
-            <div class="rounded-lg border border-[var(--surface-soft)] bg-[var(--ink)] p-5 text-[color:var(--cream)] shadow-lg transition hover:-translate-y-0.5 hover:border-[var(--gold)]">
-                <p class="font-semibold mb-1">Pánský střih</p>
-                <p class="mb-1 text-[color:var(--cream-soft)]">Rychlý, čistý střih na sucho bez mytí a úpravy vousů. (35 min)</p>
-                
-            </div>
-            <div class="rounded-lg border border-[var(--surface-soft)] bg-[var(--ink)] p-5 text-[color:var(--cream)] shadow-lg transition hover:-translate-y-0.5 hover:border-[var(--gold)]">
-                <p class="font-semibold mb-1">Kompletka 1 (zahrnuje střih a mytí)</p>
-                <p class="mb-1 text-[color:var(--cream-soft)]">Střih s mytím, případně úpravou vousů podle domluvy. (45 min)</p>
-                
-            </div>
-            <div class="rounded-lg border border-[var(--surface-soft)] bg-[var(--ink)] p-5 text-[color:var(--cream)] shadow-lg transition hover:-translate-y-0.5 hover:border-[var(--gold)]">
-                <p class="font-semibold mb-1">Kompletka 2</p>
-                <p class="mb-1 text-[color:var(--cream-soft)]">Střih vlasů, úprava vousů a finální styling v jednom termínu. (50 min)</p>
-                
-            </div>
-            <div class="rounded-lg border border-[var(--surface-soft)] bg-[var(--ink)] p-5 text-[color:var(--cream)] shadow-lg transition hover:-translate-y-0.5 hover:border-[var(--gold)]">
-                <p class="font-semibold mb-1">Dětský střih</p>
-                <p class="mb-1 text-[color:var(--cream-soft)]">Chlapecký i holčičí střih. Cena se liší podle náročnosti, například výrazně vyholené boky mohou být za 420 Kč. (30 min)</p>
-                
+            <?php foreach ($services as $serviceName => $service): ?>
+                <div class="premium-surface-dark lift-card p-5 text-[color:var(--cream)] hover:border-[var(--gold)]">
+                    <p class="font-semibold mb-1"><?= htmlspecialchars((string) ($service['service_title'] ?? $serviceName), ENT_QUOTES, 'UTF-8') ?></p>
+                    <p class="mb-1 text-[color:var(--cream-soft)]">
+                        <?= htmlspecialchars((string) ($service['service_copy'] ?? $service['description'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
+                        (<?= htmlspecialchars((string) $service['duration'], ENT_QUOTES, 'UTF-8') ?> min)
+                    </p>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
+
+    <!-- DŮVĚRA -->
+    <section id="trust" class="scroll-mt-28 border-t border-[var(--line)] py-8 md:scroll-mt-32 md:py-10">
+        <div class="premium-surface-dark overflow-hidden px-5 py-6 text-[color:var(--cream)] sm:px-6 md:px-7 md:py-7">
+            <div class="grid gap-6 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--gold)]">Proč se klienti vrací</p>
+                    <h2 class="mt-2 text-2xl font-bold sm:text-3xl">Důvěra není ve velkých slibech, ale v tom, jak návštěva opravdu probíhá</h2>
+                    <p class="mt-4 max-w-xl text-sm leading-7 text-[color:var(--cream-soft)]">
+                        Cílem není jen dobrý první dojem po odchodu z křesla, ale střih, který funguje i další dny,
+                        klidná atmosféra a rezervace bez zbytečné nejistoty.
+                    </p>
+                    <div class="mt-5 flex flex-wrap gap-4 text-sm">
+                        <a href="#booking" class="accent-link">
+                            Přejít na formulář
+                        </a>
+                        <a href="cenik.php" class="accent-link text-[color:var(--gold-soft)] decoration-[color:var(--gold-soft)] hover:text-[color:var(--gold)]">
+                            Projít ceník
+                        </a>
+                    </div>
+                </div>
+                <div class="grid gap-4 md:grid-cols-3">
+                    <article class="trust-grid-card lift-card rounded-2xl border border-[rgba(241,200,121,0.16)] bg-[rgba(255,255,255,0.05)] p-5">
+                        <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Pečlivost</p>
+                        <h3 class="mt-3 font-semibold text-[color:var(--cream)]">Střih, který drží tvar</h3>
+                        <p class="mt-2 text-sm leading-6 text-[color:var(--cream-soft)]">
+                            Nejde jen o moment po návštěvě, ale o výsledek, který funguje i v běžném režimu doma.
+                        </p>
+                    </article>
+                    <article class="trust-grid-card lift-card rounded-2xl border border-[rgba(241,200,121,0.16)] bg-[rgba(255,255,255,0.05)] p-5">
+                        <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Pohoda</p>
+                        <h3 class="mt-3 font-semibold text-[color:var(--cream)]">Klidná návštěva bez tlaku</h3>
+                        <p class="mt-2 text-sm leading-6 text-[color:var(--cream-soft)]">
+                            Bez chaosu, bez přestřelené okázalosti. Jen soustředěný střih, domluva a příjemný čas v křesle.
+                        </p>
+                    </article>
+                    <article class="trust-grid-card lift-card rounded-2xl border border-[rgba(241,200,121,0.16)] bg-[rgba(255,255,255,0.05)] p-5">
+                        <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Jistota</p>
+                        <h3 class="mt-3 font-semibold text-[color:var(--cream)]">Rezervace bez dohadování</h3>
+                        <p class="mt-2 text-sm leading-6 text-[color:var(--cream-soft)]">
+                            Vybereš si službu, termín i čas a systém ti rovnou potvrdí, že je vše připravené.
+                        </p>
+                    </article>
+                </div>
             </div>
         </div>
     </section>
@@ -561,7 +831,7 @@ $referenceCuts = [
                 <h2 class="mt-1 text-2xl font-bold">Reference střihů</h2>
             </div>
             <div class="flex flex-wrap gap-3 text-sm font-semibold">
-                <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-[color:var(--accent)] underline decoration-[var(--accent)] underline-offset-4 hover:text-[color:var(--accent-dark)]">
+                <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="accent-link inline-flex items-center gap-2">
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="2" />
                         <circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="2" />
@@ -569,8 +839,8 @@ $referenceCuts = [
                     </svg>
                     <?= htmlspecialchars($instagramHandle, ENT_QUOTES, 'UTF-8') ?>
                 </a>
-                <a href="#booking" class="text-[color:var(--accent)] underline decoration-[var(--accent)] underline-offset-4 hover:text-[color:var(--accent-dark)]">
-                    Rezervovat podobný střih
+                <a href="#booking" class="accent-link">
+                    Přejít k rezervaci
                 </a>
             </div>
         </div>
@@ -583,7 +853,7 @@ $referenceCuts = [
                         data-gallery-image="<?= htmlspecialchars($cut['image'], ENT_QUOTES, 'UTF-8') ?>"
                         data-gallery-title="<?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?>"
                         data-gallery-description="<?= htmlspecialchars($cut['description'], ENT_QUOTES, 'UTF-8') ?>"
-                        class="group overflow-hidden rounded-lg border border-[var(--line)] bg-white/80 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+                        class="group premium-surface lift-card overflow-hidden"
                     >
                         <img
                             src="<?= htmlspecialchars($cut['image'], ENT_QUOTES, 'UTF-8') ?>"
@@ -598,7 +868,7 @@ $referenceCuts = [
                         </div>
                     </a>
                 <?php else: ?>
-                    <div class="rounded-lg border border-dashed border-[var(--line)] bg-white/55 p-4 shadow-sm">
+                    <div class="premium-surface rounded-2xl border-dashed p-4">
                         <div class="flex aspect-[4/5] items-center justify-center rounded-md bg-[var(--ink)] px-5 text-center text-[color:var(--cream)]">
                             <p class="text-sm font-semibold"><?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?></p>
                         </div>
@@ -611,48 +881,141 @@ $referenceCuts = [
     </section>
     <!-- CENÍK -->
     <section id="pricing" class="scroll-mt-28 border-t border-[var(--line)] py-8 md:scroll-mt-32 md:py-10">
-        <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+        <div class="grid gap-5 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div>
-                <p class="text-xs uppercase tracking-[0.24em] text-[color:var(--muted-strong)] font-bold">Transparentní ceny</p>
-                <h2 class="mt-1 text-2xl font-bold">Ceník</h2>
-            </div>
-            <a href="#booking" class="text-sm font-semibold text-[color:var(--accent)] underline decoration-[var(--accent)] underline-offset-4 hover:text-[color:var(--accent-dark)]">
-                Rezervovat podle ceníku
-            </a>
-        </div>
-        <div class="overflow-hidden rounded-lg border border-[var(--line)] bg-white/75 shadow-sm">
-            <?php foreach ($services as $serviceName => $service): ?>
-                <div class="flex justify-between gap-4 border-b border-[var(--line-soft)] px-4 py-3 last:border-b-0 hover:bg-[var(--field)]">
-                    <span><?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?></span>
-                    <span class="font-bold text-[color:var(--ink)] whitespace-nowrap"><?= htmlspecialchars($service['price_label'], ENT_QUOTES, 'UTF-8') ?></span>
+                <p class="text-xs uppercase tracking-[0.24em] text-[color:var(--muted-strong)] font-bold">Rychlý přehled cen</p>
+                <h2 class="mt-1 text-2xl font-bold">Mrkni na teaser, celý ceník je o klik vedle</h2>
+                <p class="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
+                    Tady si rychle uděláš představu o cenách a nejčastějších volbách
+                    Pokud chceš vidět kompletní přehled všech služeb, otevři plnou stránku ceníku
+                </p>
+                <div class="mt-5 grid gap-3 min-[420px]:grid-cols-2 lg:grid-cols-3">
+                    <div class="rounded-xl border border-[var(--line)] bg-white/70 px-4 py-3 shadow-sm">
+                        <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Od</p>
+                        <p class="mt-2 text-2xl font-extrabold text-[color:var(--ink)]"><?= htmlspecialchars((string) min($servicePrices), ENT_QUOTES, 'UTF-8') ?> Kč</p>
+                        <p class="mt-1 text-sm text-[color:var(--muted)]">za nejrychlejší variantu</p>
+                    </div>
+                    <div class="rounded-xl border border-[var(--line)] bg-white/70 px-4 py-3 shadow-sm">
+                        <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Délka</p>
+                        <p class="mt-2 text-2xl font-extrabold text-[color:var(--ink)]"><?= htmlspecialchars((string) min($serviceDurations), ENT_QUOTES, 'UTF-8') ?>-<?= htmlspecialchars((string) max($serviceDurations), ENT_QUOTES, 'UTF-8') ?> min</p>
+                        <p class="mt-1 text-sm text-[color:var(--muted)]">podle vybrané služby</p>
+                    </div>
+                    <div class="rounded-xl border border-[var(--line)] bg-white/70 px-4 py-3 shadow-sm">
+                        <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Výběr</p>
+                        <p class="mt-2 text-2xl font-extrabold text-[color:var(--ink)]"><?= htmlspecialchars((string) count($services), ENT_QUOTES, 'UTF-8') ?> služby</p>
+                        <p class="mt-1 text-sm text-[color:var(--muted)]">rychle porovnáš na jedné obrazovce</p>
+                    </div>
                 </div>
+            </div>
+            <div class="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 text-[color:var(--cream)] shadow-xl">
+                <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Celý ceník</p>
+                <p class="mt-3 text-xl font-bold">Chceš vše přehledně na samostatné stránce?</p>
+                <p class="mt-2 text-sm leading-6 text-[color:var(--cream-soft)]">
+                    Otevři plný ceník, projdi všechny varianty v klidu a pak se proklikni rovnou do rezervace
+                </p>
+                <div class="mt-5">
+                    <a href="cenik.php" class="ui-button focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+                        Zobrazit celý ceník
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-6 grid gap-4 md:grid-cols-2">
+            <?php foreach ($teaserServices as $entry): ?>
+                <?php
+                $serviceName = $entry['name'];
+                $service = $entry['data'];
+                $isFeatured = !empty($service['featured']);
+                ?>
+                <article class="group relative overflow-hidden rounded-2xl border <?= $isFeatured ? 'border-[var(--accent)] bg-[linear-gradient(135deg,rgba(43,33,28,0.98),rgba(74,58,48,0.94))] text-[color:var(--cream)] shadow-xl' : 'border-[var(--line)] bg-white/78 text-[color:var(--ink)] shadow-sm' ?>">
+                    <div class="absolute inset-x-0 top-0 h-1 <?= $isFeatured ? 'bg-[linear-gradient(90deg,var(--gold),var(--gold-soft))]' : 'bg-[linear-gradient(90deg,var(--accent),rgba(192,138,62,0.12))]' ?>"></div>
+                    <div class="p-5 sm:p-6">
+                        <div class="flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
+                            <div>
+                                <span class="inline-flex rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'border-[rgba(241,200,121,0.32)] bg-[rgba(241,200,121,0.12)] text-[color:var(--gold-soft)]' : 'border-[var(--line)] bg-[var(--field)] text-[color:var(--muted-strong)]' ?>">
+                                    <?= htmlspecialchars((string) ($service['badge'] ?? 'Služba'), ENT_QUOTES, 'UTF-8') ?>
+                                </span>
+                                <h3 class="mt-4 text-xl font-bold"><?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?></h3>
+                                <p class="mt-2 max-w-md text-sm leading-6 <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">
+                                    <?= htmlspecialchars((string) ($service['description'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
+                                </p>
+                                <p class="mt-3 max-w-md text-sm leading-6 <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">
+                                    <?= htmlspecialchars((string) ($service['service_copy'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
+                                </p>
+                            </div>
+                            <div class="self-start rounded-2xl border px-4 py-3 text-left sm:text-right <?= $isFeatured ? 'border-[rgba(241,200,121,0.28)] bg-[rgba(255,255,255,0.06)]' : 'border-[var(--line)] bg-[var(--field)]' ?>">
+                                <p class="text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--muted-strong)]' ?>">Cena</p>
+                                <p class="mt-2 text-2xl font-extrabold whitespace-nowrap"><?= htmlspecialchars((string) $service['price_label'], ENT_QUOTES, 'UTF-8') ?></p>
+                                <p class="mt-1 text-xs <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">cca <?= htmlspecialchars((string) $service['duration'], ENT_QUOTES, 'UTF-8') ?> minut</p>
+                            </div>
+                        </div>
+                        <div class="mt-5 flex flex-col items-start gap-3 border-t pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between <?= $isFeatured ? 'border-[rgba(241,200,121,0.18)]' : 'border-[var(--line-soft)]' ?>">
+                            <p class="text-sm <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">
+                                <?= htmlspecialchars((string) ($service['meta'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
+                            </p>
+                            <a
+                                href="#booking"
+                                data-book-service="<?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?>"
+                                class="inline-flex items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[var(--gold)] <?= $isFeatured ? 'border-[rgba(241,200,121,0.24)] bg-[rgba(255,255,255,0.08)] text-[color:var(--gold-soft)] hover:-translate-y-0.5 hover:border-[rgba(241,200,121,0.5)] hover:bg-[rgba(241,200,121,0.18)] hover:text-[color:var(--cream)]' : 'border-[rgba(74,58,48,0.14)] bg-[rgba(255,255,255,0.62)] text-[color:var(--accent-dark)] shadow-sm hover:-translate-y-0.5 hover:border-[rgba(192,138,62,0.42)] hover:bg-[rgba(192,138,62,0.14)] hover:text-[color:var(--ink)]' ?>"
+                            >
+                                Vybrat a rezervovat
+                            </a>
+                        </div>
+                    </div>
+                </article>
             <?php endforeach; ?>
+        </div>
+        <div class="mt-5 flex justify-center">
+            <a href="cenik.php" class="ui-button-secondary focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+                Zobrazit všechny služby a ceny
+            </a>
         </div>
     </section>
 
     <!-- REZERVAČNÍ FORMULÁŘ -->
     <section id="booking" class="mt-2 scroll-mt-24 border-t border-[var(--line)] py-8 md:mt-4 md:scroll-mt-28 md:py-10">
         <div class="grid gap-6 md:grid-cols-[0.8fr_1.2fr] md:items-start md:gap-8">
-            <div>
+            <div class="order-2 space-y-5 md:order-1">
                 <p class="text-xs uppercase tracking-[0.24em] text-[color:var(--muted-strong)] font-bold">Bez telefonování</p>
                 <h2 class="mt-1 text-2xl font-bold mb-3">Online rezervace</h2>
-                <p class="text-sm text-[color:var(--muted)]">
+                <p class="max-w-lg text-sm leading-6 text-[color:var(--muted)]">
                     Vyplň pár údajů a vyber si volný čas. Po odeslání uvidíš shrnutí rezervace
-                    a potvrzení ti přijde e-mailem.
+                    a potvrzení ti přijde e-mailem
                 </p>
-                <div class="mt-6 space-y-3 text-sm text-[color:var(--muted)]">
-                    <div class="rounded-lg border border-[var(--line)] bg-white/70 p-4">
-                        <p class="font-semibold text-[color:var(--ink)]">Termín držíme hned po odeslání</p>
-                        <p class="mt-1">Systém počítá s délkou vybrané služby a ukáže jen dostupné časy.</p>
+
+                <div class="rounded-3xl border border-[var(--surface-soft)] bg-[linear-gradient(145deg,rgba(43,33,28,0.98),rgba(74,58,48,0.94))] p-5 text-[color:var(--cream)] shadow-xl sm:p-6">
+                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Jak to funguje</p>
+                    <h3 class="mt-3 text-xl font-bold">Jednoduše, rychle a bez čekání</h3>
+                    <div class="mt-5 space-y-3 text-sm text-[color:var(--cream-soft)]">
+                        <div class="flex items-start gap-3">
+                            <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--gold)]"></span>
+                            <p>Vybereš službu a systém rovnou nabídne reálně volné časy</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--gold)]"></span>
+                            <p>Doplníš základní údaje a rezervaci odešleš během chvilky</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--gold)]"></span>
+                            <p>Potvrzení přijde e-mailem a termín držíme hned po odeslání</p>
+                        </div>
                     </div>
-                    <div class="rounded-lg border border-[var(--line)] bg-white/70 p-4">
-                        <p class="font-semibold text-[color:var(--ink)]">Potvrzení do e-mailu</p>
-                        <p class="mt-1">Dostaneš přehled rezervace a termín se zapíše do kalendáře.</p>
+                    <div class="mt-5 grid gap-3 sm:grid-cols-2">
+                        <div class="rounded-2xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.06)] px-4 py-3">
+                            <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Otevírací doba</p>
+                            <p class="mt-2 text-sm font-semibold text-[color:var(--cream)]">Po-Pá 9:00-19:00</p>
+                            <p class="mt-1 text-sm text-[color:var(--cream-soft)]">So 9:00-14:00</p>
+                        </div>
+                        <div class="rounded-2xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.06)] px-4 py-3">
+                            <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Lokalita</p>
+                            <p class="mt-2 text-sm font-semibold text-[color:var(--cream)]">Brno, Královo Pole</p>
+                            <p class="mt-1 text-sm text-[color:var(--cream-soft)]">Vackova 1064/39</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div>
+            <div class="order-1 space-y-4 md:order-2">
                 <form id="bookingForm" action="save_reservation.php" method="POST" class="booking-form space-y-4 rounded-lg bg-[var(--ink)] p-4 text-[color:var(--cream)] sm:p-5 md:p-6">
                     <!-- Jméno -->
                     <div>
@@ -785,6 +1148,33 @@ $referenceCuts = [
                         </span>
                     </button>
                 </form>
+
+                <div class="rounded-2xl border border-[var(--line)] bg-white/80 p-4 shadow-sm">
+                    <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                        <div>
+                            <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Praktické info</p>
+                            <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">
+                                Přijď ideálně pár minut předem. Pokud máš speciální přání ke střihu, napiš ho do poznámky už při rezervaci.
+                            </p>
+                        </div>
+                        <div class="flex flex-col gap-3 sm:flex-row">
+                            <a
+                                href="https://www.google.com/maps/search/?api=1&query=Vackova%201064%2F39%2C%20612%2000%20Brno-Kr%C3%A1lovo%20Pole"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--ink)] transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[color:var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                            >
+                                Otevřít mapu
+                            </a>
+                            <a
+                                href="tel:+420608419610"
+                                class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--ink)] transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[color:var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                            >
+                                Zavolat
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -921,7 +1311,7 @@ $referenceCuts = [
             <p class="text-xs font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Rychle</p>
             <div class="mt-3 space-y-2 text-sm">
                 <a href="#booking" class="block hover:text-[color:var(--gold)]">Rezervace</a>
-                <a href="#pricing" class="block hover:text-[color:var(--gold)]">Ceník</a>
+                <a href="cenik.php" class="block hover:text-[color:var(--gold)]">Ceník</a>
                 <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="block hover:text-[color:var(--gold)]">Instagram</a>
                 <a href="contact.php" class="block hover:text-[color:var(--gold)]">Kontakt</a>
             </div>
@@ -954,18 +1344,25 @@ $referenceCuts = [
     // Minimální dnešní datum
     const today = new Date();
     const todayDateStr = formatLocalDate(today);
+    const maxBookingDate = new Date(today);
+    maxBookingDate.setDate(maxBookingDate.getDate() + <?= (int) app_booking_max_advance_days() ?>);
+    const maxBookingDateStr = formatLocalDate(maxBookingDate);
     dateInput.min = todayDateStr;
+    dateInput.max = maxBookingDateStr;
 
-    // Zobrazení ceny pod selectem místo alertu
-    serviceSelect.addEventListener('change', () => {
+    function updateSelectedServiceInfo() {
         const selected = serviceSelect.value;
         if (services[selected]) {
-            priceValue.textContent = services[selected].price_label;
+            priceValue.textContent = `${services[selected].price_label} · cca ${services[selected].duration} min`;
             priceInfo.classList.remove('hidden');
         } else {
             priceInfo.classList.add('hidden');
         }
-    });
+    }
+
+    // Zobrazení ceny pod selectem místo alertu
+    serviceSelect.addEventListener('change', updateSelectedServiceInfo);
+    updateSelectedServiceInfo();
 
     // Kontrola, že nejde rezervovat minulost
     document.querySelector('#booking form').addEventListener('submit', function(e) {
@@ -990,6 +1387,13 @@ $referenceCuts = [
         if (chosenDate < todayStr) {
             e.preventDefault();
             errorMsg.textContent = "Nemůžeš si rezervovat termín v minulosti (datum).";
+            errorMsg.classList.remove('hidden');
+            return;
+        }
+
+        if (chosenDate > maxBookingDateStr) {
+            e.preventDefault();
+            errorMsg.textContent = "Rezervaci je možné vytvořit nejvýše 7 dní dopředu.";
             errorMsg.classList.remove('hidden');
             return;
         }
@@ -1195,11 +1599,22 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 900);
     }
 
+    function preselectBookingService(serviceName) {
+        if (!serviceName || !serviceSelect) return;
+
+        const hasMatchingOption = Array.from(serviceSelect.options).some(option => option.value === serviceName);
+        if (!hasMatchingOption) return;
+
+        serviceSelect.value = serviceName;
+        serviceSelect.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
     document.querySelectorAll('a[href="#booking"]').forEach(link => {
         link.addEventListener('click', event => {
             if (!bookingSection) return;
 
             event.preventDefault();
+            preselectBookingService(link.dataset.bookService || '');
             if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                 mobileMenu.classList.add('hidden');
                 menuIconOpen?.classList.remove('hidden');
