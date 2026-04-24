@@ -26,9 +26,76 @@ function h(string $value): string
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }
 
+function admin_time_label(string $time, int $duration): string
+{
+    $start = DateTime::createFromFormat('H:i', $time);
+    if (!$start) {
+        return $time;
+    }
+
+    $end = clone $start;
+    $end->modify('+' . max(1, $duration) . ' minutes');
+
+    return $start->format('H:i') . '-' . $end->format('H:i');
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
     $id = (int) ($_POST['id'] ?? 0);
+
+    if ($action === 'accept' && $id > 0) {
+        $reservationStmt = $pdo->prepare('SELECT * FROM reservations WHERE id = :id');
+        $reservationStmt->execute([':id' => $id]);
+        $reservation = $reservationStmt->fetch();
+
+        if ($reservation) {
+            $errors = [];
+            $duration = (int) ($reservation['duration'] ?? app_service_duration((string) $reservation['service']));
+            $googleCalendarCheck = app_google_calendar_overlaps((string) $reservation['date'], (string) $reservation['time'], $duration);
+
+            if (!empty($googleCalendarCheck['errors'])) {
+                $errors = array_merge($errors, $googleCalendarCheck['errors']);
+            } elseif (!empty($googleCalendarCheck['overlaps']) && empty($reservation['calendar_event_id'])) {
+                $errors[] = 'Termín se překrývá s událostí v Google Kalendáři. Rezervace nebyla přijata.';
+            }
+
+            if (empty($errors)) {
+                $integrationResult = app_run_reservation_acceptance_integrations($reservation);
+                $errors = array_merge($errors, $integrationResult['errors']);
+
+                $accepted = !empty($integrationResult['calendar_event_id']) || trim((string) getenv('GOOGLE_CALENDAR_ID')) === '';
+                $updateStmt = $pdo->prepare('
+                    UPDATE reservations
+                    SET status = :status,
+                        accepted_at = :accepted_at,
+                        customer_email_sent = :customer_email_sent,
+                        calendar_event_id = :calendar_event_id,
+                        integration_errors = :integration_errors
+                    WHERE id = :id
+                ');
+                $updateStmt->execute([
+                    ':status' => $accepted ? 'accepted' : (string) ($reservation['status'] ?? 'pending'),
+                    ':accepted_at' => $accepted ? (new DateTime())->format('Y-m-d H:i:s') : ($reservation['accepted_at'] ?? null),
+                    ':customer_email_sent' => !empty($integrationResult['customer_email_sent']) ? 1 : (int) ($reservation['customer_email_sent'] ?? 0),
+                    ':calendar_event_id' => $integrationResult['calendar_event_id'] ?? $reservation['calendar_event_id'],
+                    ':integration_errors' => empty($errors)
+                        ? ($reservation['integration_errors'] ?? null)
+                        : trim((string) ($reservation['integration_errors'] ?? '') . "\n" . implode("\n", $errors)),
+                    ':id' => $id,
+                ]);
+            } else {
+                $updateStmt = $pdo->prepare('
+                    UPDATE reservations
+                    SET integration_errors = :integration_errors
+                    WHERE id = :id
+                ');
+                $updateStmt->execute([
+                    ':integration_errors' => trim((string) ($reservation['integration_errors'] ?? '') . "\n" . implode("\n", $errors)),
+                    ':id' => $id,
+                ]);
+            }
+        }
+    }
 
     if ($action === 'delete' && $id > 0) {
         $eventStmt = $pdo->prepare('SELECT calendar_event_id FROM reservations WHERE id = :id');
@@ -66,6 +133,63 @@ $reservations = $stmt->fetchAll();
 
 $countStmt = $pdo->query('SELECT COUNT(*) FROM reservations');
 $totalReservations = (int) $countStmt->fetchColumn();
+$googleCalendarId = trim((string) getenv('GOOGLE_CALENDAR_ID'));
+$googleCalendarOpenUrl = $googleCalendarId !== ''
+    ? 'https://calendar.google.com/calendar/u/0/r?cid=' . rawurlencode($googleCalendarId)
+    : '';
+$calendarStart = $hasDateFilter ? clone $dateObject : new DateTime('today');
+$calendarDays = [];
+$calendarErrors = [];
+
+for ($i = 0; $i < 7; $i++) {
+    $day = clone $calendarStart;
+    $day->modify('+' . $i . ' days');
+    $dayDate = $day->format('Y-m-d');
+
+    $dayStmt = $pdo->prepare('SELECT * FROM reservations WHERE date = :date ORDER BY time ASC');
+    $dayStmt->execute([':date' => $dayDate]);
+    $localReservations = $dayStmt->fetchAll();
+
+    $entries = array_map(static function (array $reservation): array {
+        $status = (string) ($reservation['status'] ?? 'accepted');
+
+        return [
+            'time' => (string) $reservation['time'],
+            'duration' => (int) ($reservation['duration'] ?? app_service_duration((string) $reservation['service'])),
+            'title' => (string) $reservation['service'],
+            'detail' => ($status === 'pending' ? 'Čeká: ' : '') . (string) $reservation['name'],
+            'source' => $status === 'pending' ? 'pending' : 'reservation',
+        ];
+    }, $localReservations);
+
+    $googleBusy = app_google_calendar_busy_reservations_for_date($dayDate);
+    if (!empty($googleBusy['errors'])) {
+        $calendarErrors = array_merge($calendarErrors, $googleBusy['errors']);
+    }
+
+    foreach ($googleBusy['reservations'] as $busy) {
+        if (app_reservations_overlap($localReservations, (string) $busy['time'], (int) $busy['duration'])) {
+            continue;
+        }
+
+        $entries[] = [
+            'time' => (string) $busy['time'],
+            'duration' => (int) $busy['duration'],
+            'title' => 'Obsazeno',
+            'detail' => 'Google Kalendář',
+            'source' => 'google',
+        ];
+    }
+
+    usort($entries, static fn(array $a, array $b): int => strcmp($a['time'], $b['time']));
+
+    $calendarDays[] = [
+        'date' => $dayDate,
+        'label' => $day->format('d.m.'),
+        'weekday' => ['Po', 'Út', 'St', 'Čt', 'Pá', 'So', 'Ne'][(int) $day->format('N') - 1],
+        'entries' => $entries,
+    ];
+}
 
 ?>
 <!DOCTYPE html>
@@ -102,6 +226,64 @@ $totalReservations = (int) $countStmt->fetchColumn();
             <a href="admin.php" class="text-sm underline">Zobrazit budoucí rezervace</a>
         </form>
 
+        <section class="mb-6 overflow-hidden rounded-2xl border border-[#6A654E] bg-[#2A231E] shadow-2xl">
+            <div class="flex flex-col gap-3 border-b border-[#3F332A] px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-xs uppercase tracking-[0.24em] text-[#C9BFA7]">Kalendář</p>
+                    <h2 class="mt-1 text-xl font-bold">Přehled příštích 7 dnů</h2>
+                </div>
+                <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+                    <?php if ($googleCalendarId !== ''): ?>
+                        <p class="rounded-full border border-[#6A654E] px-3 py-1 text-xs text-[#D8C8B0]">Synchronizace aktivní</p>
+                        <a
+                            href="<?= h($googleCalendarOpenUrl) ?>"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center justify-center rounded-full bg-[#C9BFA7] px-4 py-2 text-sm font-semibold text-[#1F1B18] transition hover:bg-[#F5EDE1]"
+                        >
+                            Otevřít v Google Kalendáři
+                        </a>
+                    <?php else: ?>
+                        <p class="rounded-full border border-[#7B2D26] px-3 py-1 text-xs text-[#F4B8B0]">Kalendář není nastavený</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <?php if (!empty($calendarErrors)): ?>
+                <div class="border-b border-[#3F332A] bg-[#3A211E] px-4 py-3 text-sm text-[#F4B8B0]">
+                    Google Kalendář se teď nepodařilo načíst: <?= h(implode(' ', array_unique($calendarErrors))) ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="grid gap-px bg-[#3F332A] md:grid-cols-7">
+                <?php foreach ($calendarDays as $calendarDay): ?>
+                    <article class="min-h-44 bg-[#241E1A] p-3">
+                        <div class="mb-3 flex items-baseline justify-between gap-2">
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#C9BFA7]"><?= h($calendarDay['weekday']) ?></p>
+                                <h3 class="mt-1 text-lg font-bold"><?= h($calendarDay['label']) ?></h3>
+                            </div>
+                            <a href="admin.php?date=<?= h($calendarDay['date']) ?>" class="text-xs underline text-[#D8C8B0]">detail</a>
+                        </div>
+
+                        <?php if (empty($calendarDay['entries'])): ?>
+                            <p class="rounded-xl border border-[#3F332A] px-3 py-2 text-xs text-[#8F8373]">Volno</p>
+                        <?php else: ?>
+                            <div class="space-y-2">
+                                <?php foreach ($calendarDay['entries'] as $entry): ?>
+                                    <div class="rounded-xl border px-3 py-2 text-xs <?= $entry['source'] === 'google' ? 'border-[#735A31] bg-[#332A1F]' : ($entry['source'] === 'pending' ? 'border-[#8A6A2F] bg-[#3A2F20]' : 'border-[#6A654E] bg-[#2A231E]') ?>">
+                                        <p class="font-bold text-[#F5EDE1]"><?= h(admin_time_label($entry['time'], $entry['duration'])) ?></p>
+                                        <p class="mt-1 text-[#D8C8B0]"><?= h($entry['title']) ?></p>
+                                        <p class="mt-0.5 text-[#9F927E]"><?= h($entry['detail']) ?></p>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        </section>
+
         <?php if (empty($reservations)): ?>
             <div class="rounded-xl border border-[#6A654E] bg-[#2A231E] p-5">
                 <p>Žádné rezervace nenalezeny.</p>
@@ -116,6 +298,7 @@ $totalReservations = (int) $countStmt->fetchColumn();
                             <th class="px-3 py-2 border-b border-[#6A654E] text-left">Jméno</th>
                             <th class="px-3 py-2 border-b border-[#6A654E] text-left">Kontakt</th>
                             <th class="px-3 py-2 border-b border-[#6A654E] text-left">Služba</th>
+                            <th class="px-3 py-2 border-b border-[#6A654E] text-left">Stav</th>
                             <th class="px-3 py-2 border-b border-[#6A654E] text-left">Délka</th>
                             <th class="px-3 py-2 border-b border-[#6A654E] text-left">Cena</th>
                             <th class="px-3 py-2 border-b border-[#6A654E] text-left">Integrace</th>
@@ -134,6 +317,13 @@ $totalReservations = (int) $countStmt->fetchColumn();
                                     <div class="text-xs text-[#C9BFA7]"><?= h($reservation['email']) ?></div>
                                 </td>
                                 <td class="px-3 py-2 border-b border-[#3F332A]"><?= h($reservation['service']) ?></td>
+                                <td class="px-3 py-2 border-b border-[#3F332A] whitespace-nowrap">
+                                    <?php if (($reservation['status'] ?? 'accepted') === 'pending'): ?>
+                                        <span class="rounded-full border border-[#8A6A2F] bg-[#3A2F20] px-2 py-1 text-xs text-[#F1C879]">Čeká</span>
+                                    <?php else: ?>
+                                        <span class="rounded-full border border-[#496A45] bg-[#21351F] px-2 py-1 text-xs text-[#BFE3B5]">Přijato</span>
+                                    <?php endif; ?>
+                                </td>
                                 <td class="px-3 py-2 border-b border-[#3F332A] whitespace-nowrap"><?= (int) ($reservation['duration'] ?? app_service_duration($reservation['service'])) ?> min</td>
                                 <td class="px-3 py-2 border-b border-[#3F332A] whitespace-nowrap"><?= h(app_price_label($reservation['service']) ?: ((string) $reservation['price'] . ' Kč')) ?></td>
                                 <td class="px-3 py-2 border-b border-[#3F332A] min-w-44">
@@ -151,7 +341,18 @@ $totalReservations = (int) $countStmt->fetchColumn();
                                 </td>
                                 <td class="px-3 py-2 border-b border-[#3F332A]"><?= nl2br(h($reservation['note'] ?? '')) ?></td>
                                 <td class="px-3 py-2 border-b border-[#3F332A]">
-                                    <form method="post" onsubmit="return confirm('Opravdu smazat rezervaci?');">
+                                    <div class="flex flex-col gap-2">
+                                    <?php if (($reservation['status'] ?? 'accepted') === 'pending'): ?>
+                                        <form method="post" onsubmit="return confirm('Přijmout rezervaci a zapsat ji do Google Kalendáře?');">
+                                            <input type="hidden" name="action" value="accept">
+                                            <input type="hidden" name="id" value="<?= (int) $reservation['id'] ?>">
+                                            <input type="hidden" name="date" value="<?= h($hasDateFilter ? $date : '') ?>">
+                                            <button class="rounded bg-[#C9BFA7] px-3 py-1.5 text-xs font-semibold text-[#1F1B18] hover:bg-[#F5EDE1]">
+                                                Přijmout
+                                            </button>
+                                        </form>
+                                    <?php endif; ?>
+                                    <form method="post" onsubmit="return confirm('Opravdu smazat rezervaci? Pokud má událost v Google Kalendáři, smaže se také.');">
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="id" value="<?= (int) $reservation['id'] ?>">
                                         <input type="hidden" name="date" value="<?= h($hasDateFilter ? $date : '') ?>">
@@ -159,6 +360,7 @@ $totalReservations = (int) $countStmt->fetchColumn();
                                             Smazat
                                         </button>
                                     </form>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

@@ -77,12 +77,22 @@ if (empty($errors)) {
 }
 
 if (empty($errors)) {
+    $googleCalendarCheck = app_google_calendar_overlaps($date, $time, $duration);
+
+    if (!empty($googleCalendarCheck['errors'])) {
+        $errors[] = 'Nepodařilo se ověřit dostupnost v Google Kalendáři. Zkus to prosím za chvíli znovu.';
+    } elseif (!empty($googleCalendarCheck['overlaps'])) {
+        $errors[] = 'Tenhle termín je už obsazený v kalendáři. Vyber prosím jiný čas.';
+    }
+}
+
+if (empty($errors)) {
     $price = (int) $services[$service]['price'];
 
     try {
         $stmt = $pdo->prepare('
-            INSERT INTO reservations (name, email, phone, date, time, service, price, duration, note, gdpr_accepted, created_at)
-            VALUES (:name, :email, :phone, :date, :time, :service, :price, :duration, :note, :gdpr_accepted, :created_at)
+            INSERT INTO reservations (name, email, phone, date, time, service, price, duration, note, gdpr_accepted, status, created_at)
+            VALUES (:name, :email, :phone, :date, :time, :service, :price, :duration, :note, :gdpr_accepted, :status, :created_at)
         ');
 
         $stmt->execute([
@@ -96,6 +106,7 @@ if (empty($errors)) {
             ':duration' => $duration,
             ':note' => $note === '' ? null : $note,
             ':gdpr_accepted' => 1,
+            ':status' => 'pending',
             ':created_at' => (new DateTime())->format('Y-m-d H:i:s'),
         ]);
 
@@ -113,7 +124,7 @@ if (empty($errors)) {
             'note' => $note,
         ];
 
-        $integrationResult = app_run_reservation_integrations($reservation);
+        $integrationResult = app_run_reservation_request_integrations($reservation);
         $updateStmt = $pdo->prepare('
             UPDATE reservations
             SET owner_email_sent = :owner_email_sent,
@@ -185,10 +196,10 @@ $priceLabel = isset($services[$service]) ? app_price_label($service) : '';
                         <path d="M5 12.5l4.2 4.2L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
-                <p class="text-xs font-bold uppercase tracking-[0.24em] text-[#D6A85E]">Rezervace potvrzena</p>
+                <p class="text-xs font-bold uppercase tracking-[0.24em] text-[#D6A85E]">Žádost o rezervaci přijata</p>
                 <h1 class="mt-2 text-3xl font-extrabold">Díky, <?= h($name) ?></h1>
                 <p class="mt-3 max-w-xl text-sm leading-6 text-[#EDE8DD]">
-                    Termín máme uložený. Shrnutí rezervace jsme poslali na e-mail, takže ho budeš mít po ruce.
+                    Žádost o rezervaci máme uloženou. Jakmile ji potvrdíme v administraci, přijde ti potvrzení e-mailem.
                 </p>
             </div>
             <div class="px-5 py-6 sm:px-8">

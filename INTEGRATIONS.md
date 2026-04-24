@@ -1,6 +1,6 @@
 # E-mail a Google Kalendář
 
-Rezervace se vždy nejdřív uloží do lokální SQLite databáze. E-mail a Google Kalendář jsou navazující integrace: když nejsou nastavené nebo selžou, rezervace zůstane uložená a chyba se zobrazí v adminu.
+Rezervace se vždy nejdřív ověří proti lokální SQLite databázi i Google Kalendáři. Nová rezervace se uloží jako čekající a majiteli přijde e-mail. Teprve po přijetí v administraci se vytvoří událost v Google Kalendáři a zákazníkovi odejde potvrzovací e-mail.
 
 ## Lokální nastavení
 
@@ -51,11 +51,24 @@ putenv('GOOGLE_SERVICE_ACCOUNT_JSON=/absolute/path/google-service-account.json')
 
 `GOOGLE_SERVICE_ACCOUNT_JSON` může být cesta k JSON souboru nebo přímo celý JSON obsah.
 
+Když je Google Kalendář nastavený, systém:
+
+- při načítání časů schová sloty, které se překrývají s událostmi v Google Kalendáři
+- při odeslání rezervace Google Kalendář zkontroluje znovu, aby se nezapsal nově obsazený čas
+- po přijetí rezervace v adminu vytvoří v kalendáři událost
+- při smazání rezervace z adminu smaže i událost, kterou systém vytvořil
+
 ## Kde vidět výsledek
 
 V `admin.php` je sloupec `Integrace`. Ukazuje:
 
 - jestli odešel e-mail majiteli
-- jestli odešel e-mail zákazníkovi
-- jestli vznikla událost v Google Kalendáři
+- jestli odešel potvrzovací e-mail zákazníkovi po přijetí
+- jestli vznikla událost v Google Kalendáři po přijetí
 - případnou chybovou hlášku
+
+Potvrzovací e-mail zákazníkovi se posílá jako HTML karta s přehledem termínu, služby, ceny, adresou, telefonem, e-mailem a odkazem na mapu. Součástí e-mailu je i textová fallback verze pro jednodušší e-mailové klienty.
+
+Nad tabulkou rezervací je také vlastní týdenní kalendářový přehled. Ten nepoužívá Google iframe, takže nezávisí na přihlášení do Google účtu ani na cookies v prohlížeči.
+
+V tabulce rezervací jde čekající rezervaci přijmout nebo smazat. Smazání odstraní i událost v Google Kalendáři, pokud ji systém předtím vytvořil.

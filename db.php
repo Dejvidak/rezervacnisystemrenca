@@ -28,6 +28,8 @@ $pdo->exec('
         customer_email_sent INTEGER NOT NULL DEFAULT 0,
         calendar_event_id TEXT,
         integration_errors TEXT,
+        status TEXT NOT NULL DEFAULT "pending",
+        accepted_at TEXT,
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     )
 ');
@@ -47,6 +49,12 @@ if (!in_array('calendar_event_id', $columns, true)) {
 }
 if (!in_array('integration_errors', $columns, true)) {
     $pdo->exec('ALTER TABLE reservations ADD COLUMN integration_errors TEXT');
+}
+if (!in_array('status', $columns, true)) {
+    $pdo->exec("ALTER TABLE reservations ADD COLUMN status TEXT NOT NULL DEFAULT 'accepted'");
+}
+if (!in_array('accepted_at', $columns, true)) {
+    $pdo->exec('ALTER TABLE reservations ADD COLUMN accepted_at TEXT');
 }
 
 $pdo->exec('

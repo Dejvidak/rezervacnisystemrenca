@@ -32,6 +32,44 @@ $instagramHandle = '@hairbyreneneme';
             --gold: #D6A85E;
             --gold-soft: #F1C879;
         }
+
+        .price-stat {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(192, 138, 62, 0.34);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(249, 245, 239, 0.86));
+            box-shadow: 0 16px 30px rgba(43, 33, 28, 0.1);
+        }
+
+        .price-stat::before {
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--gold-soft), var(--accent));
+            content: "";
+        }
+
+        .price-badge {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(192, 138, 62, 0.42);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(249, 245, 239, 0.9));
+            box-shadow: 0 14px 26px rgba(43, 33, 28, 0.12);
+        }
+
+        .price-badge::before {
+            position: absolute;
+            inset: 0 0 auto;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold-soft), var(--accent));
+            content: "";
+        }
+
+        .price-badge--featured {
+            border-color: rgba(241, 200, 121, 0.58);
+            background: linear-gradient(180deg, rgba(241, 200, 121, 0.18), rgba(255, 255, 255, 0.08));
+            box-shadow: 0 16px 28px rgba(0, 0, 0, 0.18);
+        }
     </style>
 </head>
 <body class="min-h-screen overflow-x-hidden bg-[var(--page)] text-[color:var(--ink)] antialiased">
@@ -120,17 +158,17 @@ $instagramHandle = '@hairbyreneneme';
         </div>
 
         <div class="grid gap-3 min-[420px]:grid-cols-2 lg:grid-cols-3">
-            <div class="rounded-2xl border border-[var(--line)] bg-white/78 px-5 py-4 shadow-sm">
+            <div class="price-stat rounded-2xl px-5 py-4 pl-6">
                 <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Od</p>
                 <p class="mt-2 text-3xl font-extrabold text-[color:var(--ink)]"><?= htmlspecialchars((string) min($servicePrices), ENT_QUOTES, 'UTF-8') ?> Kč</p>
                 <p class="mt-1 text-sm text-[color:var(--muted)]">nejrychlejší varianta</p>
             </div>
-            <div class="rounded-2xl border border-[var(--line)] bg-white/78 px-5 py-4 shadow-sm">
+            <div class="price-stat rounded-2xl px-5 py-4 pl-6">
                 <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Délka</p>
                 <p class="mt-2 text-3xl font-extrabold text-[color:var(--ink)]"><?= htmlspecialchars((string) min($serviceDurations), ENT_QUOTES, 'UTF-8') ?>-<?= htmlspecialchars((string) max($serviceDurations), ENT_QUOTES, 'UTF-8') ?> min</p>
                 <p class="mt-1 text-sm text-[color:var(--muted)]">podle služby</p>
             </div>
-            <div class="rounded-2xl border border-[var(--line)] bg-white/78 px-5 py-4 shadow-sm">
+            <div class="price-stat rounded-2xl px-5 py-4 pl-6">
                 <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Služby</p>
                 <p class="mt-2 text-3xl font-extrabold text-[color:var(--ink)]"><?= htmlspecialchars((string) count($services), ENT_QUOTES, 'UTF-8') ?></p>
                 <p class="mt-1 text-sm text-[color:var(--muted)]">v aktuální nabídce</p>
@@ -154,8 +192,8 @@ $instagramHandle = '@hairbyreneneme';
                 <article class="group relative overflow-hidden rounded-2xl border <?= $isFeatured ? 'border-[var(--accent)] bg-[linear-gradient(135deg,rgba(43,33,28,0.98),rgba(74,58,48,0.94))] text-[color:var(--cream)] shadow-xl' : 'border-[var(--line)] bg-white/78 text-[color:var(--ink)] shadow-sm' ?>">
                     <div class="absolute inset-x-0 top-0 h-1 <?= $isFeatured ? 'bg-[linear-gradient(90deg,var(--gold),var(--gold-soft))]' : 'bg-[linear-gradient(90deg,var(--accent),rgba(192,138,62,0.12))]' ?>"></div>
                     <div class="p-5 sm:p-6">
-                        <div class="flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
-                            <div>
+                        <div class="flex flex-col items-start gap-4">
+                            <div class="w-full">
                                 <span class="inline-flex rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'border-[rgba(241,200,121,0.32)] bg-[rgba(241,200,121,0.12)] text-[color:var(--gold-soft)]' : 'border-[var(--line)] bg-[var(--field)] text-[color:var(--muted-strong)]' ?>">
                                     <?= htmlspecialchars((string) ($service['badge'] ?? 'Služba'), ENT_QUOTES, 'UTF-8') ?>
                                 </span>
@@ -167,10 +205,14 @@ $instagramHandle = '@hairbyreneneme';
                                     <?= htmlspecialchars((string) ($service['service_copy'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
                                 </p>
                             </div>
-                            <div class="self-start rounded-2xl border px-4 py-3 text-left sm:text-right <?= $isFeatured ? 'border-[rgba(241,200,121,0.28)] bg-[rgba(255,255,255,0.06)]' : 'border-[var(--line)] bg-[var(--field)]' ?>">
-                                <p class="text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--muted-strong)]' ?>">Cena</p>
-                                <p class="mt-2 text-2xl font-extrabold whitespace-nowrap"><?= htmlspecialchars((string) $service['price_label'], ENT_QUOTES, 'UTF-8') ?></p>
-                                <p class="mt-1 text-xs <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">cca <?= htmlspecialchars((string) $service['duration'], ENT_QUOTES, 'UTF-8') ?> minut</p>
+                            <div class="price-badge <?= $isFeatured ? 'price-badge--featured' : '' ?> w-full rounded-2xl px-5 pb-4 pt-5 text-left">
+                                <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                                    <div>
+                                        <p class="text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--muted-strong)]' ?>">Cena</p>
+                                        <p class="mt-2 text-3xl font-extrabold leading-none tracking-normal whitespace-nowrap <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--accent-dark)]' ?>"><?= htmlspecialchars((string) $service['price_label'], ENT_QUOTES, 'UTF-8') ?></p>
+                                    </div>
+                                    <p class="text-sm font-semibold <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">cca <?= htmlspecialchars((string) $service['duration'], ENT_QUOTES, 'UTF-8') ?> minut</p>
+                                </div>
                             </div>
                         </div>
                         <div class="mt-5 flex flex-col items-start gap-3 border-t pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between <?= $isFeatured ? 'border-[rgba(241,200,121,0.18)]' : 'border-[var(--line-soft)]' ?>">
@@ -205,7 +247,7 @@ $instagramHandle = '@hairbyreneneme';
         <div>
             <p class="text-xs font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Kontakt</p>
             <div class="mt-3 space-y-2 text-sm">
-                <a href="tel:+420608419610" class="block hover:text-[color:var(--gold)]">608 419 610</a>
+                <a href="tel:+420608419610" class="block hover:text-[color:var(--gold)]">+420 608 419 610</a>
                 <a href="mailto:renenemehair@seznam.cz" class="block break-words hover:text-[color:var(--gold)]">renenemehair@seznam.cz</a>
                 <a
                     href="https://www.google.com/maps/search/?api=1&query=Vackova%201064%2F39%2C%20612%2000%20Brno-Kr%C3%A1lovo%20Pole"

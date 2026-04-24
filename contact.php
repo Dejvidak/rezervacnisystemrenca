@@ -125,7 +125,7 @@ $instagramHandle = '@hairbyreneneme';
                 </div>
                 <a href="tel:+420608419610" class="rounded-lg border border-[var(--line-soft)] bg-[var(--page)] p-4 transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-md">
                     <p class="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Telefon</p>
-                    <p class="mt-2 text-base font-bold min-[420px]:text-lg">608 419 610</p>
+                    <p class="mt-2 text-base font-bold min-[420px]:text-lg">+420 608 419 610</p>
                 </a>
                 <a href="mailto:renenemehair@seznam.cz" class="rounded-lg border border-[var(--line-soft)] bg-[var(--page)] p-4 transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-md">
                     <p class="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">E-mail</p>
@@ -175,7 +175,7 @@ $instagramHandle = '@hairbyreneneme';
         <div>
             <p class="text-xs font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Kontakt</p>
             <div class="mt-3 space-y-2 text-sm">
-                <a href="tel:+420608419610" class="block hover:text-[color:var(--gold)]">608 419 610</a>
+                <a href="tel:+420608419610" class="block hover:text-[color:var(--gold)]">+420 608 419 610</a>
                 <a href="mailto:renenemehair@seznam.cz" class="block break-words hover:text-[color:var(--gold)]">renenemehair@seznam.cz</a>
                 <a
                     href="https://www.google.com/maps/search/?api=1&query=Vackova%201064%2F39%2C%20612%2000%20Brno-Kr%C3%A1lovo%20Pole"
