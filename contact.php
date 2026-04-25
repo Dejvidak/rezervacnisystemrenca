@@ -40,7 +40,7 @@ $instagramHandle = '@hairbyreneneme';
             <a href="index.php#about" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">O nás</a>
             <a href="index.php#visit" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Návštěva</a>
             <a href="index.php#services" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Služby</a>
-            <a href="index.php#references" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Reference</a>
+            <a href="references.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Reference</a>
             <a href="cenik.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Ceník</a>
             <a href="contact.php" class="whitespace-nowrap font-semibold text-[color:var(--gold)]">Kontakt</a>
             <a
@@ -56,6 +56,7 @@ $instagramHandle = '@hairbyreneneme';
                     <path d="M17 7.2h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
                 </svg>
             </a>
+            <a href="index.php#booking" class="inline-flex whitespace-nowrap rounded-lg bg-[var(--accent)] px-4 py-2 font-semibold text-[color:var(--cream)] shadow-sm transition hover:-translate-y-0.5 hover:bg-[var(--accent-dark)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervace</a>
         </nav>
         <button
             type="button"
@@ -77,7 +78,7 @@ $instagramHandle = '@hairbyreneneme';
         <a href="index.php#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
         <a href="index.php#visit" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Návštěva</a>
         <a href="index.php#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
-        <a href="index.php#references" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
+        <a href="references.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
         <a href="cenik.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Ceník</a>
         <a href="contact.php" class="block rounded-lg px-3 py-3 font-semibold text-[color:var(--gold)] hover:bg-[var(--surface-soft)]">Kontakt</a>
         <a href="index.php#booking" class="mt-2 inline-flex w-full items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-3 font-semibold text-[color:var(--cream)] shadow-sm transition hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervovat termín</a>
@@ -105,7 +106,7 @@ $instagramHandle = '@hairbyreneneme';
             </p>
             <div class="mt-6 flex flex-col gap-3 sm:flex-row">
                 <a href="index.php" class="inline-flex items-center justify-center rounded-lg border border-[var(--surface-soft)] px-5 py-3 text-sm font-semibold text-[color:var(--surface-soft)] transition hover:-translate-y-0.5 hover:bg-[var(--surface-soft)] hover:text-[color:var(--cream)] focus:outline-none focus:ring-2 focus:ring-[var(--surface-soft)]">
-                    Zpět na web
+                    Na hlavní stránku
                 </a>
                 <a href="index.php#booking" class="inline-flex items-center justify-center text-sm font-semibold text-[color:var(--accent)] underline decoration-[var(--accent)] underline-offset-4 transition hover:text-[color:var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                     Přejít na rezervaci
@@ -193,7 +194,7 @@ $instagramHandle = '@hairbyreneneme';
                 <a href="index.php#booking" class="block hover:text-[color:var(--gold)]">Rezervace</a>
                 <a href="cenik.php" class="block hover:text-[color:var(--gold)]">Ceník</a>
                 <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="block hover:text-[color:var(--gold)]">Instagram</a>
-                <a href="index.php" class="block hover:text-[color:var(--gold)]">Zpět na web</a>
+                <a href="index.php" class="block hover:text-[color:var(--gold)]">Hlavní stránka</a>
             </div>
         </div>
     </div>

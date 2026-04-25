@@ -547,6 +547,47 @@ $referenceCuts = [
             transform: translate3d(0, 0, 0);
         }
 
+        .scroll-top-button {
+            opacity: 0;
+            pointer-events: none;
+            transform: translate3d(0, 12px, 0);
+            border-color: rgba(214, 168, 94, 0.18);
+            background: rgba(43, 33, 28, 0.94);
+            color: var(--gold-soft);
+            box-shadow: 0 18px 34px rgba(43, 33, 28, 0.22);
+            transition: opacity 220ms ease, transform 220ms ease, background-color 220ms ease, color 220ms ease, box-shadow 220ms ease, border-color 220ms ease, filter 220ms ease;
+        }
+
+        .scroll-top-button.is-visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .scroll-top-button.is-visible:hover {
+            background: var(--accent-dark);
+            color: var(--cream);
+            border-color: rgba(241, 200, 121, 0.48);
+            box-shadow: 0 22px 38px rgba(148, 100, 44, 0.28);
+            filter: brightness(1.06) saturate(1.04);
+            transform: translate3d(0, -2px, 0);
+        }
+
+        .scroll-top-button.is-footer-contrast {
+            background: rgba(245, 237, 225, 0.96);
+            color: var(--accent-dark);
+            border-color: rgba(214, 168, 94, 0.34);
+            box-shadow: 0 18px 34px rgba(43, 33, 28, 0.14);
+        }
+
+        .scroll-top-button.is-visible.is-footer-contrast:hover {
+            background: rgba(241, 200, 121, 0.98);
+            color: var(--surface);
+            border-color: rgba(214, 168, 94, 0.52);
+            box-shadow: 0 22px 38px rgba(148, 100, 44, 0.22);
+            filter: brightness(1.02) saturate(1.02);
+        }
+
         @media (prefers-reduced-motion: reduce) {
             .ui-button,
             .ui-button-secondary,
@@ -557,7 +598,8 @@ $referenceCuts = [
             .about-popover__panel,
             .gallery-lightbox,
             .gallery-lightbox__panel,
-            .section-reveal {
+            .section-reveal,
+            .scroll-top-button {
                 transition: none;
             }
 
@@ -580,8 +622,8 @@ $referenceCuts = [
         <nav class="hidden items-center gap-2 text-xs text-[color:var(--cream-soft)] lg:flex lg:gap-5 lg:text-sm">
             <a href="#about" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">O nás</a>
             <a href="#visit" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Návštěva</a>
-            <a href="#references" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Reference</a>
             <a href="#services" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Služby</a>
+            <a href="references.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Reference</a>
             <a href="cenik.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Ceník</a>
             <a href="contact.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Kontakt</a>
             <a
@@ -618,8 +660,8 @@ $referenceCuts = [
     <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[var(--surface-soft)] bg-[var(--surface)] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
         <a href="#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
         <a href="#visit" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Návštěva</a>
-        <a href="#references" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
         <a href="#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
+        <a href="references.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
         <a href="cenik.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Ceník</a>
         <a href="contact.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Kontakt</a>
         <a href="#booking" class="mt-2 inline-flex w-full items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-3 font-semibold text-[color:var(--cream)] shadow-sm transition hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervovat termín</a>
@@ -649,8 +691,8 @@ $referenceCuts = [
                 <span class="text-[color:var(--accent)]">čistě, přesně a přirozeně</span>
             </h1>
             <p class="max-w-xl text-sm text-[color:var(--muted)] md:text-base md:leading-7">
-                Vyber si službu, volný termín a přijď rovnou do křesla.
-                V našem kadeřnictví spojujeme pečlivý střih, pohodovou atmosféru a rezervaci bez zbytečného domlouvání.
+                V našem kadeřnictví jde o pečlivý střih, pohodovou návštěvu a výsledek,
+                který funguje nejen při odchodu z křesla, ale i další dny.
             </p>
             <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a href="#booking"
@@ -669,9 +711,9 @@ $referenceCuts = [
                     <p class="mt-1 text-xs text-[color:var(--muted)]">podle vybrané služby</p>
                 </div>
                 <div class="premium-surface px-4 py-3">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Rezervace</p>
+                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Objednání</p>
                     <p class="mt-2 font-bold text-[color:var(--ink)]">Online</p>
-                    <p class="mt-1 text-xs text-[color:var(--muted)]">bez volání a čekání</p>
+                    <p class="mt-1 text-xs text-[color:var(--muted)]">rychle a přehledně</p>
                 </div>
                 <div class="premium-surface px-4 py-3">
                     <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Lokalita</p>
@@ -700,14 +742,14 @@ $referenceCuts = [
                 >
             </div>
             <div class="hero-floating-card relative mt-3 rounded-2xl border border-[rgba(241,200,121,0.18)] px-4 py-3 text-[color:var(--cream)] md:absolute md:left-6 md:top-6 md:mt-0">
-                <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-[color:var(--gold-soft)] sm:text-[11px]">Brno · Královo Pole</p>
+                <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-[color:var(--gold-soft)] sm:text-[11px]">Královo Pole</p>
             </div>
             <div class="hero-floating-card relative mt-3 rounded-2xl border border-[rgba(241,200,121,0.16)] p-4 text-[color:var(--cream)] md:absolute md:bottom-6 md:left-6 md:right-6 md:mt-0 sm:p-5">
-                <p class="text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold)] sm:text-xs sm:tracking-[0.24em]">Rezervace bez volání</p>
+                <p class="text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold)] sm:text-xs sm:tracking-[0.24em]">Před návštěvou</p>
                 <div class="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                     <div>
                         <p class="text-base font-bold sm:text-lg">Vybereš službu, datum a čas</p>
-                        <p class="mt-1 text-sm text-[color:var(--cream-soft)]">Žádost přijde do systému a po schválení dorazí potvrzení e-mailem</p>
+                        <p class="mt-1 text-sm text-[color:var(--cream-soft)]">Jakmile termín potvrdíme, dorazí shrnutí e-mailem.</p>
                     </div>
                     <div class="rounded-xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.05)] px-4 py-3 text-left sm:min-w-[10rem]">
                         <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Oblíbená služba</p>
@@ -770,13 +812,13 @@ $referenceCuts = [
                 <button
                     type="button"
                     class="about-card__button flex w-full items-start justify-between gap-3 text-left"
-                    data-about-title="Online rezervace"
-                    data-about-summary="Termín si vybereš rovnou online. Bez volání a zdlouhavého domlouvání"
-                    data-about-detail="Rezervace hlídá délku služby i dostupné časy. Po odeslání žádost zkontrolujeme a po schválení ti přijde potvrzení e-mailem."
+                    data-about-title="Přehledná rezervace"
+                    data-about-summary="Systém hlídá délku služby i dostupné časy, takže výběr termínu je rychlý a jasný"
+                    data-about-detail="Při výběru termínu se počítá s délkou služby i aktuální dostupností. Po odeslání žádost zkontrolujeme a po potvrzení dorazí shrnutí e-mailem."
                 >
                     <span>
-                        <span class="mb-1 block font-semibold">Online rezervace</span>
-                        <span class="block text-[color:var(--muted)]">Termín si vybereš rovnou online. Bez volání a zdlouhavého domlouvání</span>
+                        <span class="mb-1 block font-semibold">Přehledná rezervace</span>
+                        <span class="block text-[color:var(--muted)]">Systém hlídá délku služby i dostupné časy, takže výběr termínu je rychlý a jasný</span>
                     </span>
                     <span class="about-card__icon mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--cream)] text-[color:var(--accent)]" aria-hidden="true">
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
@@ -860,9 +902,9 @@ $referenceCuts = [
                     </article>
                     <article class="trust-grid-card lift-card rounded-2xl border border-[rgba(241,200,121,0.16)] bg-[rgba(255,255,255,0.05)] p-5">
                         <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Jistota</p>
-                        <h3 class="mt-3 font-semibold text-[color:var(--cream)]">Rezervace bez dohadování</h3>
+                        <h3 class="mt-3 font-semibold text-[color:var(--cream)]">Jasně domluvený termín</h3>
                         <p class="mt-2 text-sm leading-6 text-[color:var(--cream-soft)]">
-                            Vybereš si službu, termín i čas a systém ti rovnou potvrdí, že je vše připravené.
+                            Hned vidíš, které časy dávají smysl pro vybranou službu, a nic se nemusí složitě domlouvat bokem.
                         </p>
                     </article>
                 </div>
@@ -871,77 +913,112 @@ $referenceCuts = [
     </section>
 
     <!-- REFERENCE STŘIHŮ -->
-    <section id="references" class="scroll-mt-28 border-t border-[var(--line)] py-8 md:scroll-mt-32 md:py-10">
-        <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+    <section class="border-t border-[var(--line)] py-8 md:py-10">
+        <div class="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
             <div>
-                <p class="text-xs uppercase tracking-[0.24em] text-[color:var(--muted-strong)] font-bold">Inspirace před rezervací</p>
-                <h2 class="mt-1 text-2xl font-bold">Reference střihů</h2>
+                <div class="premium-surface relative overflow-hidden p-5 sm:p-6 lg:p-7">
+                    <div class="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,var(--gold),rgba(214,168,94,0.12))]"></div>
+                    <p class="text-xs uppercase tracking-[0.24em] text-[color:var(--muted-strong)] font-bold">Inspirace před rezervací</p>
+                    <h2 class="mt-2 text-2xl font-bold sm:text-[2rem]">Reference střihů</h2>
+                    <p class="mt-4 max-w-2xl text-sm leading-6 text-[color:var(--muted)] sm:text-[15px]">
+                        Mrkni na vybrané ukázky střihů a otevři si celou galerii s další inspirací. Fotky ti pomůžou udělat si lepší představu o stylu, délce i celkovém výsledku.
+                    </p>
+
+                    <div class="mt-5 grid gap-3 sm:grid-cols-2">
+                        <div class="rounded-2xl border border-[var(--line)] bg-white/70 p-4 shadow-sm">
+                            <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">V galerii</p>
+                            <p class="mt-2 text-lg font-bold text-[color:var(--ink)]">Vybrané střihy</p>
+                            <p class="mt-1 text-sm leading-6 text-[color:var(--muted)]">Od přirozených tvarů po čistší fade a výraznější boky.</p>
+                        </div>
+                        <div class="rounded-2xl border border-[rgba(214,168,94,0.16)] bg-[var(--surface)] p-4 text-[color:var(--cream)] shadow-lg">
+                            <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--gold)]">Pro lepší představu</p>
+                            <p class="mt-2 text-lg font-bold">Tvar, profil i detail</p>
+                            <p class="mt-1 text-sm leading-6 text-[color:var(--cream-soft)]">Každá fotka pomůže doladit styl ještě před samotnou rezervací.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex flex-wrap items-center gap-4 text-sm font-semibold">
+                        <a href="references.php" class="ui-button focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+                            Zobrazit všechny reference
+                        </a>
+                        <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="accent-link inline-flex items-center gap-2">
+                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="2" />
+                                <circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="2" />
+                                <path d="M17 7.2h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                            </svg>
+                            <?= htmlspecialchars($instagramHandle, ENT_QUOTES, 'UTF-8') ?>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="flex flex-wrap gap-3 text-sm font-semibold">
-                <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="accent-link inline-flex items-center gap-2">
-                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="2" />
-                        <circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="2" />
-                        <path d="M17 7.2h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <?= htmlspecialchars($instagramHandle, ENT_QUOTES, 'UTF-8') ?>
-                </a>
-                <a href="#booking" class="accent-link">
-                    Přejít k rezervaci
-                </a>
-            </div>
-        </div>
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <?php foreach ($referenceCuts as $cut): ?>
-                <?php $hasImage = is_file(__DIR__ . '/' . $cut['image']); ?>
-                <?php if ($hasImage): ?>
-                    <a
-                        href="<?= htmlspecialchars($cut['image'], ENT_QUOTES, 'UTF-8') ?>"
-                        data-gallery-image="<?= htmlspecialchars($cut['image'], ENT_QUOTES, 'UTF-8') ?>"
-                        data-gallery-title="<?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?>"
-                        data-gallery-description="<?= htmlspecialchars($cut['description'], ENT_QUOTES, 'UTF-8') ?>"
-                        class="group premium-surface lift-card overflow-hidden"
-                    >
-                        <img
-                            src="<?= htmlspecialchars($cut['image'], ENT_QUOTES, 'UTF-8') ?>"
-                            alt="<?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?>"
-                            class="aspect-[4/5] w-full object-cover transition duration-300 group-hover:scale-[1.03]"
-                            loading="lazy"
-                        >
-                        <div class="p-4">
+            <div class="hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3">
+                <?php foreach (array_slice($referenceCuts, 0, 3) as $cut): ?>
+                    <?php $hasImage = is_file(__DIR__ . '/' . $cut['image']); ?>
+                    <a href="references.php" class="group premium-surface lift-card flex h-full flex-col overflow-hidden">
+                        <?php if ($hasImage): ?>
+                            <img
+                                src="<?= htmlspecialchars($cut['image'], ENT_QUOTES, 'UTF-8') ?>"
+                                alt="<?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?>"
+                                class="aspect-[4/5] w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                                loading="lazy"
+                            >
+                        <?php else: ?>
+                            <div class="flex aspect-[4/5] items-center justify-center bg-[var(--ink)] px-5 text-center text-[color:var(--cream)]">
+                                <p class="text-sm font-semibold"><?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?></p>
+                            </div>
+                        <?php endif; ?>
+                        <div class="flex flex-1 flex-col p-4">
                             <p class="font-semibold"><?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?></p>
                             <p class="mt-1 text-sm text-[color:var(--muted)]"><?= htmlspecialchars($cut['description'], ENT_QUOTES, 'UTF-8') ?></p>
-                            <p class="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--accent)]">Zobrazit foto</p>
+                            <p class="mt-auto pt-3 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--accent)]">Zobrazit galerii</p>
                         </div>
                     </a>
-                <?php else: ?>
-                    <div class="premium-surface rounded-2xl border-dashed p-4">
-                        <div class="flex aspect-[4/5] items-center justify-center rounded-md bg-[var(--ink)] px-5 text-center text-[color:var(--cream)]">
-                            <p class="text-sm font-semibold"><?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?></p>
-                        </div>
-                        <p class="mt-4 font-semibold"><?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?></p>
-                        <p class="mt-1 text-sm text-[color:var(--muted)]"><?= htmlspecialchars($cut['description'], ENT_QUOTES, 'UTF-8') ?></p>
-                    </div>
-                <?php endif; ?>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            </div>
         </div>
     </section>
     <!-- SLUŽBY -->
     <section id="services" class="scroll-mt-28 border-t border-[var(--line)] py-8 md:scroll-mt-32 md:py-10">
-        <div class="grid gap-5 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
-            <div>
-                <p class="text-xs uppercase tracking-[0.24em] text-[color:var(--muted-strong)] font-bold">Služby</p>
-                <h2 class="mt-1 text-2xl font-bold">Vyber si, co ti sedí</h2>
-                <p class="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
-                    Na homepage najdeš rychlý přehled jednotlivých variant. Cenu a detailní porovnání si můžeš v klidu otevřít na samostatné stránce ceníku.
+        <div class="grid gap-5 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+            <div class="max-w-2xl">
+                <p class="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--muted-strong)]">Služby</p>
+                <h2 class="mt-2 text-2xl font-bold sm:text-[2rem]">Vyber si, co ti sedí</h2>
+                <p class="mt-4 text-sm leading-7 text-[color:var(--muted)] sm:text-[15px]">
+                    Na hlavní stránce najdeš rychlý přehled jednotlivých variant. Cenu, délku služby i detailnější porovnání si pak můžeš pohodlně projít v ceníku.
                 </p>
+                <div class="mt-5 flex flex-wrap gap-3">
+                    <div class="inline-flex items-center rounded-full border border-[var(--line)] bg-white/78 px-4 py-2 text-sm font-semibold text-[color:var(--ink)] shadow-sm">
+                        Nejčastější volby hned po ruce
+                    </div>
+                    <div class="inline-flex items-center rounded-full border border-[rgba(192,138,62,0.16)] bg-[var(--field)] px-4 py-2 text-sm font-semibold text-[color:var(--ink)] shadow-sm">
+                        Cena i detail přehledně v ceníku
+                    </div>
+                </div>
             </div>
-            <div class="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 text-[color:var(--cream)] shadow-xl">
-                <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Celý ceník</p>
-                <p class="mt-3 text-xl font-bold">Chceš vidět ceny a všechny varianty?</p>
-                <p class="mt-2 text-sm leading-6 text-[color:var(--cream-soft)]">
-                    Na samostatné stránce najdeš kompletní ceník přehledně na jednom místě a pak můžeš rovnou pokračovat do rezervace.
+            <div class="rounded-2xl border border-[rgba(214,168,94,0.18)] bg-[linear-gradient(145deg,rgba(43,33,28,0.98),rgba(74,58,48,0.94))] p-5 text-[color:var(--cream)] shadow-[0_20px_40px_rgba(43,33,28,0.16)] sm:p-6">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Celý ceník</p>
+                        <p class="mt-2 text-xl font-bold sm:text-[1.75rem]">Chceš vidět ceny a všechny varianty?</p>
+                    </div>
+                    <div class="hidden h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.05)] text-[color:var(--gold-soft)] sm:inline-flex">
+                        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M7 7h10M7 12h10M7 17h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                </div>
+                <p class="mt-3 max-w-xl text-sm leading-7 text-[color:var(--cream-soft)]">
+                    V ceníku najdeš kompletní přehled služeb, ceny i délku návštěvy. Pak můžeš rovnou pokračovat k rezervaci bez dalšího hledání.
                 </p>
+                <div class="mt-5 flex flex-wrap gap-3">
+                    <div class="rounded-full border border-[rgba(241,200,121,0.16)] bg-[rgba(255,255,255,0.05)] px-4 py-2 text-sm font-semibold text-[color:var(--cream)]">
+                        Cena, délka i varianta
+                    </div>
+                    <div class="rounded-full border border-[rgba(241,200,121,0.16)] bg-[rgba(255,255,255,0.05)] px-4 py-2 text-sm font-semibold text-[color:var(--cream)]">
+                        Z ceníku rovnou k termínu
+                    </div>
+                </div>
                 <div class="mt-5">
                     <a href="cenik.php" class="ui-button focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                         Zobrazit celý ceník
@@ -1014,11 +1091,11 @@ $referenceCuts = [
     <section id="booking" class="mt-2 scroll-mt-24 border-t border-[var(--line)] py-8 md:mt-4 md:scroll-mt-28 md:py-10">
         <div class="grid gap-6 md:grid-cols-[0.8fr_1.2fr] md:items-start md:gap-8">
             <div class="order-2 space-y-5 md:order-1">
-                <p class="text-xs uppercase tracking-[0.24em] text-[color:var(--muted-strong)] font-bold">Bez telefonování</p>
-                <h2 class="mt-1 text-2xl font-bold mb-3">Online rezervace</h2>
+                <p class="text-xs uppercase tracking-[0.24em] text-[color:var(--muted-strong)] font-bold">Rezervace</p>
+                <h2 class="mt-1 text-2xl font-bold mb-3">Vyber si termín online</h2>
                 <p class="max-w-lg text-sm leading-6 text-[color:var(--muted)]">
-                    Vyplň pár údajů a vyber si volný čas. Po odeslání uvidíš shrnutí rezervace
-                    a po schválení ti přijde potvrzení e-mailem.
+                    Vyplň pár údajů, zvol službu a vyber si volný čas. O zbytek se postará systém
+                    a po potvrzení dorazí shrnutí e-mailem.
                 </p>
 
                 <div class="rounded-3xl border border-[var(--surface-soft)] bg-[linear-gradient(145deg,rgba(43,33,28,0.98),rgba(74,58,48,0.94))] p-5 text-[color:var(--cream)] shadow-xl sm:p-6">
@@ -1031,7 +1108,7 @@ $referenceCuts = [
                         </div>
                         <div class="flex items-start gap-3">
                             <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--gold)]"></span>
-                            <p>Doplníš základní údaje a rezervaci odešleš během chvilky</p>
+                            <p>Doplníš základní údaje a žádost odešleš během chvilky</p>
                         </div>
                         <div class="flex items-start gap-3">
                             <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--gold)]"></span>
@@ -1089,6 +1166,10 @@ $referenceCuts = [
                             id="phone"
                             name="phone"
                             required
+                            inputmode="tel"
+                            autocomplete="tel"
+                            pattern="^(\+?[0-9 ]{9,20})$"
+                            title="Zadej telefonní číslo, například +420 777 123 456"
                             class="w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-2 text-base text-[color:var(--field-text)] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
                             placeholder="např. +420 777 123 456"
                         >
@@ -1244,6 +1325,17 @@ $referenceCuts = [
         </div>
     </div>
 </div>
+
+<button
+    type="button"
+    id="scrollTopButton"
+    class="scroll-top-button fixed bottom-5 right-4 z-[80] inline-flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(214,168,94,0.18)] bg-[var(--surface)] text-[color:var(--gold-soft)] shadow-xl focus:outline-none focus:ring-2 focus:ring-[var(--gold)] sm:bottom-6 sm:right-6"
+    aria-label="Zpět nahoru"
+>
+    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 18V6M12 6l-5 5M12 6l5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+</button>
 
 <div
     id="aboutPopover"
@@ -1515,10 +1607,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const galleryClose = document.getElementById('galleryClose');
     const galleryBackdrop = document.getElementById('galleryBackdrop');
     const galleryPanel = document.querySelector('.gallery-lightbox__panel');
+    const scrollTopButton = document.getElementById('scrollTopButton');
+    const pageFooter = document.querySelector('footer');
     const dateInput = document.getElementById('date');
     const timeSelect = document.getElementById('time');
     const serviceSelect = document.getElementById('service');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mobileViewport = window.matchMedia('(max-width: 767px)');
     let previouslyFocusedElement = null;
     let aboutPreviouslyFocusedElement = null;
     let activeAboutTrigger = null;
@@ -1660,6 +1755,15 @@ document.addEventListener('DOMContentLoaded', function () {
         serviceSelect.dispatchEvent(new Event('change', { bubbles: true }));
     }
 
+    function animateBookingArrivalFromHash() {
+        if (!bookingSection || window.location.hash !== '#booking') return;
+
+        window.setTimeout(() => {
+            smoothScrollToSection(bookingSection, false);
+            window.setTimeout(focusBookingForm, prefersReducedMotion.matches ? 120 : 520);
+        }, 120);
+    }
+
     document.querySelectorAll('a[href="#booking"]').forEach(link => {
         link.addEventListener('click', event => {
             if (!bookingSection) return;
@@ -1700,6 +1804,30 @@ document.addEventListener('DOMContentLoaded', function () {
             smoothScrollToSection(target);
         });
     });
+
+    animateBookingArrivalFromHash();
+    window.addEventListener('hashchange', animateBookingArrivalFromHash);
+
+    function updateScrollTopButton() {
+        if (!scrollTopButton) return;
+        scrollTopButton.classList.toggle('is-visible', window.scrollY > 520);
+
+        if (pageFooter) {
+            const footerRect = pageFooter.getBoundingClientRect();
+            const footerInView = footerRect.top < window.innerHeight - 32;
+            scrollTopButton.classList.toggle('is-footer-contrast', footerInView);
+        }
+    }
+
+    scrollTopButton?.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
+        });
+    });
+
+    window.addEventListener('scroll', updateScrollTopButton, { passive: true });
+    updateScrollTopButton();
 
     function setGalleryStartFromTrigger(trigger) {
         if (!galleryPanel || !trigger) return;
@@ -1796,8 +1924,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     entry.target.classList.toggle('is-visible', entry.isIntersecting);
                 });
             }, {
-                rootMargin: '-8% 0px -8% 0px',
-                threshold: 0.22,
+                rootMargin: mobileViewport.matches ? '0px 0px -10% 0px' : '-8% 0px -8% 0px',
+                threshold: mobileViewport.matches ? 0.05 : 0.18,
             });
 
             revealSections.forEach((section, index) => {

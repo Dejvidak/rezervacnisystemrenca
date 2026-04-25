@@ -12,7 +12,7 @@ $services = app_services();
 
 $name = trim($_POST['name'] ?? '');
 $email = trim($_POST['email'] ?? '');
-$phone = trim($_POST['phone'] ?? '');
+$phone = app_normalize_phone((string) ($_POST['phone'] ?? ''));
 $date = trim($_POST['date'] ?? '');
 $time = trim($_POST['time'] ?? '');
 $service = trim($_POST['service'] ?? '');
@@ -29,8 +29,8 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $errors[] = 'Zadej platný e-mail.';
 }
 
-if ($phone === '' || !preg_match('/^[0-9+()\/\s.-]{6,30}$/', $phone)) {
-    $errors[] = 'Zadej platný telefon.';
+if (!app_phone_is_valid($phone)) {
+    $errors[] = 'Zadej platné telefonní číslo.';
 }
 
 $dateObject = DateTime::createFromFormat('!Y-m-d', $date);

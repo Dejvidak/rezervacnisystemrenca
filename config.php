@@ -30,6 +30,17 @@ function app_from_email(): string
 
 function app_site_url(): string
 {
+    $serverHost = trim((string) ($_SERVER['HTTP_HOST'] ?? ''));
+    if ($serverHost !== '') {
+        $https = (string) ($_SERVER['HTTPS'] ?? '');
+        $forwardedProto = trim((string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? ''));
+        $scheme = ($https !== '' && strtolower($https) !== 'off') || strtolower($forwardedProto) === 'https'
+            ? 'https'
+            : 'http';
+
+        return rtrim($scheme . '://' . $serverHost, '/');
+    }
+
     return rtrim((string) (getenv('SITE_URL') ?: 'http://127.0.0.1:8000'), '/');
 }
 
@@ -102,6 +113,35 @@ function app_time_slots_for_date(string $date): array
     }
 
     return app_time_slots_for_duration($date, 30);
+}
+
+function app_normalize_phone(string $phone): string
+{
+    $normalized = str_replace("\xc2\xa0", ' ', trim($phone));
+    $normalized = preg_replace('/[().\/-]+/', ' ', $normalized);
+    $normalized = preg_replace('/\s+/', ' ', $normalized);
+
+    if (str_starts_with($normalized, '00')) {
+        $normalized = '+' . substr($normalized, 2);
+    }
+
+    return $normalized;
+}
+
+function app_phone_is_valid(string $phone): bool
+{
+    if ($phone === '' || !preg_match('/^\+?[0-9 ]+$/', $phone)) {
+        return false;
+    }
+
+    if (substr_count($phone, '+') > 1 || (str_contains($phone, '+') && !str_starts_with($phone, '+'))) {
+        return false;
+    }
+
+    $digitsOnly = preg_replace('/\D+/', '', $phone);
+    $digitCount = strlen($digitsOnly);
+
+    return $digitCount >= 9 && $digitCount <= 15;
 }
 
 function app_time_slots_for_duration(string $date, int $durationMinutes): array

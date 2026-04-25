@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/config.php';
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.php');
     exit;
@@ -12,7 +14,7 @@ function safe($key) {
 // Načtení dat z formuláře
 $name    = safe('name');
 $email   = safe('email');
-$phone   = safe('phone');
+$phone   = app_normalize_phone(safe('phone'));
 $date    = safe('date');
 $time    = safe('time');
 $service = safe('service');
@@ -31,6 +33,8 @@ $price = $prices[$service] ?? null;
 // Základní validace
 if (!$name || !$email || !$phone || !$date || !$time || !$service) {
     $error = "Některé povinné údaje chybí. Zkuste to prosím znovu.";
+} elseif (!app_phone_is_valid($phone)) {
+    $error = "Zadejte prosím platné telefonní číslo.";
 } else {
     $error = '';
 }
@@ -140,4 +144,3 @@ if ($f) {
     </div>
 </body>
 </html>
-

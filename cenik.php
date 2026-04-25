@@ -70,6 +70,53 @@ $instagramHandle = '@hairbyreneneme';
             background: linear-gradient(180deg, rgba(241, 200, 121, 0.18), rgba(255, 255, 255, 0.08));
             box-shadow: 0 16px 28px rgba(0, 0, 0, 0.18);
         }
+
+        .section-reveal {
+            opacity: 0;
+            transform: translate3d(0, 42px, 0);
+            transition: opacity 780ms ease, transform 1160ms cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .section-reveal--left {
+            transform: translate3d(-56px, 28px, 0);
+        }
+
+        .section-reveal--right {
+            transform: translate3d(56px, 28px, 0);
+        }
+
+        .section-reveal.is-visible {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .reveal-item {
+            opacity: 0;
+            transform: translate3d(0, 24px, 0);
+            transition: opacity 560ms ease, transform 760ms cubic-bezier(0.16, 1, 0.3, 1);
+            transition-delay: var(--reveal-delay, 0ms);
+            will-change: opacity, transform;
+        }
+
+        .reveal-item.is-visible {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .section-reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+
+            .reveal-item {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen overflow-x-hidden bg-[var(--page)] text-[color:var(--ink)] antialiased">
@@ -84,7 +131,7 @@ $instagramHandle = '@hairbyreneneme';
             <a href="index.php#about" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">O nás</a>
             <a href="index.php#visit" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Návštěva</a>
             <a href="index.php#services" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Služby</a>
-            <a href="index.php#references" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Reference</a>
+            <a href="references.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Reference</a>
             <a href="cenik.php" class="whitespace-nowrap font-semibold text-[color:var(--gold)]">Ceník</a>
             <a href="contact.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Kontakt</a>
             <a
@@ -100,6 +147,7 @@ $instagramHandle = '@hairbyreneneme';
                     <path d="M17 7.2h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
                 </svg>
             </a>
+            <a href="index.php#booking" class="inline-flex whitespace-nowrap rounded-lg bg-[var(--accent)] px-4 py-2 font-semibold text-[color:var(--cream)] shadow-sm transition hover:-translate-y-0.5 hover:bg-[var(--accent-dark)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervace</a>
         </nav>
         <button
             type="button"
@@ -121,7 +169,7 @@ $instagramHandle = '@hairbyreneneme';
         <a href="index.php#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
         <a href="index.php#visit" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Návštěva</a>
         <a href="index.php#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
-        <a href="index.php#references" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
+        <a href="references.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
         <a href="cenik.php" class="block rounded-lg px-3 py-3 font-semibold text-[color:var(--gold)] hover:bg-[var(--surface-soft)]">Ceník</a>
         <a href="contact.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Kontakt</a>
         <a href="index.php#booking" class="mt-2 inline-flex w-full items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-3 font-semibold text-[color:var(--cream)] shadow-sm transition hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervovat termín</a>
@@ -137,7 +185,7 @@ $instagramHandle = '@hairbyreneneme';
 </header>
 
 <main class="mx-auto max-w-6xl px-4 py-8 sm:px-6 md:py-16">
-    <section class="grid gap-7 md:grid-cols-[0.95fr_1.05fr] md:items-center">
+    <section class="grid gap-7 md:grid-cols-[0.95fr_1.05fr] md:items-center" data-reveal-section-static>
         <div>
             <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--muted-strong)] sm:text-xs sm:tracking-[0.28em]">Ceník</p>
             <h1 class="text-3xl font-extrabold leading-tight sm:text-4xl md:text-5xl">
@@ -145,11 +193,11 @@ $instagramHandle = '@hairbyreneneme';
                 <span class="text-[color:var(--accent)]">na jednom místě</span>
             </h1>
             <p class="mt-4 max-w-xl text-sm leading-7 text-[color:var(--muted)] md:text-base">
-                V klidu si projdi všechny varianty, porovnej si cenu i délku služby a pak se rovnou proklikni do rezervace bez dalšího hledání
+                V klidu si projdi všechny varianty, porovnej si cenu i délku služby a pak můžeš rovnou pokračovat k rezervaci bez dalšího hledání.
             </p>
             <div class="mt-6 flex flex-col gap-3 sm:flex-row">
                 <a href="index.php" class="inline-flex items-center justify-center rounded-lg border border-[var(--surface-soft)] px-5 py-3 text-sm font-semibold text-[color:var(--surface-soft)] transition hover:-translate-y-0.5 hover:bg-[var(--surface-soft)] hover:text-[color:var(--cream)] focus:outline-none focus:ring-2 focus:ring-[var(--surface-soft)]">
-                    Zpět na web
+                    Na hlavní stránku
                 </a>
                 <a href="index.php#booking" class="inline-flex items-center justify-center text-sm font-semibold text-[color:var(--accent)] underline decoration-[var(--accent)] underline-offset-4 transition hover:text-[color:var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                     Přejít na rezervaci
@@ -158,17 +206,17 @@ $instagramHandle = '@hairbyreneneme';
         </div>
 
         <div class="grid gap-3 min-[420px]:grid-cols-2 lg:grid-cols-3">
-            <div class="price-stat rounded-2xl px-5 py-4 pl-6">
+            <div class="price-stat reveal-item rounded-2xl px-5 py-4 pl-6" data-reveal-item>
                 <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Od</p>
                 <p class="mt-2 text-3xl font-extrabold text-[color:var(--ink)]"><?= htmlspecialchars((string) min($servicePrices), ENT_QUOTES, 'UTF-8') ?> Kč</p>
                 <p class="mt-1 text-sm text-[color:var(--muted)]">nejrychlejší varianta</p>
             </div>
-            <div class="price-stat rounded-2xl px-5 py-4 pl-6">
+            <div class="price-stat reveal-item rounded-2xl px-5 py-4 pl-6" data-reveal-item>
                 <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Délka</p>
                 <p class="mt-2 text-3xl font-extrabold text-[color:var(--ink)]"><?= htmlspecialchars((string) min($serviceDurations), ENT_QUOTES, 'UTF-8') ?>-<?= htmlspecialchars((string) max($serviceDurations), ENT_QUOTES, 'UTF-8') ?> min</p>
                 <p class="mt-1 text-sm text-[color:var(--muted)]">podle služby</p>
             </div>
-            <div class="price-stat rounded-2xl px-5 py-4 pl-6">
+            <div class="price-stat reveal-item rounded-2xl px-5 py-4 pl-6" data-reveal-item>
                 <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Služby</p>
                 <p class="mt-2 text-3xl font-extrabold text-[color:var(--ink)]"><?= htmlspecialchars((string) count($services), ENT_QUOTES, 'UTF-8') ?></p>
                 <p class="mt-1 text-sm text-[color:var(--muted)]">v aktuální nabídce</p>
@@ -176,7 +224,7 @@ $instagramHandle = '@hairbyreneneme';
         </div>
     </section>
 
-    <section class="mt-10 border-t border-[var(--line)] pt-8">
+    <section class="mt-10 border-t border-[var(--line)] pt-8" data-reveal-section-static>
         <div class="mb-6 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
             <div>
                 <p class="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--muted-strong)]">Kompletní ceník</p>
@@ -189,7 +237,7 @@ $instagramHandle = '@hairbyreneneme';
         <div class="grid gap-4 md:grid-cols-2">
             <?php foreach ($services as $serviceName => $service): ?>
                 <?php $isFeatured = !empty($service['featured']); ?>
-                <article class="group relative overflow-hidden rounded-2xl border <?= $isFeatured ? 'border-[var(--accent)] bg-[linear-gradient(135deg,rgba(43,33,28,0.98),rgba(74,58,48,0.94))] text-[color:var(--cream)] shadow-xl' : 'border-[var(--line)] bg-white/78 text-[color:var(--ink)] shadow-sm' ?>">
+                <article class="group reveal-item relative overflow-hidden rounded-2xl border <?= $isFeatured ? 'border-[var(--accent)] bg-[linear-gradient(135deg,rgba(43,33,28,0.98),rgba(74,58,48,0.94))] text-[color:var(--cream)] shadow-xl' : 'border-[var(--line)] bg-white/78 text-[color:var(--ink)] shadow-sm' ?>" data-reveal-item>
                     <div class="absolute inset-x-0 top-0 h-1 <?= $isFeatured ? 'bg-[linear-gradient(90deg,var(--gold),var(--gold-soft))]' : 'bg-[linear-gradient(90deg,var(--accent),rgba(192,138,62,0.12))]' ?>"></div>
                     <div class="p-5 sm:p-6">
                         <div class="flex flex-col items-start gap-4">
@@ -230,7 +278,7 @@ $instagramHandle = '@hairbyreneneme';
                 </article>
             <?php endforeach; ?>
         </div>
-        <div class="mt-5 rounded-2xl border border-[var(--line)] bg-white/80 p-5 shadow-sm">
+        <div class="reveal-item mt-5 rounded-2xl border border-[var(--line)] bg-white/80 p-5 shadow-sm" data-reveal-item>
             <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
                     <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Dárkové poukazy</p>
@@ -322,6 +370,51 @@ document.addEventListener('DOMContentLoaded', function () {
     mobileMenu.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', closeMobileMenu);
     });
+
+    const revealSections = Array.from(document.querySelectorAll('main > section:not([data-reveal-section-static])'));
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mobileViewport = window.matchMedia('(max-width: 767px)');
+    if (revealSections.length > 0) {
+        if (prefersReducedMotion.matches) {
+            revealSections.forEach(section => section.classList.add('is-visible'));
+        } else {
+            const revealObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    entry.target.classList.toggle('is-visible', entry.isIntersecting);
+                });
+            }, {
+                rootMargin: mobileViewport.matches ? '0px 0px -10% 0px' : '-8% 0px -8% 0px',
+                threshold: mobileViewport.matches ? 0.05 : 0.18,
+            });
+
+            revealSections.forEach((section, index) => {
+                section.classList.add('section-reveal');
+                section.classList.add(index % 2 === 0 ? 'section-reveal--left' : 'section-reveal--right');
+                revealObserver.observe(section);
+            });
+        }
+    }
+
+    const revealItems = Array.from(document.querySelectorAll('[data-reveal-item]'));
+    if (revealItems.length > 0) {
+        if (prefersReducedMotion.matches) {
+            revealItems.forEach(item => item.classList.add('is-visible'));
+        } else {
+            const revealItemObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    entry.target.classList.toggle('is-visible', entry.isIntersecting);
+                });
+            }, {
+                rootMargin: mobileViewport.matches ? '0px 0px -12% 0px' : '-8% 0px -10% 0px',
+                threshold: 0.12,
+            });
+
+            revealItems.forEach((item, index) => {
+                item.style.setProperty('--reveal-delay', `${Math.min(index * 90, 360)}ms`);
+                revealItemObserver.observe(item);
+            });
+        }
+    }
 });
 </script>
 </body>
