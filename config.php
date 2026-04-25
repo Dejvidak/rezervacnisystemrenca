@@ -49,6 +49,133 @@ function app_booking_max_advance_days(): int
     return 7;
 }
 
+function app_business_name(): string
+{
+    return 'Hair By ReneNeme';
+}
+
+function app_business_phone(): string
+{
+    return '+420608419610';
+}
+
+function app_business_phone_display(): string
+{
+    return '+420 608 419 610';
+}
+
+function app_business_email(): string
+{
+    return 'renenemehair@seznam.cz';
+}
+
+function app_business_street_address(): string
+{
+    return 'Vackova 1064/39';
+}
+
+function app_business_postal_code(): string
+{
+    return '612 00';
+}
+
+function app_business_locality(): string
+{
+    return 'Brno-Kralovo Pole';
+}
+
+function app_business_locality_display(): string
+{
+    return 'Brno-Kralovo Pole';
+}
+
+function app_business_country(): string
+{
+    return 'CZ';
+}
+
+function app_business_ico(): string
+{
+    return '19671415';
+}
+
+function app_business_owner_name(): string
+{
+    return 'Renata Nemeskalova';
+}
+
+function app_business_instagram_url(): string
+{
+    return 'https://www.instagram.com/hairbyreneneme/';
+}
+
+function app_business_instagram_handle(): string
+{
+    return '@hairbyreneneme';
+}
+
+function app_business_map_url(): string
+{
+    return 'https://www.google.com/maps/search/?api=1&query=Vackova%201064%2F39%2C%20612%2000%20Brno-Kr%C3%A1lovo%20Pole';
+}
+
+function app_business_full_address_inline(): string
+{
+    return app_business_street_address() . ', ' . app_business_postal_code() . ' ' . app_business_locality_display();
+}
+
+function app_absolute_url(string $path = ''): string
+{
+    $base = app_site_url();
+    if ($path === '') {
+        return $base;
+    }
+
+    return $base . '/' . ltrim($path, '/');
+}
+
+function app_public_business_schema(string $pagePath = '', array $overrides = []): array
+{
+    $data = [
+        '@context' => 'https://schema.org',
+        '@type' => 'HairSalon',
+        'name' => app_business_name(),
+        'url' => app_absolute_url($pagePath),
+        'image' => app_absolute_url('assets/barbershop-hero.png'),
+        'telephone' => app_business_phone(),
+        'email' => app_business_email(),
+        'priceRange' => '310-620 CZK',
+        'address' => [
+            '@type' => 'PostalAddress',
+            'streetAddress' => app_business_street_address(),
+            'postalCode' => app_business_postal_code(),
+            'addressLocality' => app_business_locality_display(),
+            'addressCountry' => app_business_country(),
+        ],
+        'sameAs' => [
+            app_business_instagram_url(),
+        ],
+        'openingHoursSpecification' => [
+            [
+                '@type' => 'OpeningHoursSpecification',
+                'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                'opens' => '09:00',
+                'closes' => '18:00',
+            ],
+        ],
+        'areaServed' => [
+            '@type' => 'City',
+            'name' => 'Brno',
+        ],
+    ];
+
+    foreach ($overrides as $key => $value) {
+        $data[$key] = $value;
+    }
+
+    return $data;
+}
+
 function app_booking_last_date(): DateTime
 {
     $lastDate = new DateTime('today');

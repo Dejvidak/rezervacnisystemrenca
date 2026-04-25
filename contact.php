@@ -1,13 +1,36 @@
 <?php
-$instagramUrl = 'https://www.instagram.com/hairbyreneneme/';
-$instagramHandle = '@hairbyreneneme';
+require_once __DIR__ . '/config.php';
+
+$instagramUrl = app_business_instagram_url();
+$instagramHandle = app_business_instagram_handle();
+$pageTitle = 'Kontakt - ' . app_business_name();
+$pageDescription = 'Kontakt na Hair By ReneNeme v Brne. Telefon, e-mail, adresa provozovny ve Vackove ulici a nejrychlejsi cesta k terminu pres online rezervaci.';
+$pageCanonical = app_absolute_url('contact.php');
+$pageImage = app_absolute_url('assets/barbershop-hero.png');
+$pageSchema = app_public_business_schema('contact.php', [
+    'description' => $pageDescription,
+]);
 ?>
 <!DOCTYPE html>
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <title>Kontakt - Hair By ReneNeme</title>
+    <title><?= htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="<?= htmlspecialchars($pageDescription, ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="canonical" href="<?= htmlspecialchars($pageCanonical, ENT_QUOTES, 'UTF-8') ?>">
+    <meta property="og:locale" content="cs_CZ">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="<?= htmlspecialchars(app_business_name(), ENT_QUOTES, 'UTF-8') ?>">
+    <meta property="og:title" content="<?= htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') ?>">
+    <meta property="og:description" content="<?= htmlspecialchars($pageDescription, ENT_QUOTES, 'UTF-8') ?>">
+    <meta property="og:url" content="<?= htmlspecialchars($pageCanonical, ENT_QUOTES, 'UTF-8') ?>">
+    <meta property="og:image" content="<?= htmlspecialchars($pageImage, ENT_QUOTES, 'UTF-8') ?>">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') ?>">
+    <meta name="twitter:description" content="<?= htmlspecialchars($pageDescription, ENT_QUOTES, 'UTF-8') ?>">
+    <meta name="twitter:image" content="<?= htmlspecialchars($pageImage, ENT_QUOTES, 'UTF-8') ?>">
+    <script type="application/ld+json"><?= json_encode($pageSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
