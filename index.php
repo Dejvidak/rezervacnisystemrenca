@@ -680,7 +680,7 @@ $referenceCuts = [
                 </div>
             </div>
             <div class="mt-7 flex flex-col gap-2 text-sm text-[color:var(--muted)] sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4 md:mt-8">
-                <span>Otevřeno Po-Pá 9:00-19:00 · So 9:00-14:00</span>
+                <span>Otevřeno Po-Pá 9:00-18:00</span>
                 <a
                     href="https://www.google.com/maps/search/?api=1&query=Vackova%201064%2F39%2C%20612%2000%20Brno-Kr%C3%A1lovo%20Pole"
                     target="_blank"
@@ -707,7 +707,7 @@ $referenceCuts = [
                 <div class="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                     <div>
                         <p class="text-base font-bold sm:text-lg">Vybereš službu, datum a čas</p>
-                        <p class="mt-1 text-sm text-[color:var(--cream-soft)]">Potvrzení dorazí e-mailem a termín se zapíše do kalendáře</p>
+                        <p class="mt-1 text-sm text-[color:var(--cream-soft)]">Žádost přijde do systému a po schválení dorazí potvrzení e-mailem</p>
                     </div>
                     <div class="rounded-xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.05)] px-4 py-3 text-left sm:min-w-[10rem]">
                         <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Oblíbená služba</p>
@@ -723,7 +723,7 @@ $referenceCuts = [
     <section id="about" class="scroll-mt-28 border-t border-[var(--line)] py-8 md:scroll-mt-32 md:py-10">
         <h2 class="mb-4 text-2xl font-bold sm:text-3xl">O nás</h2>
         <p class="text-m text-[color:var(--muted)] mb-4 max-w-3xl">
-            <strong>Hair By ReneNeme</strong> je malé pánské kadeřnictví v Brně, kde se řeší hlavně dobrý střih,
+            <strong>Hair By ReneNeme</strong> je pánské kadeřnictví v Brně, kde se řeší hlavně dobrý střih,
             čistý výsledek a pohodová návštěva. Každý účes se ladí podle vlasů, stylu i toho,
             kolik času mu chceš doma věnovat.
         </p>
@@ -771,12 +771,12 @@ $referenceCuts = [
                     type="button"
                     class="about-card__button flex w-full items-start justify-between gap-3 text-left"
                     data-about-title="Online rezervace"
-                    data-about-summary="Termín si vybereš rovnou online. Bez volání, přepisování zpráv a čekání na potvrzení"
-                    data-about-detail="Rezervace hlídá délku služby i dostupné časy. Po odeslání máš termín potvrzený e-mailem, takže nemusíš volat ani čekat na odpověď ve zprávách."
+                    data-about-summary="Termín si vybereš rovnou online. Bez volání a zdlouhavého domlouvání"
+                    data-about-detail="Rezervace hlídá délku služby i dostupné časy. Po odeslání žádost zkontrolujeme a po schválení ti přijde potvrzení e-mailem."
                 >
                     <span>
                         <span class="mb-1 block font-semibold">Online rezervace</span>
-                        <span class="block text-[color:var(--muted)]">Termín si vybereš rovnou online. Bez volání, přepisování zpráv a čekání na potvrzení</span>
+                        <span class="block text-[color:var(--muted)]">Termín si vybereš rovnou online. Bez volání a zdlouhavého domlouvání</span>
                     </span>
                     <span class="about-card__icon mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--cream)] text-[color:var(--accent)]" aria-hidden="true">
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
@@ -831,7 +831,7 @@ $referenceCuts = [
                     <p class="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--gold)]">Proč se klienti vrací</p>
                     <h2 class="mt-2 text-2xl font-bold sm:text-3xl">Důvěra není ve velkých slibech, ale v tom, jak návštěva opravdu probíhá</h2>
                     <p class="mt-4 max-w-xl text-sm leading-7 text-[color:var(--cream-soft)]">
-                        Cílem není jen dobrý první dojem po odchodu z křesla, ale střih, který funguje i další dny,
+                        Cílem není jen dobrý první dojem po odchodu z křesla, ale střih, který vydrží i další dny,
                         klidná atmosféra a rezervace bez zbytečné nejistoty.
                     </p>
                     <div class="mt-5 flex flex-wrap gap-4 text-sm">
@@ -846,9 +846,9 @@ $referenceCuts = [
                 <div class="grid gap-4 md:grid-cols-3">
                     <article class="trust-grid-card lift-card rounded-2xl border border-[rgba(241,200,121,0.16)] bg-[rgba(255,255,255,0.05)] p-5">
                         <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Pečlivost</p>
-                        <h3 class="mt-3 font-semibold text-[color:var(--cream)]">Střih, který drží tvar</h3>
+                        <h3 class="mt-3 font-semibold text-[color:var(--cream)]">Střih, který vydrží</h3>
                         <p class="mt-2 text-sm leading-6 text-[color:var(--cream-soft)]">
-                            Nejde jen o moment po návštěvě, ale o výsledek, který funguje i v běžném režimu doma.
+                            Nejde jen o moment po návštěvě, ale o výsledek, který drží tvar i v běžném režimu doma.
                         </p>
                     </article>
                     <article class="trust-grid-card lift-card rounded-2xl border border-[rgba(241,200,121,0.16)] bg-[rgba(255,255,255,0.05)] p-5">
@@ -989,6 +989,25 @@ $referenceCuts = [
                 </article>
             <?php endforeach; ?>
         </div>
+        <div class="mt-5 rounded-2xl border border-[var(--line)] bg-white/80 p-5 shadow-sm">
+            <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Dárkové poukazy</p>
+                    <h3 class="mt-2 text-xl font-bold">Poukaz na střih jako dárek</h3>
+                    <p class="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
+                        Poukaz připravíme podle domluvy. Ozvi se telefonicky nebo e-mailem a doladíme částku i předání.
+                    </p>
+                </div>
+                <div class="flex flex-col gap-3 sm:flex-row">
+                    <a href="tel:+420608419610" class="inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-2.5 text-sm font-semibold text-[color:var(--cream)] transition hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+                        Zavolat
+                    </a>
+                    <a href="mailto:renenemehair@seznam.cz?subject=D%C3%A1rkov%C3%BD%20poukaz%20Hair%20By%20ReneNeme" class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[var(--accent)] hover:text-[color:var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+                        Napsat e-mail
+                    </a>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- REZERVAČNÍ FORMULÁŘ -->
@@ -999,7 +1018,7 @@ $referenceCuts = [
                 <h2 class="mt-1 text-2xl font-bold mb-3">Online rezervace</h2>
                 <p class="max-w-lg text-sm leading-6 text-[color:var(--muted)]">
                     Vyplň pár údajů a vyber si volný čas. Po odeslání uvidíš shrnutí rezervace
-                    a potvrzení ti přijde e-mailem
+                    a po schválení ti přijde potvrzení e-mailem.
                 </p>
 
                 <div class="rounded-3xl border border-[var(--surface-soft)] bg-[linear-gradient(145deg,rgba(43,33,28,0.98),rgba(74,58,48,0.94))] p-5 text-[color:var(--cream)] shadow-xl sm:p-6">
@@ -1016,14 +1035,14 @@ $referenceCuts = [
                         </div>
                         <div class="flex items-start gap-3">
                             <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--gold)]"></span>
-                            <p>Potvrzení přijde e-mailem a termín držíme hned po odeslání</p>
+                            <p>Po schválení rezervace ti přijde potvrzení e-mailem</p>
                         </div>
                     </div>
                     <div class="mt-5 grid gap-3 sm:grid-cols-2">
                         <div class="rounded-2xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.06)] px-4 py-3">
                             <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Otevírací doba</p>
-                            <p class="mt-2 text-sm font-semibold text-[color:var(--cream)]">Po-Pá 9:00-19:00</p>
-                            <p class="mt-1 text-sm text-[color:var(--cream-soft)]">So 9:00-14:00</p>
+                            <p class="mt-2 text-sm font-semibold text-[color:var(--cream)]">Po-Pá 9:00-18:00</p>
+                            <p class="mt-1 text-sm text-[color:var(--cream-soft)]">Sobota zavřeno</p>
                         </div>
                         <div class="rounded-2xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.06)] px-4 py-3">
                             <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Lokalita</p>
@@ -1173,7 +1192,7 @@ $referenceCuts = [
                         <div>
                             <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Praktické info</p>
                             <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                                Přijď ideálně pár minut předem. Pokud máš speciální přání ke střihu, napiš ho do poznámky už při rezervaci.
+                                Pokud máš speciální přání ke střihu, napiš ho do poznámky už při rezervaci.
                             </p>
                         </div>
                         <div class="flex flex-col gap-3 sm:flex-row">
@@ -1437,7 +1456,7 @@ $referenceCuts = [
         const loadingSteps = [
             'Kontrolujeme dostupnost vybraného času...',
             'Ukládáme rezervaci do systému...',
-            'Posíláme potvrzení a připravujeme shrnutí...'
+            'Připravujeme shrnutí rezervace...'
         ];
         let loadingStepIndex = 0;
         if (bookingLoadingStep) {

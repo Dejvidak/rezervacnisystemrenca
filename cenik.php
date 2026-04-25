@@ -230,6 +230,25 @@ $instagramHandle = '@hairbyreneneme';
                 </article>
             <?php endforeach; ?>
         </div>
+        <div class="mt-5 rounded-2xl border border-[var(--line)] bg-white/80 p-5 shadow-sm">
+            <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Dárkové poukazy</p>
+                    <h3 class="mt-2 text-xl font-bold">Poukaz na střih jako dárek</h3>
+                    <p class="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
+                        Poukaz připravíme podle domluvy. Ozvi se telefonicky nebo e-mailem a doladíme částku i předání.
+                    </p>
+                </div>
+                <div class="flex flex-col gap-3 sm:flex-row">
+                    <a href="tel:+420608419610" class="inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-2.5 text-sm font-semibold text-[color:var(--cream)] transition hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+                        Zavolat
+                    </a>
+                    <a href="mailto:renenemehair@seznam.cz?subject=D%C3%A1rkov%C3%BD%20poukaz%20Hair%20By%20ReneNeme" class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[var(--accent)] hover:text-[color:var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+                        Napsat e-mail
+                    </a>
+                </div>
+            </div>
+        </div>
     </section>
 </main>
 

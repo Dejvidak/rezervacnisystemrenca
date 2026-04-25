@@ -392,8 +392,12 @@ function app_smtp_expect($socket, array $expectedCodes): bool
 
 function app_owner_email_body(array $reservation): string
 {
+    $adminUrl = app_site_url() . '/admin.php?date=' . rawurlencode((string) $reservation['date']);
+
     return implode("\n", [
         'Nová rezervace čeká na schválení',
+        '',
+        'Prosím zkontroluj termín a rezervaci potvrď nebo smaž v administraci.',
         '',
         'Jméno: ' . $reservation['name'],
         'E-mail: ' . $reservation['email'],
@@ -405,8 +409,8 @@ function app_owner_email_body(array $reservation): string
         'Cena: ' . app_price_label($reservation['service']),
         'Poznámka: ' . (($reservation['note'] ?? '') !== '' ? $reservation['note'] : '-'),
         '',
-        'Rezervaci přijmi nebo smaž v administraci.',
-        'Admin: ' . app_site_url() . '/admin.php',
+        'Administrace pro daný den: ' . $adminUrl,
+        'Celá administrace: ' . app_site_url() . '/admin.php',
     ]);
 }
 
@@ -502,7 +506,7 @@ function app_customer_email_html_body(array $reservation): string
                                 </tr>
                             </table>
 
-                            <p style="margin:18px 0 0;font-size:14px;line-height:1.7;color:#5E4E41;">Přijďte prosím pár minut předem. Pokud potřebujete termín změnit nebo zrušit, dejte nám vědět telefonicky nebo e-mailem.</p>
+                            <p style="margin:18px 0 0;font-size:14px;line-height:1.7;color:#5E4E41;">Pokud potřebujete termín změnit nebo zrušit, dejte nám vědět telefonicky nebo e-mailem.</p>
                         </td>
                     </tr>
                 </table>

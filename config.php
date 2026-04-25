@@ -131,11 +131,7 @@ function app_opening_hours_for_date(string $date): ?array
 
     $weekday = (int) $day->format('N');
     if ($weekday >= 1 && $weekday <= 5) {
-        return ['start' => '09:00', 'end' => '19:00'];
-    }
-
-    if ($weekday === 6) {
-        return ['start' => '09:00', 'end' => '14:00'];
+        return ['start' => '09:00', 'end' => '18:00'];
     }
 
     return null;
