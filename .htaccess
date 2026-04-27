@@ -1,0 +1,14 @@
+Options -Indexes
+
+<FilesMatch "^(config|db|dp|integrations|local_config|local_config\.example|rezervacnisystemrenca-.*)\.(php|json)$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "^(INTEGRATIONS\.md|.*\.sqlite|.*\.sqlite-.*|.*\.csv)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^sitemap\.xml$ sitemap.php [L]
+</IfModule>

@@ -6,6 +6,8 @@
 putenv('BOOKING_NOTIFY_EMAIL=majitel@example.com');
 putenv('BOOKING_FROM_EMAIL=rezervace@example.com');
 putenv('SITE_URL=https://tvoje-domena.cz');
+putenv('ADMIN_USER=admin');
+putenv('ADMIN_PASSWORD=bezpecne-heslo-pro-administraci');
 
 // SMTP je spolehlivější než PHP mail().
 // Pro Seznam se běžně používá smtp.seznam.cz, port 465 a SSL.

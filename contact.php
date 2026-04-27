@@ -49,11 +49,22 @@ $pageSchema = app_public_business_schema('contact.php', [
             --gold: #D6A85E;
             --gold-soft: #F1C879;
         }
+
+        .site-header {
+            transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease, backdrop-filter 220ms ease;
+        }
+
+        .site-header.is-scrolled {
+            border-color: rgba(74, 58, 48, 0.54);
+            background: rgba(43, 33, 28, 0.88);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 14px 32px rgba(43, 33, 28, 0.18);
+        }
     </style>
 </head>
 <body class="min-h-screen overflow-x-hidden bg-[var(--page)] text-[color:var(--ink)] antialiased">
 
-<header class="sticky top-0 z-50 bg-[var(--surface)] border-b border-[var(--surface-soft)] shadow-lg">
+<header class="site-header sticky top-0 z-50 bg-[var(--surface)] border-b border-[var(--surface-soft)] shadow-lg">
     <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
         <a href="index.php" class="whitespace-nowrap text-xl font-extrabold tracking-tight transition hover:opacity-90 sm:text-2xl md:text-[1.65rem]" aria-label="Hair By ReneNeme">
             <span class="text-[color:var(--cream)]">Hair By</span>
@@ -228,10 +239,18 @@ $pageSchema = app_public_business_schema('contact.php', [
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    const siteHeader = document.querySelector('.site-header');
     const mobileMenuButton = document.getElementById('mobileMenuButton');
     const mobileMenu = document.getElementById('mobileMenu');
     const menuIconOpen = document.getElementById('menuIconOpen');
     const menuIconClose = document.getElementById('menuIconClose');
+
+    function updateSiteHeader() {
+        siteHeader?.classList.toggle('is-scrolled', window.scrollY > 16);
+    }
+
+    window.addEventListener('scroll', updateSiteHeader, { passive: true });
+    updateSiteHeader();
 
     if (!mobileMenuButton || !mobileMenu || !menuIconOpen || !menuIconClose) return;
 

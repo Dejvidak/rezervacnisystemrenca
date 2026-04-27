@@ -88,6 +88,17 @@ $referenceCuts = [
             box-shadow: 0 20px 40px rgba(43, 33, 28, 0.1);
         }
 
+        .site-header {
+            transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease, backdrop-filter 220ms ease;
+        }
+
+        .site-header.is-scrolled {
+            border-color: rgba(74, 58, 48, 0.54);
+            background: rgba(43, 33, 28, 0.88);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 14px 32px rgba(43, 33, 28, 0.18);
+        }
+
         .accent-link {
             color: var(--accent);
             font-weight: 700;
@@ -100,6 +111,36 @@ $referenceCuts = [
         .accent-link:hover {
             color: var(--accent-dark);
             text-decoration-color: var(--accent-dark);
+        }
+
+        .reference-pill {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid rgba(192, 138, 62, 0.24);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.62);
+            box-shadow: 0 10px 24px rgba(43, 33, 28, 0.06);
+            transition: transform 220ms ease, border-color 220ms ease, background-color 220ms ease, box-shadow 220ms ease, color 220ms ease;
+        }
+
+        .reference-pill:hover {
+            transform: translate3d(0, -2px, 0);
+            border-color: rgba(192, 138, 62, 0.58);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 16px 32px rgba(43, 33, 28, 0.11);
+            color: var(--accent-dark);
+        }
+
+        .reference-pill--dark {
+            border-color: rgba(241, 200, 121, 0.18);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: none;
+        }
+
+        .reference-pill--dark:hover {
+            border-color: rgba(241, 200, 121, 0.44);
+            background: rgba(241, 200, 121, 0.12);
+            color: var(--gold-soft);
         }
 
         .gallery-lightbox {
@@ -162,6 +203,19 @@ $referenceCuts = [
             transform: translate3d(0, 0, 0);
         }
 
+        @media (max-width: 767px) {
+            .section-reveal,
+            .section-reveal--left,
+            .section-reveal--right {
+                transform: translate3d(0, 30px, 0);
+                transition-duration: 360ms, 560ms;
+            }
+
+            .reveal-item {
+                transition-duration: 300ms, 460ms;
+            }
+        }
+
         @media (prefers-reduced-motion: reduce) {
             .section-reveal {
                 opacity: 1;
@@ -179,7 +233,7 @@ $referenceCuts = [
 </head>
 <body class="min-h-screen overflow-x-hidden bg-[var(--page)] text-[color:var(--ink)] antialiased">
 
-<header class="sticky top-0 z-50 bg-[var(--surface)] border-b border-[var(--surface-soft)] shadow-lg">
+<header class="site-header sticky top-0 z-50 bg-[var(--surface)] border-b border-[var(--surface-soft)] shadow-lg">
     <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
         <a href="index.php" class="whitespace-nowrap text-xl font-extrabold tracking-tight transition hover:opacity-90 sm:text-2xl md:text-[1.65rem]" aria-label="Hair By ReneNeme">
             <span class="text-[color:var(--cream)]">Hair By</span>
@@ -231,6 +285,14 @@ $referenceCuts = [
         <a href="cenik.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Ceník</a>
         <a href="contact.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Kontakt</a>
         <a href="index.php#booking" class="mt-2 inline-flex w-full items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-3 font-semibold text-[color:var(--cream)] shadow-sm transition hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervovat termín</a>
+        <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="flex items-center gap-2 rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="2" />
+                <circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="2" />
+                <path d="M17 7.2h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+            </svg>
+            Instagram
+        </a>
     </nav>
 </header>
 
@@ -238,18 +300,18 @@ $referenceCuts = [
     <section class="grid gap-7 md:grid-cols-[0.95fr_1.05fr] md:items-center" data-reveal-section-static>
         <div class="max-w-2xl">
             <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--muted-strong)] sm:text-xs sm:tracking-[0.28em]">Reference</p>
-            <h1 class="mt-2 text-3xl font-extrabold leading-[1.02] sm:text-4xl md:text-[3.4rem]">
-                Střihy a výsledky
-                <span class="text-[color:var(--accent)]">na jednom místě</span>
+            <h1 class="mt-3 text-3xl font-extrabold leading-[1.12] sm:text-4xl sm:leading-[1.08] md:text-[3.35rem] md:leading-[1.05]">
+                <span class="block">Střihy a výsledky</span>
+                <span class="mt-1 block text-[color:var(--accent)]">na jednom místě</span>
             </h1>
             <p class="mt-4 max-w-xl text-sm leading-7 text-[color:var(--muted)] md:text-base">
                 Tady najdeš galerii pohromadě na jednom místě, takže se v ní pohodlněji listuje i na mobilu. Klikni na fotku a otevře se ve větším náhledu.
             </p>
             <div class="mt-5 flex flex-wrap gap-3">
-                <div class="inline-flex items-center rounded-full border border-[var(--line)] bg-white/78 px-4 py-2 text-sm font-semibold text-[color:var(--ink)] shadow-sm">
+                <div class="reference-pill px-4 py-2 text-sm font-semibold text-[color:var(--ink)]">
                     Různé typy střihů na jednom místě
                 </div>
-                <div class="inline-flex items-center rounded-full border border-[rgba(192,138,62,0.16)] bg-[var(--field)] px-4 py-2 text-sm font-semibold text-[color:var(--ink)] shadow-sm">
+                <div class="reference-pill px-4 py-2 text-sm font-semibold text-[color:var(--ink)]">
                     Tvar, profil i detail ve větším náhledu
                 </div>
             </div>
@@ -268,27 +330,27 @@ $referenceCuts = [
                     <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Jak vybírat</p>
                     <p class="mt-2 text-xl font-bold sm:text-[1.75rem]">Mrkni na tvar, délku i celkový dojem</p>
                 </div>
-                <div class="hidden h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.05)] text-[color:var(--gold-soft)] sm:inline-flex">
+                <a href="#gallery" class="hidden h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.05)] text-[color:var(--gold-soft)] transition hover:-translate-y-0.5 hover:border-[rgba(241,200,121,0.44)] hover:bg-[rgba(241,200,121,0.12)] hover:text-[color:var(--cream)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)] sm:inline-flex" aria-label="Přejít na galerii fotek">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                </div>
+                </a>
             </div>
             <p class="mt-3 max-w-xl text-sm leading-7 text-[color:var(--cream-soft)]">
                 Fotky slouží jako inspirace. Konečný střih se vždy doladí podle vlasů, směru růstu i toho, jak ho chceš nosit běžně.
             </p>
             <div class="mt-5 flex flex-wrap gap-3">
-                <div class="rounded-full border border-[rgba(241,200,121,0.16)] bg-[rgba(255,255,255,0.05)] px-4 py-2 text-sm font-semibold text-[color:var(--cream)]">
+                <div class="reference-pill reference-pill--dark px-4 py-2 text-sm font-semibold text-[color:var(--cream)]">
                     Silueta a profil
                 </div>
-                <div class="rounded-full border border-[rgba(241,200,121,0.16)] bg-[rgba(255,255,255,0.05)] px-4 py-2 text-sm font-semibold text-[color:var(--cream)]">
+                <div class="reference-pill reference-pill--dark px-4 py-2 text-sm font-semibold text-[color:var(--cream)]">
                     Délka i přechody
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="mt-10 border-t border-[var(--line)] pt-8" data-reveal-section-static>
+    <section id="gallery" class="mt-10 scroll-mt-28 border-t border-[var(--line)] pt-8" data-reveal-section-static>
         <div class="mb-6 flex flex-col items-start gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
                 <p class="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--muted-strong)]">Galerie</p>
@@ -298,22 +360,35 @@ $referenceCuts = [
         </div>
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <?php foreach ($referenceCuts as $cut): ?>
-                <?php $hasImage = is_file(__DIR__ . '/' . $cut['image']); ?>
+                <?php
+                $hasImage = is_file(__DIR__ . '/' . $cut['image']);
+                $webpImage = preg_replace('/\.jpe?g$/i', '.webp', $cut['image']);
+                $hasWebpImage = is_string($webpImage) && is_file(__DIR__ . '/' . $webpImage);
+                $galleryImage = $hasWebpImage ? $webpImage : $cut['image'];
+                ?>
                 <?php if ($hasImage): ?>
                     <a
                         href="<?= htmlspecialchars($cut['image'], ENT_QUOTES, 'UTF-8') ?>"
-                        data-gallery-image="<?= htmlspecialchars($cut['image'], ENT_QUOTES, 'UTF-8') ?>"
+                        data-gallery-image="<?= htmlspecialchars($galleryImage, ENT_QUOTES, 'UTF-8') ?>"
                         data-gallery-title="<?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?>"
                         data-gallery-description="<?= htmlspecialchars($cut['description'], ENT_QUOTES, 'UTF-8') ?>"
                         class="group premium-surface reveal-item flex h-full flex-col overflow-hidden"
                         data-reveal-item
                     >
-                        <img
-                            src="<?= htmlspecialchars($cut['image'], ENT_QUOTES, 'UTF-8') ?>"
-                            alt="<?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?>"
-                            class="h-56 w-full object-cover transition duration-300 group-hover:scale-[1.03] sm:h-72 lg:aspect-[4/5] lg:h-auto"
-                            loading="lazy"
-                        >
+                        <picture>
+                            <?php if ($hasWebpImage): ?>
+                                <source srcset="<?= htmlspecialchars($webpImage, ENT_QUOTES, 'UTF-8') ?>" type="image/webp">
+                            <?php endif; ?>
+                            <img
+                                src="<?= htmlspecialchars($cut['image'], ENT_QUOTES, 'UTF-8') ?>"
+                                alt="<?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?>"
+                                width="1012"
+                                height="1800"
+                                class="h-56 w-full object-cover transition duration-300 group-hover:scale-[1.03] sm:h-72 lg:aspect-[4/5] lg:h-auto"
+                                loading="lazy"
+                                decoding="async"
+                            >
+                        </picture>
                         <div class="flex flex-1 flex-col p-4">
                             <p class="font-semibold"><?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?></p>
                             <p class="mt-1 text-sm text-[color:var(--muted)]"><?= htmlspecialchars($cut['description'], ENT_QUOTES, 'UTF-8') ?></p>
@@ -389,6 +464,7 @@ $referenceCuts = [
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    const siteHeader = document.querySelector('.site-header');
     const mobileMenuButton = document.getElementById('mobileMenuButton');
     const mobileMenu = document.getElementById('mobileMenu');
     const menuIconOpen = document.getElementById('menuIconOpen');
@@ -400,7 +476,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const galleryClose = document.getElementById('galleryClose');
     const galleryBackdrop = document.getElementById('galleryBackdrop');
     const galleryPanel = document.querySelector('.gallery-lightbox__panel');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let galleryCloseTimer = null;
+
+    function updateSiteHeader() {
+        siteHeader?.classList.toggle('is-scrolled', window.scrollY > 16);
+    }
+
+    window.addEventListener('scroll', updateSiteHeader, { passive: true });
+    updateSiteHeader();
 
     if (mobileMenuButton && mobileMenu && menuIconOpen && menuIconClose) {
         const closeMobileMenu = () => {
@@ -470,6 +554,24 @@ document.addEventListener('DOMContentLoaded', function () {
     galleryClose?.addEventListener('click', closeGalleryLightbox);
     galleryBackdrop?.addEventListener('click', closeGalleryLightbox);
 
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', event => {
+            const href = link.getAttribute('href') || '';
+            if (href === '#') return;
+
+            const target = document.querySelector(href);
+            if (!(target instanceof HTMLElement)) return;
+
+            event.preventDefault();
+            target.scrollIntoView({
+                behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
+                block: 'start',
+            });
+
+            window.history.pushState(null, '', href);
+        });
+    });
+
     document.addEventListener('keydown', event => {
         if (event.key === 'Escape' && galleryLightbox?.classList.contains('is-open')) {
             closeGalleryLightbox();
@@ -477,7 +579,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     const revealSections = Array.from(document.querySelectorAll('main > section:not([data-reveal-section-static])'));
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const mobileViewport = window.matchMedia('(max-width: 767px)');
     if (revealSections.length > 0) {
         if (prefersReducedMotion.matches) {
@@ -515,7 +616,9 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             revealItems.forEach((item, index) => {
-                item.style.setProperty('--reveal-delay', `${Math.min(index * 90, 360)}ms`);
+                const delayStep = mobileViewport.matches ? 45 : 90;
+                const delayMax = mobileViewport.matches ? 135 : 360;
+                item.style.setProperty('--reveal-delay', `${Math.min(index * delayStep, delayMax)}ms`);
                 revealItemObserver.observe(item);
             });
         }

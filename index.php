@@ -115,6 +115,42 @@ $referenceCuts = [
             --shadow-strong: 0 28px 60px rgba(43, 33, 28, 0.2);
         }
 
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            padding-top: 4.35rem;
+        }
+
+        header,
+        main,
+        footer {
+            max-width: 100vw;
+        }
+
+        .site-header {
+            position: fixed;
+            inset: 0 0 auto 0;
+            z-index: 50;
+            transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease, backdrop-filter 220ms ease;
+        }
+
+        .site-header.is-scrolled {
+            border-color: rgba(74, 58, 48, 0.54);
+            background: rgba(43, 33, 28, 0.88);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 14px 32px rgba(43, 33, 28, 0.18);
+        }
+
+        @media (max-width: 1023px) {
+            .site-header {
+                position: fixed;
+            }
+        }
+
         .premium-surface {
             border: 1px solid var(--line);
             border-radius: 1.25rem;
@@ -341,6 +377,33 @@ $referenceCuts = [
             will-change: transform;
         }
 
+        .booking-form input,
+        .booking-form select,
+        .booking-form textarea {
+            box-sizing: border-box;
+            max-width: 100%;
+            min-width: 0;
+        }
+
+        .booking-form input[type="date"] {
+            appearance: none;
+            -webkit-appearance: none;
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            min-height: 3.25rem;
+            line-height: 1.35;
+        }
+
+        .booking-form input[type="date"]::-webkit-date-and-time-value {
+            min-height: 1.35em;
+            text-align: left;
+        }
+
+        .booking-form input[type="date"]::-webkit-calendar-picker-indicator {
+            opacity: 0.7;
+        }
+
         .booking-form::after {
             position: absolute;
             inset: -5px;
@@ -394,6 +457,10 @@ $referenceCuts = [
         .booking-loading-progress {
             animation: bookingProgress 2100ms cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
             transform-origin: left center;
+        }
+
+        .booking-loading-overlay.is-slow .booking-loading-fallback {
+            display: block;
         }
 
         @keyframes spin {
@@ -568,6 +635,15 @@ $referenceCuts = [
             transform: translate3d(0, 0, 0);
         }
 
+        @media (max-width: 767px) {
+            .section-reveal,
+            .section-reveal--left,
+            .section-reveal--right {
+                transform: translate3d(0, 30px, 0);
+                transition-duration: 360ms, 560ms;
+            }
+        }
+
         .scroll-top-button {
             opacity: 0;
             pointer-events: none;
@@ -634,7 +710,7 @@ $referenceCuts = [
 <body class="overflow-x-hidden bg-[var(--page)] text-[color:var(--ink)] antialiased">
 
 <!-- NAV / HEADER -->
-<header class="sticky top-0 z-50 bg-[var(--surface)] border-b border-[var(--surface-soft)] shadow-lg">
+<header class="site-header bg-[var(--surface)] border-b border-[var(--surface-soft)] shadow-lg">
     <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
         <a href="#top" class="whitespace-nowrap text-xl font-extrabold tracking-tight transition hover:opacity-90 sm:text-2xl md:text-[1.65rem]" aria-label="Hair By ReneNeme">
             <span class="text-[color:var(--cream)]">Hair By</span>
@@ -975,15 +1051,27 @@ $referenceCuts = [
             </div>
             <div class="hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3">
                 <?php foreach (array_slice($referenceCuts, 0, 3) as $cut): ?>
-                    <?php $hasImage = is_file(__DIR__ . '/' . $cut['image']); ?>
+                    <?php
+                    $hasImage = is_file(__DIR__ . '/' . $cut['image']);
+                    $webpImage = preg_replace('/\.jpe?g$/i', '.webp', $cut['image']);
+                    $hasWebpImage = is_string($webpImage) && is_file(__DIR__ . '/' . $webpImage);
+                    ?>
                     <a href="references.php" class="group premium-surface lift-card flex h-full flex-col overflow-hidden">
                         <?php if ($hasImage): ?>
-                            <img
-                                src="<?= htmlspecialchars($cut['image'], ENT_QUOTES, 'UTF-8') ?>"
-                                alt="<?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?>"
-                                class="aspect-[4/5] w-full object-cover transition duration-300 group-hover:scale-[1.03]"
-                                loading="lazy"
-                            >
+                            <picture>
+                                <?php if ($hasWebpImage): ?>
+                                    <source srcset="<?= htmlspecialchars($webpImage, ENT_QUOTES, 'UTF-8') ?>" type="image/webp">
+                                <?php endif; ?>
+                                <img
+                                    src="<?= htmlspecialchars($cut['image'], ENT_QUOTES, 'UTF-8') ?>"
+                                    alt="<?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?>"
+                                    width="1012"
+                                    height="1800"
+                                    class="aspect-[4/5] w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+                            </picture>
                         <?php else: ?>
                             <div class="flex aspect-[4/5] items-center justify-center bg-[var(--ink)] px-5 text-center text-[color:var(--cream)]">
                                 <p class="text-sm font-semibold"><?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?></p>
@@ -1111,7 +1199,7 @@ $referenceCuts = [
     <!-- REZERVAČNÍ FORMULÁŘ -->
     <section id="booking" class="mt-2 scroll-mt-24 border-t border-[var(--line)] py-8 md:mt-4 md:scroll-mt-28 md:py-10">
         <div class="grid gap-6 md:grid-cols-[0.8fr_1.2fr] md:items-start md:gap-8">
-            <div class="order-2 space-y-5 md:order-1">
+            <div class="order-1 space-y-5">
                 <p class="text-xs uppercase tracking-[0.24em] text-[color:var(--muted-strong)] font-bold">Rezervace</p>
                 <h2 class="mt-1 text-2xl font-bold mb-3">Vyber si termín online</h2>
                 <p class="max-w-lg text-sm leading-6 text-[color:var(--muted)]">
@@ -1151,7 +1239,7 @@ $referenceCuts = [
                 </div>
             </div>
 
-            <div class="order-1 space-y-4 md:order-2">
+            <div class="order-2 space-y-4">
                 <form id="bookingForm" action="save_reservation.php" method="POST" class="booking-form space-y-4 rounded-lg bg-[var(--ink)] p-4 text-[color:var(--cream)] sm:p-5 md:p-6">
                     <!-- Jméno -->
                     <div>
@@ -1189,7 +1277,7 @@ $referenceCuts = [
                             required
                             inputmode="tel"
                             autocomplete="tel"
-                            pattern="^(\+?[0-9 ]{9,20})$"
+                            pattern="^[+0-9 ().\/-]{9,25}$"
                             title="Zadej telefonní číslo, například +420 777 123 456"
                             class="w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-2 text-base text-[color:var(--field-text)] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
                             placeholder="např. +420 777 123 456"
@@ -1198,23 +1286,23 @@ $referenceCuts = [
 
                     <!-- Datum + čas -->
                     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        <div>
+                        <div class="min-w-0">
                             <label for="date" class="block text-sm font-medium mb-1">Datum *</label>
                             <input
                                 type="date"
                                 id="date"
                                 name="date"
                                 required
-                                class="w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-2 text-base text-[color:var(--field-text)] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                                class="block w-full max-w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-3 text-base text-[color:var(--field-text)] sm:py-2 sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
                             >
                         </div>
-                        <div>
+                        <div class="min-w-0">
                             <label for="time" class="block text-sm font-medium mb-1">Čas *</label>
                             <select
                                      id="time"
                                      name="time"
                                      required
-                                     class="w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-2 text-base text-[color:var(--field-text)] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                                     class="block w-full max-w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-2 text-base text-[color:var(--field-text)] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
                                     >
                             <option value="">Nejprve vyber datum</option>
                             </select>
@@ -1344,6 +1432,9 @@ $referenceCuts = [
             <span>Uložení</span>
             <span>Potvrzení</span>
         </div>
+        <p class="booking-loading-fallback mt-5 hidden text-xs leading-5 text-[color:var(--muted)]">
+            Pokud to trvá déle, nech stránku ještě chvíli otevřenou. Rezervace se zpracovává na serveru.
+        </p>
     </div>
 </div>
 
@@ -1482,15 +1573,18 @@ $referenceCuts = [
     const priceInfo = document.getElementById('priceInfo');
     const priceValue = document.getElementById('priceValue');
     const errorMsg = document.getElementById('errorMsg');
+    const bookingFormElement = document.querySelector('#booking form');
     const bookingSubmitButton = document.getElementById('bookingSubmitButton');
     const bookingSubmitText = document.getElementById('bookingSubmitText');
     const bookingSubmitLoading = document.getElementById('bookingSubmitLoading');
     const bookingLoadingMsg = document.getElementById('bookingLoadingMsg');
     const bookingLoadingOverlay = document.getElementById('bookingLoadingOverlay');
     const bookingLoadingStep = document.getElementById('bookingLoadingStep');
+    const bookingPrefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const services = <?= json_encode($services, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>;
     let isBookingSubmitting = false;
     let bookingLoadingStepTimer = null;
+    let bookingSlowTimer = null;
 
     // Minimální dnešní datum
     const today = new Date();
@@ -1515,8 +1609,17 @@ $referenceCuts = [
     serviceSelect.addEventListener('change', updateSelectedServiceInfo);
     updateSelectedServiceInfo();
 
+    bookingFormElement?.querySelectorAll('input, select, textarea').forEach(field => {
+        field.addEventListener('invalid', () => {
+            errorMsg.textContent = field instanceof HTMLInputElement && field.id === 'phone'
+                ? 'Zkontroluj prosím telefonní číslo. Může být například +420 777 123 456.'
+                : 'Zkontroluj prosím zvýrazněné povinné pole.';
+            errorMsg.classList.remove('hidden');
+        });
+    });
+
     // Kontrola, že nejde rezervovat minulost
-    document.querySelector('#booking form').addEventListener('submit', function(e) {
+    bookingFormElement?.addEventListener('submit', function(e) {
         if (isBookingSubmitting) {
             e.preventDefault();
             return;
@@ -1563,6 +1666,7 @@ $referenceCuts = [
         bookingSubmitLoading?.classList.add('inline-flex');
         bookingLoadingMsg?.classList.remove('hidden');
         bookingLoadingOverlay?.classList.add('is-visible');
+        bookingLoadingOverlay?.classList.remove('is-slow');
         bookingLoadingOverlay?.setAttribute('aria-hidden', 'false');
         document.body.classList.add('overflow-hidden');
 
@@ -1582,9 +1686,15 @@ $referenceCuts = [
                 bookingLoadingStep.textContent = loadingSteps[loadingStepIndex];
             }
         }, 700);
+
+        bookingSlowTimer = window.setTimeout(() => {
+            bookingLoadingOverlay?.classList.add('is-slow');
+        }, 6500);
+
     });
 
     window.addEventListener('pageshow', () => {
+        window.clearTimeout(bookingSlowTimer);
         window.clearInterval(bookingLoadingStepTimer);
         isBookingSubmitting = false;
         bookingSubmitButton.disabled = false;
@@ -1592,7 +1702,7 @@ $referenceCuts = [
         bookingSubmitLoading?.classList.add('hidden');
         bookingSubmitLoading?.classList.remove('inline-flex');
         bookingLoadingMsg?.classList.add('hidden');
-        bookingLoadingOverlay?.classList.remove('is-visible');
+        bookingLoadingOverlay?.classList.remove('is-visible', 'is-slow');
         bookingLoadingOverlay?.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('overflow-hidden');
     });
@@ -1607,6 +1717,7 @@ $referenceCuts = [
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    const siteHeader = document.querySelector('.site-header');
     const mobileMenuButton = document.getElementById('mobileMenuButton');
     const mobileMenu = document.getElementById('mobileMenu');
     const menuIconOpen = document.getElementById('menuIconOpen');
@@ -1641,6 +1752,10 @@ document.addEventListener('DOMContentLoaded', function () {
     let aboutCloseTimer = null;
     let activeGalleryTrigger = null;
     let galleryCloseTimer = null;
+
+    function updateSiteHeader() {
+        siteHeader?.classList.toggle('is-scrolled', window.scrollY > 16);
+    }
 
     function smoothScrollToSection(target, updateHash = true) {
         if (!target) return;
@@ -1848,7 +1963,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     window.addEventListener('scroll', updateScrollTopButton, { passive: true });
+    window.addEventListener('scroll', updateSiteHeader, { passive: true });
     updateScrollTopButton();
+    updateSiteHeader();
 
     function setGalleryStartFromTrigger(trigger) {
         if (!galleryPanel || !trigger) return;

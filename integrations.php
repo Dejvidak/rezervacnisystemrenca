@@ -719,6 +719,82 @@ function app_delete_google_calendar_event(?string $eventId): void
     curl_exec($ch);
 }
 
+function app_google_calendar_event_status(?string $eventId): array
+{
+    $result = [
+        'configured' => false,
+        'exists' => null,
+        'missing' => false,
+        'errors' => [],
+    ];
+
+    if ($eventId === null || $eventId === '') {
+        $result['missing'] = true;
+        $result['exists'] = false;
+        return $result;
+    }
+
+    $calendarId = trim((string) getenv('GOOGLE_CALENDAR_ID'));
+    if ($calendarId === '') {
+        return $result;
+    }
+
+    $result['configured'] = true;
+
+    $serviceAccount = app_google_service_account();
+    if ($serviceAccount === null) {
+        $result['errors'][] = 'GOOGLE_SERVICE_ACCOUNT_JSON není nastavený nebo nejde přečíst.';
+        return $result;
+    }
+
+    $token = app_google_access_token($serviceAccount);
+    if ($token === null) {
+        $result['errors'][] = 'Nepodařilo se získat Google access token.';
+        return $result;
+    }
+
+    $url = 'https://www.googleapis.com/calendar/v3/calendars/'
+        . rawurlencode($calendarId)
+        . '/events/'
+        . rawurlencode($eventId);
+
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $token],
+        CURLOPT_TIMEOUT => 12,
+    ]);
+
+    $raw = curl_exec($ch);
+    $status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $error = curl_error($ch);
+    $body = json_decode((string) $raw, true);
+
+    if ($status === 404 || $status === 410) {
+        $result['exists'] = false;
+        $result['missing'] = true;
+        return $result;
+    }
+
+    if ($raw === false || $status < 200 || $status >= 300) {
+        $message = is_array($body)
+            ? json_encode($body, JSON_UNESCAPED_UNICODE)
+            : (string) ($raw !== false ? $raw : $error);
+        $result['errors'][] = 'Google Kalendář vrátil chybu při kontrole události: HTTP ' . $status . ' ' . $message;
+        return $result;
+    }
+
+    if (is_array($body) && ($body['status'] ?? '') === 'cancelled') {
+        $result['exists'] = false;
+        $result['missing'] = true;
+        return $result;
+    }
+
+    $result['exists'] = true;
+    return $result;
+}
+
 function app_google_calendar_busy_reservations_for_date(string $date): array
 {
     $result = [
