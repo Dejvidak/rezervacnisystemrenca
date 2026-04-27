@@ -1,0 +1,15 @@
+{
+  "name": "Hair By ReneNeme",
+  "short_name": "ReneNeme",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F4EFE7",
+  "theme_color": "#2B211C",
+  "icons": [
+    {
+      "src": "/assets/favicon.svg?v=3",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

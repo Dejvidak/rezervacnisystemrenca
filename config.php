@@ -134,6 +134,19 @@ function app_absolute_url(string $path = ''): string
     return $base . '/' . ltrim($path, '/');
 }
 
+function app_head_assets(): string
+{
+    $favicon = htmlspecialchars(app_absolute_url('assets/favicon.svg?v=3'), ENT_QUOTES, 'UTF-8');
+    $manifest = htmlspecialchars(app_absolute_url('site.webmanifest?v=3'), ENT_QUOTES, 'UTF-8');
+
+    return <<<HTML
+    <link rel="icon" href="{$favicon}" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="{$favicon}">
+    <link rel="manifest" href="{$manifest}">
+    <meta name="theme-color" content="#2B211C">
+HTML;
+}
+
 function app_public_business_schema(string $pagePath = '', array $overrides = []): array
 {
     $data = [

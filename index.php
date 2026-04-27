@@ -77,6 +77,7 @@ $referenceCuts = [
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<?= app_head_assets() ?>
     <meta name="description" content="<?= htmlspecialchars($pageDescription, ENT_QUOTES, 'UTF-8') ?>">
     <link rel="canonical" href="<?= htmlspecialchars($pageCanonical, ENT_QUOTES, 'UTF-8') ?>">
     <meta property="og:locale" content="cs_CZ">
@@ -1217,7 +1218,7 @@ $referenceCuts = [
                         </div>
                         <div class="flex items-start gap-3">
                             <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--gold)]"></span>
-                            <p>Doplníš základní údaje a žádost odešleš během chvilky</p>
+                            <p>Doplníš kontakt a odešleš žádost během chvilky</p>
                         </div>
                         <div class="flex items-start gap-3">
                             <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--gold)]"></span>
@@ -1240,10 +1241,10 @@ $referenceCuts = [
             </div>
 
             <div class="order-2 space-y-4">
-                <form id="bookingForm" action="save_reservation.php" method="POST" class="booking-form space-y-4 rounded-lg bg-[var(--ink)] p-4 text-[color:var(--cream)] sm:p-5 md:p-6">
+                <form id="bookingForm" action="save_reservation.php" method="POST" class="booking-form scroll-mt-24 space-y-4 rounded-lg bg-[var(--ink)] p-4 text-[color:var(--cream)] sm:p-5 md:scroll-mt-28 md:p-6">
                     <!-- Jméno -->
                     <div>
-                        <label for="name" class="block text-sm font-medium mb-1">Jméno a příjmení *</label>
+                        <label for="name" class="block text-sm font-medium mb-1">Jak se jmenuješ *</label>
                         <input
                             type="text"
                             id="name"
@@ -1269,7 +1270,7 @@ $referenceCuts = [
 
                     <!-- Telefon -->
                     <div>
-                        <label for="phone" class="block text-sm font-medium mb-1">Telefon *</label>
+                        <label for="phone" class="block text-sm font-medium mb-1">Telefon pro rychlou domluvu *</label>
                         <input
                             type="tel"
                             id="phone"
@@ -1287,7 +1288,7 @@ $referenceCuts = [
                     <!-- Datum + čas -->
                     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                         <div class="min-w-0">
-                            <label for="date" class="block text-sm font-medium mb-1">Datum *</label>
+                            <label for="date" class="block text-sm font-medium mb-1">Kdy se ti to hodí *</label>
                             <input
                                 type="date"
                                 id="date"
@@ -1297,7 +1298,7 @@ $referenceCuts = [
                             >
                         </div>
                         <div class="min-w-0">
-                            <label for="time" class="block text-sm font-medium mb-1">Čas *</label>
+                            <label for="time" class="block text-sm font-medium mb-1">Volný čas *</label>
                             <select
                                      id="time"
                                      name="time"
@@ -1312,7 +1313,7 @@ $referenceCuts = [
 
                     <!-- Typ služby -->
                     <div>
-                        <label for="service" class="block text-sm font-medium mb-1">Typ služby *</label>
+                        <label for="service" class="block text-sm font-medium mb-1">Co budeme stříhat *</label>
                         <select
                             id="service"
                             name="service"
@@ -1327,13 +1328,13 @@ $referenceCuts = [
                             <?php endforeach; ?>
                         </select>
                         <p id="priceInfo" class="mt-1 text-xs text-[color:var(--cream-soft)] hidden">
-                            Cena služby: <span id="priceValue"></span>
+                            Vybraná služba: <span id="priceValue"></span>
                         </p>
                     </div>
 
                     <!-- Poznámka -->
                     <div>
-                        <label for="note" class="block text-sm font-medium mb-3">Poznámka (nepovinné)</label>
+                        <label for="note" class="block text-sm font-medium mb-3">Přání ke střihu (nepovinné)</label>
                         <textarea
                             id="note"
                             name="note"
@@ -1353,14 +1354,14 @@ $referenceCuts = [
                             class="mt-1 rounded border-[var(--field-border)] bg-[var(--cream)] accent-[var(--accent)]"
                         >
                         <label for="gdpr">
-                            Souhlasím se zpracováním osobních údajů pro účely rezervace.
+                            Souhlasím se zpracováním osobních údajů pro účely rezervace. Údaje slouží jen k domluvě a potvrzení termínu.
                         </label>
                     </div>
 
                     <!-- Chyba z JS -->
                     <p id="errorMsg" class="text-xs text-red-300 hidden"></p>
                     <p id="bookingLoadingMsg" class="hidden rounded-lg border border-[var(--surface-soft)] bg-[rgba(255,255,255,0.06)] px-3 py-2 text-xs text-[color:var(--cream-soft)]">
-                        Rezervaci právě ukládáme. Chvilku vydrž, kontrolujeme termín a posíláme potvrzení.
+                        Žádost právě odesíláme. Chvilku vydrž, kontrolujeme termín a připravujeme shrnutí.
                     </p>
 
                     <!-- Tlačítko -->
@@ -1369,10 +1370,10 @@ $referenceCuts = [
                         id="bookingSubmitButton"
                         class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--accent)] py-3 text-sm font-semibold shadow-lg transition hover:-translate-y-0.5 hover:bg-[var(--accent-dark)] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[var(--gold)] disabled:cursor-wait disabled:opacity-80"
                     >
-                        <span id="bookingSubmitText">Odeslat rezervaci</span>
+                        <span id="bookingSubmitText">Požádat o termín</span>
                         <span id="bookingSubmitLoading" class="hidden items-center gap-2">
                             <span class="booking-submit__spinner h-4 w-4 rounded-full border-2 border-[rgba(245,237,225,0.42)] border-t-[var(--cream)]"></span>
-                            Odesíláme...
+                            Odesíláme žádost...
                         </span>
                     </button>
                 </form>
@@ -1560,7 +1561,7 @@ $referenceCuts = [
         </div>
     </div>
     <div class="border-t border-[var(--surface-soft)] px-4 py-4 text-center text-xs text-[color:var(--cream-soft)]">
-        <p>© <?php echo date('Y'); ?> Hair By ReneNeme · Made with love by Dejvidaak</p>
+        <p>© <?php echo date('Y'); ?> Hair By ReneNeme · Web vytvořil Dejvidaak</p>
     </div>
 </footer>
 
@@ -1612,8 +1613,8 @@ $referenceCuts = [
     bookingFormElement?.querySelectorAll('input, select, textarea').forEach(field => {
         field.addEventListener('invalid', () => {
             errorMsg.textContent = field instanceof HTMLInputElement && field.id === 'phone'
-                ? 'Zkontroluj prosím telefonní číslo. Může být například +420 777 123 456.'
-                : 'Zkontroluj prosím zvýrazněné povinné pole.';
+                ? 'Mrkni prosím na telefon. Může být třeba +420 777 123 456.'
+                : 'Ještě prosím doplň zvýrazněné pole.';
             errorMsg.classList.remove('hidden');
         });
     });
@@ -1640,21 +1641,21 @@ $referenceCuts = [
 
         if (chosenDate < todayStr) {
             e.preventDefault();
-            errorMsg.textContent = "Nemůžeš si rezervovat termín v minulosti (datum).";
+            errorMsg.textContent = "Tohle datum už je za námi. Vyber prosím některý z dalších dnů.";
             errorMsg.classList.remove('hidden');
             return;
         }
 
         if (chosenDate > maxBookingDateStr) {
             e.preventDefault();
-            errorMsg.textContent = "Rezervaci je možné vytvořit nejvýše 7 dní dopředu.";
+            errorMsg.textContent = "Online jde vybrat termín nejvýše 7 dní dopředu.";
             errorMsg.classList.remove('hidden');
             return;
         }
 
         if (chosenDate === todayStr && chosenTime < nowTimeStr) {
             e.preventDefault();
-            errorMsg.textContent = "Nemůžeš si rezervovat čas, který už proběhl.";
+            errorMsg.textContent = "Tenhle čas už dnes proběhl. Vyber prosím pozdější termín.";
             errorMsg.classList.remove('hidden');
             return;
         }
@@ -1671,8 +1672,8 @@ $referenceCuts = [
         document.body.classList.add('overflow-hidden');
 
         const loadingSteps = [
-            'Kontrolujeme dostupnost vybraného času...',
-            'Ukládáme rezervaci do systému...',
+            'Kontrolujeme, jestli je čas volný...',
+            'Ukládáme tvoji žádost...',
             'Připravujeme shrnutí rezervace...'
         ];
         let loadingStepIndex = 0;
@@ -1757,15 +1758,20 @@ document.addEventListener('DOMContentLoaded', function () {
         siteHeader?.classList.toggle('is-scrolled', window.scrollY > 16);
     }
 
-    function smoothScrollToSection(target, updateHash = true) {
+    function getBookingScrollTarget() {
+        return mobileViewport.matches && bookingForm ? bookingForm : bookingSection;
+    }
+
+    function smoothScrollToSection(target, updateHash = true, hashId = '') {
         if (!target) return;
         target.scrollIntoView({
             behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
             block: 'start',
         });
 
-        if (updateHash && target.id) {
-            window.history.pushState(null, '', `#${target.id}`);
+        const targetHash = hashId || target.id;
+        if (updateHash && targetHash) {
+            window.history.pushState(null, '', `#${targetHash}`);
         }
     }
 
@@ -1895,7 +1901,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!bookingSection || window.location.hash !== '#booking') return;
 
         window.setTimeout(() => {
-            smoothScrollToSection(bookingSection, false);
+            smoothScrollToSection(getBookingScrollTarget(), false);
             window.setTimeout(focusBookingForm, prefersReducedMotion.matches ? 120 : 520);
         }, 120);
     }
@@ -1914,7 +1920,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 mobileMenuButton?.setAttribute('aria-label', 'Otevřít menu');
             }
 
-            smoothScrollToSection(bookingSection);
+            smoothScrollToSection(getBookingScrollTarget(), true, 'booking');
             window.setTimeout(focusBookingForm, 520);
         });
     });

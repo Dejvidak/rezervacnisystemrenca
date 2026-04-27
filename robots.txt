@@ -2,18 +2,15 @@ User-agent: *
 Allow: /
 
 Disallow: /admin.php
-Disallow: /amin.php
 Disallow: /config.php
 Disallow: /db.php
-Disallow: /dp.php
 Disallow: /integrations.php
 Disallow: /load_times.php
 Disallow: /local_config.php
 Disallow: /local_config.example.php
 Disallow: /reservations/
 Disallow: /save_reservation.php
-Disallow: /save_reservation_csv.php
 Disallow: /storage/
-Disallow: /rezervacnisystemrenca-f13b24822c6d.json
+Disallow: /rezervacnisystemrenca-*.json
 
-Sitemap: /sitemap.php
+Sitemap: /sitemap.xml

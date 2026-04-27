@@ -7,14 +7,12 @@ require_admin_auth();
 
 function require_admin_auth(): void
 {
-    $host = (string) ($_SERVER['HTTP_HOST'] ?? '');
-    $isLocalRequest = (bool) preg_match('/^(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/', $host);
-    $user = getenv('ADMIN_USER') ?: ($isLocalRequest ? 'admin' : '');
-    $password = getenv('ADMIN_PASSWORD') ?: ($isLocalRequest ? 'rezervace2026' : '');
+    $user = getenv('ADMIN_USER') ?: '';
+    $password = getenv('ADMIN_PASSWORD') ?: '';
 
     if ($user === '' || $password === '') {
         header('HTTP/1.0 503 Service Unavailable');
-        echo 'Administrace neni nastavena. Dopln ADMIN_USER a ADMIN_PASSWORD v konfiguraci serveru.';
+        echo 'Administrace není nastavená. Doplň ADMIN_USER a ADMIN_PASSWORD v konfiguraci serveru.';
         exit;
     }
 
@@ -24,7 +22,7 @@ function require_admin_auth(): void
     if (!hash_equals($user, $givenUser) || !hash_equals($password, $givenPassword)) {
         header('WWW-Authenticate: Basic realm="Rezervace"');
         header('HTTP/1.0 401 Unauthorized');
-        echo 'Pro vstup do administrace je potreba prihlaseni.';
+        echo 'Pro vstup do administrace je potřeba přihlášení.';
         exit;
     }
 }
@@ -183,6 +181,34 @@ if ($hasDateFilter) {
 }
 
 $reservations = $stmt->fetchAll();
+$todayDate = (new DateTime('today'))->format('Y-m-d');
+$pendingReservations = array_values(array_filter($reservations, static function (array $reservation): bool {
+    return (string) ($reservation['status'] ?? 'accepted') === 'pending';
+}));
+$acceptedReservations = array_values(array_filter($reservations, static function (array $reservation): bool {
+    return (string) ($reservation['status'] ?? 'accepted') !== 'pending';
+}));
+$pendingCount = count($pendingReservations);
+$acceptedCount = count($acceptedReservations);
+$todayReservationCount = count(array_filter($reservations, static function (array $reservation) use ($todayDate): bool {
+    return (string) ($reservation['date'] ?? '') === $todayDate;
+}));
+$desktopReservationGroups = [
+    [
+        'title' => 'Čekající rezervace',
+        'description' => 'Tyhle termíny čekají na potvrzení a případný zápis do kalendáře.',
+        'items' => $pendingReservations,
+        'badge' => 'Ke kontrole',
+        'tone' => 'pending',
+    ],
+    [
+        'title' => 'Přijaté rezervace',
+        'description' => 'Potvrzené termíny, které jsou už vyřízené nebo zapsané v kalendáři.',
+        'items' => $acceptedReservations,
+        'badge' => 'Potvrzeno',
+        'tone' => 'accepted',
+    ],
+];
 
 $countStmt = $pdo->query('SELECT COUNT(*) FROM reservations');
 $totalReservations = (int) $countStmt->fetchColumn();
@@ -259,11 +285,34 @@ for ($i = 0; $i < 7; $i++) {
             <div>
                 <p class="text-xs uppercase tracking-[0.3em] text-[#C9BFA7] mb-2">Administrace</p>
                 <h1 class="text-3xl font-bold">Rezervace</h1>
-                <p class="text-sm text-[#D8C8B0] mt-2">Celkem uložených rezervací: <?= $totalReservations ?></p>
+                <p class="text-sm text-[#D8C8B0] mt-2">Přehled termínů a rychlá kontrola, co je potřeba vyřídit.</p>
             </div>
             <a href="index.php" class="inline-flex items-center justify-center rounded-full border border-[#6A654E] px-4 py-2 text-sm hover:bg-[#2A231E]">
                 Zpět na web
             </a>
+        </div>
+
+        <div class="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="rounded-2xl border border-[#6A654E] bg-[#2A231E] p-4">
+                <p class="text-xs uppercase tracking-[0.22em] text-[#C9BFA7]">Celkem</p>
+                <p class="mt-2 text-3xl font-bold"><?= $totalReservations ?></p>
+                <p class="mt-1 text-xs text-[#9F927E]">uložených rezervací</p>
+            </div>
+            <div class="rounded-2xl border border-[#8A6A2F] bg-[#3A2F20] p-4">
+                <p class="text-xs uppercase tracking-[0.22em] text-[#F1C879]">Čeká</p>
+                <p class="mt-2 text-3xl font-bold"><?= $pendingCount ?></p>
+                <p class="mt-1 text-xs text-[#D8C8B0]">potřeba potvrdit</p>
+            </div>
+            <div class="rounded-2xl border border-[#496A45] bg-[#21351F] p-4">
+                <p class="text-xs uppercase tracking-[0.22em] text-[#BFE3B5]">Přijato</p>
+                <p class="mt-2 text-3xl font-bold"><?= $acceptedCount ?></p>
+                <p class="mt-1 text-xs text-[#D8C8B0]">v aktuálním výběru</p>
+            </div>
+            <div class="rounded-2xl border border-[#6A654E] bg-[#241E1A] p-4">
+                <p class="text-xs uppercase tracking-[0.22em] text-[#C9BFA7]">Dnes</p>
+                <p class="mt-2 text-3xl font-bold"><?= $todayReservationCount ?></p>
+                <p class="mt-1 text-xs text-[#9F927E]"><?= h((new DateTime($todayDate))->format('d.m.Y')) ?></p>
+            </div>
         </div>
 
         <form method="get" class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -356,10 +405,16 @@ for ($i = 0; $i < 7; $i++) {
         <?php else: ?>
             <div class="space-y-3 md:hidden">
                 <?php foreach ($reservations as $reservation): ?>
+                    <?php $isTodayReservation = (string) ($reservation['date'] ?? '') === $todayDate; ?>
                     <article class="rounded-2xl border border-[#6A654E] bg-[#2A231E] p-4 shadow-lg">
                         <div class="mb-4 flex items-start justify-between gap-3">
                             <div>
-                                <p class="text-xs uppercase tracking-[0.22em] text-[#C9BFA7]"><?= h($reservation['date']) ?></p>
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <p class="text-xs uppercase tracking-[0.22em] text-[#C9BFA7]"><?= h($reservation['date']) ?></p>
+                                    <?php if ($isTodayReservation): ?>
+                                        <span class="rounded-full border border-[#D6A85E] bg-[#3A2F20] px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#F1C879]">Dnes</span>
+                                    <?php endif; ?>
+                                </div>
                                 <h2 class="mt-1 text-xl font-bold"><?= h($reservation['time']) ?></h2>
                             </div>
                             <div class="shrink-0">
@@ -440,7 +495,26 @@ for ($i = 0; $i < 7; $i++) {
                 <?php endforeach; ?>
             </div>
 
-            <div class="hidden overflow-x-auto rounded-xl border border-[#6A654E] md:block">
+            <div class="hidden space-y-5 md:block">
+                <?php foreach ($desktopReservationGroups as $group): ?>
+                    <?php if (empty($group['items'])) {
+                        continue;
+                    } ?>
+                    <section class="overflow-hidden rounded-2xl border <?= $group['tone'] === 'pending' ? 'border-[#8A6A2F]' : 'border-[#6A654E]' ?> bg-[#2A231E] shadow-xl">
+                        <div class="flex items-start justify-between gap-4 border-b border-[#3F332A] px-4 py-4">
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <h2 class="text-lg font-bold"><?= h($group['title']) ?></h2>
+                                    <span class="rounded-full border <?= $group['tone'] === 'pending' ? 'border-[#8A6A2F] bg-[#3A2F20] text-[#F1C879]' : 'border-[#496A45] bg-[#21351F] text-[#BFE3B5]' ?> px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.16em]">
+                                        <?= h($group['badge']) ?>
+                                    </span>
+                                </div>
+                                <p class="mt-1 text-sm text-[#D8C8B0]"><?= h($group['description']) ?></p>
+                            </div>
+                            <p class="rounded-full border border-[#6A654E] px-3 py-1 text-sm font-semibold text-[#F5EDE1]"><?= count($group['items']) ?></p>
+                        </div>
+
+                        <div class="overflow-x-auto">
                 <table class="min-w-full text-sm">
                     <thead class="bg-[#3F332A]">
                         <tr>
@@ -458,9 +532,17 @@ for ($i = 0; $i < 7; $i++) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($reservations as $reservation): ?>
-                            <tr class="odd:bg-[#2A231E] even:bg-[#241E1A] align-top">
-                                <td class="px-3 py-2 border-b border-[#3F332A] whitespace-nowrap"><?= h($reservation['date']) ?></td>
+                        <?php foreach ($group['items'] as $reservation): ?>
+                            <?php $isTodayReservation = (string) ($reservation['date'] ?? '') === $todayDate; ?>
+                            <tr class="<?= $isTodayReservation ? 'bg-[#30271E]' : 'odd:bg-[#2A231E] even:bg-[#241E1A]' ?> align-top">
+                                <td class="px-3 py-2 border-b border-[#3F332A] whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <span><?= h($reservation['date']) ?></span>
+                                        <?php if ($isTodayReservation): ?>
+                                            <span class="rounded-full border border-[#D6A85E] bg-[#3A2F20] px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#F1C879]">Dnes</span>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
                                 <td class="px-3 py-2 border-b border-[#3F332A] whitespace-nowrap"><?= h($reservation['time']) ?></td>
                                 <td class="px-3 py-2 border-b border-[#3F332A]"><?= h($reservation['name']) ?></td>
                                 <td class="px-3 py-2 border-b border-[#3F332A]">
@@ -517,6 +599,9 @@ for ($i = 0; $i < 7; $i++) {
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                        </div>
+                    </section>
+                <?php endforeach; ?>
             </div>
         <?php endif; ?>
     </main>

@@ -49,6 +49,7 @@ $referenceCuts = [
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<?= app_head_assets() ?>
     <meta name="description" content="<?= htmlspecialchars($pageDescription, ENT_QUOTES, 'UTF-8') ?>">
     <link rel="canonical" href="<?= htmlspecialchars($pageCanonical, ENT_QUOTES, 'UTF-8') ?>">
     <meta property="og:locale" content="cs_CZ">
@@ -458,7 +459,7 @@ $referenceCuts = [
         </div>
     </div>
     <div class="border-t border-[var(--surface-soft)] px-4 py-4 text-center text-xs text-[color:var(--cream-soft)]">
-        <p>© <?php echo date('Y'); ?> Hair By ReneNeme · Made with love by Dejvidaak</p>
+        <p>© <?php echo date('Y'); ?> Hair By ReneNeme · Web vytvořil Dejvidaak</p>
     </div>
 </footer>
 
