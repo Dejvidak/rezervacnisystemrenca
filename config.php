@@ -6,6 +6,81 @@ if (is_file(__DIR__ . '/local_config.php')) {
 
 date_default_timezone_set('Europe/Prague');
 
+app_bootstrap_session();
+
+function app_bootstrap_session(): void
+{
+    if (PHP_SAPI === 'cli' || session_status() === PHP_SESSION_ACTIVE || headers_sent()) {
+        return;
+    }
+
+    session_set_cookie_params([
+        'httponly' => true,
+        'samesite' => 'Lax',
+        'secure' => app_request_uses_https(),
+    ]);
+
+    session_start();
+}
+
+function app_request_uses_https(): bool
+{
+    $https = strtolower((string) ($_SERVER['HTTPS'] ?? ''));
+    $forwardedProto = strtolower(trim((string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '')));
+
+    return ($https !== '' && $https !== 'off') || $forwardedProto === 'https';
+}
+
+function app_csrf_token(): string
+{
+    if (!isset($_SESSION['csrf_token']) || !is_string($_SESSION['csrf_token']) || $_SESSION['csrf_token'] === '') {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+
+    return $_SESSION['csrf_token'];
+}
+
+function app_csrf_field(): string
+{
+    $token = htmlspecialchars(app_csrf_token(), ENT_QUOTES, 'UTF-8');
+    return '<input type="hidden" name="csrf_token" value="' . $token . '">';
+}
+
+function app_verify_csrf_token(?string $token): bool
+{
+    $sessionToken = $_SESSION['csrf_token'] ?? null;
+    return is_string($sessionToken) && is_string($token) && hash_equals($sessionToken, $token);
+}
+
+function app_booking_form_started_at(): int
+{
+    $startedAt = time();
+    $_SESSION['booking_form_started_at'] = $startedAt;
+    return $startedAt;
+}
+
+function app_validate_booking_honeypot(?string $value): bool
+{
+    return trim((string) $value) === '';
+}
+
+function app_validate_booking_form_timing($startedAt): bool
+{
+    $sessionStartedAt = $_SESSION['booking_form_started_at'] ?? null;
+    if (!is_numeric($startedAt) || !is_numeric($sessionStartedAt)) {
+        return false;
+    }
+
+    $startedAtInt = (int) $startedAt;
+    $sessionStartedAtInt = (int) $sessionStartedAt;
+    if ($startedAtInt !== $sessionStartedAtInt) {
+        return false;
+    }
+
+    $elapsed = time() - $startedAtInt;
+    return $elapsed >= 2 && $elapsed <= 7200;
+}
+
 function app_timezone(): string
 {
     return 'Europe/Prague';
@@ -81,12 +156,12 @@ function app_business_postal_code(): string
 
 function app_business_locality(): string
 {
-    return 'Brno-Kralovo Pole';
+    return 'Brno-Královo Pole';
 }
 
 function app_business_locality_display(): string
 {
-    return 'Brno-Kralovo Pole';
+    return 'Brno-Královo Pole';
 }
 
 function app_business_country(): string

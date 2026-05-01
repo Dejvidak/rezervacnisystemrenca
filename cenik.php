@@ -6,8 +6,8 @@ $servicePrices = array_map(static fn(array $service): int => (int) $service['pri
 $serviceDurations = array_map(static fn(array $service): int => (int) $service['duration'], $services);
 $instagramUrl = app_business_instagram_url();
 $instagramHandle = app_business_instagram_handle();
-$pageTitle = 'Cenik - ' . app_business_name();
-$pageDescription = 'Kompletni cenik sluzeb Hair By ReneNeme v Brne. Projdi si ceny, delku navstevy i varianty strihu a pak plynule pokracuj k rezervaci.';
+$pageTitle = 'Ceník - ' . app_business_name();
+$pageDescription = 'Kompletní ceník služeb Hair By ReneNeme v Brně. Projdi si ceny, délku návštěvy i varianty střihu a pak plynule pokračuj k rezervaci.';
 $pageCanonical = app_absolute_url('cenik.php');
 $pageImage = app_absolute_url('assets/barbershop-hero.png');
 $pageSchema = app_public_business_schema('cenik.php', [

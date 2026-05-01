@@ -31,8 +31,8 @@ $servicePrices = array_map(static fn(array $service): int => (int) $service['pri
 $serviceDurations = array_map(static fn(array $service): int => (int) $service['duration'], $services);
 $instagramUrl = 'https://www.instagram.com/hairbyreneneme/';
 $instagramHandle = '@hairbyreneneme';
-$pageTitle = app_business_name() . ' - Panske kadernictvi & online rezervace';
-$pageDescription = 'Panske kadernictvi Hair By ReneNeme v Brne. Online rezervace, cisty pansky strih, kompletka i detsky strih na adrese Vackova 1064/39, Brno-Kralovo Pole.';
+$pageTitle = app_business_name() . ' - Pánské kadeřnictví & online rezervace';
+$pageDescription = 'Pánské kadeřnictví Hair By ReneNeme v Brně. Online rezervace, čistý pánský střih, kompletka i dětský střih na adrese Vackova 1064/39, Brno-Královo Pole.';
 $pageCanonical = app_absolute_url('/');
 $pageImage = app_absolute_url('assets/barbershop-hero.png');
 $pageSchema = app_public_business_schema('', [
@@ -792,6 +792,11 @@ $referenceCuts = [
                 V našem kadeřnictví jde o pečlivý střih, pohodovou návštěvu a výsledek,
                 který funguje nejen při odchodu z křesla, ale i další dny.
             </p>
+            <div class="mt-5 flex flex-wrap gap-2 text-xs font-semibold text-[color:var(--muted)] sm:text-sm">
+                <span class="inline-flex items-center rounded-full border border-[var(--line)] bg-white/75 px-3 py-1.5 shadow-sm">Online rezervace bez volání</span>
+                <span class="inline-flex items-center rounded-full border border-[var(--line)] bg-white/75 px-3 py-1.5 shadow-sm">Brno, Královo Pole</span>
+                <span class="inline-flex items-center rounded-full border border-[var(--line)] bg-white/75 px-3 py-1.5 shadow-sm">Potvrzení e-mailem</span>
+            </div>
             <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a href="#booking"
                    class="ui-button w-full focus:outline-none focus:ring-2 focus:ring-[var(--accent)] sm:w-auto">
@@ -802,32 +807,24 @@ $referenceCuts = [
                     Podívat se na ceník
                 </a>
             </div>
-            <div class="mt-7 grid max-w-2xl grid-cols-1 gap-3 text-sm min-[420px]:grid-cols-3 md:mt-8">
-                <div class="premium-surface px-4 py-3">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Délka</p>
-                    <p class="mt-2 font-bold text-[color:var(--ink)]">35-50 min</p>
-                    <p class="mt-1 text-xs text-[color:var(--muted)]">podle vybrané služby</p>
+            <div class="mt-7 grid gap-3 sm:grid-cols-3 md:mt-8">
+                <div class="flex min-h-[5.75rem] flex-col justify-center rounded-2xl border border-[var(--line)] bg-white/72 px-4 py-3 shadow-sm">
+                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Délka návštěvy</p>
+                    <p class="mt-1 text-sm font-semibold text-[color:var(--ink)]">35-50 min podle služby</p>
                 </div>
-                <div class="premium-surface px-4 py-3">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Objednání</p>
-                    <p class="mt-2 font-bold text-[color:var(--ink)]">Online</p>
-                    <p class="mt-1 text-xs text-[color:var(--muted)]">rychle a přehledně</p>
+                <div class="flex min-h-[5.75rem] flex-col justify-center rounded-2xl border border-[var(--line)] bg-white/72 px-4 py-3 shadow-sm">
+                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Otevírací doba</p>
+                    <p class="mt-1 text-sm font-semibold text-[color:var(--ink)]">Po-Pá 9:00-18:00</p>
                 </div>
-                <div class="premium-surface px-4 py-3">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Lokalita</p>
-                    <p class="mt-2 font-bold text-[color:var(--ink)]">Brno</p>
-                    <p class="mt-1 text-xs text-[color:var(--muted)]">Královo Pole</p>
-                </div>
-            </div>
-            <div class="mt-7 flex flex-col gap-2 text-sm text-[color:var(--muted)] sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4 md:mt-8">
-                <span>Otevřeno Po-Pá 9:00-18:00</span>
                 <a
                     href="https://www.google.com/maps/search/?api=1&query=Vackova%201064%2F39%2C%20612%2000%20Brno-Kr%C3%A1lovo%20Pole"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="font-semibold underline decoration-[var(--field-border)] underline-offset-4 hover:text-[color:var(--surface-soft)]"
+                    class="flex min-h-[5.75rem] flex-col justify-center rounded-2xl border border-[var(--line)] bg-white/72 px-4 py-3 text-left shadow-sm transition duration-200 hover:border-[rgba(192,138,62,0.32)] hover:bg-white/84"
                 >
-                    Vackova 1064/39, 612 00 Brno-Královo Pole
+                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Adresa</p>
+                    <p class="mt-1 text-sm font-semibold text-[color:var(--ink)]"><?= htmlspecialchars(app_business_full_address_inline(), ENT_QUOTES, 'UTF-8') ?></p>
+                    <p class="mt-1 text-sm font-semibold text-[color:var(--accent-dark)]">Otevřít v mapě</p>
                 </a>
             </div>
         </div>
@@ -839,20 +836,12 @@ $referenceCuts = [
                     class="h-[17rem] w-full rounded-[1.2rem] object-cover min-[420px]:h-[20rem] sm:h-[24rem] md:h-[31rem]"
                 >
             </div>
-            <div class="hero-floating-card relative mt-3 rounded-2xl border border-[rgba(241,200,121,0.18)] px-4 py-3 text-[color:var(--cream)] md:absolute md:left-6 md:top-6 md:mt-0">
-                <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-[color:var(--gold-soft)] sm:text-[11px]">Královo Pole</p>
-            </div>
             <div class="hero-floating-card relative mt-3 rounded-2xl border border-[rgba(241,200,121,0.16)] p-4 text-[color:var(--cream)] md:absolute md:bottom-6 md:left-6 md:right-6 md:mt-0 sm:p-5">
                 <p class="text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold)] sm:text-xs sm:tracking-[0.24em]">Před návštěvou</p>
                 <div class="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                     <div>
                         <p class="text-base font-bold sm:text-lg">Vybereš službu, datum a čas</p>
-                        <p class="mt-1 text-sm text-[color:var(--cream-soft)]">Jakmile termín potvrdíme, dorazí shrnutí e-mailem.</p>
-                    </div>
-                    <div class="rounded-xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.05)] px-4 py-3 text-left sm:min-w-[10rem]">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Oblíbená služba</p>
-                        <p class="mt-2 text-sm font-semibold">Pánský střih</p>
-                        <p class="mt-1 text-xs text-[color:var(--cream-soft)]">cca 35 minut</p>
+                        <p class="mt-1 text-sm text-[color:var(--cream-soft)]">Po potvrzení ti dorazí stručné shrnutí e-mailem.</p>
                     </div>
                 </div>
             </div>
@@ -861,26 +850,44 @@ $referenceCuts = [
 
     <!-- O NÁS -->
     <section id="about" class="scroll-mt-28 border-t border-[var(--line)] py-8 md:scroll-mt-32 md:py-10">
-        <h2 class="mb-4 text-2xl font-bold sm:text-3xl">O nás</h2>
-        <p class="text-m text-[color:var(--muted)] mb-4 max-w-3xl">
-            <strong>Hair By ReneNeme</strong> je pánské kadeřnictví v Brně, kde se řeší hlavně dobrý střih,
-            čistý výsledek a pohodová návštěva. Každý účes se ladí podle vlasů, stylu i toho,
-            kolik času mu chceš doma věnovat.
-        </p>
-        <div class="grid md:grid-cols-3 gap-4 text-sm">
+        <div class="premium-surface p-5 sm:p-6 lg:p-8">
+            <div class="grid gap-7 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+                <div class="max-w-2xl">
+                    <p class="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--muted-strong)]">Proč právě sem</p>
+                    <h2 class="mt-2 text-2xl font-bold sm:text-3xl">Poctivý střih, klidná návštěva a rezervace bez zmatku</h2>
+                    <p class="mt-4 text-sm leading-7 text-[color:var(--muted)] sm:text-[15px]">
+                        <strong>Hair By ReneNeme</strong> je pánské kadeřnictví v Brně, kde se ladí hlavně výsledek,
+                        který bude fungovat i doma. Bez zbytečné omáčky, ale s pečlivostí a normální domluvou.
+                    </p>
+                    <div class="mt-6 grid gap-3 sm:grid-cols-3">
+                        <div class="rounded-2xl border border-[var(--line)] bg-white/80 px-4 py-4 shadow-sm">
+                            <p class="text-sm font-semibold text-[color:var(--ink)]">1. Domluva</p>
+                            <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">Krátce si řekneme styl i praktické očekávání.</p>
+                        </div>
+                        <div class="rounded-2xl border border-[var(--line)] bg-white/80 px-4 py-4 shadow-sm">
+                            <p class="text-sm font-semibold text-[color:var(--ink)]">2. Střih</p>
+                            <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">Pečlivě, bez spěchu a podle toho, co ti sedí.</p>
+                        </div>
+                        <div class="rounded-2xl border border-[var(--line)] bg-white/80 px-4 py-4 shadow-sm">
+                            <p class="text-sm font-semibold text-[color:var(--ink)]">3. Hotovo</p>
+                            <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">Upravený výsledek, který drží i další dny.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid gap-3 text-sm">
             <article class="about-card premium-surface lift-card p-4">
                 <button
                     type="button"
-                    class="about-card__button flex w-full items-start justify-between gap-3 text-left"
+                    class="about-card__button flex w-full items-start justify-between gap-4 text-left"
                     data-about-title="Přátelský přístup"
                     data-about-summary="Klidná návštěva bez zbytečného spěchu. Sedneš si, domluvíme styl a jde se na věc"
                     data-about-detail="Renata se ptá na styl, zvyky i to, jak moc chceš účes ráno řešit. Cílem je střih, který bude vypadat dobře nejen po odchodu z křesla, ale i další dny doma."
                 >
-                    <span>
+                    <span class="max-w-md">
                         <span class="mb-1 block font-semibold">Přátelský přístup</span>
-                        <span class="block text-[color:var(--muted)]">Klidná návštěva bez zbytečného spěchu. Sedneš si, domluvíme styl a jde se na věc</span>
+                        <span class="block leading-6 text-[color:var(--muted)]">Klidná návštěva bez zbytečného spěchu. Sedneš si, domluvíme styl a jde se na věc.</span>
                     </span>
-                    <span class="about-card__icon mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--cream)] text-[color:var(--accent)]" aria-hidden="true">
+                    <span class="about-card__icon mt-1 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--cream)] text-[color:var(--accent)]" aria-hidden="true">
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
                             <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
@@ -890,16 +897,16 @@ $referenceCuts = [
             <article class="about-card premium-surface lift-card p-4">
                 <button
                     type="button"
-                    class="about-card__button flex w-full items-start justify-between gap-3 text-left"
+                    class="about-card__button flex w-full items-start justify-between gap-4 text-left"
                     data-about-title="Moderní střihy"
                     data-about-summary="Od klasiky po výraznější fade. Vždy tak, aby střih seděl k vlasům i běžnému nošení"
                     data-about-detail="Střih může být čistý, výrazný nebo úplně přirozený. Klidně dones fotku inspirace, výsledek se ale vždy upraví podle tvaru hlavy, hustoty vlasů a toho, co ti bude prakticky fungovat."
                 >
-                    <span>
+                    <span class="max-w-md">
                         <span class="mb-1 block font-semibold">Moderní střihy</span>
-                        <span class="block text-[color:var(--muted)]">Od klasiky po výraznější fade. Vždy tak, aby střih seděl k vlasům i běžnému nošení</span>
+                        <span class="block leading-6 text-[color:var(--muted)]">Od klasiky po výraznější fade. Vždy tak, aby střih seděl k vlasům i běžnému nošení.</span>
                     </span>
-                    <span class="about-card__icon mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--cream)] text-[color:var(--accent)]" aria-hidden="true">
+                    <span class="about-card__icon mt-1 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--cream)] text-[color:var(--accent)]" aria-hidden="true">
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
                             <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
@@ -909,102 +916,22 @@ $referenceCuts = [
             <article class="about-card premium-surface lift-card p-4">
                 <button
                     type="button"
-                    class="about-card__button flex w-full items-start justify-between gap-3 text-left"
+                    class="about-card__button flex w-full items-start justify-between gap-4 text-left"
                     data-about-title="Přehledná rezervace"
                     data-about-summary="Systém hlídá délku služby i dostupné časy, takže výběr termínu je rychlý a jasný"
                     data-about-detail="Při výběru termínu se počítá s délkou služby i aktuální dostupností. Po odeslání žádost zkontrolujeme a po potvrzení dorazí shrnutí e-mailem."
                 >
-                    <span>
+                    <span class="max-w-md">
                         <span class="mb-1 block font-semibold">Přehledná rezervace</span>
-                        <span class="block text-[color:var(--muted)]">Systém hlídá délku služby i dostupné časy, takže výběr termínu je rychlý a jasný</span>
+                        <span class="block leading-6 text-[color:var(--muted)]">Systém hlídá délku služby i dostupné časy, takže výběr termínu je rychlý a jasný.</span>
                     </span>
-                    <span class="about-card__icon mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--cream)] text-[color:var(--accent)]" aria-hidden="true">
+                    <span class="about-card__icon mt-1 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--cream)] text-[color:var(--accent)]" aria-hidden="true">
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
                             <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </span>
                 </button>
             </article>
-        </div>
-    </section>
-
-    <!-- PRŮBĚH NÁVŠTĚVY -->
-    <section id="visit" class="scroll-mt-28 border-t border-[var(--line)] py-8 md:scroll-mt-32 md:py-10">
-        <div class="mb-5 max-w-3xl">
-            <p class="text-xs uppercase tracking-[0.24em] text-[color:var(--muted-strong)] font-bold">Jak probíhá návštěva</p>
-            <h2 class="mt-1 text-2xl font-bold">V klidu od příchodu až po odchod</h2>
-            <p class="mt-3 text-sm leading-6 text-[color:var(--muted)]">
-                Žádné zbytečné formality. Domluvíme styl, vezmeme to pečlivě a na konci odejdeš upravený,
-                svěží a připravený rovnou mezi lidi.
-            </p>
-        </div>
-        <div class="grid gap-4 md:grid-cols-3">
-            <div class="premium-surface lift-card p-5">
-                <p class="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--surface)] text-sm font-bold text-[color:var(--gold)]">1</p>
-                <h3 class="font-semibold">Domluvíme styl</h3>
-                <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                    Krátce probereme, co chceš, jak se o vlasy staráš a co má dávat smysl i po pár dnech.
-                </p>
-            </div>
-            <div class="premium-surface lift-card p-5">
-                <p class="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--surface)] text-sm font-bold text-[color:var(--gold)]">2</p>
-                <h3 class="font-semibold">Střih bez spěchu</h3>
-                <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                    Během střihu si dáš fresh nápoj a chvíli vypneš. My mezitím doladíme tvar, detaily i styling.
-                </p>
-            </div>
-            <div class="premium-surface lift-card p-5">
-                <p class="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--surface)] text-sm font-bold text-[color:var(--gold)]">3</p>
-                <h3 class="font-semibold">Finální dojem</h3>
-                <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                    Na závěr střih zkontrolujeme, upravíme poslední detaily a při odchodu budeš i krásně vonět.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- DŮVĚRA -->
-    <section id="trust" class="scroll-mt-28 border-t border-[var(--line)] py-8 md:scroll-mt-32 md:py-10">
-        <div class="premium-surface-dark overflow-hidden px-5 py-6 text-[color:var(--cream)] sm:px-6 md:px-7 md:py-7">
-            <div class="grid gap-6 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
-                <div>
-                    <p class="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--gold)]">Proč se klienti vrací</p>
-                    <h2 class="mt-2 text-2xl font-bold sm:text-3xl">Důvěra není ve velkých slibech, ale v tom, jak návštěva opravdu probíhá</h2>
-                    <p class="mt-4 max-w-xl text-sm leading-7 text-[color:var(--cream-soft)]">
-                        Cílem není jen dobrý první dojem po odchodu z křesla, ale střih, který vydrží i další dny,
-                        klidná atmosféra a rezervace bez zbytečné nejistoty.
-                    </p>
-                    <div class="mt-5 flex flex-wrap gap-4 text-sm">
-                        <a href="#booking" class="accent-link">
-                            Přejít na formulář
-                        </a>
-                        <a href="cenik.php" class="accent-link text-[color:var(--gold-soft)] decoration-[color:var(--gold-soft)] hover:text-[color:var(--gold)]">
-                            Projít ceník
-                        </a>
-                    </div>
-                </div>
-                <div class="grid gap-4 md:grid-cols-3">
-                    <article class="trust-grid-card lift-card rounded-2xl border border-[rgba(241,200,121,0.16)] bg-[rgba(255,255,255,0.05)] p-5">
-                        <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Pečlivost</p>
-                        <h3 class="mt-3 font-semibold text-[color:var(--cream)]">Střih, který vydrží</h3>
-                        <p class="mt-2 text-sm leading-6 text-[color:var(--cream-soft)]">
-                            Nejde jen o moment po návštěvě, ale o výsledek, který drží tvar i v běžném režimu doma.
-                        </p>
-                    </article>
-                    <article class="trust-grid-card lift-card rounded-2xl border border-[rgba(241,200,121,0.16)] bg-[rgba(255,255,255,0.05)] p-5">
-                        <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Pohoda</p>
-                        <h3 class="mt-3 font-semibold text-[color:var(--cream)]">Klidná návštěva bez tlaku</h3>
-                        <p class="mt-2 text-sm leading-6 text-[color:var(--cream-soft)]">
-                            Bez chaosu, bez přestřelené okázalosti. Jen soustředěný střih, domluva a příjemný čas v křesle.
-                        </p>
-                    </article>
-                    <article class="trust-grid-card lift-card rounded-2xl border border-[rgba(241,200,121,0.16)] bg-[rgba(255,255,255,0.05)] p-5">
-                        <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Jistota</p>
-                        <h3 class="mt-3 font-semibold text-[color:var(--cream)]">Jasně domluvený termín</h3>
-                        <p class="mt-2 text-sm leading-6 text-[color:var(--cream-soft)]">
-                            Hned vidíš, které časy dávají smysl pro vybranou službu, a nic se nemusí složitě domlouvat bokem.
-                        </p>
-                    </article>
                 </div>
             </div>
         </div>
@@ -1012,34 +939,21 @@ $referenceCuts = [
 
     <!-- REFERENCE STŘIHŮ -->
     <section class="border-t border-[var(--line)] py-8 md:py-10">
-        <div class="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+        <div class="grid gap-5 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
             <div>
                 <div class="premium-surface relative overflow-hidden p-5 sm:p-6 lg:p-7">
                     <div class="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,var(--gold),rgba(214,168,94,0.12))]"></div>
                     <p class="text-xs uppercase tracking-[0.24em] text-[color:var(--muted-strong)] font-bold">Inspirace před rezervací</p>
                     <h2 class="mt-2 text-2xl font-bold sm:text-[2rem]">Reference střihů</h2>
-                    <p class="mt-4 max-w-2xl text-sm leading-6 text-[color:var(--muted)] sm:text-[15px]">
-                        Mrkni na vybrané ukázky střihů a otevři si celou galerii s další inspirací. Fotky ti pomůžou udělat si lepší představu o stylu, délce i celkovém výsledku.
+                    <p class="mt-4 max-w-xl text-sm leading-7 text-[color:var(--muted)] sm:text-[15px]">
+                        Mrkni na vybrané ukázky střihů a otevři si celou galerii s další inspirací. Fotky pomůžou rychleji trefit styl, který chceš.
                     </p>
 
-                    <div class="mt-5 grid gap-3 sm:grid-cols-2">
-                        <div class="rounded-2xl border border-[var(--line)] bg-white/70 p-4 shadow-sm">
-                            <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">V galerii</p>
-                            <p class="mt-2 text-lg font-bold text-[color:var(--ink)]">Vybrané střihy</p>
-                            <p class="mt-1 text-sm leading-6 text-[color:var(--muted)]">Od přirozených tvarů po čistší fade a výraznější boky.</p>
-                        </div>
-                        <div class="rounded-2xl border border-[rgba(214,168,94,0.16)] bg-[var(--surface)] p-4 text-[color:var(--cream)] shadow-lg">
-                            <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--gold)]">Pro lepší představu</p>
-                            <p class="mt-2 text-lg font-bold">Tvar, profil i detail</p>
-                            <p class="mt-1 text-sm leading-6 text-[color:var(--cream-soft)]">Každá fotka pomůže doladit styl ještě před samotnou rezervací.</p>
-                        </div>
-                    </div>
-
-                    <div class="mt-6 flex flex-wrap items-center gap-4 text-sm font-semibold">
+                    <div class="mt-6 flex flex-col items-start gap-3">
                         <a href="references.php" class="ui-button focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                             Zobrazit všechny reference
                         </a>
-                        <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="accent-link inline-flex items-center gap-2">
+                        <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-xl border border-[var(--line)] bg-white/72 px-4 py-2.5 text-sm font-semibold text-[color:var(--accent-dark)] shadow-sm transition hover:-translate-y-0.5 hover:border-[rgba(192,138,62,0.42)] hover:text-[color:var(--ink)]">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                 <rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="2" />
                                 <circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="2" />
@@ -1079,9 +993,9 @@ $referenceCuts = [
                             </div>
                         <?php endif; ?>
                         <div class="flex flex-1 flex-col p-4">
-                            <p class="font-semibold"><?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?></p>
-                            <p class="mt-1 text-sm text-[color:var(--muted)]"><?= htmlspecialchars($cut['description'], ENT_QUOTES, 'UTF-8') ?></p>
-                            <p class="mt-auto pt-3 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--accent)]">Zobrazit galerii</p>
+                            <p class="text-[1.05rem] font-semibold leading-8"><?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?></p>
+                            <p class="mt-2 text-sm leading-7 text-[color:var(--muted)]"><?= htmlspecialchars($cut['description'], ENT_QUOTES, 'UTF-8') ?></p>
+                            <p class="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--accent)]">Zobrazit galerii</p>
                         </div>
                     </a>
                 <?php endforeach; ?>
@@ -1090,50 +1004,19 @@ $referenceCuts = [
     </section>
     <!-- SLUŽBY -->
     <section id="services" class="scroll-mt-28 border-t border-[var(--line)] py-8 md:scroll-mt-32 md:py-10">
-        <div class="grid gap-5 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div class="max-w-2xl">
                 <p class="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--muted-strong)]">Služby</p>
                 <h2 class="mt-2 text-2xl font-bold sm:text-[2rem]">Vyber si, co ti sedí</h2>
                 <p class="mt-4 text-sm leading-7 text-[color:var(--muted)] sm:text-[15px]">
-                    Na hlavní stránce najdeš rychlý přehled jednotlivých variant. Cenu, délku služby i detailnější porovnání si pak můžeš pohodlně projít v ceníku.
+                    Tady najdeš nejčastější volby. Pokud chceš detailnější porovnání, ceny i délky návštěvy,
+                    mrkni do kompletního ceníku.
                 </p>
-                <div class="mt-5 flex flex-wrap gap-3">
-                    <div class="inline-flex items-center rounded-full border border-[var(--line)] bg-white/78 px-4 py-2 text-sm font-semibold text-[color:var(--ink)] shadow-sm">
-                        Nejčastější volby hned po ruce
-                    </div>
-                    <div class="inline-flex items-center rounded-full border border-[rgba(192,138,62,0.16)] bg-[var(--field)] px-4 py-2 text-sm font-semibold text-[color:var(--ink)] shadow-sm">
-                        Cena i detail přehledně v ceníku
-                    </div>
-                </div>
             </div>
-            <div class="rounded-2xl border border-[rgba(214,168,94,0.18)] bg-[linear-gradient(145deg,rgba(43,33,28,0.98),rgba(74,58,48,0.94))] p-5 text-[color:var(--cream)] shadow-[0_20px_40px_rgba(43,33,28,0.16)] sm:p-6">
-                <div class="flex items-start justify-between gap-4">
-                    <div>
-                        <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Celý ceník</p>
-                        <p class="mt-2 text-xl font-bold sm:text-[1.75rem]">Chceš vidět ceny a všechny varianty?</p>
-                    </div>
-                    <div class="hidden h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.05)] text-[color:var(--gold-soft)] sm:inline-flex">
-                        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                            <path d="M7 7h10M7 12h10M7 17h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                        </svg>
-                    </div>
-                </div>
-                <p class="mt-3 max-w-xl text-sm leading-7 text-[color:var(--cream-soft)]">
-                    V ceníku najdeš kompletní přehled služeb, ceny i délku návštěvy. Pak můžeš rovnou pokračovat k rezervaci bez dalšího hledání.
-                </p>
-                <div class="mt-5 flex flex-wrap gap-3">
-                    <div class="rounded-full border border-[rgba(241,200,121,0.16)] bg-[rgba(255,255,255,0.05)] px-4 py-2 text-sm font-semibold text-[color:var(--cream)]">
-                        Cena, délka i varianta
-                    </div>
-                    <div class="rounded-full border border-[rgba(241,200,121,0.16)] bg-[rgba(255,255,255,0.05)] px-4 py-2 text-sm font-semibold text-[color:var(--cream)]">
-                        Z ceníku rovnou k termínu
-                    </div>
-                </div>
-                <div class="mt-5">
-                    <a href="cenik.php" class="ui-button focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
-                        Zobrazit celý ceník
-                    </a>
-                </div>
+            <div>
+                <a href="cenik.php" class="ui-button focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+                    Zobrazit celý ceník
+                </a>
             </div>
         </div>
         <div class="mt-6 grid gap-4 md:grid-cols-2">
@@ -1148,16 +1031,29 @@ $referenceCuts = [
                     <div class="p-5 sm:p-6">
                         <div class="flex flex-col items-start gap-4">
                             <div class="w-full">
-                                <span class="inline-flex rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'border-[rgba(241,200,121,0.32)] bg-[rgba(241,200,121,0.12)] text-[color:var(--gold-soft)]' : 'border-[var(--line)] bg-[var(--field)] text-[color:var(--muted-strong)]' ?>">
-                                    <?= htmlspecialchars((string) ($service['badge'] ?? 'Služba'), ENT_QUOTES, 'UTF-8') ?>
-                                </span>
-                                <h3 class="mt-4 text-xl font-bold"><?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?></h3>
+                                <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                                    <div>
+                                        <span class="inline-flex rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'border-[rgba(241,200,121,0.32)] bg-[rgba(241,200,121,0.12)] text-[color:var(--gold-soft)]' : 'border-[var(--line)] bg-[var(--field)] text-[color:var(--muted-strong)]' ?>">
+                                            <?= htmlspecialchars((string) ($service['badge'] ?? 'Služba'), ENT_QUOTES, 'UTF-8') ?>
+                                        </span>
+                                        <h3 class="mt-4 text-xl font-bold"><?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?></h3>
+                                    </div>
+                                    <div class="rounded-2xl border px-4 py-3 text-left <?= $isFeatured ? 'border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.06)] text-[color:var(--cream)]' : 'border-[var(--line)] bg-white/80 text-[color:var(--ink)]' ?>">
+                                        <p class="text-[11px] font-bold uppercase tracking-[0.18em] <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--muted-strong)]' ?>">Od</p>
+                                        <p class="mt-1 text-xl font-bold"><?= htmlspecialchars((string) ($service['price_label'] ?? ''), ENT_QUOTES, 'UTF-8') ?></p>
+                                    </div>
+                                </div>
                                 <p class="mt-2 max-w-md text-sm leading-6 <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">
                                     <?= htmlspecialchars((string) ($service['description'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
                                 </p>
                                 <p class="mt-3 max-w-md text-sm leading-6 <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">
                                     <?= htmlspecialchars((string) ($service['service_copy'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
                                 </p>
+                                <?php if (!empty($service['meta'])): ?>
+                                    <p class="mt-3 inline-flex rounded-full border px-3 py-1.5 text-xs font-semibold <?= $isFeatured ? 'border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.05)] text-[color:var(--cream-soft)]' : 'border-[var(--line)] bg-[var(--field)] text-[color:var(--muted)]' ?>">
+                                        <?= htmlspecialchars((string) $service['meta'], ENT_QUOTES, 'UTF-8') ?>
+                                    </p>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="mt-5 flex flex-col items-start gap-3 border-t pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between <?= $isFeatured ? 'border-[rgba(241,200,121,0.18)]' : 'border-[var(--line-soft)]' ?>">
@@ -1225,23 +1121,21 @@ $referenceCuts = [
                             <p>Po schválení rezervace ti přijde potvrzení e-mailem</p>
                         </div>
                     </div>
-                    <div class="mt-5 grid gap-3 sm:grid-cols-2">
-                        <div class="rounded-2xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.06)] px-4 py-3">
-                            <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Otevírací doba</p>
-                            <p class="mt-2 text-sm font-semibold text-[color:var(--cream)]">Po-Pá 9:00-18:00</p>
-                            <p class="mt-1 text-sm text-[color:var(--cream-soft)]">Sobota zavřeno</p>
-                        </div>
-                        <div class="rounded-2xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.06)] px-4 py-3">
-                            <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">Lokalita</p>
-                            <p class="mt-2 text-sm font-semibold text-[color:var(--cream)]">Brno, Královo Pole</p>
-                            <p class="mt-1 text-sm text-[color:var(--cream-soft)]">Vackova 1064/39</p>
-                        </div>
+                    <div class="mt-5 border-t border-[rgba(241,200,121,0.16)] pt-4 text-sm text-[color:var(--cream-soft)]">
+                        <p><strong class="text-[color:var(--cream)]">Po-Pá 9:00-18:00</strong> · Vackova 1064/39, Brno-Královo Pole</p>
                     </div>
                 </div>
             </div>
 
             <div class="order-2 space-y-4">
                 <form id="bookingForm" action="save_reservation.php" method="POST" class="booking-form scroll-mt-24 space-y-4 rounded-lg bg-[var(--ink)] p-4 text-[color:var(--cream)] sm:p-5 md:scroll-mt-28 md:p-6">
+                    <?= app_csrf_field() ?>
+                    <input type="hidden" name="form_started_at" value="<?= app_booking_form_started_at() ?>">
+                    <div class="hidden" aria-hidden="true">
+                        <label for="website">Web</label>
+                        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                    </div>
+
                     <!-- Jméno -->
                     <div>
                         <label for="name" class="block text-sm font-medium mb-1">Jak se jmenuješ *</label>
@@ -2164,6 +2058,16 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         } catch (err) {
             console.error('Chyba při načítání časů:', err);
+            timeSelect.innerHTML = "";
+            const opt = document.createElement('option');
+            opt.value = "";
+            opt.textContent = "Časy se teď nepodařilo načíst";
+            opt.disabled = true;
+            opt.selected = true;
+            timeSelect.appendChild(opt);
+            timeSelect.disabled = true;
+            errorMsg.textContent = 'Volné časy se teď nepodařilo načíst. Zkus to prosím znovu za chvilku.';
+            errorMsg.classList.remove('hidden');
         }
     }
 

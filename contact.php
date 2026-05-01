@@ -4,7 +4,7 @@ require_once __DIR__ . '/config.php';
 $instagramUrl = app_business_instagram_url();
 $instagramHandle = app_business_instagram_handle();
 $pageTitle = 'Kontakt - ' . app_business_name();
-$pageDescription = 'Kontakt na Hair By ReneNeme v Brne. Telefon, e-mail, adresa provozovny ve Vackove ulici a nejrychlejsi cesta k terminu pres online rezervaci.';
+$pageDescription = 'Kontakt na Hair By ReneNeme v Brně. Telefon, e-mail, adresa provozovny ve Vackově ulici a nejrychlejší cesta k termínu přes online rezervaci.';
 $pageCanonical = app_absolute_url('contact.php');
 $pageImage = app_absolute_url('assets/barbershop-hero.png');
 $pageSchema = app_public_business_schema('contact.php', [

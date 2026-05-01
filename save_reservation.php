@@ -21,6 +21,18 @@ $gdpr = isset($_POST['gdpr']);
 
 $errors = [];
 
+if (!app_verify_csrf_token($_POST['csrf_token'] ?? null)) {
+    $errors[] = 'Formulář už vypršel nebo se nepodařilo ověřit odeslání. Otevři prosím rezervaci znovu.';
+}
+
+if (!app_validate_booking_honeypot($_POST['website'] ?? null)) {
+    $errors[] = 'Žádost se nepodařilo ověřit. Zkus to prosím znovu.';
+}
+
+if (!app_validate_booking_form_timing($_POST['form_started_at'] ?? null)) {
+    $errors[] = 'Formulář potřebujeme odeslat znovu. Vyber prosím termín ještě jednou.';
+}
+
 if ($name === '') {
     $errors[] = 'Doplň prosím jméno, ať víme, pro koho termín držíme.';
 }
@@ -90,6 +102,16 @@ if (empty($errors)) {
     $price = (int) $services[$service]['price'];
 
     try {
+        $pdo->exec('BEGIN IMMEDIATE TRANSACTION');
+
+        $lockingStmt = $pdo->prepare('SELECT time, service, duration FROM reservations WHERE date = :date');
+        $lockingStmt->execute([':date' => $date]);
+        $freshReservationsForDate = $lockingStmt->fetchAll();
+
+        if (app_reservations_overlap($freshReservationsForDate, $time, $duration)) {
+            $pdo->rollBack();
+            $errors[] = 'Tenhle termín právě někdo obsadil. Vyber prosím jiný čas.';
+        } else {
         $stmt = $pdo->prepare('
             INSERT INTO reservations (name, email, phone, date, time, service, price, duration, note, gdpr_accepted, status, created_at)
             VALUES (:name, :email, :phone, :date, :time, :service, :price, :duration, :note, :gdpr_accepted, :status, :created_at)
@@ -109,6 +131,8 @@ if (empty($errors)) {
             ':status' => 'pending',
             ':created_at' => (new DateTime())->format('Y-m-d H:i:s'),
         ]);
+
+        $pdo->commit();
 
         $reservationId = (int) $pdo->lastInsertId();
         $reservation = [
@@ -142,7 +166,12 @@ if (empty($errors)) {
                 : implode("\n", $integrationResult['errors']),
             ':id' => $reservationId,
         ]);
+        }
     } catch (PDOException $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+
         if ($e->getCode() === '23000') {
             $errors[] = 'Tenhle termín právě někdo obsadil. Vyber prosím jiný čas.';
         } else {
@@ -161,6 +190,8 @@ $priceLabel = isset($services[$service]) ? app_price_label($service) : '';
 $businessPhone = app_business_phone_display();
 $businessEmail = app_business_email();
 $businessAddress = app_business_full_address_inline();
+
+unset($_SESSION['booking_form_started_at']);
 
 ?>
 <!DOCTYPE html>

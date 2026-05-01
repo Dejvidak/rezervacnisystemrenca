@@ -88,7 +88,32 @@ function admin_sync_deleted_google_events(PDO $pdo): array
     return $result;
 }
 
+function admin_current_filters(?string $date, string $status): array
+{
+    $filters = [];
+    if ($date !== null && $date !== '') {
+        $filters['date'] = $date;
+    }
+    if ($status !== 'all') {
+        $filters['status'] = $status;
+    }
+
+    return $filters;
+}
+
+function admin_query_string(?string $date, string $status, array $extra = []): string
+{
+    $params = array_merge(admin_current_filters($date, $status), $extra);
+    return http_build_query($params);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!app_verify_csrf_token($_POST['csrf_token'] ?? null)) {
+        header('HTTP/1.1 400 Bad Request');
+        echo 'Požadavek se nepodařilo ověřit. Obnov prosím stránku administrace a zkus to znovu.';
+        exit;
+    }
+
     $action = $_POST['action'] ?? '';
     $id = (int) ($_POST['id'] ?? 0);
 
@@ -157,8 +182,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $redirect = 'admin.php';
-    if (!empty($_POST['date'])) {
-        $redirect .= '?date=' . urlencode((string) $_POST['date']);
+    $redirectQuery = admin_query_string(
+        !empty($_POST['date']) ? (string) $_POST['date'] : null,
+        trim((string) ($_POST['status'] ?? 'all'))
+    );
+    if ($redirectQuery !== '') {
+        $redirect .= '?' . $redirectQuery;
     }
 
     header('Location: ' . $redirect);
@@ -170,18 +199,38 @@ $googleSyncResult = admin_sync_deleted_google_events($pdo);
 $date = trim($_GET['date'] ?? '');
 $dateObject = DateTime::createFromFormat('!Y-m-d', $date);
 $hasDateFilter = $dateObject && $dateObject->format('Y-m-d') === $date;
-
-if ($hasDateFilter) {
-    $stmt = $pdo->prepare('SELECT * FROM reservations WHERE date = :date ORDER BY time ASC');
-    $stmt->execute([':date' => $date]);
-} else {
-    $today = (new DateTime('today'))->format('Y-m-d');
-    $stmt = $pdo->prepare('SELECT * FROM reservations WHERE date >= :today ORDER BY date ASC, time ASC');
-    $stmt->execute([':today' => $today]);
+$statusFilter = trim((string) ($_GET['status'] ?? 'all'));
+if (!in_array($statusFilter, ['all', 'pending', 'accepted', 'today'], true)) {
+    $statusFilter = 'all';
 }
 
+$today = (new DateTime('today'))->format('Y-m-d');
+$where = [];
+$params = [];
+
+if ($hasDateFilter) {
+    $where[] = 'date = :date';
+    $params[':date'] = $date;
+} elseif ($statusFilter === 'today') {
+    $where[] = 'date = :today';
+    $params[':today'] = $today;
+} else {
+    $where[] = 'date >= :today';
+    $params[':today'] = $today;
+}
+
+if ($statusFilter === 'pending') {
+    $where[] = 'status = :status';
+    $params[':status'] = 'pending';
+} elseif ($statusFilter === 'accepted') {
+    $where[] = 'status != :status';
+    $params[':status'] = 'pending';
+}
+
+$stmt = $pdo->prepare('SELECT * FROM reservations WHERE ' . implode(' AND ', $where) . ' ORDER BY date ASC, time ASC');
+$stmt->execute($params);
 $reservations = $stmt->fetchAll();
-$todayDate = (new DateTime('today'))->format('Y-m-d');
+$todayDate = $today;
 $pendingReservations = array_values(array_filter($reservations, static function (array $reservation): bool {
     return (string) ($reservation['status'] ?? 'accepted') === 'pending';
 }));
@@ -212,6 +261,7 @@ $desktopReservationGroups = [
 
 $countStmt = $pdo->query('SELECT COUNT(*) FROM reservations');
 $totalReservations = (int) $countStmt->fetchColumn();
+$visibleReservationCount = count($reservations);
 $googleCalendarId = trim((string) getenv('GOOGLE_CALENDAR_ID'));
 $googleCalendarOpenUrl = $googleCalendarId !== ''
     ? 'https://calendar.google.com/calendar/u/0/r?cid=' . rawurlencode($googleCalendarId)
@@ -270,6 +320,37 @@ for ($i = 0; $i < 7; $i++) {
     ];
 }
 
+if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
+    header('Content-Type: text/csv; charset=UTF-8');
+    header('Content-Disposition: attachment; filename="rezervace-export-' . date('Ymd-His') . '.csv"');
+
+    $output = fopen('php://output', 'wb');
+    if ($output === false) {
+        exit;
+    }
+
+    fwrite($output, "\xEF\xBB\xBF");
+    fputcsv($output, ['Datum', 'Cas', 'Stav', 'Jmeno', 'Telefon', 'Email', 'Sluzba', 'Delka', 'Cena', 'Poznamka'], ';');
+
+    foreach ($reservations as $reservation) {
+        fputcsv($output, [
+            (string) ($reservation['date'] ?? ''),
+            (string) ($reservation['time'] ?? ''),
+            (string) ($reservation['status'] ?? ''),
+            (string) ($reservation['name'] ?? ''),
+            (string) ($reservation['phone'] ?? ''),
+            (string) ($reservation['email'] ?? ''),
+            (string) ($reservation['service'] ?? ''),
+            (string) ($reservation['duration'] ?? ''),
+            (string) ($reservation['price'] ?? ''),
+            trim((string) ($reservation['note'] ?? '')),
+        ], ';');
+    }
+
+    fclose($output);
+    exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="cs">
@@ -315,6 +396,21 @@ for ($i = 0; $i < 7; $i++) {
             </div>
         </div>
 
+        <div class="mb-4 flex flex-wrap gap-2">
+            <a href="admin.php<?= ($query = admin_query_string($hasDateFilter ? $date : null, 'all')) !== '' ? '?' . h($query) : '' ?>" class="rounded-full border px-3 py-1.5 text-sm <?= $statusFilter === 'all' ? 'border-[#C9BFA7] bg-[#C9BFA7] text-[#1F1B18]' : 'border-[#6A654E] text-[#F5EDE1] hover:bg-[#2A231E]' ?>">
+                Vše
+            </a>
+            <a href="admin.php?<?= h(admin_query_string($hasDateFilter ? $date : null, 'today')) ?>" class="rounded-full border px-3 py-1.5 text-sm <?= $statusFilter === 'today' ? 'border-[#D6A85E] bg-[#D6A85E] text-[#1F1B18]' : 'border-[#6A654E] text-[#F5EDE1] hover:bg-[#2A231E]' ?>">
+                Dnes
+            </a>
+            <a href="admin.php?<?= h(admin_query_string($hasDateFilter ? $date : null, 'pending')) ?>" class="rounded-full border px-3 py-1.5 text-sm <?= $statusFilter === 'pending' ? 'border-[#8A6A2F] bg-[#8A6A2F] text-[#1F1B18]' : 'border-[#6A654E] text-[#F5EDE1] hover:bg-[#2A231E]' ?>">
+                Čekající
+            </a>
+            <a href="admin.php?<?= h(admin_query_string($hasDateFilter ? $date : null, 'accepted')) ?>" class="rounded-full border px-3 py-1.5 text-sm <?= $statusFilter === 'accepted' ? 'border-[#496A45] bg-[#496A45] text-[#F5EDE1]' : 'border-[#6A654E] text-[#F5EDE1] hover:bg-[#2A231E]' ?>">
+                Přijaté
+            </a>
+        </div>
+
         <form method="get" class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
             <label for="date" class="text-sm">Vybrat datum:</label>
             <input
@@ -324,8 +420,13 @@ for ($i = 0; $i < 7; $i++) {
                 value="<?= h($hasDateFilter ? $date : '') ?>"
                 class="w-full rounded border border-[#6A654E] bg-[#3F332A] px-3 py-2 text-[#F5EDE1] sm:w-auto"
             >
+            <input type="hidden" name="status" value="<?= h($statusFilter) ?>">
             <button class="w-full rounded bg-[#C9BFA7] px-4 py-2 font-semibold text-[#1F1B18] sm:w-auto">Filtrovat</button>
             <a href="admin.php" class="text-center text-sm underline sm:text-left">Zobrazit budoucí rezervace</a>
+            <a href="admin.php?<?= h(admin_query_string($hasDateFilter ? $date : null, $statusFilter, ['export' => 'csv'])) ?>" class="w-full rounded border border-[#6A654E] px-4 py-2 text-center text-sm font-semibold text-[#F5EDE1] hover:bg-[#2A231E] sm:w-auto">
+                Export CSV
+            </a>
+            <p class="text-xs text-[#9F927E] sm:ml-auto"><?= $visibleReservationCount ?> záznamů v aktuálním výběru</p>
         </form>
 
         <?php if (!empty($googleSyncResult['deleted'])): ?>
@@ -377,7 +478,7 @@ for ($i = 0; $i < 7; $i++) {
                                 <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#C9BFA7]"><?= h($calendarDay['weekday']) ?></p>
                                 <h3 class="mt-1 text-lg font-bold"><?= h($calendarDay['label']) ?></h3>
                             </div>
-                            <a href="admin.php?date=<?= h($calendarDay['date']) ?>" class="text-xs underline text-[#D8C8B0]">detail</a>
+                            <a href="admin.php?<?= h(admin_query_string($calendarDay['date'], $statusFilter)) ?>" class="text-xs underline text-[#D8C8B0]">detail</a>
                         </div>
 
                         <?php if (empty($calendarDay['entries'])): ?>
@@ -430,8 +531,8 @@ for ($i = 0; $i < 7; $i++) {
                             <div class="rounded-xl border border-[#3F332A] bg-[#241E1A] px-3 py-2">
                                 <p class="text-xs uppercase tracking-[0.18em] text-[#C9BFA7]">Zákazník</p>
                                 <p class="mt-1 font-semibold"><?= h($reservation['name']) ?></p>
-                                <p class="mt-1 text-[#D8C8B0]"><?= h($reservation['phone']) ?></p>
-                                <p class="text-[#C9BFA7]"><?= h($reservation['email']) ?></p>
+                                <a href="tel:<?= h(preg_replace('/\s+/', '', (string) $reservation['phone'])) ?>" class="mt-1 block text-[#D8C8B0] underline decoration-transparent underline-offset-2 hover:decoration-current"><?= h($reservation['phone']) ?></a>
+                                <a href="mailto:<?= h($reservation['email']) ?>" class="block text-[#C9BFA7] underline decoration-transparent underline-offset-2 hover:decoration-current"><?= h($reservation['email']) ?></a>
                             </div>
 
                             <div class="grid grid-cols-2 gap-2">
@@ -474,18 +575,22 @@ for ($i = 0; $i < 7; $i++) {
                         <div class="mt-4 grid gap-2 <?= ($reservation['status'] ?? 'accepted') === 'pending' ? 'grid-cols-2' : 'grid-cols-1' ?>">
                             <?php if (($reservation['status'] ?? 'accepted') === 'pending'): ?>
                                 <form method="post" onsubmit="return confirm('Přijmout rezervaci a zapsat ji do Google Kalendáře?');">
+                                    <?= app_csrf_field() ?>
                                     <input type="hidden" name="action" value="accept">
                                     <input type="hidden" name="id" value="<?= (int) $reservation['id'] ?>">
                                     <input type="hidden" name="date" value="<?= h($hasDateFilter ? $date : '') ?>">
+                                    <input type="hidden" name="status" value="<?= h($statusFilter) ?>">
                                     <button class="w-full rounded-lg bg-[#C9BFA7] px-3 py-2 text-sm font-semibold text-[#1F1B18] hover:bg-[#F5EDE1]">
                                         Přijmout
                                     </button>
                                 </form>
                             <?php endif; ?>
                             <form method="post" onsubmit="return confirm('Opravdu smazat rezervaci? Pokud má událost v Google Kalendáři, smaže se také.');">
+                                <?= app_csrf_field() ?>
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="id" value="<?= (int) $reservation['id'] ?>">
                                 <input type="hidden" name="date" value="<?= h($hasDateFilter ? $date : '') ?>">
+                                <input type="hidden" name="status" value="<?= h($statusFilter) ?>">
                                 <button class="w-full rounded-lg bg-[#7B2D26] px-3 py-2 text-sm font-semibold hover:bg-[#9E382F]">
                                     Smazat
                                 </button>
@@ -546,8 +651,8 @@ for ($i = 0; $i < 7; $i++) {
                                 <td class="px-3 py-2 border-b border-[#3F332A] whitespace-nowrap"><?= h($reservation['time']) ?></td>
                                 <td class="px-3 py-2 border-b border-[#3F332A]"><?= h($reservation['name']) ?></td>
                                 <td class="px-3 py-2 border-b border-[#3F332A]">
-                                    <div><?= h($reservation['phone']) ?></div>
-                                    <div class="text-xs text-[#C9BFA7]"><?= h($reservation['email']) ?></div>
+                                    <a href="tel:<?= h(preg_replace('/\s+/', '', (string) $reservation['phone'])) ?>" class="block underline decoration-transparent underline-offset-2 hover:decoration-current"><?= h($reservation['phone']) ?></a>
+                                    <a href="mailto:<?= h($reservation['email']) ?>" class="block text-xs text-[#C9BFA7] underline decoration-transparent underline-offset-2 hover:decoration-current"><?= h($reservation['email']) ?></a>
                                 </td>
                                 <td class="px-3 py-2 border-b border-[#3F332A]"><?= h($reservation['service']) ?></td>
                                 <td class="px-3 py-2 border-b border-[#3F332A] whitespace-nowrap">
@@ -577,18 +682,22 @@ for ($i = 0; $i < 7; $i++) {
                                     <div class="flex flex-col gap-2">
                                     <?php if (($reservation['status'] ?? 'accepted') === 'pending'): ?>
                                         <form method="post" onsubmit="return confirm('Přijmout rezervaci a zapsat ji do Google Kalendáře?');">
+                                            <?= app_csrf_field() ?>
                                             <input type="hidden" name="action" value="accept">
                                             <input type="hidden" name="id" value="<?= (int) $reservation['id'] ?>">
                                             <input type="hidden" name="date" value="<?= h($hasDateFilter ? $date : '') ?>">
+                                            <input type="hidden" name="status" value="<?= h($statusFilter) ?>">
                                             <button class="rounded bg-[#C9BFA7] px-3 py-1.5 text-xs font-semibold text-[#1F1B18] hover:bg-[#F5EDE1]">
                                                 Přijmout
                                             </button>
                                         </form>
                                     <?php endif; ?>
                                     <form method="post" onsubmit="return confirm('Opravdu smazat rezervaci? Pokud má událost v Google Kalendáři, smaže se také.');">
+                                        <?= app_csrf_field() ?>
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="id" value="<?= (int) $reservation['id'] ?>">
                                         <input type="hidden" name="date" value="<?= h($hasDateFilter ? $date : '') ?>">
+                                        <input type="hidden" name="status" value="<?= h($statusFilter) ?>">
                                         <button class="rounded bg-[#7B2D26] px-3 py-1.5 text-xs font-semibold hover:bg-[#9E382F]">
                                             Smazat
                                         </button>

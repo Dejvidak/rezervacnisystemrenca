@@ -3,8 +3,8 @@ require_once __DIR__ . '/config.php';
 
 $instagramUrl = app_business_instagram_url();
 $instagramHandle = app_business_instagram_handle();
-$pageTitle = 'Reference strihu - ' . app_business_name();
-$pageDescription = 'Vybrane reference strihu Hair By ReneNeme v Brne. Projdi si galerii, inspiruj se tvarem i delkou a pak prejdi rovnou k rezervaci terminu.';
+$pageTitle = 'Reference střihů - ' . app_business_name();
+$pageDescription = 'Vybrané reference střihů Hair By ReneNeme v Brně. Projdi si galerii, inspiruj se tvarem i délkou a pak přejdi rovnou k rezervaci termínu.';
 $pageCanonical = app_absolute_url('references.php');
 $pageImage = app_absolute_url('assets/references/moderni-pansky-strih.jpg');
 $pageSchema = app_public_business_schema('references.php', [
