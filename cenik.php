@@ -38,40 +38,44 @@ $pageSchema = app_public_business_schema('cenik.php', [
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
-            --page: #F4EFE7;
-            --ink: #2B211C;
-            --surface: #2B211C;
-            --surface-soft: #4A3A30;
-            --muted: #5E4E41;
-            --muted-strong: #725E4C;
-            --line: #D8C8B0;
-            --line-soft: #E8DED0;
-            --field: #F9F5EF;
-            --cream: #F5EDE1;
-            --cream-soft: #EDE8DD;
-            --accent: #C08A3E;
-            --accent-dark: #94642C;
-            --gold: #D6A85E;
-            --gold-soft: #F1C879;
+            --page: #0D0D0B;
+            --ink: #F7F3EA;
+            --surface: #080807;
+            --surface-soft: #24221E;
+            --muted: #C8C1B4;
+            --muted-strong: #D8CBB7;
+            --line: #302D27;
+            --line-soft: #3C3831;
+            --field: #171613;
+            --cream: #F7F3EA;
+            --cream-soft: #DCD3C2;
+            --accent: #C8AD63;
+            --accent-dark: #A98A42;
+            --gold: #D8BF7A;
+            --gold-soft: #F0DFA9;
         }
 
         .price-stat {
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(192, 138, 62, 0.34);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(249, 245, 239, 0.86));
-            box-shadow: 0 16px 30px rgba(43, 33, 28, 0.1);
+            border: 1px solid rgba(216, 191, 122, 0.24);
+            background: linear-gradient(180deg, rgba(31, 29, 25, 0.92), rgba(19, 18, 16, 0.92));
+            box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18);
         }
 
         .site-header {
+            border-color: rgba(216, 191, 122, 0.18);
+            background: linear-gradient(180deg, rgba(36, 34, 30, 0.96), rgba(20, 19, 17, 0.94));
+            backdrop-filter: blur(14px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
             transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease, backdrop-filter 220ms ease;
         }
 
         .site-header.is-scrolled {
-            border-color: rgba(74, 58, 48, 0.54);
-            background: rgba(43, 33, 28, 0.88);
-            backdrop-filter: blur(16px);
-            box-shadow: 0 14px 32px rgba(43, 33, 28, 0.18);
+            border-color: rgba(216, 191, 122, 0.28);
+            background: linear-gradient(180deg, rgba(43, 40, 34, 0.9), rgba(13, 13, 11, 0.88));
+            backdrop-filter: blur(18px);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(216, 191, 122, 0.1);
         }
 
         .price-stat::before {
@@ -85,9 +89,9 @@ $pageSchema = app_public_business_schema('cenik.php', [
         .price-badge {
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(192, 138, 62, 0.42);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(249, 245, 239, 0.9));
-            box-shadow: 0 14px 26px rgba(43, 33, 28, 0.12);
+            border: 1px solid rgba(216, 191, 122, 0.26);
+            background: linear-gradient(180deg, rgba(31, 29, 25, 0.94), rgba(19, 18, 16, 0.94));
+            box-shadow: 0 14px 26px rgba(0, 0, 0, 0.18);
         }
 
         .price-badge::before {
@@ -99,8 +103,8 @@ $pageSchema = app_public_business_schema('cenik.php', [
         }
 
         .price-badge--featured {
-            border-color: rgba(241, 200, 121, 0.58);
-            background: linear-gradient(180deg, rgba(241, 200, 121, 0.18), rgba(255, 255, 255, 0.08));
+            border-color: rgba(216, 191, 122, 0.48);
+            background: linear-gradient(180deg, rgba(216, 191, 122, 0.18), rgba(255, 255, 255, 0.06));
             box-shadow: 0 16px 28px rgba(0, 0, 0, 0.18);
         }
 
@@ -165,7 +169,7 @@ $pageSchema = app_public_business_schema('cenik.php', [
         }
     </style>
 </head>
-<body class="min-h-screen overflow-x-hidden bg-[var(--page)] text-[color:var(--ink)] antialiased">
+<body class="min-h-screen overflow-x-hidden bg-[var(--page)] text-[color:var(--cream)] antialiased">
 
 <header class="site-header sticky top-0 z-50 border-b border-[var(--surface-soft)] bg-[var(--surface)] shadow-lg">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
@@ -211,7 +215,7 @@ $pageSchema = app_public_business_schema('cenik.php', [
             </svg>
         </button>
     </div>
-    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[var(--surface-soft)] bg-[var(--surface)] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
+    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(216,191,122,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
         <a href="index.php#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
         <a href="index.php#visit" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Návštěva</a>
         <a href="index.php#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
@@ -242,10 +246,10 @@ $pageSchema = app_public_business_schema('cenik.php', [
                 V klidu si projdi všechny varianty, porovnej si cenu i délku služby a pak můžeš rovnou pokračovat k rezervaci bez dalšího hledání.
             </p>
             <div class="mt-6 flex flex-col gap-3 sm:flex-row">
-                <a href="index.php" class="inline-flex items-center justify-center rounded-lg border border-[var(--surface-soft)] px-5 py-3 text-sm font-semibold text-[color:var(--surface-soft)] transition hover:-translate-y-0.5 hover:bg-[var(--surface-soft)] hover:text-[color:var(--cream)] focus:outline-none focus:ring-2 focus:ring-[var(--surface-soft)]">
+                <a href="index.php" class="inline-flex items-center justify-center rounded-lg border border-[rgba(216,191,122,0.28)] bg-[rgba(31,29,25,0.72)] px-5 py-3 text-sm font-semibold text-[color:var(--cream-soft)] shadow-sm transition hover:-translate-y-0.5 hover:border-[var(--gold)] hover:bg-[rgba(216,191,122,0.1)] hover:text-[color:var(--gold-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                     Na hlavní stránku
                 </a>
-                <a href="index.php#booking" class="inline-flex items-center justify-center text-sm font-semibold text-[color:var(--accent)] underline decoration-[var(--accent)] underline-offset-4 transition hover:text-[color:var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+                <a href="index.php#booking" class="inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[#080807] shadow-md shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[var(--gold)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                     Přejít na rezervaci
                 </a>
             </div>
@@ -254,17 +258,17 @@ $pageSchema = app_public_business_schema('cenik.php', [
         <div class="grid gap-3 min-[420px]:grid-cols-2 lg:grid-cols-3">
             <div class="price-stat reveal-item rounded-2xl px-5 py-4 pl-6" data-reveal-item>
                 <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Od</p>
-                <p class="mt-2 text-3xl font-extrabold text-[color:var(--ink)]"><?= htmlspecialchars((string) min($servicePrices), ENT_QUOTES, 'UTF-8') ?> Kč</p>
+                <p class="mt-2 text-3xl font-extrabold text-[color:var(--cream)]"><?= htmlspecialchars((string) min($servicePrices), ENT_QUOTES, 'UTF-8') ?> Kč</p>
                 <p class="mt-1 text-sm text-[color:var(--muted)]">nejrychlejší varianta</p>
             </div>
             <div class="price-stat reveal-item rounded-2xl px-5 py-4 pl-6" data-reveal-item>
                 <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Délka</p>
-                <p class="mt-2 text-3xl font-extrabold text-[color:var(--ink)]"><?= htmlspecialchars((string) min($serviceDurations), ENT_QUOTES, 'UTF-8') ?>-<?= htmlspecialchars((string) max($serviceDurations), ENT_QUOTES, 'UTF-8') ?> min</p>
+                <p class="mt-2 text-3xl font-extrabold text-[color:var(--cream)]"><?= htmlspecialchars((string) min($serviceDurations), ENT_QUOTES, 'UTF-8') ?>-<?= htmlspecialchars((string) max($serviceDurations), ENT_QUOTES, 'UTF-8') ?> min</p>
                 <p class="mt-1 text-sm text-[color:var(--muted)]">podle služby</p>
             </div>
             <div class="price-stat reveal-item rounded-2xl px-5 py-4 pl-6" data-reveal-item>
                 <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Služby</p>
-                <p class="mt-2 text-3xl font-extrabold text-[color:var(--ink)]"><?= htmlspecialchars((string) count($services), ENT_QUOTES, 'UTF-8') ?></p>
+                <p class="mt-2 text-3xl font-extrabold text-[color:var(--cream)]"><?= htmlspecialchars((string) count($services), ENT_QUOTES, 'UTF-8') ?></p>
                 <p class="mt-1 text-sm text-[color:var(--muted)]">v aktuální nabídce</p>
             </div>
         </div>
@@ -276,19 +280,19 @@ $pageSchema = app_public_business_schema('cenik.php', [
                 <p class="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--muted-strong)]">Kompletní ceník</p>
                 <h2 class="mt-1 text-2xl font-bold">Vyber si variantu, která ti sedí</h2>
             </div>
-            <a href="index.php#booking" class="text-sm font-semibold text-[color:var(--accent)] underline decoration-[var(--accent)] underline-offset-4 hover:text-[color:var(--accent-dark)]">
+            <a href="index.php#booking" class="text-sm font-semibold text-[color:var(--accent)] underline decoration-[var(--accent)] underline-offset-4 hover:text-[color:var(--gold-soft)]">
                 Otevřít formulář
             </a>
         </div>
         <div class="grid gap-4 md:grid-cols-2">
             <?php foreach ($services as $serviceName => $service): ?>
                 <?php $isFeatured = !empty($service['featured']); ?>
-                <article class="group reveal-item relative overflow-hidden rounded-2xl border <?= $isFeatured ? 'border-[var(--accent)] bg-[linear-gradient(135deg,rgba(43,33,28,0.98),rgba(74,58,48,0.94))] text-[color:var(--cream)] shadow-xl' : 'border-[var(--line)] bg-white/78 text-[color:var(--ink)] shadow-sm' ?>" data-reveal-item>
-                    <div class="absolute inset-x-0 top-0 h-1 <?= $isFeatured ? 'bg-[linear-gradient(90deg,var(--gold),var(--gold-soft))]' : 'bg-[linear-gradient(90deg,var(--accent),rgba(192,138,62,0.12))]' ?>"></div>
+                <article class="group reveal-item relative overflow-hidden rounded-2xl border <?= $isFeatured ? 'border-[var(--accent)] bg-[linear-gradient(135deg,rgba(0,0,0,0.98),rgba(35,35,35,0.94))] text-[color:var(--cream)] shadow-xl' : 'border-[var(--line)] bg-[rgba(31,29,25,0.82)] text-[color:var(--cream)] shadow-sm' ?>" data-reveal-item>
+                    <div class="absolute inset-x-0 top-0 h-1 <?= $isFeatured ? 'bg-[linear-gradient(90deg,var(--gold),var(--gold-soft))]' : 'bg-[linear-gradient(90deg,var(--accent),rgba(17,17,17,0.12))]' ?>"></div>
                     <div class="p-5 sm:p-6">
                         <div class="flex flex-col items-start gap-4">
                             <div class="w-full">
-                                <span class="inline-flex rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'border-[rgba(241,200,121,0.32)] bg-[rgba(241,200,121,0.12)] text-[color:var(--gold-soft)]' : 'border-[var(--line)] bg-[var(--field)] text-[color:var(--muted-strong)]' ?>">
+                                <span class="inline-flex rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'border-[rgba(218,218,213,0.32)] bg-[rgba(218,218,213,0.12)] text-[color:var(--gold-soft)]' : 'border-[var(--line)] bg-[var(--field)] text-[color:var(--muted-strong)]' ?>">
                                     <?= htmlspecialchars((string) ($service['badge'] ?? 'Služba'), ENT_QUOTES, 'UTF-8') ?>
                                 </span>
                                 <h3 class="mt-4 text-xl font-bold"><?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?></h3>
@@ -303,19 +307,19 @@ $pageSchema = app_public_business_schema('cenik.php', [
                                 <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                                     <div>
                                         <p class="text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--muted-strong)]' ?>">Cena</p>
-                                        <p class="mt-2 text-3xl font-extrabold leading-none tracking-normal whitespace-nowrap <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--accent-dark)]' ?>"><?= htmlspecialchars((string) $service['price_label'], ENT_QUOTES, 'UTF-8') ?></p>
+                                        <p class="mt-2 text-3xl font-extrabold leading-none tracking-normal whitespace-nowrap <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--gold)]' ?>"><?= htmlspecialchars((string) $service['price_label'], ENT_QUOTES, 'UTF-8') ?></p>
                                     </div>
                                     <p class="text-sm font-semibold <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">cca <?= htmlspecialchars((string) $service['duration'], ENT_QUOTES, 'UTF-8') ?> minut</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-5 flex flex-col items-start gap-3 border-t pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between <?= $isFeatured ? 'border-[rgba(241,200,121,0.18)]' : 'border-[var(--line-soft)]' ?>">
+                        <div class="mt-5 flex flex-col items-start gap-3 border-t pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between <?= $isFeatured ? 'border-[rgba(218,218,213,0.18)]' : 'border-[var(--line-soft)]' ?>">
                             <p class="text-sm <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">
                                 <?= htmlspecialchars((string) ($service['meta'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
                             </p>
                             <a
                                 href="index.php#booking"
-                                class="inline-flex items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[var(--gold)] <?= $isFeatured ? 'border-[rgba(241,200,121,0.24)] bg-[rgba(255,255,255,0.08)] text-[color:var(--gold-soft)] hover:-translate-y-0.5 hover:border-[rgba(241,200,121,0.5)] hover:bg-[rgba(241,200,121,0.18)] hover:text-[color:var(--cream)]' : 'border-[rgba(74,58,48,0.14)] bg-[rgba(255,255,255,0.62)] text-[color:var(--accent-dark)] shadow-sm hover:-translate-y-0.5 hover:border-[rgba(192,138,62,0.42)] hover:bg-[rgba(192,138,62,0.14)] hover:text-[color:var(--ink)]' ?>"
+                                class="inline-flex items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[var(--gold)] <?= $isFeatured ? 'border-[rgba(216,191,122,0.28)] bg-[rgba(255,255,255,0.08)] text-[color:var(--gold-soft)] hover:-translate-y-0.5 hover:border-[rgba(216,191,122,0.5)] hover:bg-[rgba(216,191,122,0.18)] hover:text-[color:var(--cream)]' : 'border-[rgba(216,191,122,0.28)] bg-[rgba(216,191,122,0.16)] text-[color:var(--gold-soft)] shadow-sm hover:-translate-y-0.5 hover:border-[rgba(216,191,122,0.5)] hover:bg-[rgba(216,191,122,0.24)] hover:text-[color:var(--cream)]' ?>"
                             >
                                 Vybrat a rezervovat
                             </a>
@@ -324,7 +328,7 @@ $pageSchema = app_public_business_schema('cenik.php', [
                 </article>
             <?php endforeach; ?>
         </div>
-        <div class="reveal-item mt-5 rounded-2xl border border-[var(--line)] bg-white/80 p-5 shadow-sm" data-reveal-item>
+        <div class="reveal-item mt-5 rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] p-5 shadow-sm" data-reveal-item>
             <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
                     <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Dárkové poukazy</p>
@@ -337,7 +341,7 @@ $pageSchema = app_public_business_schema('cenik.php', [
                     <a href="tel:+420608419610" class="inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-2.5 text-sm font-semibold text-[color:var(--cream)] transition hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                         Zavolat
                     </a>
-                    <a href="mailto:renenemehair@seznam.cz?subject=D%C3%A1rkov%C3%BD%20poukaz%20Hair%20By%20ReneNeme" class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[var(--accent)] hover:text-[color:var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+                    <a href="mailto:renenemehair@seznam.cz?subject=D%C3%A1rkov%C3%BD%20poukaz%20Hair%20By%20ReneNeme" class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--cream)] transition hover:border-[var(--accent)] hover:text-[color:var(--gold-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                         Napsat e-mail
                     </a>
                 </div>

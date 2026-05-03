@@ -35,35 +35,39 @@ $pageSchema = app_public_business_schema('contact.php', [
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
-            --page: #F4EFE7;
-            --ink: #2B211C;
-            --surface: #2B211C;
-            --surface-soft: #4A3A30;
-            --muted: #5E4E41;
-            --muted-strong: #725E4C;
-            --line: #D8C8B0;
-            --line-soft: #E8DED0;
-            --cream: #F5EDE1;
-            --cream-soft: #EDE8DD;
-            --accent: #C08A3E;
-            --accent-dark: #94642C;
-            --gold: #D6A85E;
-            --gold-soft: #F1C879;
+            --page: #0D0D0B;
+            --ink: #F7F3EA;
+            --surface: #080807;
+            --surface-soft: #24221E;
+            --muted: #C8C1B4;
+            --muted-strong: #D8CBB7;
+            --line: #302D27;
+            --line-soft: #3C3831;
+            --cream: #F7F3EA;
+            --cream-soft: #DCD3C2;
+            --accent: #C8AD63;
+            --accent-dark: #A98A42;
+            --gold: #D8BF7A;
+            --gold-soft: #F0DFA9;
         }
 
         .site-header {
+            border-color: rgba(216, 191, 122, 0.18);
+            background: linear-gradient(180deg, rgba(36, 34, 30, 0.96), rgba(20, 19, 17, 0.94));
+            backdrop-filter: blur(14px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
             transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease, backdrop-filter 220ms ease;
         }
 
         .site-header.is-scrolled {
-            border-color: rgba(74, 58, 48, 0.54);
-            background: rgba(43, 33, 28, 0.88);
-            backdrop-filter: blur(16px);
-            box-shadow: 0 14px 32px rgba(43, 33, 28, 0.18);
+            border-color: rgba(216, 191, 122, 0.28);
+            background: linear-gradient(180deg, rgba(43, 40, 34, 0.9), rgba(13, 13, 11, 0.88));
+            backdrop-filter: blur(18px);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(216, 191, 122, 0.1);
         }
     </style>
 </head>
-<body class="min-h-screen overflow-x-hidden bg-[var(--page)] text-[color:var(--ink)] antialiased">
+<body class="min-h-screen overflow-x-hidden bg-[var(--page)] text-[color:var(--cream)] antialiased">
 
 <header class="site-header sticky top-0 z-50 bg-[var(--surface)] border-b border-[var(--surface-soft)] shadow-lg">
     <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
@@ -109,7 +113,7 @@ $pageSchema = app_public_business_schema('contact.php', [
             </svg>
         </button>
     </div>
-    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[var(--surface-soft)] bg-[var(--surface)] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
+    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(216,191,122,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
         <a href="index.php#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
         <a href="index.php#visit" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Návštěva</a>
         <a href="index.php#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
@@ -140,34 +144,34 @@ $pageSchema = app_public_business_schema('contact.php', [
                 upravit termín nebo dohledat fakturační údaje, všechno najdete tady
             </p>
             <div class="mt-6 flex flex-col gap-3 sm:flex-row">
-                <a href="index.php" class="inline-flex items-center justify-center rounded-lg border border-[var(--surface-soft)] px-5 py-3 text-sm font-semibold text-[color:var(--surface-soft)] transition hover:-translate-y-0.5 hover:bg-[var(--surface-soft)] hover:text-[color:var(--cream)] focus:outline-none focus:ring-2 focus:ring-[var(--surface-soft)]">
+                <a href="index.php" class="inline-flex items-center justify-center rounded-lg border border-[rgba(216,191,122,0.28)] bg-[rgba(31,29,25,0.72)] px-5 py-3 text-sm font-semibold text-[color:var(--cream-soft)] shadow-sm transition hover:-translate-y-0.5 hover:border-[var(--gold)] hover:bg-[rgba(216,191,122,0.1)] hover:text-[color:var(--gold-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                     Na hlavní stránku
                 </a>
-                <a href="index.php#booking" class="inline-flex items-center justify-center text-sm font-semibold text-[color:var(--accent)] underline decoration-[var(--accent)] underline-offset-4 transition hover:text-[color:var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+                <a href="index.php#booking" class="inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[#080807] shadow-md shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[var(--gold)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                     Přejít na rezervaci
                 </a>
             </div>
         </div>
 
-        <div class="rounded-lg border border-[var(--line)] bg-[var(--cream)] p-5 shadow-xl shadow-[rgba(43,33,28,0.08)] sm:p-7">
+        <div class="rounded-lg border border-[var(--line)] bg-[rgba(31,29,25,0.82)] p-5 shadow-xl shadow-[rgba(0,0,0,0.18)] sm:p-7">
             <div class="grid gap-4 min-[460px]:grid-cols-2">
-                <div class="rounded-lg border border-[var(--line-soft)] bg-[var(--page)] p-4">
+                <div class="rounded-lg border border-[var(--line-soft)] bg-[var(--field)] p-4">
                     <p class="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Kontaktní osoba</p>
                     <p class="mt-2 text-lg font-bold">Renata Nemeškalová</p>
                 </div>
-                <div class="rounded-lg border border-[var(--line-soft)] bg-[var(--page)] p-4">
+                <div class="rounded-lg border border-[var(--line-soft)] bg-[var(--field)] p-4">
                     <p class="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">IČO</p>
                     <p class="mt-2 text-lg font-bold">19671415</p>
                 </div>
-                <a href="tel:+420608419610" class="rounded-lg border border-[var(--line-soft)] bg-[var(--page)] p-4 transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-md">
+                <a href="tel:+420608419610" class="rounded-lg border border-[var(--line-soft)] bg-[var(--field)] p-4 transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-md">
                     <p class="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Telefon</p>
                     <p class="mt-2 text-base font-bold min-[420px]:text-lg">+420 608 419 610</p>
                 </a>
-                <a href="mailto:renenemehair@seznam.cz" class="rounded-lg border border-[var(--line-soft)] bg-[var(--page)] p-4 transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-md">
+                <a href="mailto:renenemehair@seznam.cz" class="rounded-lg border border-[var(--line-soft)] bg-[var(--field)] p-4 transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-md">
                     <p class="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">E-mail</p>
                     <p class="mt-2 break-words text-base font-bold min-[420px]:text-lg">renenemehair@seznam.cz</p>
                 </a>
-                <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="rounded-lg border border-[var(--line-soft)] bg-[var(--page)] p-4 transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-md">
+                <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="rounded-lg border border-[var(--line-soft)] bg-[var(--field)] p-4 transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-md">
                     <p class="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Instagram</p>
                     <p class="mt-2 flex items-center gap-2 text-base font-bold min-[420px]:text-lg">
                         <svg class="h-5 w-5 text-[color:var(--accent)]" viewBox="0 0 24 24" fill="none" aria-hidden="true">

@@ -202,124 +202,181 @@ unset($_SESSION['booking_form_started_at']);
 <?= app_head_assets() ?>
     <title><?= empty($errors) ? 'Žádost o rezervaci přijata' : 'Rezervaci je potřeba upravit' ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .pending-confirmation-card {
+            animation: pendingGlow 2.6s ease-in-out infinite;
+        }
+
+        .pending-confirmation-icon {
+            animation: pendingIconPulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes pendingGlow {
+            0%, 100% {
+                box-shadow: 0 18px 34px rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(216, 191, 122, 0.3);
+                transform: translate3d(0, 0, 0);
+            }
+
+            50% {
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.26), 0 0 0 8px rgba(216, 191, 122, 0);
+                transform: translate3d(0, -1px, 0);
+            }
+        }
+
+        @keyframes pendingIconPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .pending-confirmation-card,
+            .pending-confirmation-icon {
+                animation: none;
+            }
+        }
+    </style>
 </head>
-<body class="min-h-screen bg-[#F4EFE7] text-[#2B211C]">
+<body class="min-h-screen bg-[#0D0D0B] text-[#F7F3EA]">
     <main class="min-h-screen px-4 py-8 sm:py-12">
         <div class="mx-auto mb-6 flex max-w-4xl items-center justify-between gap-4">
             <a href="index.php" class="text-xl font-extrabold tracking-tight transition hover:opacity-85">
                 <span>Hair By</span>
-                <span class="text-[#C08A3E]">ReneNeme</span>
+                <span class="text-[#D8BF7A]">ReneNeme</span>
             </a>
-            <a href="tel:+420608419610" class="hidden rounded-full border border-[#D8C8B0] px-4 py-2 text-sm font-semibold text-[#2B211C] transition hover:border-[#C08A3E] hover:text-[#94642C] sm:inline-flex">
+            <a href="tel:+420608419610" class="hidden rounded-full border border-[#302D27] px-4 py-2 text-sm font-semibold text-[#F7F3EA] transition hover:border-[#C8AD63] hover:text-[#F0DFA9] sm:inline-flex">
                 Zavolat
             </a>
         </div>
 
-        <div class="mx-auto w-full max-w-4xl overflow-hidden rounded-3xl border border-[#D8C8B0] bg-[#F5EDE1] shadow-2xl shadow-[rgba(43,33,28,0.14)]">
+        <div class="mx-auto w-full max-w-4xl overflow-hidden rounded-3xl border border-[#302D27] bg-[#171613] shadow-2xl shadow-black/40">
         <?php if (!empty($errors)): ?>
             <div class="grid md:grid-cols-[0.85fr_1.15fr]">
-                <div class="bg-[#2B211C] px-6 py-8 text-[#F5EDE1] sm:px-8 md:py-10">
+                <div class="bg-[linear-gradient(145deg,#080807,#24221E)] px-6 py-8 text-[#F7F3EA] sm:px-8 md:py-10">
                     <div class="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-full border border-[#7B2D26] bg-[#3A211E] text-[#F4B8B0]">
                         <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                             <path d="M12 8v5M12 17h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
                             <path d="M10.3 4.2h3.4L21 18.5 19.3 21H4.7L3 18.5 10.3 4.2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <p class="text-xs font-bold uppercase tracking-[0.24em] text-[#D6A85E]">Ještě to doladíme</p>
+                    <p class="text-xs font-bold uppercase tracking-[0.24em] text-[#D8BF7A]">Ještě to doladíme</p>
                     <h1 class="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">Rezervaci se nepodařilo odeslat</h1>
-                    <p class="mt-4 text-sm leading-6 text-[#EDE8DD]">
+                    <p class="mt-4 text-sm leading-6 text-[#DCD3C2]">
                         Některý údaj nesedí nebo termín mezitím přestal být volný. Mrkni na přehled vedle a zkus to prosím znovu.
                     </p>
                 </div>
                 <div class="px-6 py-8 sm:px-8 md:py-10">
-                    <p class="text-xs font-bold uppercase tracking-[0.22em] text-[#725E4C]">Co je potřeba upravit</p>
+                    <p class="text-xs font-bold uppercase tracking-[0.22em] text-[#D8BF7A]">Co je potřeba upravit</p>
                     <ul class="mt-4 space-y-2 text-sm">
                         <?php foreach ($errors as $error): ?>
-                            <li class="rounded-2xl border border-[#D8C8B0] bg-[#F9F5EF] px-4 py-3"><?= h($error) ?></li>
+                            <li class="rounded-2xl border border-[#302D27] bg-[#1F1D19] px-4 py-3 text-[#DCD3C2]"><?= h($error) ?></li>
                         <?php endforeach; ?>
                     </ul>
                     <div class="mt-6 flex flex-col gap-3 sm:flex-row">
-                        <a href="index.php#booking" class="inline-flex justify-center rounded-xl bg-[#C08A3E] px-5 py-3 text-sm font-semibold text-[#F5EDE1] shadow-md transition hover:bg-[#94642C]">
+                        <a href="index.php#booking" class="inline-flex justify-center rounded-xl bg-[#C8AD63] px-5 py-3 text-sm font-semibold text-[#080807] shadow-md shadow-black/30 transition hover:bg-[#D8BF7A]">
                             Upravit rezervaci
                         </a>
-                        <a href="tel:+420608419610" class="inline-flex justify-center rounded-xl border border-[#4A3A30] px-5 py-3 text-sm font-semibold text-[#2B211C] transition hover:bg-[#2B211C] hover:text-[#F5EDE1]">
+                        <a href="tel:+420608419610" class="inline-flex justify-center rounded-xl border border-[#5B554B] px-5 py-3 text-sm font-semibold text-[#F7F3EA] transition hover:border-[#C8AD63] hover:text-[#F0DFA9]">
                             Zavolat
                         </a>
                     </div>
                 </div>
             </div>
         <?php else: ?>
-            <div class="grid md:grid-cols-[0.9fr_1.1fr]">
-                <div class="bg-[linear-gradient(145deg,#2B211C,#4A3A30)] px-6 py-8 text-[#F5EDE1] sm:px-8 md:py-10">
-                    <div class="mb-5 inline-flex h-16 w-16 items-center justify-center rounded-full bg-[#C08A3E] text-[#F5EDE1] shadow-lg ring-8 ring-[rgba(192,138,62,0.16)]">
-                        <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                            <path d="M5 12.5l4.2 4.2L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                    <p class="text-xs font-bold uppercase tracking-[0.24em] text-[#D6A85E]">Žádost přijata</p>
-                    <h1 class="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">Díky, <?= h($name) ?>. Termín držíme v přehledu.</h1>
-                    <p class="mt-4 text-sm leading-6 text-[#EDE8DD]">
-                        Rezervace teď čeká na potvrzení. Jakmile ji přijmeme, dorazí ti e-mail se shrnutím a termín bude pevně zapsaný.
-                    </p>
-                    <div class="mt-6 rounded-2xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.06)] p-4">
-                        <p class="text-xs font-bold uppercase tracking-[0.2em] text-[#F1C879]">Co bude dál</p>
-                        <div class="mt-4 space-y-3 text-sm text-[#EDE8DD]">
-                            <div class="flex gap-3">
-                                <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#D6A85E]"></span>
-                                <p>Rezervaci zkontrolujeme v administraci.</p>
+            <div>
+                <div class="bg-[linear-gradient(145deg,#080807,#24221E)] px-6 py-8 text-[#F7F3EA] sm:px-8 md:py-10">
+                    <div class="grid gap-6 md:grid-cols-[0.9fr_1.1fr] md:items-start">
+                        <div>
+                            <div class="mb-5 inline-flex h-16 w-16 items-center justify-center rounded-full bg-[#C8AD63] text-[#080807] shadow-lg shadow-black/30 ring-8 ring-[rgba(216,191,122,0.16)]">
+                                <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M5 12.5l4.2 4.2L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
                             </div>
-                            <div class="flex gap-3">
-                                <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#D6A85E]"></span>
-                                <p>Po potvrzení ti přijde e-mail se všemi údaji.</p>
+                            <p class="text-xs font-bold uppercase tracking-[0.24em] text-[#D8BF7A]">Žádost přijata</p>
+                            <h1 class="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">Díky, <?= h($name) ?>. Termín držíme v přehledu.</h1>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="pending-confirmation-card rounded-2xl border border-[#D8BF7A] bg-[rgba(216,191,122,0.14)] p-4 shadow-lg shadow-black/20">
+                                <div class="flex items-start gap-3">
+                                    <span class="pending-confirmation-icon mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#D8BF7A] text-[#080807]">
+                                        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                            <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="2.2"/>
+                                        </svg>
+                                    </span>
+                                    <div>
+                                        <p class="text-xs font-extrabold uppercase tracking-[0.22em] text-[#F0DFA9]">Čeká na potvrzení</p>
+                                        <p class="mt-1 text-sm leading-6 text-[#F7F3EA]">
+                                            Termín zatím není finálně potvrzený. Jakmile ho přijmeme, dorazí ti e-mail se shrnutím.
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex gap-3">
-                                <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#D6A85E]"></span>
-                                <p>Kdyby bylo potřeba něco doladit, ozveme se.</p>
+                            <div class="rounded-2xl border border-[rgba(216,191,122,0.22)] bg-[rgba(255,255,255,0.05)] p-4">
+                                <p class="text-xs font-bold uppercase tracking-[0.2em] text-[#F0DFA9]">Co bude dál</p>
+                                <div class="mt-4 grid gap-3 text-sm text-[#DCD3C2] sm:grid-cols-3 md:grid-cols-1">
+                                    <div class="flex gap-3">
+                                        <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#D8BF7A]"></span>
+                                        <p>Rezervaci zkontrolujeme v administraci.</p>
+                                    </div>
+                                    <div class="flex gap-3">
+                                        <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#D8BF7A]"></span>
+                                        <p>Po potvrzení ti přijde e-mail se všemi údaji.</p>
+                                    </div>
+                                    <div class="flex gap-3">
+                                        <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#D8BF7A]"></span>
+                                        <p>Kdyby bylo potřeba něco doladit, ozveme se.</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="px-6 py-8 sm:px-8 md:py-10">
-                    <p class="text-xs font-bold uppercase tracking-[0.22em] text-[#725E4C]">Shrnutí rezervace</p>
+                <div class="border-t border-[#302D27] px-6 py-8 sm:px-8 md:py-10">
+                    <p class="text-xs font-bold uppercase tracking-[0.22em] text-[#D8BF7A]">Shrnutí rezervace</p>
                     <div class="mt-4 grid gap-3 sm:grid-cols-2">
-                        <div class="rounded-2xl border border-[#D8C8B0] bg-[#F9F5EF] p-4">
-                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#725E4C]">Služba</p>
+                        <div class="rounded-2xl border border-[#302D27] bg-[#1F1D19] p-4">
+                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#D8BF7A]">Služba</p>
                             <p class="mt-1 font-bold"><?= h($service) ?></p>
                             <?php if ($priceLabel !== ''): ?>
-                                <p class="mt-1 text-sm text-[#5E4E41]"><?= h($priceLabel) ?></p>
+                                <p class="mt-1 text-sm text-[#C8C1B4]"><?= h($priceLabel) ?></p>
                             <?php endif; ?>
                         </div>
-                        <div class="rounded-2xl border border-[#D8C8B0] bg-[#F9F5EF] p-4">
-                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#725E4C]">Termín</p>
+                        <div class="rounded-2xl border border-[#302D27] bg-[#1F1D19] p-4">
+                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#D8BF7A]">Termín</p>
                             <p class="mt-1 font-bold"><?= h($displayDate) ?> v <?= h($time) ?></p>
-                            <p class="mt-1 text-sm text-[#5E4E41]"><?= (int) $duration ?> minut</p>
+                            <p class="mt-1 text-sm text-[#C8C1B4]"><?= (int) $duration ?> minut</p>
                         </div>
-                        <div class="rounded-2xl border border-[#D8C8B0] bg-[#F9F5EF] p-4">
-                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#725E4C]">Kontakt</p>
+                        <div class="rounded-2xl border border-[#302D27] bg-[#1F1D19] p-4">
+                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#D8BF7A]">Kontakt</p>
                             <p class="mt-1 font-bold"><?= h($phone) ?></p>
-                            <p class="mt-1 break-words text-sm text-[#5E4E41]"><?= h($email) ?></p>
+                            <p class="mt-1 break-words text-sm text-[#C8C1B4]"><?= h($email) ?></p>
                         </div>
-                        <div class="rounded-2xl border border-[#D8C8B0] bg-[#F9F5EF] p-4">
-                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#725E4C]">Místo</p>
+                        <div class="rounded-2xl border border-[#302D27] bg-[#1F1D19] p-4">
+                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#D8BF7A]">Místo</p>
                             <p class="mt-1 font-bold">Hair By ReneNeme</p>
-                            <p class="mt-1 text-sm text-[#5E4E41]"><?= h($businessAddress) ?></p>
+                            <p class="mt-1 text-sm text-[#C8C1B4]"><?= h($businessAddress) ?></p>
                         </div>
                     </div>
                     <?php if ($note !== ''): ?>
-                        <div class="mt-3 rounded-2xl border border-[#D8C8B0] bg-[#F9F5EF] p-4">
-                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#725E4C]">Přání ke střihu</p>
-                            <p class="mt-1 text-sm leading-6 text-[#5E4E41]"><?= nl2br(h($note)) ?></p>
+                        <div class="mt-3 rounded-2xl border border-[#302D27] bg-[#1F1D19] p-4">
+                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#D8BF7A]">Přání ke střihu</p>
+                            <p class="mt-1 text-sm leading-6 text-[#C8C1B4]"><?= nl2br(h($note)) ?></p>
                         </div>
                     <?php endif; ?>
-                    <div class="mt-5 rounded-2xl border border-[#D8C8B0] bg-white/70 p-4 text-sm leading-6 text-[#5E4E41]">
-                        <p class="font-semibold text-[#2B211C]">Potřebuješ něco změnit?</p>
+                    <div class="mt-5 rounded-2xl border border-[#302D27] bg-[#1F1D19] p-4 text-sm leading-6 text-[#C8C1B4]">
+                        <p class="font-semibold text-[#F7F3EA]">Potřebuješ něco změnit?</p>
                         <p>Zavolej na <?= h($businessPhone) ?> nebo napiš na <?= h($businessEmail) ?>.</p>
                     </div>
                     <div class="mt-6 flex flex-col gap-3 sm:flex-row">
-                        <a href="index.php" class="inline-flex justify-center rounded-xl bg-[#C08A3E] px-5 py-3 text-sm font-semibold text-[#F5EDE1] shadow-md transition hover:bg-[#94642C]">
+                        <a href="index.php" class="inline-flex justify-center rounded-xl bg-[#C8AD63] px-5 py-3 text-sm font-semibold text-[#080807] shadow-md shadow-black/30 transition hover:bg-[#D8BF7A]">
                             Zpět na web
                         </a>
-                        <a href="index.php#booking" class="inline-flex justify-center rounded-xl border border-[#4A3A30] px-5 py-3 text-sm font-semibold text-[#2B211C] transition hover:bg-[#2B211C] hover:text-[#F5EDE1]">
+                        <a href="index.php#booking" class="inline-flex justify-center rounded-xl border border-[#5B554B] px-5 py-3 text-sm font-semibold text-[#F7F3EA] transition hover:border-[#C8AD63] hover:text-[#F0DFA9]">
                             Vytvořit další rezervaci
                         </a>
                     </div>

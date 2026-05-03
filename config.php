@@ -218,7 +218,7 @@ function app_head_assets(): string
     <link rel="icon" href="{$favicon}" type="image/svg+xml">
     <link rel="apple-touch-icon" href="{$favicon}">
     <link rel="manifest" href="{$manifest}">
-    <meta name="theme-color" content="#2B211C">
+    <meta name="theme-color" content="#080807">
 HTML;
 }
 

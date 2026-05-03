@@ -67,37 +67,41 @@ $referenceCuts = [
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
-            --page: #F4EFE7;
-            --ink: #2B211C;
-            --surface: #2B211C;
-            --surface-soft: #4A3A30;
-            --muted: #5E4E41;
-            --muted-strong: #725E4C;
-            --line: #D8C8B0;
-            --cream: #F5EDE1;
-            --cream-soft: #EDE8DD;
-            --accent: #C08A3E;
-            --accent-dark: #94642C;
-            --gold: #D6A85E;
-            --gold-soft: #F1C879;
+            --page: #0D0D0B;
+            --ink: #F7F3EA;
+            --surface: #080807;
+            --surface-soft: #24221E;
+            --muted: #C8C1B4;
+            --muted-strong: #D8CBB7;
+            --line: #302D27;
+            --cream: #F7F3EA;
+            --cream-soft: #DCD3C2;
+            --accent: #C8AD63;
+            --accent-dark: #A98A42;
+            --gold: #D8BF7A;
+            --gold-soft: #F0DFA9;
         }
 
         .premium-surface {
             border: 1px solid var(--line);
             border-radius: 1.25rem;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.72));
-            box-shadow: 0 20px 40px rgba(43, 33, 28, 0.1);
+            background: linear-gradient(180deg, rgba(31, 29, 25, 0.94), rgba(18, 17, 15, 0.92));
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.22);
         }
 
         .site-header {
+            border-color: rgba(216, 191, 122, 0.18);
+            background: linear-gradient(180deg, rgba(36, 34, 30, 0.96), rgba(20, 19, 17, 0.94));
+            backdrop-filter: blur(14px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
             transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease, backdrop-filter 220ms ease;
         }
 
         .site-header.is-scrolled {
-            border-color: rgba(74, 58, 48, 0.54);
-            background: rgba(43, 33, 28, 0.88);
-            backdrop-filter: blur(16px);
-            box-shadow: 0 14px 32px rgba(43, 33, 28, 0.18);
+            border-color: rgba(216, 191, 122, 0.28);
+            background: linear-gradient(180deg, rgba(43, 40, 34, 0.9), rgba(13, 13, 11, 0.88));
+            backdrop-filter: blur(18px);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(216, 191, 122, 0.1);
         }
 
         .accent-link {
@@ -117,30 +121,30 @@ $referenceCuts = [
         .reference-pill {
             display: inline-flex;
             align-items: center;
-            border: 1px solid rgba(192, 138, 62, 0.24);
+            border: 1px solid rgba(216, 191, 122, 0.24);
             border-radius: 999px;
-            background: rgba(255, 255, 255, 0.62);
-            box-shadow: 0 10px 24px rgba(43, 33, 28, 0.06);
+            background: rgba(31, 29, 25, 0.78);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
             transition: transform 220ms ease, border-color 220ms ease, background-color 220ms ease, box-shadow 220ms ease, color 220ms ease;
         }
 
         .reference-pill:hover {
             transform: translate3d(0, -2px, 0);
-            border-color: rgba(192, 138, 62, 0.58);
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 16px 32px rgba(43, 33, 28, 0.11);
+            border-color: rgba(216, 191, 122, 0.48);
+            background: rgba(216, 191, 122, 0.12);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.11);
             color: var(--accent-dark);
         }
 
         .reference-pill--dark {
-            border-color: rgba(241, 200, 121, 0.18);
+            border-color: rgba(218, 218, 213, 0.18);
             background: rgba(255, 255, 255, 0.05);
             box-shadow: none;
         }
 
         .reference-pill--dark:hover {
-            border-color: rgba(241, 200, 121, 0.44);
-            background: rgba(241, 200, 121, 0.12);
+            border-color: rgba(218, 218, 213, 0.44);
+            background: rgba(218, 218, 213, 0.12);
             color: var(--gold-soft);
         }
 
@@ -278,7 +282,7 @@ $referenceCuts = [
             </svg>
         </button>
     </div>
-    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[var(--surface-soft)] bg-[var(--surface)] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
+    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(216,191,122,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
         <a href="index.php#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
         <a href="index.php#visit" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Návštěva</a>
         <a href="index.php#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
@@ -325,13 +329,13 @@ $referenceCuts = [
                 </a>
             </div>
         </div>
-        <div class="reveal-item rounded-2xl border border-[rgba(214,168,94,0.18)] bg-[linear-gradient(145deg,rgba(43,33,28,0.98),rgba(74,58,48,0.94))] p-5 text-[color:var(--cream)] shadow-[0_20px_40px_rgba(43,33,28,0.16)] sm:p-6" data-reveal-item>
+        <div class="reveal-item rounded-2xl border border-[rgba(17,17,17,0.18)] bg-[linear-gradient(145deg,rgba(0,0,0,0.98),rgba(35,35,35,0.94))] p-5 text-[color:var(--cream)] shadow-[0_20px_40px_rgba(0,0,0,0.16)] sm:p-6" data-reveal-item>
             <div class="flex items-start justify-between gap-4">
                 <div>
                     <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Jak vybírat</p>
                     <p class="mt-2 text-xl font-bold sm:text-[1.75rem]">Mrkni na tvar, délku i celkový dojem</p>
                 </div>
-                <a href="#gallery" class="hidden h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.05)] text-[color:var(--gold-soft)] transition hover:-translate-y-0.5 hover:border-[rgba(241,200,121,0.44)] hover:bg-[rgba(241,200,121,0.12)] hover:text-[color:var(--cream)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)] sm:inline-flex" aria-label="Přejít na galerii fotek">
+                <a href="#gallery" class="hidden h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[rgba(218,218,213,0.18)] bg-[rgba(255,255,255,0.05)] text-[color:var(--gold-soft)] transition hover:-translate-y-0.5 hover:border-[rgba(218,218,213,0.44)] hover:bg-[rgba(218,218,213,0.12)] hover:text-[color:var(--cream)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)] sm:inline-flex" aria-label="Přejít na galerii fotek">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
@@ -412,15 +416,15 @@ $referenceCuts = [
         <button
             type="button"
             id="galleryClose"
-            class="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[rgba(43,33,28,0.78)] text-[color:var(--cream)] shadow-lg transition hover:bg-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+            class="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[rgba(0,0,0,0.78)] text-[color:var(--cream)] shadow-lg transition hover:bg-[var(--surface-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
             aria-label="Zavřít fotografii"
         >
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>
         </button>
-        <figure class="overflow-hidden rounded-[1.75rem] bg-[var(--ink)] shadow-2xl">
-            <img id="galleryImage" src="" alt="" class="max-h-[68vh] w-full object-contain bg-[var(--ink)] sm:max-h-[78vh]">
+        <figure class="overflow-hidden rounded-[1.75rem] bg-[var(--surface)] shadow-2xl">
+            <img id="galleryImage" src="" alt="" class="max-h-[68vh] w-full object-contain bg-[var(--surface)] sm:max-h-[78vh]">
             <figcaption class="border-t border-[var(--surface-soft)] px-4 py-3 text-[color:var(--cream)] sm:px-5">
                 <p id="galleryTitle" class="font-semibold"></p>
                 <p id="galleryDescription" class="mt-1 text-sm text-[color:var(--cream-soft)]"></p>

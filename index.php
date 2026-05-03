@@ -34,7 +34,7 @@ $instagramHandle = '@hairbyreneneme';
 $pageTitle = app_business_name() . ' - Pánské kadeřnictví & online rezervace';
 $pageDescription = 'Pánské kadeřnictví Hair By ReneNeme v Brně. Online rezervace, čistý pánský střih, kompletka i dětský střih na adrese Vackova 1064/39, Brno-Královo Pole.';
 $pageCanonical = app_absolute_url('/');
-$pageImage = app_absolute_url('assets/barbershop-hero.png');
+$pageImage = app_absolute_url('assets/renca-kaderko.jpg');
 $pageSchema = app_public_business_schema('', [
     'description' => $pageDescription,
 ]);
@@ -47,12 +47,14 @@ $referenceCuts = [
     [
         'title' => 'Krátký fade',
         'description' => 'Kratší boky, čistý přechod a upravený horní objem',
-        'image' => 'assets/references/kratky-fade.jpg',
+        'image' => 'assets/references/home-reference-fade-test.png',
+        'transparent_media' => true,
     ],
     [
-        'title' => 'Upravený střih',
-        'description' => 'Vyčištěné boky, uhlazený profil a střih připravený na běžné nošení',
-        'image' => 'assets/references/upraveny-strih.jpg',
+        'title' => 'Dětský střih',
+        'description' => 'Čistý dětský střih s jemným detailem a pohodovou návštěvou',
+        'image' => 'assets/references/home-reference-child-test.png',
+        'transparent_media' => true,
     ],
     [
         'title' => 'Klasický styl',
@@ -95,25 +97,25 @@ $referenceCuts = [
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
-            --page: #F4EFE7;
-            --ink: #2B211C;
-            --surface: #2B211C;
-            --surface-soft: #4A3A30;
-            --muted: #5E4E41;
-            --muted-strong: #725E4C;
-            --line: #D8C8B0;
-            --line-soft: #E8DED0;
-            --cream: #F5EDE1;
-            --cream-soft: #EDE8DD;
-            --field: #F9F5EF;
-            --field-border: #8C7560;
-            --field-text: #231814;
-            --accent: #C08A3E;
-            --accent-dark: #94642C;
-            --gold: #D6A85E;
-            --gold-soft: #F1C879;
-            --shadow-soft: 0 20px 40px rgba(43, 33, 28, 0.1);
-            --shadow-strong: 0 28px 60px rgba(43, 33, 28, 0.2);
+            --page: #0D0D0B;
+            --ink: #F7F3EA;
+            --surface: #080807;
+            --surface-soft: #24221E;
+            --muted: #C8C1B4;
+            --muted-strong: #D8CBB7;
+            --line: #302D27;
+            --line-soft: #3C3831;
+            --cream: #F7F3EA;
+            --cream-soft: #DCD3C2;
+            --field: #171613;
+            --field-border: #5B554B;
+            --field-text: #F7F3EA;
+            --accent: #C8AD63;
+            --accent-dark: #A98A42;
+            --gold: #D8BF7A;
+            --gold-soft: #F0DFA9;
+            --shadow-soft: 0 20px 44px rgba(0, 0, 0, 0.28);
+            --shadow-strong: 0 30px 70px rgba(0, 0, 0, 0.46);
         }
 
         html,
@@ -136,14 +138,18 @@ $referenceCuts = [
             position: fixed;
             inset: 0 0 auto 0;
             z-index: 50;
+            border-color: rgba(216, 191, 122, 0.18);
+            background: linear-gradient(180deg, rgba(36, 34, 30, 0.96), rgba(20, 19, 17, 0.94));
+            backdrop-filter: blur(14px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
             transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease, backdrop-filter 220ms ease;
         }
 
         .site-header.is-scrolled {
-            border-color: rgba(74, 58, 48, 0.54);
-            background: rgba(43, 33, 28, 0.88);
-            backdrop-filter: blur(16px);
-            box-shadow: 0 14px 32px rgba(43, 33, 28, 0.18);
+            border-color: rgba(216, 191, 122, 0.28);
+            background: linear-gradient(180deg, rgba(43, 40, 34, 0.9), rgba(13, 13, 11, 0.88));
+            backdrop-filter: blur(18px);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(216, 191, 122, 0.1);
         }
 
         @media (max-width: 1023px) {
@@ -155,7 +161,7 @@ $referenceCuts = [
         .premium-surface {
             border: 1px solid var(--line);
             border-radius: 1.25rem;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.72));
+            background: linear-gradient(180deg, rgba(31, 29, 25, 0.94), rgba(18, 17, 15, 0.92));
             box-shadow: var(--shadow-soft);
         }
 
@@ -177,13 +183,13 @@ $referenceCuts = [
             color: var(--cream);
             font-size: 0.95rem;
             font-weight: 700;
-            box-shadow: 0 14px 28px rgba(148, 100, 44, 0.22);
+            box-shadow: 0 14px 28px rgba(200, 173, 99, 0.2);
             transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease, background 220ms ease;
         }
 
         .ui-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 18px 34px rgba(148, 100, 44, 0.28);
+            box-shadow: 0 18px 34px rgba(200, 173, 99, 0.26);
             filter: saturate(1.04);
         }
 
@@ -192,31 +198,31 @@ $referenceCuts = [
             align-items: center;
             justify-content: center;
             gap: 0.55rem;
-            border: 1px solid rgba(74, 58, 48, 0.16);
+            border: 1px solid rgba(216, 191, 122, 0.28);
             border-radius: 0.9rem;
-            background: rgba(255, 255, 255, 0.58);
+            background: rgba(31, 29, 25, 0.78);
             padding: 0.9rem 1.35rem;
-            color: var(--surface-soft);
+            color: var(--cream);
             font-size: 0.95rem;
             font-weight: 700;
-            box-shadow: 0 10px 24px rgba(43, 33, 28, 0.08);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
             transition: transform 220ms ease, border-color 220ms ease, color 220ms ease, background 220ms ease, box-shadow 220ms ease;
         }
 
         .ui-button-secondary:hover {
             transform: translateY(-2px);
-            border-color: rgba(192, 138, 62, 0.32);
-            background: rgba(255, 255, 255, 0.8);
-            color: var(--accent-dark);
-            box-shadow: 0 16px 28px rgba(43, 33, 28, 0.12);
+            border-color: rgba(216, 191, 122, 0.5);
+            background: rgba(216, 191, 122, 0.12);
+            color: var(--gold-soft);
+            box-shadow: 0 16px 28px rgba(0, 0, 0, 0.2);
         }
 
         .price-stat {
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(192, 138, 62, 0.34);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(249, 245, 239, 0.86));
-            box-shadow: 0 16px 30px rgba(43, 33, 28, 0.1);
+            border: 1px solid rgba(216, 191, 122, 0.24);
+            background: linear-gradient(180deg, rgba(31, 29, 25, 0.92), rgba(19, 18, 16, 0.92));
+            box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18);
         }
 
         .price-stat::before {
@@ -230,9 +236,9 @@ $referenceCuts = [
         .price-badge {
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(192, 138, 62, 0.42);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(249, 245, 239, 0.9));
-            box-shadow: 0 14px 26px rgba(43, 33, 28, 0.12);
+            border: 1px solid rgba(216, 191, 122, 0.26);
+            background: linear-gradient(180deg, rgba(31, 29, 25, 0.94), rgba(19, 18, 16, 0.94));
+            box-shadow: 0 14px 26px rgba(0, 0, 0, 0.18);
         }
 
         .price-badge::before {
@@ -244,8 +250,8 @@ $referenceCuts = [
         }
 
         .price-badge--featured {
-            border-color: rgba(241, 200, 121, 0.58);
-            background: linear-gradient(180deg, rgba(241, 200, 121, 0.18), rgba(255, 255, 255, 0.08));
+            border-color: rgba(216, 191, 122, 0.48);
+            background: linear-gradient(180deg, rgba(216, 191, 122, 0.18), rgba(255, 255, 255, 0.06));
             box-shadow: 0 16px 28px rgba(0, 0, 0, 0.18);
         }
 
@@ -254,7 +260,7 @@ $referenceCuts = [
             align-items: center;
             justify-content: center;
             gap: 0.55rem;
-            border: 1px solid rgba(241, 200, 121, 0.18);
+            border: 1px solid rgba(218, 218, 213, 0.18);
             border-radius: 0.9rem;
             background: rgba(255, 255, 255, 0.04);
             padding: 0.9rem 1.35rem;
@@ -266,7 +272,7 @@ $referenceCuts = [
 
         .ui-button-ghost-dark:hover {
             transform: translateY(-2px);
-            border-color: rgba(241, 200, 121, 0.34);
+            border-color: rgba(218, 218, 213, 0.34);
             background: rgba(255, 255, 255, 0.08);
             color: var(--gold-soft);
         }
@@ -277,7 +283,199 @@ $referenceCuts = [
 
         .lift-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 22px 36px rgba(43, 33, 28, 0.14);
+            box-shadow: 0 22px 36px rgba(0, 0, 0, 0.14);
+        }
+
+        .reference-showcase {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            background: linear-gradient(180deg, rgba(24, 23, 20, 0.78), rgba(13, 13, 11, 0.6));
+        }
+
+        .reference-showcase::before {
+            display: none;
+        }
+
+        .reference-intro {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(216, 200, 176, 0.9);
+            border-radius: 1.25rem;
+            background: linear-gradient(145deg, rgba(31, 29, 25, 0.94), rgba(18, 17, 15, 0.9));
+            box-shadow: 0 18px 34px rgba(43, 33, 28, 0.07);
+        }
+
+        .reference-intro::before {
+            position: absolute;
+            inset: 0 auto auto 0;
+            height: 100%;
+            width: 5px;
+            background: linear-gradient(180deg, var(--gold-soft), var(--accent));
+            content: "";
+        }
+
+        .reference-gallery-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .reference-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(74, 58, 48, 0.14);
+            border-radius: 1.2rem;
+            background: rgba(31, 29, 25, 0.92);
+            box-shadow: 0 18px 34px rgba(43, 33, 28, 0.1);
+            color: var(--ink);
+        }
+
+        .reference-card::before {
+            display: none;
+        }
+
+        .reference-card::after {
+            display: none;
+        }
+
+        .reference-card__media {
+            position: relative;
+            display: block;
+            aspect-ratio: 4 / 5;
+            overflow: hidden;
+            background: var(--cream);
+        }
+
+        .reference-card__media--transparent {
+            background: linear-gradient(145deg, rgba(31, 29, 25, 0.95), rgba(13, 13, 11, 0.96));
+        }
+
+        .reference-card__media--transparent::after {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(8, 8, 7, 0.05), rgba(8, 8, 7, 0.44)),
+                radial-gradient(circle at 78% 18%, rgba(216, 191, 122, 0.18), transparent 36%);
+            content: "";
+            pointer-events: none;
+        }
+
+        .reference-card__media img,
+        .reference-card__media picture {
+            display: block;
+            height: 100%;
+            width: 100%;
+        }
+
+        .reference-card__image--natural {
+            object-position: 52% 18%;
+        }
+
+        .reference-card__image--fade {
+            object-position: 50% 16%;
+        }
+
+        .reference-card__image--clean {
+            object-position: 50% 16%;
+        }
+
+        .reference-card__image--transparent {
+            opacity: 0.78;
+            filter: saturate(0.9) contrast(1.06);
+            mix-blend-mode: screen;
+        }
+
+        .reference-card__content {
+            padding: 1rem;
+        }
+
+        .reference-card__eyebrow {
+            display: inline-flex;
+            border-radius: 999px;
+            border: 1px solid rgba(216, 191, 122, 0.22);
+            background: rgba(216, 191, 122, 0.1);
+            padding: 0.3rem 0.62rem;
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent-dark);
+        }
+
+        .reference-card__panel {
+            margin-top: 0.85rem;
+        }
+
+        .reference-card__cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            color: var(--accent-dark);
+            transition: gap 220ms ease, color 220ms ease, transform 220ms ease;
+        }
+
+        .reference-card__cta-icon {
+            display: inline-flex;
+            height: 1.9rem;
+            width: 1.9rem;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            border: 1px solid rgba(216, 191, 122, 0.28);
+            background: rgba(216, 191, 122, 0.1);
+            color: var(--accent-dark);
+            transition: transform 220ms ease, background 220ms ease, border-color 220ms ease;
+        }
+
+        .reference-card__hint {
+            color: var(--muted);
+        }
+
+        .reference-card:hover .reference-card__panel,
+        .reference-card:focus-visible .reference-card__panel {
+            transform: none;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .reference-card:hover .reference-card__cta,
+        .reference-card:focus-visible .reference-card__cta {
+            gap: 0.8rem;
+            transform: translateX(2px);
+        }
+
+        .reference-card:hover .reference-card__cta-icon,
+        .reference-card:focus-visible .reference-card__cta-icon {
+            transform: translateX(2px);
+            background: rgba(192, 138, 62, 0.14);
+            border-color: rgba(192, 138, 62, 0.4);
+        }
+
+        .reference-card:hover .reference-card__hint,
+        .reference-card:focus-visible .reference-card__hint {
+            opacity: 1;
+        }
+
+        .reference-card--featured {
+            min-height: 0;
+        }
+
+        .reference-card--compact {
+            min-height: 0;
+        }
+
+        @media (min-width: 1024px) {
+            .reference-gallery-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .reference-card--featured {
+                grid-row: auto;
+            }
+
+            .reference-card--compact {
+                min-height: 0;
+            }
         }
 
         .accent-link {
@@ -328,7 +526,7 @@ $referenceCuts = [
             left: -3.5rem;
             height: 11rem;
             width: 11rem;
-            background: radial-gradient(circle, rgba(214, 168, 94, 0.22), rgba(214, 168, 94, 0));
+            background: radial-gradient(circle, rgba(17, 17, 17, 0.22), rgba(17, 17, 17, 0));
         }
 
         .hero-stage::after {
@@ -336,22 +534,22 @@ $referenceCuts = [
             bottom: 1rem;
             height: 13rem;
             width: 13rem;
-            background: radial-gradient(circle, rgba(74, 58, 48, 0.14), rgba(74, 58, 48, 0));
+            background: radial-gradient(circle, rgba(35, 35, 35, 0.14), rgba(35, 35, 35, 0));
         }
 
         .hero-media-frame {
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(214, 168, 94, 0.18);
+            border: 1px solid rgba(17, 17, 17, 0.18);
             border-radius: 1.75rem;
-            background: linear-gradient(145deg, rgba(43, 33, 28, 0.98), rgba(74, 58, 48, 0.94));
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.98), rgba(35, 35, 35, 0.94));
             box-shadow: var(--shadow-strong);
         }
 
         .hero-media-frame::before {
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, rgba(43, 33, 28, 0.08), rgba(43, 33, 28, 0.34));
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.34));
             content: "";
             pointer-events: none;
         }
@@ -367,13 +565,13 @@ $referenceCuts = [
 
         .hero-floating-card {
             backdrop-filter: blur(14px);
-            background: rgba(43, 33, 28, 0.84);
-            box-shadow: 0 18px 34px rgba(43, 33, 28, 0.22);
+            background: rgba(0, 0, 0, 0.84);
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22);
         }
 
         .booking-form {
             position: relative;
-            box-shadow: 0 20px 40px rgba(43, 33, 28, 0.18);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
             transform: translate3d(0, 0, 0);
             will-change: transform;
         }
@@ -409,7 +607,7 @@ $referenceCuts = [
             position: absolute;
             inset: -5px;
             z-index: -1;
-            border: 2px solid rgba(192, 138, 62, 0.58);
+            border: 2px solid rgba(17, 17, 17, 0.58);
             border-radius: inherit;
             content: "";
             opacity: 0;
@@ -473,11 +671,11 @@ $referenceCuts = [
         @keyframes bookingPulse {
             0%, 100% {
                 transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(214, 168, 94, 0.35);
+                box-shadow: 0 0 0 0 rgba(17, 17, 17, 0.35);
             }
             50% {
                 transform: scale(1.06);
-                box-shadow: 0 0 0 12px rgba(214, 168, 94, 0);
+                box-shadow: 0 0 0 12px rgba(17, 17, 17, 0);
             }
         }
 
@@ -649,10 +847,10 @@ $referenceCuts = [
             opacity: 0;
             pointer-events: none;
             transform: translate3d(0, 12px, 0);
-            border-color: rgba(214, 168, 94, 0.18);
-            background: rgba(43, 33, 28, 0.94);
+            border-color: rgba(17, 17, 17, 0.18);
+            background: rgba(0, 0, 0, 0.94);
             color: var(--gold-soft);
-            box-shadow: 0 18px 34px rgba(43, 33, 28, 0.22);
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22);
             transition: opacity 220ms ease, transform 220ms ease, background-color 220ms ease, color 220ms ease, box-shadow 220ms ease, border-color 220ms ease, filter 220ms ease;
         }
 
@@ -665,8 +863,8 @@ $referenceCuts = [
         .scroll-top-button.is-visible:hover {
             background: var(--accent-dark);
             color: var(--cream);
-            border-color: rgba(241, 200, 121, 0.48);
-            box-shadow: 0 22px 38px rgba(148, 100, 44, 0.28);
+            border-color: rgba(218, 218, 213, 0.48);
+            box-shadow: 0 22px 38px rgba(0, 0, 0, 0.28);
             filter: brightness(1.06) saturate(1.04);
             transform: translate3d(0, -2px, 0);
         }
@@ -674,15 +872,15 @@ $referenceCuts = [
         .scroll-top-button.is-footer-contrast {
             background: rgba(245, 237, 225, 0.96);
             color: var(--accent-dark);
-            border-color: rgba(214, 168, 94, 0.34);
-            box-shadow: 0 18px 34px rgba(43, 33, 28, 0.14);
+            border-color: rgba(17, 17, 17, 0.34);
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.14);
         }
 
         .scroll-top-button.is-visible.is-footer-contrast:hover {
-            background: rgba(241, 200, 121, 0.98);
+            background: rgba(218, 218, 213, 0.98);
             color: var(--surface);
-            border-color: rgba(214, 168, 94, 0.52);
-            box-shadow: 0 22px 38px rgba(148, 100, 44, 0.22);
+            border-color: rgba(17, 17, 17, 0.52);
+            box-shadow: 0 22px 38px rgba(0, 0, 0, 0.22);
             filter: brightness(1.02) saturate(1.02);
         }
 
@@ -708,7 +906,7 @@ $referenceCuts = [
         }
     </style>
 </head>
-<body class="overflow-x-hidden bg-[var(--page)] text-[color:var(--ink)] antialiased">
+<body class="overflow-x-hidden bg-[var(--page)] text-[color:var(--cream)] antialiased">
 
 <!-- NAV / HEADER -->
 <header class="site-header bg-[var(--surface)] border-b border-[var(--surface-soft)] shadow-lg">
@@ -755,7 +953,7 @@ $referenceCuts = [
             </svg>
         </button>
     </div>
-    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[var(--surface-soft)] bg-[var(--surface)] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
+    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(216,191,122,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
         <a href="#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
         <a href="#visit" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Návštěva</a>
         <a href="#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
@@ -779,7 +977,7 @@ $referenceCuts = [
     <!-- HERO sekce-->
     <section class="hero-stage grid gap-7 py-6 md:grid-cols-[0.92fr_1.08fr] md:items-center md:gap-10 md:py-16">
         <div class="relative">
-            <p class="mb-4 inline-flex items-center gap-2 rounded-full border border-[rgba(192,138,62,0.18)] bg-white/72 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--muted-strong)] shadow-sm sm:text-xs sm:tracking-[0.28em]">
+            <p class="mb-4 inline-flex items-center gap-2 rounded-full border border-[rgba(17,17,17,0.18)] bg-[rgba(31,29,25,0.78)] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--muted-strong)] shadow-sm sm:text-xs sm:tracking-[0.28em]">
                 <span class="h-2 w-2 rounded-full bg-[var(--accent)]"></span>
                 Pánské kadeřnictví · Brno
             </p>
@@ -793,9 +991,9 @@ $referenceCuts = [
                 který funguje nejen při odchodu z křesla, ale i další dny.
             </p>
             <div class="mt-5 flex flex-wrap gap-2 text-xs font-semibold text-[color:var(--muted)] sm:text-sm">
-                <span class="inline-flex items-center rounded-full border border-[var(--line)] bg-white/75 px-3 py-1.5 shadow-sm">Online rezervace bez volání</span>
-                <span class="inline-flex items-center rounded-full border border-[var(--line)] bg-white/75 px-3 py-1.5 shadow-sm">Brno, Královo Pole</span>
-                <span class="inline-flex items-center rounded-full border border-[var(--line)] bg-white/75 px-3 py-1.5 shadow-sm">Potvrzení e-mailem</span>
+                <span class="inline-flex items-center rounded-full border border-[var(--line)] bg-[rgba(31,29,25,0.78)] px-3 py-1.5 shadow-sm">Online rezervace bez volání</span>
+                <span class="inline-flex items-center rounded-full border border-[var(--line)] bg-[rgba(31,29,25,0.78)] px-3 py-1.5 shadow-sm">Brno, Královo Pole</span>
+                <span class="inline-flex items-center rounded-full border border-[var(--line)] bg-[rgba(31,29,25,0.78)] px-3 py-1.5 shadow-sm">Potvrzení e-mailem</span>
             </div>
             <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a href="#booking"
@@ -808,35 +1006,35 @@ $referenceCuts = [
                 </a>
             </div>
             <div class="mt-7 grid gap-3 sm:grid-cols-3 md:mt-8">
-                <div class="flex min-h-[5.75rem] flex-col justify-center rounded-2xl border border-[var(--line)] bg-white/72 px-4 py-3 shadow-sm">
+                <div class="flex min-h-[5.75rem] flex-col justify-center rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.78)] px-4 py-3 shadow-sm">
                     <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Délka návštěvy</p>
-                    <p class="mt-1 text-sm font-semibold text-[color:var(--ink)]">35-50 min podle služby</p>
+                    <p class="mt-1 text-sm font-semibold text-[color:var(--cream)]">35-50 min podle služby</p>
                 </div>
-                <div class="flex min-h-[5.75rem] flex-col justify-center rounded-2xl border border-[var(--line)] bg-white/72 px-4 py-3 shadow-sm">
+                <div class="flex min-h-[5.75rem] flex-col justify-center rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.78)] px-4 py-3 shadow-sm">
                     <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Otevírací doba</p>
-                    <p class="mt-1 text-sm font-semibold text-[color:var(--ink)]">Po-Pá 9:00-18:00</p>
+                    <p class="mt-1 text-sm font-semibold text-[color:var(--cream)]">Po-Pá 9:00-18:00</p>
                 </div>
                 <a
                     href="https://www.google.com/maps/search/?api=1&query=Vackova%201064%2F39%2C%20612%2000%20Brno-Kr%C3%A1lovo%20Pole"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="flex min-h-[5.75rem] flex-col justify-center rounded-2xl border border-[var(--line)] bg-white/72 px-4 py-3 text-left shadow-sm transition duration-200 hover:border-[rgba(192,138,62,0.32)] hover:bg-white/84"
+                    class="flex min-h-[5.75rem] flex-col justify-center rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.78)] px-4 py-3 text-left shadow-sm transition duration-200 hover:border-[rgba(17,17,17,0.32)] hover:bg-[rgba(37,35,31,0.86)]"
                 >
                     <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Adresa</p>
-                    <p class="mt-1 text-sm font-semibold text-[color:var(--ink)]"><?= htmlspecialchars(app_business_full_address_inline(), ENT_QUOTES, 'UTF-8') ?></p>
-                    <p class="mt-1 text-sm font-semibold text-[color:var(--accent-dark)]">Otevřít v mapě</p>
+                    <p class="mt-1 text-sm font-semibold text-[color:var(--cream)]"><?= htmlspecialchars(app_business_full_address_inline(), ENT_QUOTES, 'UTF-8') ?></p>
+                    <p class="mt-1 text-sm font-semibold text-[color:var(--gold)]">Otevřít v mapě</p>
                 </a>
             </div>
         </div>
         <div class="relative">
             <div class="hero-media-frame p-3 sm:p-4">
                 <img
-                    src="assets/barbershop-hero.png"
-                    alt="Moderní interiér pánského kadeřnictví"
+                    src="assets/renca-kaderko.jpg"
+                    alt="Renata z Hair By ReneNeme s kadeřnickými strojky"
                     class="h-[17rem] w-full rounded-[1.2rem] object-cover min-[420px]:h-[20rem] sm:h-[24rem] md:h-[31rem]"
                 >
             </div>
-            <div class="hero-floating-card relative mt-3 rounded-2xl border border-[rgba(241,200,121,0.16)] p-4 text-[color:var(--cream)] md:absolute md:bottom-6 md:left-6 md:right-6 md:mt-0 sm:p-5">
+            <div class="hero-floating-card relative mt-3 rounded-2xl border border-[rgba(218,218,213,0.16)] p-4 text-[color:var(--cream)] md:absolute md:bottom-6 md:left-6 md:right-6 md:mt-0 sm:p-5">
                 <p class="text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold)] sm:text-xs sm:tracking-[0.24em]">Před návštěvou</p>
                 <div class="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                     <div>
@@ -860,16 +1058,16 @@ $referenceCuts = [
                         který bude fungovat i doma. Bez zbytečné omáčky, ale s pečlivostí a normální domluvou.
                     </p>
                     <div class="mt-6 grid gap-3 sm:grid-cols-3">
-                        <div class="rounded-2xl border border-[var(--line)] bg-white/80 px-4 py-4 shadow-sm">
-                            <p class="text-sm font-semibold text-[color:var(--ink)]">1. Domluva</p>
+                        <div class="rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] px-4 py-4 shadow-sm">
+                            <p class="text-sm font-semibold text-[color:var(--cream)]">1. Domluva</p>
                             <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">Krátce si řekneme styl i praktické očekávání.</p>
                         </div>
-                        <div class="rounded-2xl border border-[var(--line)] bg-white/80 px-4 py-4 shadow-sm">
-                            <p class="text-sm font-semibold text-[color:var(--ink)]">2. Střih</p>
+                        <div class="rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] px-4 py-4 shadow-sm">
+                            <p class="text-sm font-semibold text-[color:var(--cream)]">2. Střih</p>
                             <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">Pečlivě, bez spěchu a podle toho, co ti sedí.</p>
                         </div>
-                        <div class="rounded-2xl border border-[var(--line)] bg-white/80 px-4 py-4 shadow-sm">
-                            <p class="text-sm font-semibold text-[color:var(--ink)]">3. Hotovo</p>
+                        <div class="rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] px-4 py-4 shadow-sm">
+                            <p class="text-sm font-semibold text-[color:var(--cream)]">3. Hotovo</p>
                             <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">Upravený výsledek, který drží i další dny.</p>
                         </div>
                     </div>
@@ -939,41 +1137,53 @@ $referenceCuts = [
 
     <!-- REFERENCE STŘIHŮ -->
     <section class="border-t border-[var(--line)] py-8 md:py-10">
-        <div class="grid gap-5 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
-            <div>
-                <div class="premium-surface relative overflow-hidden p-5 sm:p-6 lg:p-7">
-                    <div class="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,var(--gold),rgba(214,168,94,0.12))]"></div>
-                    <p class="text-xs uppercase tracking-[0.24em] text-[color:var(--muted-strong)] font-bold">Inspirace před rezervací</p>
-                    <h2 class="mt-2 text-2xl font-bold sm:text-[2rem]">Reference střihů</h2>
-                    <p class="mt-4 max-w-xl text-sm leading-7 text-[color:var(--muted)] sm:text-[15px]">
-                        Mrkni na vybrané ukázky střihů a otevři si celou galerii s další inspirací. Fotky pomůžou rychleji trefit styl, který chceš.
+        <div class="reference-showcase p-4 sm:p-5 lg:p-6">
+            <div class="grid gap-5 lg:grid-cols-[0.68fr_1.32fr] lg:items-start">
+                <div class="reference-intro p-5 sm:p-6 lg:p-7">
+                    <span class="inline-flex rounded-full border border-[rgba(17,17,17,0.22)] bg-[rgba(31,29,25,0.78)] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--muted-strong)]">Inspirace před rezervací</span>
+                    <h2 class="mt-4 max-w-md text-2xl font-bold leading-tight sm:text-[2.2rem]">Vyber si střih, který ti sedí</h2>
+                    <p class="mt-4 max-w-md text-sm leading-7 text-[color:var(--muted)] sm:text-[15px]">
+                        Otevři reference a projdi si styl, který chceš.
                     </p>
 
-                    <div class="mt-6 flex flex-col items-start gap-3">
+                    <div class="mt-5 inline-flex items-center gap-2 rounded-full border border-[rgba(183,154,85,0.18)] bg-[rgba(31,29,25,0.7)] px-3 py-2 text-sm font-medium text-[color:var(--muted)] shadow-sm">
+                        <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[rgba(183,154,85,0.12)] text-[color:var(--accent)]" aria-hidden="true">
+                            <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none">
+                                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                        Klikni na ukázku
+                    </div>
+
+                    <div class="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap">
                         <a href="references.php" class="ui-button focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
-                            Zobrazit všechny reference
+                            Otevřít reference
                         </a>
-                        <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-xl border border-[var(--line)] bg-white/72 px-4 py-2.5 text-sm font-semibold text-[color:var(--accent-dark)] shadow-sm transition hover:-translate-y-0.5 hover:border-[rgba(192,138,62,0.42)] hover:text-[color:var(--ink)]">
+                        <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="ui-button-secondary focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                 <rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="2" />
                                 <circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="2" />
                                 <path d="M17 7.2h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
                             </svg>
-                            <?= htmlspecialchars($instagramHandle, ENT_QUOTES, 'UTF-8') ?>
+                            Instagram
                         </a>
                     </div>
                 </div>
-            </div>
-            <div class="hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3">
-                <?php foreach (array_slice($referenceCuts, 0, 3) as $cut): ?>
+                <div class="reference-gallery-grid">
+                <?php foreach (array_slice($referenceCuts, 0, 3) as $index => $cut): ?>
                     <?php
                     $hasImage = is_file(__DIR__ . '/' . $cut['image']);
                     $webpImage = preg_replace('/\.jpe?g$/i', '.webp', $cut['image']);
                     $hasWebpImage = is_string($webpImage) && is_file(__DIR__ . '/' . $webpImage);
+                    $cardClass = $index === 0 ? 'reference-card--featured' : 'reference-card--compact';
+                    $imageClass = ['reference-card__image--natural', 'reference-card__image--fade', 'reference-card__image--clean'][$index] ?? 'reference-card__image--natural';
+                    $usesTransparentMedia = !empty($cut['transparent_media']);
+                    $mediaClass = $usesTransparentMedia ? ' reference-card__media--transparent' : '';
+                    $transparentImageClass = $usesTransparentMedia ? ' reference-card__image--transparent' : '';
                     ?>
-                    <a href="references.php" class="group premium-surface lift-card flex h-full flex-col overflow-hidden">
+                    <a href="references.php" class="reference-card lift-card group <?= $cardClass ?>">
                         <?php if ($hasImage): ?>
-                            <picture>
+                            <picture class="reference-card__media<?= $mediaClass ?>">
                                 <?php if ($hasWebpImage): ?>
                                     <source srcset="<?= htmlspecialchars($webpImage, ENT_QUOTES, 'UTF-8') ?>" type="image/webp">
                                 <?php endif; ?>
@@ -982,23 +1192,34 @@ $referenceCuts = [
                                     alt="<?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?>"
                                     width="1012"
                                     height="1800"
-                                    class="aspect-[4/5] w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                                    class="<?= $imageClass ?><?= $transparentImageClass ?> h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
                                     loading="lazy"
                                     decoding="async"
                                 >
                             </picture>
                         <?php else: ?>
-                            <div class="flex aspect-[4/5] items-center justify-center bg-[var(--ink)] px-5 text-center text-[color:var(--cream)]">
+                            <div class="reference-card__media flex items-center justify-center bg-[linear-gradient(145deg,rgba(0,0,0,0.96),rgba(35,35,35,0.94))] px-5 text-center text-[color:var(--cream)]">
                                 <p class="text-sm font-semibold"><?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?></p>
                             </div>
                         <?php endif; ?>
-                        <div class="flex flex-1 flex-col p-4">
-                            <p class="text-[1.05rem] font-semibold leading-8"><?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?></p>
-                            <p class="mt-2 text-sm leading-7 text-[color:var(--muted)]"><?= htmlspecialchars($cut['description'], ENT_QUOTES, 'UTF-8') ?></p>
-                            <p class="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--accent)]">Zobrazit galerii</p>
+                        <div class="reference-card__content">
+                            <span class="reference-card__eyebrow"><?= $index === 0 ? 'Nejoblíbenější styl' : 'Ukázka střihu' ?></span>
+                            <div class="reference-card__panel">
+                                <p class="text-lg font-semibold leading-tight sm:text-xl"><?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?></p>
+                                <p class="reference-card__hint mt-2 text-sm leading-6"><?= htmlspecialchars($cut['description'], ENT_QUOTES, 'UTF-8') ?></p>
+                                <p class="reference-card__cta mt-3 text-xs font-semibold uppercase tracking-[0.18em]">
+                                    <span>Otevřít galerii</span>
+                                    <span class="reference-card__cta-icon" aria-hidden="true">
+                                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none">
+                                            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </span>
+                                </p>
+                            </div>
                         </div>
                     </a>
                 <?php endforeach; ?>
+                </div>
             </div>
         </div>
     </section>
@@ -1026,21 +1247,21 @@ $referenceCuts = [
                 $service = $entry['data'];
                 $isFeatured = !empty($service['featured']);
                 ?>
-                <article class="group relative overflow-hidden rounded-2xl border <?= $isFeatured ? 'border-[var(--accent)] bg-[linear-gradient(135deg,rgba(43,33,28,0.98),rgba(74,58,48,0.94))] text-[color:var(--cream)] shadow-xl' : 'border-[var(--line)] bg-white/78 text-[color:var(--ink)] shadow-sm' ?>">
-                    <div class="absolute inset-x-0 top-0 h-1 <?= $isFeatured ? 'bg-[linear-gradient(90deg,var(--gold),var(--gold-soft))]' : 'bg-[linear-gradient(90deg,var(--accent),rgba(192,138,62,0.12))]' ?>"></div>
+                <article class="group relative overflow-hidden rounded-2xl border <?= $isFeatured ? 'border-[var(--accent)] bg-[linear-gradient(135deg,rgba(0,0,0,0.98),rgba(35,35,35,0.94))] text-[color:var(--cream)] shadow-xl' : 'border-[var(--line)] bg-[rgba(31,29,25,0.82)] text-[color:var(--cream)] shadow-sm' ?>">
+                    <div class="absolute inset-x-0 top-0 h-1 <?= $isFeatured ? 'bg-[linear-gradient(90deg,var(--gold),var(--gold-soft))]' : 'bg-[linear-gradient(90deg,var(--accent),rgba(17,17,17,0.12))]' ?>"></div>
                     <div class="p-5 sm:p-6">
                         <div class="flex flex-col items-start gap-4">
                             <div class="w-full">
                                 <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                                     <div>
-                                        <span class="inline-flex rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'border-[rgba(241,200,121,0.32)] bg-[rgba(241,200,121,0.12)] text-[color:var(--gold-soft)]' : 'border-[var(--line)] bg-[var(--field)] text-[color:var(--muted-strong)]' ?>">
+                                        <span class="inline-flex rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'border-[rgba(218,218,213,0.32)] bg-[rgba(218,218,213,0.12)] text-[color:var(--gold-soft)]' : 'border-[var(--line)] bg-[var(--field)] text-[color:var(--muted-strong)]' ?>">
                                             <?= htmlspecialchars((string) ($service['badge'] ?? 'Služba'), ENT_QUOTES, 'UTF-8') ?>
                                         </span>
                                         <h3 class="mt-4 text-xl font-bold"><?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?></h3>
                                     </div>
-                                    <div class="rounded-2xl border px-4 py-3 text-left <?= $isFeatured ? 'border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.06)] text-[color:var(--cream)]' : 'border-[var(--line)] bg-white/80 text-[color:var(--ink)]' ?>">
+                                    <div class="rounded-2xl border px-4 py-3 text-left <?= $isFeatured ? 'border-[rgba(218,218,213,0.18)] bg-[rgba(255,255,255,0.06)] text-[color:var(--cream)]' : 'border-[var(--line)] bg-[rgba(31,29,25,0.82)] text-[color:var(--cream)]' ?>">
                                         <p class="text-[11px] font-bold uppercase tracking-[0.18em] <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--muted-strong)]' ?>">Od</p>
-                                        <p class="mt-1 text-xl font-bold"><?= htmlspecialchars((string) ($service['price_label'] ?? ''), ENT_QUOTES, 'UTF-8') ?></p>
+                                        <p class="mt-1 text-xl font-bold <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--gold)]' ?>"><?= htmlspecialchars((string) ($service['price_label'] ?? ''), ENT_QUOTES, 'UTF-8') ?></p>
                                     </div>
                                 </div>
                                 <p class="mt-2 max-w-md text-sm leading-6 <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">
@@ -1050,20 +1271,20 @@ $referenceCuts = [
                                     <?= htmlspecialchars((string) ($service['service_copy'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
                                 </p>
                                 <?php if (!empty($service['meta'])): ?>
-                                    <p class="mt-3 inline-flex rounded-full border px-3 py-1.5 text-xs font-semibold <?= $isFeatured ? 'border-[rgba(241,200,121,0.18)] bg-[rgba(255,255,255,0.05)] text-[color:var(--cream-soft)]' : 'border-[var(--line)] bg-[var(--field)] text-[color:var(--muted)]' ?>">
+                                    <p class="mt-3 inline-flex rounded-full border px-3 py-1.5 text-xs font-semibold <?= $isFeatured ? 'border-[rgba(218,218,213,0.18)] bg-[rgba(255,255,255,0.05)] text-[color:var(--cream-soft)]' : 'border-[var(--line)] bg-[var(--field)] text-[color:var(--muted)]' ?>">
                                         <?= htmlspecialchars((string) $service['meta'], ENT_QUOTES, 'UTF-8') ?>
                                     </p>
                                 <?php endif; ?>
                             </div>
                         </div>
-                        <div class="mt-5 flex flex-col items-start gap-3 border-t pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between <?= $isFeatured ? 'border-[rgba(241,200,121,0.18)]' : 'border-[var(--line-soft)]' ?>">
-                            <p class="text-sm font-semibold <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--accent-dark)]' ?>">
+                        <div class="mt-5 flex flex-col items-start gap-3 border-t pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between <?= $isFeatured ? 'border-[rgba(218,218,213,0.18)]' : 'border-[var(--line-soft)]' ?>">
+                            <p class="text-sm font-semibold <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--gold)]' ?>">
                                 cca <?= htmlspecialchars((string) $service['duration'], ENT_QUOTES, 'UTF-8') ?> minut
                             </p>
                             <a
                                 href="#booking"
                                 data-book-service="<?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?>"
-                                class="inline-flex items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[var(--gold)] <?= $isFeatured ? 'border-[rgba(241,200,121,0.24)] bg-[rgba(255,255,255,0.08)] text-[color:var(--gold-soft)] hover:-translate-y-0.5 hover:border-[rgba(241,200,121,0.5)] hover:bg-[rgba(241,200,121,0.18)] hover:text-[color:var(--cream)]' : 'border-[rgba(74,58,48,0.14)] bg-[rgba(255,255,255,0.62)] text-[color:var(--accent-dark)] shadow-sm hover:-translate-y-0.5 hover:border-[rgba(192,138,62,0.42)] hover:bg-[rgba(192,138,62,0.14)] hover:text-[color:var(--ink)]' ?>"
+                                class="inline-flex items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[var(--gold)] <?= $isFeatured ? 'border-[rgba(216,191,122,0.28)] bg-[rgba(255,255,255,0.08)] text-[color:var(--gold-soft)] hover:-translate-y-0.5 hover:border-[rgba(216,191,122,0.5)] hover:bg-[rgba(216,191,122,0.18)] hover:text-[color:var(--cream)]' : 'border-[rgba(216,191,122,0.28)] bg-[rgba(216,191,122,0.16)] text-[color:var(--gold-soft)] shadow-sm hover:-translate-y-0.5 hover:border-[rgba(216,191,122,0.5)] hover:bg-[rgba(216,191,122,0.24)] hover:text-[color:var(--cream)]' ?>"
                             >
                                 Vybrat a rezervovat
                             </a>
@@ -1072,7 +1293,7 @@ $referenceCuts = [
                 </article>
             <?php endforeach; ?>
         </div>
-        <div class="mt-5 rounded-2xl border border-[var(--line)] bg-white/80 p-5 shadow-sm">
+        <div class="mt-5 rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] p-5 shadow-sm">
             <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
                     <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Dárkové poukazy</p>
@@ -1085,7 +1306,7 @@ $referenceCuts = [
                     <a href="tel:+420608419610" class="inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-2.5 text-sm font-semibold text-[color:var(--cream)] transition hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                         Zavolat
                     </a>
-                    <a href="mailto:renenemehair@seznam.cz?subject=D%C3%A1rkov%C3%BD%20poukaz%20Hair%20By%20ReneNeme" class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[var(--accent)] hover:text-[color:var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+                    <a href="mailto:renenemehair@seznam.cz?subject=D%C3%A1rkov%C3%BD%20poukaz%20Hair%20By%20ReneNeme" class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--cream)] transition hover:border-[var(--accent)] hover:text-[color:var(--gold-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                         Napsat e-mail
                     </a>
                 </div>
@@ -1104,7 +1325,7 @@ $referenceCuts = [
                     a po potvrzení dorazí shrnutí e-mailem.
                 </p>
 
-                <div class="rounded-3xl border border-[var(--surface-soft)] bg-[linear-gradient(145deg,rgba(43,33,28,0.98),rgba(74,58,48,0.94))] p-5 text-[color:var(--cream)] shadow-xl sm:p-6">
+                <div class="rounded-3xl border border-[var(--surface-soft)] bg-[linear-gradient(145deg,rgba(0,0,0,0.98),rgba(35,35,35,0.94))] p-5 text-[color:var(--cream)] shadow-xl sm:p-6">
                     <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Jak to funguje</p>
                     <h3 class="mt-3 text-xl font-bold">Jednoduše, rychle a bez čekání</h3>
                     <div class="mt-5 space-y-3 text-sm text-[color:var(--cream-soft)]">
@@ -1121,14 +1342,14 @@ $referenceCuts = [
                             <p>Po schválení rezervace ti přijde potvrzení e-mailem</p>
                         </div>
                     </div>
-                    <div class="mt-5 border-t border-[rgba(241,200,121,0.16)] pt-4 text-sm text-[color:var(--cream-soft)]">
+                    <div class="mt-5 border-t border-[rgba(218,218,213,0.16)] pt-4 text-sm text-[color:var(--cream-soft)]">
                         <p><strong class="text-[color:var(--cream)]">Po-Pá 9:00-18:00</strong> · Vackova 1064/39, Brno-Královo Pole</p>
                     </div>
                 </div>
             </div>
 
             <div class="order-2 space-y-4">
-                <form id="bookingForm" action="save_reservation.php" method="POST" class="booking-form scroll-mt-24 space-y-4 rounded-lg bg-[var(--ink)] p-4 text-[color:var(--cream)] sm:p-5 md:scroll-mt-28 md:p-6">
+                <form id="bookingForm" action="save_reservation.php" method="POST" class="booking-form scroll-mt-24 space-y-4 rounded-lg border border-[var(--line)] bg-[linear-gradient(180deg,rgba(31,29,25,0.96),rgba(14,13,11,0.96))] p-4 text-[color:var(--cream)] sm:p-5 md:scroll-mt-28 md:p-6">
                     <?= app_csrf_field() ?>
                     <input type="hidden" name="form_started_at" value="<?= app_booking_form_started_at() ?>">
                     <div class="hidden" aria-hidden="true">
@@ -1272,7 +1493,7 @@ $referenceCuts = [
                     </button>
                 </form>
 
-                <div class="rounded-2xl border border-[var(--line)] bg-white/80 p-4 shadow-sm">
+                <div class="rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] p-4 shadow-sm">
                     <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                         <div>
                             <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Praktické info</p>
@@ -1285,13 +1506,13 @@ $referenceCuts = [
                                 href="https://www.google.com/maps/search/?api=1&query=Vackova%201064%2F39%2C%20612%2000%20Brno-Kr%C3%A1lovo%20Pole"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--ink)] transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[color:var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                                class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--cream)] transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[color:var(--gold-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
                             >
                                 Otevřít mapu
                             </a>
                             <a
                                 href="tel:+420608419610"
-                                class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--ink)] transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[color:var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                                class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--cream)] transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[color:var(--gold-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
                             >
                                 Zavolat
                             </a>
@@ -1305,17 +1526,17 @@ $referenceCuts = [
 
 <div
     id="bookingLoadingOverlay"
-    class="booking-loading-overlay fixed inset-0 z-[120] flex items-center justify-center bg-[rgba(43,33,28,0.76)] p-4 backdrop-blur-md"
+    class="booking-loading-overlay fixed inset-0 z-[120] flex items-center justify-center bg-[rgba(0,0,0,0.76)] p-4 backdrop-blur-md"
     aria-hidden="true"
 >
-    <div class="booking-loading-card max-h-[calc(100vh-2rem)] w-full max-w-md overflow-y-auto rounded-lg border border-[var(--surface-soft)] bg-[var(--cream)] p-5 text-center shadow-2xl sm:p-6">
+    <div class="booking-loading-card max-h-[calc(100vh-2rem)] w-full max-w-md overflow-y-auto rounded-lg border border-[var(--surface-soft)] bg-[var(--surface)] p-5 text-center shadow-2xl sm:p-6">
         <div class="booking-loading-pulse mx-auto mb-5 inline-flex h-16 w-16 items-center justify-center rounded-full bg-[var(--accent)] text-[color:var(--cream)] shadow-lg">
             <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M5 12.5l4.2 4.2L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
         </div>
         <p class="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--muted-strong)]">Rezervace se odesílá</p>
-        <h2 class="mt-2 text-2xl font-extrabold text-[color:var(--ink)]">Držíme ti termín</h2>
+        <h2 class="mt-2 text-2xl font-extrabold text-[color:var(--cream)]">Držíme ti termín</h2>
         <p id="bookingLoadingStep" class="mt-3 text-sm leading-6 text-[color:var(--muted)]">
             Kontrolujeme dostupnost vybraného času...
         </p>
@@ -1336,7 +1557,7 @@ $referenceCuts = [
 <button
     type="button"
     id="scrollTopButton"
-    class="scroll-top-button fixed bottom-5 right-4 z-[80] inline-flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(214,168,94,0.18)] bg-[var(--surface)] text-[color:var(--gold-soft)] shadow-xl focus:outline-none focus:ring-2 focus:ring-[var(--gold)] sm:bottom-6 sm:right-6"
+    class="scroll-top-button fixed bottom-5 right-4 z-[80] inline-flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(17,17,17,0.18)] bg-[var(--surface)] text-[color:var(--gold-soft)] shadow-xl focus:outline-none focus:ring-2 focus:ring-[var(--gold)] sm:bottom-6 sm:right-6"
     aria-label="Zpět nahoru"
 >
     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1355,11 +1576,11 @@ $referenceCuts = [
         class="absolute inset-0 cursor-default"
         aria-label="Zavřít detail"
     ></button>
-    <section class="about-popover__panel relative z-10 max-h-[calc(100vh-2rem)] w-full max-w-2xl overflow-y-auto rounded-[1.75rem] border border-[var(--line)] bg-[var(--cream)] shadow-2xl">
+    <section class="about-popover__panel relative z-10 max-h-[calc(100vh-2rem)] w-full max-w-2xl overflow-y-auto rounded-[1.75rem] border border-[var(--line)] bg-[var(--surface)] shadow-2xl">
         <button
             type="button"
             id="aboutClose"
-            class="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[rgba(43,33,28,0.78)] text-[color:var(--cream)] shadow-lg transition hover:bg-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+            class="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[rgba(0,0,0,0.78)] text-[color:var(--cream)] shadow-lg transition hover:bg-[var(--surface-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
             aria-label="Zavřít detail"
         >
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1371,7 +1592,7 @@ $referenceCuts = [
             <h3 id="aboutPopoverTitle" class="mt-2 text-2xl font-bold sm:text-3xl"></h3>
         </div>
         <div class="px-5 py-5 sm:px-7 sm:py-6">
-            <p id="aboutPopoverSummary" class="text-base font-semibold text-[color:var(--ink)]"></p>
+            <p id="aboutPopoverSummary" class="text-base font-semibold text-[color:var(--cream)]"></p>
             <p id="aboutPopoverDetail" class="mt-4 leading-7 text-[color:var(--muted)]"></p>
             <a href="#booking" class="mt-6 inline-flex rounded-2xl bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[color:var(--cream)] shadow-md transition hover:-translate-y-0.5 hover:bg-[var(--accent-dark)] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                 Rezervovat termín
@@ -1395,19 +1616,19 @@ $referenceCuts = [
         <button
             type="button"
             id="galleryClose"
-            class="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[rgba(43,33,28,0.78)] text-[color:var(--cream)] shadow-lg transition hover:bg-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+            class="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[rgba(0,0,0,0.78)] text-[color:var(--cream)] shadow-lg transition hover:bg-[var(--surface-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
             aria-label="Zavřít fotografii"
         >
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>
         </button>
-        <figure class="overflow-hidden rounded-[1.75rem] bg-[var(--ink)] shadow-2xl">
+        <figure class="overflow-hidden rounded-[1.75rem] bg-[var(--surface)] shadow-2xl">
             <img
                 id="galleryImage"
                 src=""
                 alt=""
-                class="max-h-[68vh] w-full object-contain bg-[var(--ink)] sm:max-h-[78vh]"
+                class="max-h-[68vh] w-full object-contain bg-[var(--surface)] sm:max-h-[78vh]"
             >
             <figcaption class="border-t border-[var(--surface-soft)] px-4 py-3 text-[color:var(--cream)] sm:px-5">
                 <p id="galleryTitle" class="font-semibold"></p>
@@ -1585,6 +1806,13 @@ $referenceCuts = [
         bookingSlowTimer = window.setTimeout(() => {
             bookingLoadingOverlay?.classList.add('is-slow');
         }, 6500);
+
+        e.preventDefault();
+        window.requestAnimationFrame(() => {
+            window.setTimeout(() => {
+                HTMLFormElement.prototype.submit.call(bookingFormElement);
+            }, 320);
+        });
 
     });
 
