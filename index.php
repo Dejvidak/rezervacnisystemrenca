@@ -661,9 +661,58 @@ $referenceCuts = [
             filter: grayscale(0.32) contrast(1.08) brightness(0.86);
         }
 
+        .map-action-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.65rem;
+            width: 100%;
+            border: 1px solid rgba(216, 191, 122, 0.28);
+            border-radius: 0.85rem;
+            background: rgba(216, 191, 122, 0.1);
+            padding: 0.9rem 1rem;
+            color: var(--cream);
+            font-size: 0.94rem;
+            font-weight: 750;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            transition: transform 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease, box-shadow 220ms ease;
+        }
+
+        .map-action-button:hover,
+        .map-action-button:focus-visible {
+            transform: translateY(-1px);
+            border-color: rgba(216, 191, 122, 0.52);
+            background: rgba(216, 191, 122, 0.18);
+            color: var(--gold-soft);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+        }
+
+        .map-action-button__icon {
+            display: inline-flex;
+            flex: 0 0 auto;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 0.65rem;
+            background: rgba(216, 191, 122, 0.14);
+            color: var(--gold-soft);
+        }
+
+        .map-action-button__text {
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+
         @media (min-width: 640px) {
             .hero-info-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .map-action-button {
+                width: auto;
+                min-width: 13rem;
+                padding-right: 1.15rem;
             }
         }
 
@@ -1797,9 +1846,15 @@ $referenceCuts = [
                             href="<?= htmlspecialchars($businessMapUrl, ENT_QUOTES, 'UTF-8') ?>"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--cream)] transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[color:var(--gold-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                            class="map-action-button focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
                         >
-                            Otevřít v Google Maps
+                            <span class="map-action-button__icon" aria-hidden="true">
+                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z" stroke="currentColor" stroke-width="2" />
+                                    <path d="M12 12.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z" stroke="currentColor" stroke-width="2" />
+                                </svg>
+                            </span>
+                            <span class="map-action-button__text">Otevřít v Google Maps</span>
                         </a>
                     </div>
                 </div>

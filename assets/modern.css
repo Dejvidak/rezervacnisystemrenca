@@ -251,15 +251,31 @@ body::before {
 
 /* ── Enhanced mobile menu ── */
 #mobileMenu {
-    transform: translateY(-8px);
-    opacity: 0;
-    transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 280ms ease;
-    pointer-events: none;
+    display: block !important;
+    overflow: hidden;
+    max-height: min(calc(100dvh - 4.25rem), 28rem);
+    transform: translateY(0) scaleY(1);
+    transform-origin: top center;
+    opacity: 1;
+    transition:
+        max-height 460ms cubic-bezier(0.16, 1, 0.3, 1),
+        padding-top 420ms cubic-bezier(0.16, 1, 0.3, 1),
+        padding-bottom 420ms cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 260ms ease,
+        opacity 260ms ease,
+        transform 460ms cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: auto;
 }
 
 #mobileMenu.hidden {
-    display: none !important;
+    display: block !important;
+    max-height: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    border-color: transparent !important;
+    transform: translateY(-12px) scaleY(0.985);
+    opacity: 0;
+    pointer-events: none;
 }
 
 #mobileMenu.is-open,
@@ -269,9 +285,62 @@ body::before {
     pointer-events: auto;
 }
 
+#mobileMenuButton svg {
+    transition: opacity 180ms ease, transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#mobileMenuButton svg.hidden {
+    display: block !important;
+    opacity: 0;
+    transform: rotate(-18deg) scale(0.82);
+    position: absolute;
+}
+
+#mobileMenuButton svg:not(.hidden) {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
 @media (max-width: 1023px) {
     #mobileMenu {
         max-height: min(calc(100dvh - 4.25rem), 27rem);
+    }
+
+    #mobileMenu a {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        transform-origin: left center;
+        transition:
+            opacity 300ms ease,
+            transform 520ms cubic-bezier(0.18, 1.45, 0.28, 1),
+            background-color 180ms ease,
+            color 180ms ease;
+    }
+
+    #mobileMenu.hidden a {
+        opacity: 0;
+        transform: translateY(14px) scale(0.96);
+        transition-delay: 0ms !important;
+    }
+
+    #mobileMenu:not(.hidden) a:nth-child(1) { transition-delay: 90ms; }
+    #mobileMenu:not(.hidden) a:nth-child(2) { transition-delay: 135ms; }
+    #mobileMenu:not(.hidden) a:nth-child(3) { transition-delay: 180ms; }
+    #mobileMenu:not(.hidden) a:nth-child(4) { transition-delay: 225ms; }
+    #mobileMenu:not(.hidden) a:nth-child(5) { transition-delay: 270ms; }
+    #mobileMenu:not(.hidden) a:nth-child(6) { transition-delay: 315ms; }
+    #mobileMenu:not(.hidden) a:nth-child(7) { transition-delay: 360ms; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #mobileMenu,
+    #mobileMenu a {
+        transition: none !important;
+    }
+
+    #mobileMenu.hidden a,
+    #mobileMenu a {
+        transform: none !important;
     }
 }
 
