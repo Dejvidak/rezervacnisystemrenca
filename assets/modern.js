@@ -63,7 +63,7 @@
 
     /* ── Ripple effect on buttons ── */
     function initRipple() {
-        document.querySelectorAll('a.inline-flex[href="#booking"], a.inline-flex[href="index.php#booking"]').forEach(btn => {
+        document.querySelectorAll('a.inline-flex[href="#booking"], a.inline-flex[href="index.php#booking"], a.inline-flex[href="rezervace.php"], a.inline-flex[href^="rezervace.php?"]').forEach(btn => {
             btn.classList.add('booking-shine');
         });
 

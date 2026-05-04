@@ -36,6 +36,10 @@ function app_run_reservation_request_integrations(array $reservation): array
     $result['owner_email_sent'] = $ownerResult['sent'];
     $result['errors'] = array_merge($result['errors'], $ownerResult['errors']);
 
+    $customerResult = app_send_reservation_customer_request_email($reservation);
+    $result['customer_email_sent'] = $customerResult['sent'];
+    $result['errors'] = array_merge($result['errors'], $customerResult['errors']);
+
     return $result;
 }
 
@@ -153,6 +157,64 @@ function app_send_reservation_customer_email(array $reservation): array
 
     if (!$result['sent']) {
         $result['errors'][] = 'Potvrzovací e-mail zákazníkovi se nepodařilo odeslat.';
+    }
+
+    return $result;
+}
+
+function app_send_reservation_customer_request_email(array $reservation): array
+{
+    $result = ['sent' => false, 'errors' => []];
+
+    if (!filter_var($reservation['email'] ?? '', FILTER_VALIDATE_EMAIL)) {
+        return $result;
+    }
+
+    if (!app_email_enabled()) {
+        $result['errors'][] = 'BOOKING_NOTIFY_EMAIL není nastavený, e-mail zákazníkovi o přijetí žádosti se neposlal.';
+        return $result;
+    }
+
+    $configurationErrors = app_email_configuration_errors();
+    if (!empty($configurationErrors)) {
+        $result['errors'] = array_merge($result['errors'], $configurationErrors);
+        return $result;
+    }
+
+    $displayDate = DateTime::createFromFormat('!Y-m-d', (string) $reservation['date']);
+    $dateLabel = $displayDate ? $displayDate->format('d.m.Y') : (string) $reservation['date'];
+    $body = implode("\n", [
+        'Dobrý den, ' . $reservation['name'] . ',',
+        '',
+        'děkujeme, žádost o rezervaci jsme přijali.',
+        '',
+        'Termín: ' . $dateLabel . ' v ' . $reservation['time'],
+        'Služba: ' . $reservation['service'],
+        'Délka: cca ' . $reservation['duration'] . ' minut',
+        '',
+        'Termín zatím čeká na potvrzení. Jakmile ho schválíme, pošleme vám potvrzovací e-mail.',
+        '',
+        'Hair By ReneNeme',
+    ]);
+
+    $htmlBody = '<p>Dobrý den, ' . app_email_escape((string) $reservation['name']) . ',</p>'
+        . '<p>děkujeme, žádost o rezervaci jsme přijali.</p>'
+        . '<p><strong>Termín:</strong> ' . app_email_escape($dateLabel) . ' v ' . app_email_escape((string) $reservation['time']) . '<br>'
+        . '<strong>Služba:</strong> ' . app_email_escape((string) $reservation['service']) . '<br>'
+        . '<strong>Délka:</strong> cca ' . app_email_escape((string) $reservation['duration']) . ' minut</p>'
+        . '<p>Termín zatím čeká na potvrzení. Jakmile ho schválíme, pošleme vám potvrzovací e-mail.</p>'
+        . '<p>Hair By ReneNeme</p>';
+
+    $result['sent'] = app_send_plain_email(
+        $reservation['email'],
+        'Žádost o rezervaci přijata - Hair By ReneNeme',
+        $body,
+        app_owner_email(),
+        $htmlBody
+    );
+
+    if (!$result['sent']) {
+        $result['errors'][] = 'E-mail zákazníkovi o přijetí žádosti se nepodařilo odeslat.';
     }
 
     return $result;

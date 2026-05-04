@@ -4,7 +4,7 @@ require __DIR__ . '/db.php';
 require_once __DIR__ . '/integrations.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: index.php#booking');
+    header('Location: rezervace.php');
     exit;
 }
 
@@ -669,7 +669,7 @@ unset($_SESSION['booking_form_started_at']);
                         <?php endforeach; ?>
                     </ul>
                     <div class="reservation-result__actions mt-6 flex flex-col gap-3 sm:flex-row">
-                        <a href="index.php#booking" class="reservation-result__button reservation-result__button--primary inline-flex justify-center rounded-xl bg-[#C8AD63] px-5 py-3 text-sm font-semibold text-[#080807] shadow-md shadow-black/30 transition hover:bg-[#D8BF7A]">
+                        <a href="rezervace.php" class="reservation-result__button reservation-result__button--primary inline-flex justify-center rounded-xl bg-[#C8AD63] px-5 py-3 text-sm font-semibold text-[#080807] shadow-md shadow-black/30 transition hover:bg-[#D8BF7A]">
                             Upravit rezervaci
                         </a>
                         <a href="tel:+420608419610" class="reservation-result__button reservation-result__button--secondary inline-flex justify-center rounded-xl border border-[#5B554B] px-5 py-3 text-sm font-semibold text-[#F7F3EA] transition hover:border-[#C8AD63] hover:text-[#F0DFA9]">
@@ -768,7 +768,7 @@ unset($_SESSION['booking_form_started_at']);
                         <a href="index.php" class="reservation-result__button reservation-result__button--primary inline-flex justify-center rounded-xl bg-[#C8AD63] px-5 py-3 text-sm font-semibold text-[#080807] shadow-md shadow-black/30 transition hover:bg-[#D8BF7A]">
                             Zpět na web
                         </a>
-                        <a href="index.php#booking" class="reservation-result__button reservation-result__button--secondary inline-flex justify-center rounded-xl border border-[#5B554B] px-5 py-3 text-sm font-semibold text-[#F7F3EA] transition hover:border-[#C8AD63] hover:text-[#F0DFA9]">
+                        <a href="rezervace.php" class="reservation-result__button reservation-result__button--secondary inline-flex justify-center rounded-xl border border-[#5B554B] px-5 py-3 text-sm font-semibold text-[#F7F3EA] transition hover:border-[#C8AD63] hover:text-[#F0DFA9]">
                             Vytvořit další rezervaci
                         </a>
                     </div>

@@ -68,6 +68,7 @@ if ($dateObject->format('Y-m-d') === $now->format('Y-m-d')) {
 }
 
 echo json_encode([
+    'all' => array_values($allTimes),
     'available' => $available,
     'booked' => array_values($booked),
     'closed' => empty($allTimes),

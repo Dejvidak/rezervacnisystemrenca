@@ -955,6 +955,218 @@ $referenceCuts = [
             min-width: 0;
         }
 
+        .booking-wizard-header {
+            border-bottom: 1px solid rgba(216, 191, 122, 0.14);
+            padding-bottom: 1rem;
+        }
+
+        .booking-stepper {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 0.45rem;
+        }
+
+        .booking-stepper__item {
+            position: relative;
+            min-width: 0;
+            border: 1px solid rgba(216, 191, 122, 0.16);
+            border-radius: 0.75rem;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.55rem 0.55rem 0.5rem;
+            color: var(--muted);
+            text-align: left;
+            transition: border-color 220ms ease, background 220ms ease, color 220ms ease, transform 220ms ease;
+        }
+
+        .booking-stepper__item.is-active {
+            border-color: rgba(216, 191, 122, 0.72);
+            background: rgba(216, 191, 122, 0.13);
+            color: var(--cream);
+            transform: translateY(-1px);
+        }
+
+        .booking-stepper__item.is-complete {
+            border-color: rgba(216, 191, 122, 0.36);
+            color: var(--gold-soft);
+        }
+
+        .booking-stepper__number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.35rem;
+            height: 1.35rem;
+            border-radius: 999px;
+            background: rgba(216, 191, 122, 0.14);
+            color: var(--gold-soft);
+            font-size: 0.72rem;
+            font-weight: 900;
+        }
+
+        .booking-stepper__label {
+            display: block;
+            margin-top: 0.35rem;
+            overflow: hidden;
+            font-size: 0.72rem;
+            font-weight: 800;
+            line-height: 1.15;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .booking-step {
+            display: none;
+            opacity: 0;
+            transform: translate3d(0, 10px, 0);
+        }
+
+        .booking-step.is-active {
+            display: block;
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            animation: bookingStepIn 280ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .booking-step__eyebrow {
+            color: var(--gold-soft);
+            font-size: 0.7rem;
+            font-weight: 900;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+        }
+
+        .booking-step__title {
+            margin-top: 0.35rem;
+            color: var(--cream);
+            font-size: 1.25rem;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        .booking-step__copy {
+            margin-top: 0.45rem;
+            color: var(--cream-soft);
+            font-size: 0.88rem;
+            line-height: 1.55;
+        }
+
+        .booking-step-actions {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 0.75rem;
+            border-top: 1px solid rgba(216, 191, 122, 0.14);
+            padding-top: 1rem;
+        }
+
+        .booking-nav-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-height: 2.9rem;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 800;
+            transition: transform 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease, opacity 220ms ease;
+        }
+
+        .booking-nav-button:hover {
+            transform: translateY(-1px);
+        }
+
+        .booking-nav-button--ghost {
+            border: 1px solid rgba(216, 191, 122, 0.22);
+            color: var(--cream);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .booking-nav-button--ghost:hover {
+            border-color: rgba(216, 191, 122, 0.46);
+            color: var(--gold-soft);
+            background: rgba(216, 191, 122, 0.08);
+        }
+
+        .booking-nav-button--primary {
+            border: 1px solid rgba(216, 191, 122, 0.56);
+            background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+            color: var(--surface);
+            box-shadow: 0 14px 26px rgba(200, 173, 99, 0.18);
+        }
+
+        .booking-summary-grid {
+            display: grid;
+            gap: 0.7rem;
+        }
+
+        .booking-summary-card {
+            border: 1px solid rgba(216, 191, 122, 0.16);
+            border-radius: 0.9rem;
+            background: rgba(255, 255, 255, 0.045);
+            padding: 0.85rem;
+        }
+
+        .booking-summary-card span {
+            display: block;
+            color: var(--gold-soft);
+            font-size: 0.68rem;
+            font-weight: 900;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .booking-summary-card strong {
+            display: block;
+            margin-top: 0.35rem;
+            color: var(--cream);
+            font-size: 0.98rem;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+        }
+
+        @keyframes bookingStepIn {
+            from {
+                opacity: 0;
+                transform: translate3d(0, 10px, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        @media (min-width: 640px) {
+            .booking-step-actions {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .booking-step-actions .booking-nav-button,
+            .booking-step-actions #bookingSubmitButton {
+                width: auto;
+                min-width: 9.5rem;
+            }
+
+            .booking-summary-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 639px) {
+            .booking-stepper {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .booking-stepper__item {
+                padding: 0.5rem;
+            }
+
+            .booking-stepper__label {
+                font-size: 0.68rem;
+            }
+        }
+
         .booking-slot-grid {
             gap: 0.75rem;
         }
@@ -1407,7 +1619,7 @@ $referenceCuts = [
                     <path d="M17 7.2h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
                 </svg>
             </a>
-            <a href="#booking" class="inline-flex whitespace-nowrap rounded-lg bg-[var(--accent)] px-4 py-2 font-semibold text-[color:var(--cream)] shadow-sm transition hover:-translate-y-0.5 hover:bg-[var(--accent-dark)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervace</a>
+            <a href="rezervace.php" class="inline-flex whitespace-nowrap rounded-lg bg-[var(--accent)] px-4 py-2 font-semibold text-[color:var(--cream)] shadow-sm transition hover:-translate-y-0.5 hover:bg-[var(--accent-dark)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervace</a>
         </nav>
         <button
             type="button"
@@ -1431,7 +1643,7 @@ $referenceCuts = [
         <a href="references.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
         <a href="cenik.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Ceník</a>
         <a href="contact.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Kontakt</a>
-        <a href="#booking" class="mt-2 inline-flex w-full items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-3 font-semibold text-[color:var(--cream)] shadow-sm transition hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervovat termín</a>
+        <a href="rezervace.php" class="mt-2 inline-flex w-full items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-3 font-semibold text-[color:var(--cream)] shadow-sm transition hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervovat termín</a>
         <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="flex items-center gap-2 rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="2" />
@@ -1494,7 +1706,7 @@ $referenceCuts = [
                     </a>
                 </div>
                 <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                    <a href="#booking" class="ui-button ripple-btn w-full focus:outline-none focus:ring-2 focus:ring-[var(--accent)] sm:w-auto">
+                    <a href="rezervace.php" class="ui-button ripple-btn w-full focus:outline-none focus:ring-2 focus:ring-[var(--accent)] sm:w-auto">
                         Rezervovat termín
                     </a>
                     <a href="cenik.php" class="ui-button-ghost-dark ripple-btn w-full focus:outline-none focus:ring-2 focus:ring-[var(--gold)] sm:w-auto">
@@ -1762,7 +1974,7 @@ $referenceCuts = [
                                 cca <?= htmlspecialchars((string) $service['duration'], ENT_QUOTES, 'UTF-8') ?> minut
                             </p>
                             <a
-                                href="#booking"
+                                href="rezervace.php?service=<?= rawurlencode($serviceName) ?>"
                                 data-book-service="<?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?>"
                                 class="inline-flex items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[var(--gold)] <?= $isFeatured ? 'border-[rgba(216,191,122,0.28)] bg-[rgba(255,255,255,0.08)] text-[color:var(--gold-soft)] hover:-translate-y-0.5 hover:border-[rgba(216,191,122,0.5)] hover:bg-[rgba(216,191,122,0.18)] hover:text-[color:var(--cream)]' : 'border-[rgba(216,191,122,0.28)] bg-[rgba(216,191,122,0.16)] text-[color:var(--gold-soft)] shadow-sm hover:-translate-y-0.5 hover:border-[rgba(216,191,122,0.5)] hover:bg-[rgba(216,191,122,0.24)] hover:text-[color:var(--cream)]' ?>"
                             >
@@ -1795,7 +2007,7 @@ $referenceCuts = [
     </section>
 
     <!-- REZERVAČNÍ FORMULÁŘ -->
-    <section id="booking" class="mt-2 scroll-mt-24 border-t border-[var(--line)] py-8 md:mt-4 md:scroll-mt-28 md:py-10">
+    <section id="booking" class="hidden mt-2 scroll-mt-24 border-t border-[var(--line)] py-8 md:mt-4 md:scroll-mt-28 md:py-10">
         <div class="grid gap-6 md:grid-cols-[0.8fr_1.2fr] md:items-start md:gap-8">
             <div class="order-1 section-reveal section-reveal--left space-y-5">
                 <p class="text-xs uppercase tracking-[0.24em] text-[color:var(--muted-strong)] font-bold">Rezervace</p>
@@ -1861,7 +2073,7 @@ $referenceCuts = [
             </div>
 
             <div class="order-2 section-reveal section-reveal--right space-y-4">
-                <form id="bookingForm" action="save_reservation.php" method="POST" class="booking-form scroll-mt-24 space-y-4 rounded-lg border border-[var(--line)] bg-[linear-gradient(180deg,rgba(31,29,25,0.96),rgba(14,13,11,0.96))] p-4 text-[color:var(--cream)] sm:p-5 md:scroll-mt-28 md:p-6">
+                <form id="bookingForm" action="save_reservation.php" method="POST" class="booking-form scroll-mt-24 space-y-5 rounded-lg border border-[var(--line)] bg-[linear-gradient(180deg,rgba(31,29,25,0.96),rgba(14,13,11,0.96))] p-4 text-[color:var(--cream)] sm:p-5 md:scroll-mt-28 md:p-6">
                     <?= app_csrf_field() ?>
                     <input type="hidden" name="form_started_at" value="<?= app_booking_form_started_at() ?>">
                     <div class="hidden" aria-hidden="true">
@@ -1869,53 +2081,128 @@ $referenceCuts = [
                         <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
                     </div>
 
-                    <!-- Jméno -->
-                    <div>
-                        <label for="name" class="block text-sm font-medium mb-1">Jak se jmenuješ *</label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            required
-                            class="w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-2 text-base text-[color:var(--field-text)] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
-                            placeholder="Např. Jan Novák"
-                        >
+                    <div class="booking-wizard-header space-y-4">
+                        <div>
+                            <p class="booking-step__eyebrow">Rezervace krok za krokem</p>
+                            <h3 class="booking-step__title">Nejdřív kontakt, potom termín a na konci rychlá kontrola.</h3>
+                        </div>
+                        <div class="booking-stepper" aria-label="Postup rezervace">
+                            <button type="button" class="booking-stepper__item is-active" data-booking-step-target="0" aria-current="step">
+                                <span class="booking-stepper__number">1</span>
+                                <span class="booking-stepper__label">Kontakt</span>
+                            </button>
+                            <button type="button" class="booking-stepper__item" data-booking-step-target="1">
+                                <span class="booking-stepper__number">2</span>
+                                <span class="booking-stepper__label">Služba</span>
+                            </button>
+                            <button type="button" class="booking-stepper__item" data-booking-step-target="2">
+                                <span class="booking-stepper__number">3</span>
+                                <span class="booking-stepper__label">Datum</span>
+                            </button>
+                            <button type="button" class="booking-stepper__item" data-booking-step-target="3">
+                                <span class="booking-stepper__number">4</span>
+                                <span class="booking-stepper__label">Čas</span>
+                            </button>
+                            <button type="button" class="booking-stepper__item" data-booking-step-target="4">
+                                <span class="booking-stepper__number">5</span>
+                                <span class="booking-stepper__label">Kontrola</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- E-mail -->
-                    <div>
-                        <label for="email" class="block text-sm font-medium mb-1">E-mail *</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            required
-                            class="w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-2 text-base text-[color:var(--field-text)] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
-                            placeholder="např. jan.novak@email.cz"
-                        >
+                    <div class="booking-step is-active space-y-4" data-booking-step="0">
+                        <div>
+                            <p class="booking-step__eyebrow">Kontakt</p>
+                            <h3 class="booking-step__title">Na koho termín podržíme?</h3>
+                            <p class="booking-step__copy">Stačí základní kontakt pro potvrzení rezervace a rychlou domluvu, kdyby bylo potřeba něco doladit.</p>
+                        </div>
+                        <div>
+                            <label for="name" class="block text-sm font-medium mb-1">Jak se jmenuješ *</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                required
+                                autocomplete="name"
+                                class="w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-2 text-base text-[color:var(--field-text)] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                                placeholder="Např. Jan Novák"
+                            >
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-1">E-mail *</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                required
+                                autocomplete="email"
+                                class="w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-2 text-base text-[color:var(--field-text)] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                                placeholder="např. jan.novak@email.cz"
+                            >
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium mb-1">Telefon pro rychlou domluvu *</label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                required
+                                inputmode="tel"
+                                autocomplete="tel"
+                                pattern="^[+0-9 ().\/-]{9,25}$"
+                                title="Zadej telefonní číslo, například +420 777 123 456"
+                                class="w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-2 text-base text-[color:var(--field-text)] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                                placeholder="např. +420 777 123 456"
+                            >
+                        </div>
                     </div>
 
-                    <!-- Telefon -->
-                    <div>
-                        <label for="phone" class="block text-sm font-medium mb-1">Telefon pro rychlou domluvu *</label>
-                        <input
-                            type="tel"
-                            id="phone"
-                            name="phone"
-                            required
-                            inputmode="tel"
-                            autocomplete="tel"
-                            pattern="^[+0-9 ().\/-]{9,25}$"
-                            title="Zadej telefonní číslo, například +420 777 123 456"
-                            class="w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-2 text-base text-[color:var(--field-text)] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
-                            placeholder="např. +420 777 123 456"
-                        >
+                    <div class="booking-step space-y-4" data-booking-step="1">
+                        <div>
+                            <p class="booking-step__eyebrow">Služba</p>
+                            <h3 class="booking-step__title">Co budeme stříhat?</h3>
+                            <p class="booking-step__copy">Podle služby se rovnou spočítá délka návštěvy a nabídnou se správné volné časy.</p>
+                        </div>
+                        <div>
+                            <label for="service" class="block text-sm font-medium mb-1">Vyber službu *</label>
+                            <select
+                                id="service"
+                                name="service"
+                                required
+                                class="booking-control booking-control--select"
+                            >
+                                <option value="">Vyber službu...</option>
+                                <?php foreach ($services as $serviceName => $service): ?>
+                                    <option value="<?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?>">
+                                        <?= htmlspecialchars($serviceName . ' (' . (string) ($service['price_label'] ?? '') . ')', ENT_QUOTES, 'UTF-8') ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <p id="priceInfo" class="mt-1 text-xs text-[color:var(--cream-soft)] hidden">
+                                Vybraná služba: <span id="priceValue"></span>
+                            </p>
+                            <div id="selectedServiceCard" class="selected-service-card mt-3" aria-live="polite">
+                                <div class="min-w-0">
+                                    <p class="text-[10px] font-black uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">Vybraná služba</p>
+                                    <h3 id="selectedServiceName" class="mt-2 text-lg font-extrabold text-[color:var(--cream)]"></h3>
+                                    <p id="selectedServiceCopy" class="mt-3 text-sm leading-6 text-[color:var(--cream-soft)]"></p>
+                                </div>
+                                <div class="selected-service-card__price shrink-0">
+                                    <p id="selectedServicePrice" class="text-xl font-black text-[color:var(--gold-soft)]"></p>
+                                    <p id="selectedServiceDuration" class="mt-2 text-xs font-bold text-[color:var(--cream)]"></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Datum + čas -->
-                    <div class="booking-slot-grid grid grid-cols-1 sm:grid-cols-2">
+                    <div class="booking-step space-y-4" data-booking-step="2">
+                        <div>
+                            <p class="booking-step__eyebrow">Datum</p>
+                            <h3 class="booking-step__title">Který den se ti hodí?</h3>
+                            <p class="booking-step__copy">Online jde vybrat termín nejvýše <?= (int) app_booking_max_advance_days() ?> dní dopředu.</p>
+                        </div>
                         <div class="min-w-0">
-                            <label for="date" class="block text-sm font-medium mb-1">Kdy se ti to hodí *</label>
+                            <label for="date" class="block text-sm font-medium mb-1">Datum návštěvy *</label>
                             <div class="booking-date-shell">
                                 <input
                                     type="date"
@@ -1926,6 +2213,14 @@ $referenceCuts = [
                                 >
                                 <span id="dateDisplay" class="booking-date-display" aria-hidden="true">Vyber datum</span>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="booking-step space-y-4" data-booking-step="3">
+                        <div>
+                            <p class="booking-step__eyebrow">Čas</p>
+                            <h3 class="booking-step__title">Vyber volný čas.</h3>
+                            <p class="booking-step__copy">Časy se načtou podle vybrané služby a dne, aby návštěva měla správnou délku.</p>
                         </div>
                         <div class="min-w-0">
                             <label for="time" class="block text-sm font-medium mb-1">Volný čas *</label>
@@ -1940,62 +2235,52 @@ $referenceCuts = [
                         </div>
                     </div>
 
-                    <!-- Typ služby -->
-                    <div>
-                        <label for="service" class="block text-sm font-medium mb-1">Co budeme stříhat *</label>
-                        <select
-                            id="service"
-                            name="service"
-                            required
-                            class="booking-control booking-control--select"
-                        >
-                            <option value="">Vyber službu...</option>
-                            <?php foreach ($services as $serviceName => $service): ?>
-                                <option value="<?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?>">
-                                    <?= htmlspecialchars($serviceName . ' (' . (string) ($service['price_label'] ?? '') . ')', ENT_QUOTES, 'UTF-8') ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                        <p id="priceInfo" class="mt-1 text-xs text-[color:var(--cream-soft)] hidden">
-                            Vybraná služba: <span id="priceValue"></span>
-                        </p>
-                        <div id="selectedServiceCard" class="selected-service-card mt-3" aria-live="polite">
-                            <div class="min-w-0">
-                                <p class="text-[10px] font-black uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">Vybraná služba</p>
-                                <h3 id="selectedServiceName" class="mt-2 text-lg font-extrabold text-[color:var(--cream)]"></h3>
-                                <p id="selectedServiceCopy" class="mt-3 text-sm leading-6 text-[color:var(--cream-soft)]"></p>
+                    <div class="booking-step space-y-4" data-booking-step="4">
+                        <div>
+                            <p class="booking-step__eyebrow">Kontrola</p>
+                            <h3 class="booking-step__title">Mrkni, jestli všechno sedí.</h3>
+                            <p class="booking-step__copy">Po odeslání se termín uloží jako žádost a přijde potvrzení po schválení.</p>
+                        </div>
+                        <div class="booking-summary-grid" aria-live="polite">
+                            <div class="booking-summary-card">
+                                <span>Kontakt</span>
+                                <strong id="bookingSummaryContact">Doplníme z formuláře</strong>
                             </div>
-                            <div class="selected-service-card__price shrink-0">
-                                <p id="selectedServicePrice" class="text-xl font-black text-[color:var(--gold-soft)]"></p>
-                                <p id="selectedServiceDuration" class="mt-2 text-xs font-bold text-[color:var(--cream)]"></p>
+                            <div class="booking-summary-card">
+                                <span>Služba</span>
+                                <strong id="bookingSummaryService">Vyber službu</strong>
+                            </div>
+                            <div class="booking-summary-card">
+                                <span>Termín</span>
+                                <strong id="bookingSummarySlot">Vyber datum a čas</strong>
+                            </div>
+                            <div class="booking-summary-card">
+                                <span>Poznámka</span>
+                                <strong id="bookingSummaryNote">Bez poznámky</strong>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Poznámka -->
-                    <div>
-                        <label for="note" class="block text-sm font-medium mb-3">Přání ke střihu (nepovinné)</label>
-                        <textarea
-                            id="note"
-                            name="note"
-                            rows="3"
-                            class="w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-2 text-base text-[color:var(--field-text)] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
-                            placeholder="Např. delší vlasy, speciální přání..."
-                        ></textarea>
-                    </div>
-
-                    <!-- Souhlas -->
-                    <div class="flex gap-2 text-xs text-[color:var(--cream-soft)]">
-                        <input
-                            type="checkbox"
-                            id="gdpr"
-                            name="gdpr"
-                            required
-                            class="mt-1 rounded border-[var(--field-border)] bg-[var(--cream)] accent-[var(--accent)]"
-                        >
-                        <label for="gdpr">
-                            Souhlasím se zpracováním osobních údajů pro účely rezervace. Údaje slouží jen k domluvě a potvrzení termínu.
-                        </label>
+                        <div>
+                            <label for="note" class="block text-sm font-medium mb-3">Přání ke střihu (nepovinné)</label>
+                            <textarea
+                                id="note"
+                                name="note"
+                                rows="3"
+                                class="w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-2 text-base text-[color:var(--field-text)] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                                placeholder="Např. delší vlasy, speciální přání..."
+                            ></textarea>
+                        </div>
+                        <div class="flex gap-2 text-xs text-[color:var(--cream-soft)]">
+                            <input
+                                type="checkbox"
+                                id="gdpr"
+                                name="gdpr"
+                                required
+                                class="mt-1 rounded border-[var(--field-border)] bg-[var(--cream)] accent-[var(--accent)]"
+                            >
+                            <label for="gdpr">
+                                Souhlasím se zpracováním osobních údajů pro účely rezervace. Údaje slouží jen k domluvě a potvrzení termínu.
+                            </label>
+                        </div>
                     </div>
 
                     <!-- Chyba z JS -->
@@ -2004,18 +2289,21 @@ $referenceCuts = [
                         Žádost právě odesíláme. Chvilku vydrž, kontrolujeme termín a připravujeme shrnutí.
                     </p>
 
-                    <!-- Tlačítko -->
-                    <button
-                        type="submit"
-                        id="bookingSubmitButton"
-                        class="ripple-btn inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--accent)] py-3 text-sm font-semibold shadow-lg transition hover:-translate-y-0.5 hover:bg-[var(--accent-dark)] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[var(--gold)] disabled:cursor-wait disabled:opacity-80"
-                    >
-                        <span id="bookingSubmitText">Požádat o termín</span>
-                        <span id="bookingSubmitLoading" class="hidden items-center gap-2">
-                            <span class="booking-submit__spinner h-4 w-4 rounded-full border-2 border-[rgba(245,237,225,0.42)] border-t-[var(--cream)]"></span>
-                            Odesíláme žádost...
-                        </span>
-                    </button>
+                    <div class="booking-step-actions">
+                        <button type="button" id="bookingPrevButton" class="booking-nav-button booking-nav-button--ghost hidden">Zpět</button>
+                        <button type="button" id="bookingNextButton" class="booking-nav-button booking-nav-button--primary">Pokračovat</button>
+                        <button
+                            type="submit"
+                            id="bookingSubmitButton"
+                            class="ripple-btn booking-nav-button booking-nav-button--primary hidden w-full disabled:cursor-wait disabled:opacity-80"
+                        >
+                            <span id="bookingSubmitText">Požádat o termín</span>
+                            <span id="bookingSubmitLoading" class="hidden items-center gap-2">
+                                <span class="booking-submit__spinner h-4 w-4 rounded-full border-2 border-[rgba(245,237,225,0.42)] border-t-[var(--cream)]"></span>
+                                Odesíláme žádost...
+                            </span>
+                        </button>
+                    </div>
                 </form>
 
                 <div class="glow-card rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] p-4 shadow-sm">
@@ -2119,7 +2407,7 @@ $referenceCuts = [
         <div class="px-5 py-5 sm:px-7 sm:py-6">
             <p id="aboutPopoverSummary" class="text-base font-semibold text-[color:var(--cream)]"></p>
             <p id="aboutPopoverDetail" class="mt-4 leading-7 text-[color:var(--muted)]"></p>
-            <a href="#booking" class="mt-6 inline-flex rounded-2xl bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[color:var(--cream)] shadow-md transition hover:-translate-y-0.5 hover:bg-[var(--accent-dark)] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+            <a href="rezervace.php" class="mt-6 inline-flex rounded-2xl bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[color:var(--cream)] shadow-md transition hover:-translate-y-0.5 hover:bg-[var(--accent-dark)] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                 Rezervovat termín
             </a>
         </div>
@@ -2193,7 +2481,7 @@ $referenceCuts = [
         <div>
             <p class="text-xs font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Rychle</p>
             <div class="mt-3 space-y-2 text-sm">
-                <a href="#booking" class="block hover:text-[color:var(--gold)]">Rezervace</a>
+                <a href="rezervace.php" class="block hover:text-[color:var(--gold)]">Rezervace</a>
                 <a href="cenik.php" class="block hover:text-[color:var(--gold)]">Ceník</a>
                 <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="block hover:text-[color:var(--gold)]">Instagram</a>
                 <a href="contact.php" class="block hover:text-[color:var(--gold)]">Kontakt</a>
@@ -2227,11 +2515,21 @@ $referenceCuts = [
     const bookingLoadingMsg = document.getElementById('bookingLoadingMsg');
     const bookingLoadingOverlay = document.getElementById('bookingLoadingOverlay');
     const bookingLoadingStep = document.getElementById('bookingLoadingStep');
+    const bookingSteps = Array.from(document.querySelectorAll('[data-booking-step]'));
+    const bookingStepTriggers = Array.from(document.querySelectorAll('[data-booking-step-target]'));
+    const bookingPrevButton = document.getElementById('bookingPrevButton');
+    const bookingNextButton = document.getElementById('bookingNextButton');
+    const bookingSummaryContact = document.getElementById('bookingSummaryContact');
+    const bookingSummaryService = document.getElementById('bookingSummaryService');
+    const bookingSummarySlot = document.getElementById('bookingSummarySlot');
+    const bookingSummaryNote = document.getElementById('bookingSummaryNote');
+    const noteInput = document.getElementById('note');
     const bookingPrefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const services = <?= json_encode($services, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>;
     let isBookingSubmitting = false;
     let bookingLoadingStepTimer = null;
     let bookingSlowTimer = null;
+    let bookingCurrentStep = 0;
 
     // Minimální dnešní datum
     const today = new Date();
@@ -2272,11 +2570,130 @@ $referenceCuts = [
             priceInfo.classList.add('hidden');
             selectedServiceCard?.classList.remove('is-visible');
         }
+        updateBookingSummary();
     }
 
     // Zobrazení ceny pod selectem místo alertu
     serviceSelect.addEventListener('change', updateSelectedServiceInfo);
     updateSelectedServiceInfo();
+
+    function getStepFields(stepIndex) {
+        return Array.from(bookingSteps[stepIndex]?.querySelectorAll('input, select, textarea') || [])
+            .filter(field => !field.disabled && field.type !== 'hidden');
+    }
+
+    function setBookingError(message) {
+        if (!errorMsg) return;
+        errorMsg.textContent = message;
+        errorMsg.classList.toggle('hidden', !message);
+    }
+
+    function validateBookingStep(stepIndex, shouldFocus = true) {
+        const fields = getStepFields(stepIndex);
+        for (const field of fields) {
+            if (!field.checkValidity()) {
+                if (shouldFocus) {
+                    field.reportValidity();
+                    field.focus({ preventScroll: true });
+                }
+                setBookingError(field.id === 'phone'
+                    ? 'Mrkni prosím na telefon. Může být třeba +420 777 123 456.'
+                    : 'Ještě prosím doplň zvýrazněné pole.');
+                return false;
+            }
+        }
+
+        setBookingError('');
+        return true;
+    }
+
+    function updateBookingSummary() {
+        if (!bookingSummaryContact || !bookingSummaryService || !bookingSummarySlot || !bookingSummaryNote) return;
+
+        const name = document.getElementById('name')?.value.trim() || '';
+        const email = document.getElementById('email')?.value.trim() || '';
+        const phone = document.getElementById('phone')?.value.trim() || '';
+        const contactParts = [name, phone, email].filter(Boolean);
+        const selected = serviceSelect?.value || '';
+        const service = services[selected];
+        const date = dateInput?.value ? formatDisplayDate(dateInput.value) : '';
+        const time = timeInput?.value || '';
+        const note = noteInput?.value.trim() || '';
+
+        bookingSummaryContact.textContent = contactParts.length ? contactParts.join(' · ') : 'Doplníme z formuláře';
+        bookingSummaryService.textContent = service
+            ? `${service.service_title || selected} · ${service.price_label || ''} · cca ${service.duration} min`
+            : 'Vyber službu';
+        bookingSummarySlot.textContent = date && time ? `${date} v ${time}` : 'Vyber datum a čas';
+        bookingSummaryNote.textContent = note || 'Bez poznámky';
+    }
+
+    function setBookingStep(nextStep, shouldScroll = true) {
+        if (!bookingSteps.length) return;
+
+        bookingCurrentStep = Math.max(0, Math.min(nextStep, bookingSteps.length - 1));
+        bookingSteps.forEach((step, index) => {
+            step.classList.toggle('is-active', index === bookingCurrentStep);
+        });
+        bookingStepTriggers.forEach((trigger, index) => {
+            trigger.classList.toggle('is-active', index === bookingCurrentStep);
+            trigger.classList.toggle('is-complete', index < bookingCurrentStep);
+            if (index === bookingCurrentStep) {
+                trigger.setAttribute('aria-current', 'step');
+            } else {
+                trigger.removeAttribute('aria-current');
+            }
+        });
+
+        bookingPrevButton?.classList.toggle('hidden', bookingCurrentStep === 0);
+        bookingNextButton?.classList.toggle('hidden', bookingCurrentStep === bookingSteps.length - 1);
+        bookingSubmitButton?.classList.toggle('hidden', bookingCurrentStep !== bookingSteps.length - 1);
+        updateBookingSummary();
+
+        if (shouldScroll && bookingFormElement) {
+            bookingFormElement.scrollIntoView({
+                behavior: bookingPrefersReducedMotion.matches ? 'auto' : 'smooth',
+                block: 'start',
+            });
+        }
+    }
+
+    window.setBookingReservationStep = setBookingStep;
+    window.updateBookingSummary = updateBookingSummary;
+
+    function moveBookingStep(direction) {
+        if (direction > 0 && !validateBookingStep(bookingCurrentStep)) return;
+        setBookingStep(bookingCurrentStep + direction);
+    }
+
+    bookingNextButton?.addEventListener('click', () => moveBookingStep(1));
+    bookingPrevButton?.addEventListener('click', () => moveBookingStep(-1));
+
+    bookingStepTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const requestedStep = Number(trigger.dataset.bookingStepTarget || 0);
+            if (requestedStep <= bookingCurrentStep) {
+                setBookingStep(requestedStep);
+                return;
+            }
+
+            for (let stepIndex = bookingCurrentStep; stepIndex < requestedStep; stepIndex += 1) {
+                if (!validateBookingStep(stepIndex)) {
+                    setBookingStep(stepIndex);
+                    return;
+                }
+            }
+
+            setBookingStep(requestedStep);
+        });
+    });
+
+    bookingFormElement?.querySelectorAll('input, select, textarea').forEach(field => {
+        field.addEventListener('input', updateBookingSummary);
+        field.addEventListener('change', updateBookingSummary);
+    });
+
+    setBookingStep(0, false);
 
     bookingFormElement?.querySelectorAll('input, select, textarea').forEach(field => {
         field.addEventListener('invalid', () => {
@@ -2300,6 +2717,15 @@ $referenceCuts = [
 
         const chosenDate = dateInput.value;
         const chosenTime = timeInput.value;
+
+        for (let stepIndex = 0; stepIndex < bookingSteps.length; stepIndex += 1) {
+            if (!validateBookingStep(stepIndex, false)) {
+                e.preventDefault();
+                setBookingStep(stepIndex);
+                window.setTimeout(() => validateBookingStep(stepIndex), 120);
+                return;
+            }
+        }
 
         if (!chosenDate || !chosenTime) return;
 
@@ -2763,6 +3189,7 @@ document.addEventListener('DOMContentLoaded', function () {
             opt.selected = true;
             timeSelect.appendChild(opt);
             timeSelect.disabled = true;
+            window.updateBookingSummary?.();
             return;
         }
 
@@ -2788,6 +3215,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 opt.selected = true;
                 timeSelect.appendChild(opt);
                 timeSelect.disabled = true;
+                window.updateBookingSummary?.();
                 return;
             }
 
@@ -2799,6 +3227,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 opt.selected = true;
                 timeSelect.appendChild(opt);
                 timeSelect.disabled = true;
+                window.updateBookingSummary?.();
                 return;
             }
 
@@ -2810,6 +3239,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 opt.selected = true;
                 timeSelect.appendChild(opt);
                 timeSelect.disabled = true;
+                window.updateBookingSummary?.();
                 return;
             }
 
@@ -2829,6 +3259,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 opt.selected = time === previouslySelectedTime;
                 timeSelect.appendChild(opt);
             });
+            window.updateBookingSummary?.();
         } catch (err) {
             console.error('Chyba při načítání časů:', err);
             timeSelect.innerHTML = "";
@@ -2841,6 +3272,7 @@ document.addEventListener('DOMContentLoaded', function () {
             timeSelect.disabled = true;
             errorMsg.textContent = 'Volné časy se teď nepodařilo načíst. Zkus to prosím znovu za chvilku.';
             errorMsg.classList.remove('hidden');
+            window.updateBookingSummary?.();
         }
     }
 
@@ -2860,6 +3292,7 @@ document.addEventListener('DOMContentLoaded', function () {
     opt.selected = true;
     timeSelect.appendChild(opt);
     timeSelect.disabled = true;
+    window.updateBookingSummary?.();
 });
 </script>
 
