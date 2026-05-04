@@ -539,11 +539,27 @@ $referenceCuts = [
         }
 
         .homepage-hero__media img {
+            display: block;
             height: 100%;
             width: 100%;
             object-fit: cover;
             object-position: 58% 50%;
             filter: grayscale(0.92) saturate(0.76) contrast(1.08) brightness(0.52);
+            transform: scale(1.045);
+            transform-origin: 58% 50%;
+            animation: heroImageBreath 26s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        @keyframes heroImageBreath {
+            0%,
+            100% {
+                transform: scale(1.045);
+            }
+
+            50% {
+                transform: scale(1.115);
+            }
         }
 
         .homepage-hero::before {
@@ -581,10 +597,10 @@ $referenceCuts = [
             max-width: 6.4em;
             color: var(--cream);
             font-family: Impact, "Arial Black", "Helvetica Neue", Arial, sans-serif;
-            font-size: clamp(4rem, 8.6vw, 7.9rem);
+            font-size: clamp(3.7rem, 7.9vw, 7.2rem);
             font-weight: 950;
             letter-spacing: 0;
-            line-height: 0.92;
+            line-height: 0.94;
             text-transform: uppercase;
             text-wrap: balance;
         }
@@ -652,16 +668,81 @@ $referenceCuts = [
         }
 
         .homepage-hero__card {
+            align-self: end;
             justify-self: end;
-            width: min(100%, 26rem);
+            width: min(100%, 22rem);
+            margin-bottom: clamp(4rem, 10vh, 6.5rem);
             border: 1px solid rgba(247, 243, 234, 0.18);
             border-radius: 1rem;
-            background: rgba(8, 8, 7, 0.72);
-            box-shadow: 0 24px 56px rgba(0, 0, 0, 0.34);
+            background: rgba(8, 8, 7, 0.56);
+            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.24);
             backdrop-filter: blur(16px);
             opacity: 0;
             transform: translate3d(0, -54px, 0);
             animation: heroCopyDrop 1050ms cubic-bezier(0.16, 1, 0.3, 1) 420ms forwards;
+        }
+
+        .homepage-hero__card summary {
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .homepage-hero__card summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .homepage-hero__card-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .homepage-hero__card-icon {
+            display: inline-flex;
+            flex: 0 0 auto;
+            align-items: center;
+            justify-content: center;
+            width: 2.1rem;
+            height: 2.1rem;
+            border-radius: 0.7rem;
+            background: rgba(216, 191, 122, 0.12);
+            color: var(--gold-soft);
+            transition: transform 220ms ease, background 220ms ease;
+        }
+
+        .homepage-hero__card[open] .homepage-hero__card-icon {
+            transform: rotate(45deg);
+            background: rgba(216, 191, 122, 0.2);
+        }
+
+        .homepage-hero__card-body {
+            margin-top: 0.85rem;
+            border-top: 1px solid rgba(247, 243, 234, 0.12);
+            padding-top: 0.85rem;
+        }
+
+        .homepage-hero__steps {
+            display: grid;
+            gap: 0.55rem;
+            color: var(--cream-soft);
+            font-size: 0.86rem;
+            line-height: 1.55;
+        }
+
+        .homepage-hero__steps li {
+            display: flex;
+            gap: 0.55rem;
+        }
+
+        .homepage-hero__steps li::before {
+            flex: 0 0 auto;
+            margin-top: 0.55em;
+            width: 0.35rem;
+            height: 0.35rem;
+            border-radius: 999px;
+            background: var(--gold);
+            content: "";
         }
 
         @keyframes heroCopyDrop {
@@ -731,6 +812,8 @@ $referenceCuts = [
 
             .homepage-hero__card {
                 justify-self: start;
+                width: min(100%, 20rem);
+                margin-bottom: 0;
             }
 
             .homepage-hero__title {
@@ -823,23 +906,145 @@ $referenceCuts = [
             min-width: 0;
         }
 
+        .booking-slot-grid {
+            gap: 0.75rem;
+        }
+
+        .booking-control {
+            appearance: none;
+            -webkit-appearance: none;
+            display: block;
+            width: 100%;
+            height: 2.75rem;
+            border: 1px solid var(--field-border);
+            border-radius: 0.5rem;
+            background-color: var(--field);
+            color: var(--field-text);
+            font-size: 1rem;
+            line-height: 1.25;
+            transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+        }
+
+        .booking-control:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(216, 191, 122, 0.22);
+        }
+
+        .booking-control:disabled {
+            cursor: not-allowed;
+            border-color: rgba(91, 85, 75, 0.58);
+            color: rgba(247, 243, 234, 0.62);
+            opacity: 1;
+        }
+
+        .booking-control--date {
+            padding: 0 0.9rem;
+            line-height: 2.75rem;
+        }
+
+        .booking-date-shell {
+            position: relative;
+        }
+
+        .booking-date-shell .booking-control--date {
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            caret-color: transparent;
+        }
+
+        .booking-date-display {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            padding: 0 2.6rem 0 0.9rem;
+            color: var(--gold-soft);
+            font-size: 1rem;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .booking-control--select {
+            padding: 0 2.35rem 0 0.9rem;
+            background-image:
+                linear-gradient(45deg, transparent 50%, var(--gold-soft) 50%),
+                linear-gradient(135deg, var(--gold-soft) 50%, transparent 50%);
+            background-position:
+                calc(100% - 1rem) 50%,
+                calc(100% - 0.68rem) 50%;
+            background-repeat: no-repeat;
+            background-size: 0.32rem 0.32rem, 0.32rem 0.32rem;
+        }
+
+        .booking-control--select::-ms-expand {
+            display: none;
+        }
+
         .booking-form input[type="date"] {
             appearance: none;
             -webkit-appearance: none;
             display: block;
             width: 100%;
             max-width: 100%;
-            min-height: 3.25rem;
+            min-height: 2.75rem;
             line-height: 1.35;
         }
 
         .booking-form input[type="date"]::-webkit-date-and-time-value {
-            min-height: 1.35em;
+            display: flex;
+            align-items: center;
+            min-height: 100%;
             text-align: left;
         }
 
         .booking-form input[type="date"]::-webkit-calendar-picker-indicator {
             opacity: 0.7;
+            padding: 0.35rem;
+            margin-right: -0.15rem;
+            cursor: pointer;
+            filter: invert(0.92) sepia(0.2) saturate(1.3);
+        }
+
+        @media (max-width: 639px) {
+            .booking-slot-grid {
+                gap: 0.85rem;
+            }
+
+            .booking-control {
+                height: 3rem;
+                font-size: 1rem;
+            }
+        }
+
+        @media (min-width: 640px) {
+            .booking-control {
+                height: 2.35rem;
+                border-radius: 0.5rem;
+                font-size: 0.875rem;
+            }
+
+            .booking-form input[type="date"] {
+                min-height: 2.35rem;
+            }
+
+            .booking-control--date {
+                padding: 0 0.75rem;
+                line-height: 2.35rem;
+            }
+
+            .booking-date-display {
+                padding: 0 2.2rem 0 0.75rem;
+                font-size: 0.875rem;
+            }
+
+            .booking-control--select {
+                padding: 0 2rem 0 0.75rem;
+                background-position:
+                    calc(100% - 0.92rem) 50%,
+                    calc(100% - 0.62rem) 50%;
+                background-size: 0.28rem 0.28rem, 0.28rem 0.28rem;
+            }
         }
 
         .booking-form::after {
@@ -983,6 +1188,7 @@ $referenceCuts = [
             }
 
             .homepage-hero__media,
+            .homepage-hero__media img,
             .homepage-hero__copy,
             .homepage-hero__card {
                 animation: none;
@@ -1212,7 +1418,7 @@ $referenceCuts = [
                 <p class="homepage-hero__intro mt-6 text-base font-semibold leading-7 sm:text-lg">
                     Pánské střihy s čistým tvarem, pohodovou domluvou a rezervací na pár kliknutí.
                 </p>
-                <div class="hero-info-grid mt-5">
+                <div class="hero-info-grid mt-4">
                     <div class="hero-info-pill">
                         <span class="hero-info-pill__icon" aria-hidden="true">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
@@ -1238,7 +1444,7 @@ $referenceCuts = [
                         </span>
                     </a>
                 </div>
-                <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                     <a href="#booking" class="ui-button ripple-btn w-full focus:outline-none focus:ring-2 focus:ring-[var(--accent)] sm:w-auto">
                         Rezervovat termín
                     </a>
@@ -1247,11 +1453,26 @@ $referenceCuts = [
                     </a>
                 </div>
             </div>
-            <div class="homepage-hero__card p-5 text-[color:var(--cream)] sm:p-6">
-                <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-[color:var(--muted-strong)] sm:text-xs">Před návštěvou</p>
-                <p class="mt-3 text-lg font-extrabold sm:text-xl">Vybereš službu, datum a čas</p>
-                <p class="mt-2 text-sm leading-6 text-[color:var(--cream-soft)]">Po potvrzení ti dorazí stručné shrnutí e-mailem.</p>
-            </div>
+            <details class="homepage-hero__card p-4 text-[color:var(--cream)] sm:p-5">
+                <summary class="homepage-hero__card-toggle">
+                    <span>
+                        <span class="block text-[10px] font-bold uppercase tracking-[0.24em] text-[color:var(--muted-strong)] sm:text-xs">Před návštěvou</span>
+                        <span class="mt-2 block text-base font-extrabold sm:text-lg">Jak probíhá rezervace</span>
+                    </span>
+                    <span class="homepage-hero__card-icon" aria-hidden="true">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </span>
+                </summary>
+                <div class="homepage-hero__card-body">
+                    <ul class="homepage-hero__steps">
+                        <li>Vybereš službu, datum a čas.</li>
+                        <li>Po odeslání žádost zkontrolujeme.</li>
+                        <li>Po potvrzení dorazí stručné shrnutí e-mailem.</li>
+                    </ul>
+                </div>
+            </details>
         </div>
     </section>
 
@@ -1637,28 +1858,30 @@ $referenceCuts = [
                     </div>
 
                     <!-- Datum + čas -->
-                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div class="booking-slot-grid grid grid-cols-1 sm:grid-cols-2">
                         <div class="min-w-0">
                             <label for="date" class="block text-sm font-medium mb-1">Kdy se ti to hodí *</label>
-                            <input
-                                type="date"
-                                id="date"
-                                name="date"
-                                required
-                                class="block w-full max-w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-3 text-base text-[color:var(--field-text)] sm:py-2 sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
-                            >
+                            <div class="booking-date-shell">
+                                <input
+                                    type="date"
+                                    id="date"
+                                    name="date"
+                                    required
+                                    class="booking-control booking-control--date"
+                                >
+                                <span id="dateDisplay" class="booking-date-display" aria-hidden="true">Vyber datum</span>
+                            </div>
                         </div>
                         <div class="min-w-0">
                             <label for="time" class="block text-sm font-medium mb-1">Volný čas *</label>
                             <select
-                                     id="time"
-                                     name="time"
-                                     required
-                                     class="block w-full max-w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-2 text-base text-[color:var(--field-text)] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
-                                    >
-                            <option value="">Nejprve vyber datum</option>
+                                id="time"
+                                name="time"
+                                required
+                                class="booking-control booking-control--select"
+                            >
+                                <option value="">Nejprve vyber datum</option>
                             </select>
-
                         </div>
                     </div>
 
@@ -1669,7 +1892,7 @@ $referenceCuts = [
                             id="service"
                             name="service"
                             required
-                            class="w-full rounded-lg bg-[var(--field)] border border-[var(--field-border)] px-3 py-2 text-base text-[color:var(--field-text)] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                            class="booking-control booking-control--select"
                         >
                             <option value="">Vyber službu...</option>
                             <?php foreach ($services as $serviceName => $service): ?>
@@ -1932,6 +2155,7 @@ $referenceCuts = [
 <script>
     const serviceSelect = document.getElementById('service');
     const dateInput = document.getElementById('date');
+    const dateDisplay = document.getElementById('dateDisplay');
     const timeInput = document.getElementById('time');
     const priceInfo = document.getElementById('priceInfo');
     const priceValue = document.getElementById('priceValue');
@@ -1962,6 +2186,22 @@ $referenceCuts = [
     const maxBookingDateStr = formatLocalDate(maxBookingDate);
     dateInput.min = todayDateStr;
     dateInput.max = maxBookingDateStr;
+
+    function formatDisplayDate(value) {
+        const parts = value.split('-');
+        if (parts.length !== 3) return 'Vyber datum';
+        return `${parts[2]}.${parts[1]}.${parts[0]}`;
+    }
+
+    function updateDateDisplay() {
+        if (!dateDisplay || !dateInput) return;
+        dateDisplay.textContent = dateInput.value ? formatDisplayDate(dateInput.value) : 'Vyber datum';
+    }
+
+    dateInput.addEventListener('input', updateDateDisplay);
+    dateInput.addEventListener('change', updateDateDisplay);
+    window.addEventListener('pageshow', updateDateDisplay);
+    updateDateDisplay();
 
     function updateSelectedServiceInfo() {
         const selected = serviceSelect.value;
