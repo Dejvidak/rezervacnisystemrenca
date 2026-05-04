@@ -69,6 +69,9 @@ $pageSchema = app_public_business_schema('contact.php', [
 </head>
 <body class="min-h-screen overflow-x-hidden bg-[var(--page)] text-[color:var(--cream)] antialiased">
 
+<!-- Scroll progress bar -->
+<div id="scrollProgress" aria-hidden="true"></div>
+
 <header class="site-header sticky top-0 z-50 bg-[var(--surface)] border-b border-[var(--surface-soft)] shadow-lg">
     <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
         <a href="index.php" class="whitespace-nowrap text-xl font-extrabold tracking-tight transition hover:opacity-90 sm:text-2xl md:text-[1.65rem]" aria-label="Hair By ReneNeme">
@@ -76,12 +79,11 @@ $pageSchema = app_public_business_schema('contact.php', [
             <span class="text-[color:var(--gold)]">ReneNeme</span>
         </a>
         <nav class="hidden items-center gap-2 text-xs text-[color:var(--cream-soft)] lg:flex lg:gap-5 lg:text-sm">
-            <a href="index.php#about" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">O nás</a>
-            <a href="index.php#visit" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Návštěva</a>
-            <a href="index.php#services" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Služby</a>
-            <a href="references.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Reference</a>
-            <a href="cenik.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Ceník</a>
-            <a href="contact.php" class="whitespace-nowrap font-semibold text-[color:var(--gold)]">Kontakt</a>
+            <a href="index.php#about" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">O nás</a>
+            <a href="index.php#services" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Služby</a>
+            <a href="references.php" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Reference</a>
+            <a href="cenik.php" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Ceník</a>
+            <a href="contact.php" class="nav-link is-active whitespace-nowrap font-semibold text-[color:var(--gold)]">Kontakt</a>
             <a
                 href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>"
                 target="_blank"
@@ -115,7 +117,6 @@ $pageSchema = app_public_business_schema('contact.php', [
     </div>
     <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(216,191,122,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
         <a href="index.php#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
-        <a href="index.php#visit" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Návštěva</a>
         <a href="index.php#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
         <a href="references.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
         <a href="cenik.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Ceník</a>
@@ -153,8 +154,8 @@ $pageSchema = app_public_business_schema('contact.php', [
             </div>
         </div>
 
-        <div class="rounded-lg border border-[var(--line)] bg-[rgba(31,29,25,0.82)] p-5 shadow-xl shadow-[rgba(0,0,0,0.18)] sm:p-7">
-            <div class="grid gap-4 min-[460px]:grid-cols-2">
+        <div class="section-reveal section-reveal--right rounded-lg border border-[var(--line)] bg-[rgba(31,29,25,0.82)] p-5 shadow-xl shadow-[rgba(0,0,0,0.18)] sm:p-7">
+            <div class="grid gap-4 min-[460px]:grid-cols-2 stagger-reveal">
                 <div class="rounded-lg border border-[var(--line-soft)] bg-[var(--field)] p-4">
                     <p class="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Kontaktní osoba</p>
                     <p class="mt-2 text-lg font-bold">Renata Nemeškalová</p>
@@ -202,7 +203,7 @@ $pageSchema = app_public_business_schema('contact.php', [
 </main>
 
 <footer class="border-t border-[var(--surface-soft)] bg-[var(--surface)] text-[color:var(--cream-soft)]">
-    <div class="mx-auto grid max-w-6xl gap-6 px-4 py-8 sm:px-6 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
+    <div class="mx-auto grid max-w-6xl gap-6 px-4 py-8 sm:px-6 md:grid-cols-[1.2fr_0.8fr_0.8fr] stagger-reveal">
         <div>
             <p class="text-xl font-extrabold tracking-tight">
                 <span class="text-[color:var(--cream)]">Hair By</span>

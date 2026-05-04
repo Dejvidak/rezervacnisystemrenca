@@ -175,68 +175,13 @@ $referenceCuts = [
             transform: translate3d(0, 0, 0) scale(1);
         }
 
-        .section-reveal {
-            opacity: 0;
-            transform: translate3d(0, 42px, 0);
-            transition: opacity 780ms ease, transform 1160ms cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-        }
-
-        .section-reveal--left {
-            transform: translate3d(-56px, 28px, 0);
-        }
-
-        .section-reveal--right {
-            transform: translate3d(56px, 28px, 0);
-        }
-
-        .section-reveal.is-visible {
-            opacity: 1;
-            transform: translate3d(0, 0, 0);
-        }
-
-        .reveal-item {
-            opacity: 0;
-            transform: translate3d(0, 24px, 0);
-            transition: opacity 560ms ease, transform 760ms cubic-bezier(0.16, 1, 0.3, 1);
-            transition-delay: var(--reveal-delay, 0ms);
-            will-change: opacity, transform;
-        }
-
-        .reveal-item.is-visible {
-            opacity: 1;
-            transform: translate3d(0, 0, 0);
-        }
-
-        @media (max-width: 767px) {
-            .section-reveal,
-            .section-reveal--left,
-            .section-reveal--right {
-                transform: translate3d(0, 30px, 0);
-                transition-duration: 360ms, 560ms;
-            }
-
-            .reveal-item {
-                transition-duration: 300ms, 460ms;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .section-reveal {
-                opacity: 1;
-                transform: none;
-                transition: none;
-            }
-
-            .reveal-item {
-                opacity: 1;
-                transform: none;
-                transition: none;
-            }
-        }
+        /* section-reveal and reveal-item styles are now in assets/modern.css */
     </style>
 </head>
 <body class="min-h-screen overflow-x-hidden bg-[var(--page)] text-[color:var(--ink)] antialiased">
+
+<!-- Scroll progress bar -->
+<div id="scrollProgress" aria-hidden="true"></div>
 
 <header class="site-header sticky top-0 z-50 bg-[var(--surface)] border-b border-[var(--surface-soft)] shadow-lg">
     <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
@@ -245,12 +190,11 @@ $referenceCuts = [
             <span class="text-[color:var(--gold)]">ReneNeme</span>
         </a>
         <nav class="hidden items-center gap-2 text-xs text-[color:var(--cream-soft)] lg:flex lg:gap-5 lg:text-sm">
-            <a href="index.php#about" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">O nás</a>
-            <a href="index.php#visit" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Návštěva</a>
-            <a href="index.php#services" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Služby</a>
-            <a href="references.php" class="whitespace-nowrap font-semibold text-[color:var(--gold)]">Reference</a>
-            <a href="cenik.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Ceník</a>
-            <a href="contact.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Kontakt</a>
+            <a href="index.php#about" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">O nás</a>
+            <a href="index.php#services" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Služby</a>
+            <a href="references.php" class="nav-link is-active whitespace-nowrap font-semibold text-[color:var(--gold)]">Reference</a>
+            <a href="cenik.php" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Ceník</a>
+            <a href="contact.php" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Kontakt</a>
             <a
                 href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>"
                 target="_blank"
@@ -284,7 +228,6 @@ $referenceCuts = [
     </div>
     <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(216,191,122,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
         <a href="index.php#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
-        <a href="index.php#visit" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Návštěva</a>
         <a href="index.php#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
         <a href="references.php" class="block rounded-lg px-3 py-3 font-semibold text-[color:var(--gold)] hover:bg-[var(--surface-soft)]">Reference</a>
         <a href="cenik.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Ceník</a>
@@ -377,9 +320,10 @@ $referenceCuts = [
                         data-gallery-image="<?= htmlspecialchars($galleryImage, ENT_QUOTES, 'UTF-8') ?>"
                         data-gallery-title="<?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?>"
                         data-gallery-description="<?= htmlspecialchars($cut['description'], ENT_QUOTES, 'UTF-8') ?>"
-                        class="group premium-surface reveal-item flex h-full flex-col overflow-hidden"
+                        class="group premium-surface reveal-item lift-card flex h-full flex-col overflow-hidden"
                         data-reveal-item
                     >
+                        <div class="img-zoom-wrap">
                         <picture>
                             <?php if ($hasWebpImage): ?>
                                 <source srcset="<?= htmlspecialchars($webpImage, ENT_QUOTES, 'UTF-8') ?>" type="image/webp">
@@ -389,11 +333,12 @@ $referenceCuts = [
                                 alt="<?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?>"
                                 width="1012"
                                 height="1800"
-                                class="h-56 w-full object-cover transition duration-300 group-hover:scale-[1.03] sm:h-72 lg:aspect-[4/5] lg:h-auto"
+                                class="h-56 w-full object-cover sm:h-72 lg:aspect-[4/5] lg:h-auto"
                                 loading="lazy"
                                 decoding="async"
                             >
                         </picture>
+                        </div>
                         <div class="flex flex-1 flex-col p-4">
                             <p class="font-semibold"><?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?></p>
                             <p class="mt-1 text-sm text-[color:var(--muted)]"><?= htmlspecialchars($cut['description'], ENT_QUOTES, 'UTF-8') ?></p>
@@ -434,7 +379,7 @@ $referenceCuts = [
 </div>
 
 <footer class="border-t border-[var(--surface-soft)] bg-[var(--surface)] text-[color:var(--cream-soft)]">
-    <div class="mx-auto grid max-w-6xl gap-6 px-4 py-8 sm:px-6 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
+    <div class="mx-auto grid max-w-6xl gap-6 px-4 py-8 sm:px-6 md:grid-cols-[1.2fr_0.8fr_0.8fr] stagger-reveal">
         <div>
             <p class="text-xl font-extrabold tracking-tight">
                 <span class="text-[color:var(--cream)]">Hair By</span>
@@ -583,51 +528,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    const revealSections = Array.from(document.querySelectorAll('main > section:not([data-reveal-section-static])'));
-    const mobileViewport = window.matchMedia('(max-width: 767px)');
-    if (revealSections.length > 0) {
-        if (prefersReducedMotion.matches) {
-            revealSections.forEach(section => section.classList.add('is-visible'));
-        } else {
-            const revealObserver = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    entry.target.classList.toggle('is-visible', entry.isIntersecting);
-                });
-            }, {
-                rootMargin: mobileViewport.matches ? '0px 0px -10% 0px' : '-8% 0px -8% 0px',
-                threshold: mobileViewport.matches ? 0.05 : 0.18,
-            });
-
-            revealSections.forEach((section, index) => {
-                section.classList.add('section-reveal');
-                section.classList.add(index % 2 === 0 ? 'section-reveal--left' : 'section-reveal--right');
-                revealObserver.observe(section);
-            });
-        }
-    }
-
-    const revealItems = Array.from(document.querySelectorAll('[data-reveal-item]'));
-    if (revealItems.length > 0) {
-        if (prefersReducedMotion.matches) {
-            revealItems.forEach(item => item.classList.add('is-visible'));
-        } else {
-            const revealItemObserver = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    entry.target.classList.toggle('is-visible', entry.isIntersecting);
-                });
-            }, {
-                rootMargin: mobileViewport.matches ? '0px 0px -12% 0px' : '-8% 0px -10% 0px',
-                threshold: 0.12,
-            });
-
-            revealItems.forEach((item, index) => {
-                const delayStep = mobileViewport.matches ? 45 : 90;
-                const delayMax = mobileViewport.matches ? 135 : 360;
-                item.style.setProperty('--reveal-delay', `${Math.min(index * delayStep, delayMax)}ms`);
-                revealItemObserver.observe(item);
-            });
-        }
-    }
+    // Section reveal and reveal-item are now handled by assets/modern.js
 });
 </script>
 </body>

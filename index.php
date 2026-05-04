@@ -677,8 +677,9 @@ $referenceCuts = [
             }
 
             .homepage-hero__title {
-                max-width: 5.9em;
-                font-size: clamp(3.35rem, 17vw, 5.8rem);
+                max-width: 6.6em;
+                font-size: clamp(2.85rem, 13.8vw, 4.75rem);
+                line-height: 0.96;
             }
 
             .selected-service-card {
@@ -1004,34 +1005,7 @@ $referenceCuts = [
             transform: translate3d(0, 0, 0) scale(1);
         }
 
-        .section-reveal {
-            opacity: 0;
-            transform: translate3d(0, 42px, 0);
-            transition: opacity 780ms ease, transform 1160ms cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-        }
-
-        .section-reveal--left {
-            transform: translate3d(-56px, 28px, 0);
-        }
-
-        .section-reveal--right {
-            transform: translate3d(56px, 28px, 0);
-        }
-
-        .section-reveal.is-visible {
-            opacity: 1;
-            transform: translate3d(0, 0, 0);
-        }
-
-        @media (max-width: 767px) {
-            .section-reveal,
-            .section-reveal--left,
-            .section-reveal--right {
-                transform: translate3d(0, 30px, 0);
-                transition-duration: 360ms, 560ms;
-            }
-        }
+        /* section-reveal styles are now in assets/modern.css */
 
         .scroll-top-button {
             opacity: 0;
@@ -1084,19 +1058,16 @@ $referenceCuts = [
             .about-popover__panel,
             .gallery-lightbox,
             .gallery-lightbox__panel,
-            .section-reveal,
             .scroll-top-button {
                 transition: none;
-            }
-
-            .section-reveal {
-                opacity: 1;
-                transform: none;
             }
         }
     </style>
 </head>
 <body class="overflow-x-hidden bg-[var(--page)] text-[color:var(--cream)] antialiased">
+
+<!-- Scroll progress bar -->
+<div id="scrollProgress" aria-hidden="true"></div>
 
 <!-- NAV / HEADER -->
 <header class="site-header bg-[var(--surface)] border-b border-[var(--surface-soft)] shadow-lg">
@@ -1106,12 +1077,11 @@ $referenceCuts = [
             <span class="text-[color:var(--gold)]">ReneNeme</span>
         </a>
         <nav class="hidden items-center gap-2 text-xs text-[color:var(--cream-soft)] lg:flex lg:gap-5 lg:text-sm">
-            <a href="#about" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">O nás</a>
-            <a href="#visit" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Návštěva</a>
-            <a href="#services" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Služby</a>
-            <a href="references.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Reference</a>
-            <a href="cenik.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Ceník</a>
-            <a href="contact.php" class="whitespace-nowrap transition hover:text-[color:var(--gold)]">Kontakt</a>
+            <a href="#about" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">O nás</a>
+            <a href="#services" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Služby</a>
+            <a href="references.php" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Reference</a>
+            <a href="cenik.php" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Ceník</a>
+            <a href="contact.php" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Kontakt</a>
             <a
                 href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>"
                 target="_blank"
@@ -1145,7 +1115,6 @@ $referenceCuts = [
     </div>
     <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(216,191,122,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
         <a href="#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
-        <a href="#visit" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Návštěva</a>
         <a href="#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
         <a href="references.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
         <a href="cenik.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Ceník</a>
@@ -1172,21 +1141,25 @@ $referenceCuts = [
         <div class="homepage-hero__inner">
             <div class="homepage-hero__copy">
                 <p class="homepage-hero__eyebrow mb-4 text-[11px] font-bold uppercase tracking-[0.24em] sm:text-xs">
-                    Pánské kadeřnictví · Brno
+                    <span class="inline-flex items-center gap-2">
+                        <span class="hero-badge-pulse inline-block h-1.5 w-1.5 rounded-full bg-[var(--gold)]"></span>
+                        Pánské kadeřnictví · Brno
+                    </span>
                 </p>
                 <h1 class="homepage-hero__title">
-                    Střih,<br>
-                    který vám<br>
-                    <span class="homepage-hero__title-accent">sluší.</span>
+                    Pánské<br>
+                    kadeřnictví<br>
+                    v Brně<br>
+                    <span class="homepage-hero__title-accent hero-title-shimmer">By ReneNeme</span>
                 </h1>
                 <p class="homepage-hero__intro mt-6 text-base font-semibold leading-7 sm:text-lg">
                     Pánské střihy s čistým tvarem, pohodovou domluvou a rezervací na pár kliknutí.
                 </p>
                 <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                    <a href="#booking" class="ui-button w-full focus:outline-none focus:ring-2 focus:ring-[var(--accent)] sm:w-auto">
+                    <a href="#booking" class="ui-button ripple-btn w-full focus:outline-none focus:ring-2 focus:ring-[var(--accent)] sm:w-auto">
                         Rezervovat termín
                     </a>
-                    <a href="cenik.php" class="ui-button-ghost-dark w-full focus:outline-none focus:ring-2 focus:ring-[var(--gold)] sm:w-auto">
+                    <a href="cenik.php" class="ui-button-ghost-dark ripple-btn w-full focus:outline-none focus:ring-2 focus:ring-[var(--gold)] sm:w-auto">
                         Ceník služeb
                     </a>
                 </div>
@@ -1201,7 +1174,7 @@ $referenceCuts = [
 
     <!-- O NÁS -->
     <section id="about" class="scroll-mt-28 border-t border-[var(--line)] py-8 md:scroll-mt-32 md:py-10">
-        <div class="premium-surface p-5 sm:p-6 lg:p-8">
+        <div class="premium-surface section-reveal p-5 sm:p-6 lg:p-8">
             <div class="grid gap-7 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
                 <div class="max-w-2xl">
                     <p class="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--muted-strong)]">Proč právě sem</p>
@@ -1210,16 +1183,16 @@ $referenceCuts = [
                         <strong>Hair By ReneNeme</strong> je pánské kadeřnictví v Brně, kde se ladí hlavně výsledek,
                         který bude fungovat i doma. Bez zbytečné omáčky, ale s pečlivostí a normální domluvou.
                     </p>
-                    <div class="mt-6 grid gap-3 sm:grid-cols-3">
-                        <div class="rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] px-4 py-4 shadow-sm">
+                    <div class="mt-6 grid gap-3 sm:grid-cols-3 stagger-reveal">
+                        <div class="glow-card rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] px-4 py-4 shadow-sm">
                             <p class="text-sm font-semibold text-[color:var(--cream)]">1. Domluva</p>
                             <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">Krátce si řekneme styl i praktické očekávání.</p>
                         </div>
-                        <div class="rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] px-4 py-4 shadow-sm">
+                        <div class="glow-card rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] px-4 py-4 shadow-sm">
                             <p class="text-sm font-semibold text-[color:var(--cream)]">2. Střih</p>
                             <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">Pečlivě, bez spěchu a podle toho, co ti sedí.</p>
                         </div>
-                        <div class="rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] px-4 py-4 shadow-sm">
+                        <div class="glow-card rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] px-4 py-4 shadow-sm">
                             <p class="text-sm font-semibold text-[color:var(--cream)]">3. Hotovo</p>
                             <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">Upravený výsledek, který drží i další dny.</p>
                         </div>
@@ -1290,7 +1263,7 @@ $referenceCuts = [
 
     <!-- REFERENCE STŘIHŮ -->
     <section class="border-t border-[var(--line)] py-8 md:py-10">
-        <div class="reference-showcase p-4 sm:p-5 lg:p-6">
+        <div class="reference-showcase section-reveal--left section-reveal p-4 sm:p-5 lg:p-6">
             <div class="grid gap-5 lg:grid-cols-[0.68fr_1.32fr] lg:items-start">
                 <div class="reference-intro p-5 sm:p-6 lg:p-7">
                     <span class="inline-flex rounded-full border border-[rgba(17,17,17,0.22)] bg-[rgba(31,29,25,0.78)] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--muted-strong)]">Inspirace před rezervací</span>
@@ -1324,6 +1297,7 @@ $referenceCuts = [
                 </div>
                 <div class="reference-gallery-grid">
                 <?php foreach (array_slice($referenceCuts, 0, 3) as $index => $cut): ?>
+                <?php /* reveal-item added for stagger animation */ ?>
                     <?php
                     $hasImage = is_file(__DIR__ . '/' . $cut['image']);
                     $webpImage = preg_replace('/\.jpe?g$/i', '.webp', $cut['image']);
@@ -1334,7 +1308,7 @@ $referenceCuts = [
                     $mediaClass = $usesTransparentMedia ? ' reference-card__media--transparent' : '';
                     $transparentImageClass = $usesTransparentMedia ? ' reference-card__image--transparent' : '';
                     ?>
-                    <a href="references.php" class="reference-card lift-card group <?= $cardClass ?>">
+                    <a href="references.php" class="reference-card lift-card reveal-item group <?= $cardClass ?>">
                         <?php if ($hasImage): ?>
                             <picture class="reference-card__media<?= $mediaClass ?>">
                                 <?php if ($hasWebpImage): ?>
@@ -1378,7 +1352,7 @@ $referenceCuts = [
     </section>
     <!-- SLUŽBY -->
     <section id="services" class="scroll-mt-28 border-t border-[var(--line)] py-8 md:scroll-mt-32 md:py-10">
-        <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div class="section-reveal flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div class="max-w-2xl">
                 <p class="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--muted-strong)]">Služby</p>
                 <h2 class="mt-2 text-2xl font-bold sm:text-[2rem]">Vyber si, co ti sedí</h2>
@@ -1393,14 +1367,14 @@ $referenceCuts = [
                 </a>
             </div>
         </div>
-        <div class="mt-6 grid gap-4 md:grid-cols-2">
+        <div class="mt-6 grid gap-4 md:grid-cols-2 stagger-reveal">
             <?php foreach ($serviceEntries as $entry): ?>
                 <?php
                 $serviceName = $entry['name'];
                 $service = $entry['data'];
                 $isFeatured = !empty($service['featured']);
                 ?>
-                <article class="group relative overflow-hidden rounded-2xl border <?= $isFeatured ? 'border-[var(--accent)] bg-[linear-gradient(135deg,rgba(0,0,0,0.98),rgba(35,35,35,0.94))] text-[color:var(--cream)] shadow-xl' : 'border-[var(--line)] bg-[rgba(31,29,25,0.82)] text-[color:var(--cream)] shadow-sm' ?>">
+                <article class="service-card-hover group relative overflow-hidden rounded-2xl border <?= $isFeatured ? 'border-[var(--accent)] bg-[linear-gradient(135deg,rgba(0,0,0,0.98),rgba(35,35,35,0.94))] text-[color:var(--cream)] shadow-xl' : 'border-[var(--line)] bg-[rgba(31,29,25,0.82)] text-[color:var(--cream)] shadow-sm' ?>">
                     <div class="absolute inset-x-0 top-0 h-1 <?= $isFeatured ? 'bg-[linear-gradient(90deg,var(--gold),var(--gold-soft))]' : 'bg-[linear-gradient(90deg,var(--accent),rgba(17,17,17,0.12))]' ?>"></div>
                     <div class="p-5 sm:p-6">
                         <div class="flex flex-col items-start gap-4">
@@ -1446,7 +1420,7 @@ $referenceCuts = [
                 </article>
             <?php endforeach; ?>
         </div>
-        <div class="mt-5 rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] p-5 shadow-sm">
+        <div class="mt-5 section-reveal glow-card rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] p-5 shadow-sm">
             <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
                     <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Dárkové poukazy</p>
@@ -1470,7 +1444,7 @@ $referenceCuts = [
     <!-- REZERVAČNÍ FORMULÁŘ -->
     <section id="booking" class="mt-2 scroll-mt-24 border-t border-[var(--line)] py-8 md:mt-4 md:scroll-mt-28 md:py-10">
         <div class="grid gap-6 md:grid-cols-[0.8fr_1.2fr] md:items-start md:gap-8">
-            <div class="order-1 space-y-5">
+            <div class="order-1 section-reveal section-reveal--left space-y-5">
                 <p class="text-xs uppercase tracking-[0.24em] text-[color:var(--muted-strong)] font-bold">Rezervace</p>
                 <h2 class="mt-1 text-2xl font-bold mb-3">Vyber si termín online</h2>
                 <p class="max-w-lg text-sm leading-6 text-[color:var(--muted)]">
@@ -1481,17 +1455,17 @@ $referenceCuts = [
                 <div class="rounded-3xl border border-[var(--surface-soft)] bg-[linear-gradient(145deg,rgba(0,0,0,0.98),rgba(35,35,35,0.94))] p-5 text-[color:var(--cream)] shadow-xl sm:p-6">
                     <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Jak to funguje</p>
                     <h3 class="mt-3 text-xl font-bold">Jednoduše, rychle a bez čekání</h3>
-                    <div class="mt-5 space-y-3 text-sm text-[color:var(--cream-soft)]">
+                    <div class="mt-5 space-y-3 text-sm text-[color:var(--cream-soft)] stagger-reveal">
                         <div class="flex items-start gap-3">
-                            <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--gold)]"></span>
+                            <span class="step-dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--gold)]"></span>
                             <p>Vybereš službu a systém rovnou nabídne reálně volné časy</p>
                         </div>
                         <div class="flex items-start gap-3">
-                            <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--gold)]"></span>
+                            <span class="step-dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--gold)]"></span>
                             <p>Doplníš kontakt a odešleš žádost během chvilky</p>
                         </div>
                         <div class="flex items-start gap-3">
-                            <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--gold)]"></span>
+                            <span class="step-dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--gold)]"></span>
                             <p>Po schválení rezervace ti přijde potvrzení e-mailem</p>
                         </div>
                     </div>
@@ -1501,7 +1475,7 @@ $referenceCuts = [
                 </div>
             </div>
 
-            <div class="order-2 space-y-4">
+            <div class="order-2 section-reveal section-reveal--right space-y-4">
                 <form id="bookingForm" action="save_reservation.php" method="POST" class="booking-form scroll-mt-24 space-y-4 rounded-lg border border-[var(--line)] bg-[linear-gradient(180deg,rgba(31,29,25,0.96),rgba(14,13,11,0.96))] p-4 text-[color:var(--cream)] sm:p-5 md:scroll-mt-28 md:p-6">
                     <?= app_csrf_field() ?>
                     <input type="hidden" name="form_started_at" value="<?= app_booking_form_started_at() ?>">
@@ -1647,7 +1621,7 @@ $referenceCuts = [
                     <button
                         type="submit"
                         id="bookingSubmitButton"
-                        class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--accent)] py-3 text-sm font-semibold shadow-lg transition hover:-translate-y-0.5 hover:bg-[var(--accent-dark)] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[var(--gold)] disabled:cursor-wait disabled:opacity-80"
+                        class="ripple-btn inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--accent)] py-3 text-sm font-semibold shadow-lg transition hover:-translate-y-0.5 hover:bg-[var(--accent-dark)] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[var(--gold)] disabled:cursor-wait disabled:opacity-80"
                     >
                         <span id="bookingSubmitText">Požádat o termín</span>
                         <span id="bookingSubmitLoading" class="hidden items-center gap-2">
@@ -1657,7 +1631,7 @@ $referenceCuts = [
                     </button>
                 </form>
 
-                <div class="rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] p-4 shadow-sm">
+                <div class="glow-card rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] p-4 shadow-sm">
                     <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                         <div>
                             <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Praktické info</p>
@@ -1804,7 +1778,7 @@ $referenceCuts = [
 
 <!-- FOOTER -->
 <footer class="border-t border-[var(--surface-soft)] bg-[var(--surface)] text-[color:var(--cream-soft)]">
-    <div class="mx-auto grid max-w-6xl gap-6 px-4 py-8 sm:px-6 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
+    <div class="mx-auto grid max-w-6xl gap-6 px-4 py-8 sm:px-6 md:grid-cols-[1.2fr_0.8fr_0.8fr] stagger-reveal">
         <div>
             <p class="text-xl font-extrabold tracking-tight">
                 <span class="text-[color:var(--cream)]">Hair By</span>
@@ -2367,27 +2341,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    const revealSections = Array.from(document.querySelectorAll('main > section')).filter(section => !section.classList.contains('homepage-hero'));
-    if (revealSections.length > 0) {
-        if (prefersReducedMotion.matches) {
-            revealSections.forEach(section => section.classList.add('is-visible'));
-        } else {
-            const revealObserver = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    entry.target.classList.toggle('is-visible', entry.isIntersecting);
-                });
-            }, {
-                rootMargin: mobileViewport.matches ? '0px 0px -10% 0px' : '-8% 0px -8% 0px',
-                threshold: mobileViewport.matches ? 0.05 : 0.18,
-            });
-
-            revealSections.forEach((section, index) => {
-                section.classList.add('section-reveal');
-                section.classList.add(index % 2 === 0 ? 'section-reveal--left' : 'section-reveal--right');
-                revealObserver.observe(section);
-            });
-        }
-    }
+    // Section reveal is now handled by assets/modern.js
 
     if (!dateInput || !timeSelect || !serviceSelect) return;
 

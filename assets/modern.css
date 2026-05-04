@@ -1,0 +1,480 @@
+/* ============================================================
+   HAIR BY RENENEME — Modern Animation & Design System
+   ============================================================ */
+
+/* ── Grain texture overlay ── */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.028;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+}
+
+/* ── Ambient glow blobs ── */
+.ambient-glow {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(80px);
+    opacity: 0;
+    animation: ambientFadeIn 1.8s ease forwards;
+}
+
+.ambient-glow--gold {
+    background: radial-gradient(circle, rgba(200, 173, 99, 0.18) 0%, transparent 70%);
+}
+
+.ambient-glow--warm {
+    background: radial-gradient(circle, rgba(169, 138, 66, 0.12) 0%, transparent 70%);
+}
+
+@keyframes ambientFadeIn {
+    to { opacity: 1; }
+}
+
+/* ── Enhanced section reveal ── */
+.section-reveal {
+    opacity: 0;
+    transform: translate3d(0, 52px, 0);
+    transition: opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.section-reveal--left {
+    transform: translate3d(-64px, 32px, 0);
+}
+
+.section-reveal--right {
+    transform: translate3d(64px, 32px, 0);
+}
+
+.section-reveal--up {
+    transform: translate3d(0, 52px, 0);
+}
+
+.section-reveal--scale {
+    transform: translate3d(0, 32px, 0) scale(0.96);
+}
+
+.section-reveal.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* ── Staggered children reveal ── */
+.stagger-reveal > * {
+    opacity: 0;
+    transform: translate3d(0, 36px, 0);
+    transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.stagger-reveal.is-visible > *:nth-child(1) { transition-delay: 0ms; }
+.stagger-reveal.is-visible > *:nth-child(2) { transition-delay: 90ms; }
+.stagger-reveal.is-visible > *:nth-child(3) { transition-delay: 180ms; }
+.stagger-reveal.is-visible > *:nth-child(4) { transition-delay: 270ms; }
+.stagger-reveal.is-visible > *:nth-child(5) { transition-delay: 360ms; }
+.stagger-reveal.is-visible > *:nth-child(6) { transition-delay: 450ms; }
+.stagger-reveal.is-visible > *:nth-child(7) { transition-delay: 540ms; }
+.stagger-reveal.is-visible > *:nth-child(8) { transition-delay: 630ms; }
+
+.stagger-reveal.is-visible > * {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+/* ── Reveal items (for gallery/grid) ── */
+.reveal-item {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0) scale(0.97);
+    transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-item.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* ── Hero title shimmer ── */
+@keyframes heroShimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+.hero-title-shimmer {
+    background: linear-gradient(
+        90deg,
+        var(--gold) 0%,
+        var(--gold-soft) 30%,
+        #fff8e0 50%,
+        var(--gold-soft) 70%,
+        var(--gold) 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: heroShimmer 7s linear infinite;
+}
+
+/* ── Nav active indicator ── */
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-link:hover::after,
+.nav-link.is-active::after {
+    transform: scaleX(1);
+}
+
+/* ── Enhanced lift card ── */
+.lift-card {
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 300ms ease;
+}
+
+.lift-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 28px 48px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(216, 191, 122, 0.12);
+}
+
+/* ── Card glow on hover ── */
+.glow-card {
+    position: relative;
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 300ms ease,
+                border-color 300ms ease;
+}
+
+.glow-card::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(216, 191, 122, 0.22), rgba(200, 173, 99, 0.08), transparent);
+    opacity: 0;
+    transition: opacity 300ms ease;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.glow-card:hover::after {
+    opacity: 1;
+}
+
+.glow-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(216, 191, 122, 0.32) !important;
+    box-shadow: 0 24px 44px rgba(0, 0, 0, 0.24), 0 0 32px rgba(216, 191, 122, 0.08);
+}
+
+/* ── Ripple button effect ── */
+.ripple-btn,
+a.inline-flex[href="#booking"],
+a.inline-flex[href="index.php#booking"] {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.ripple-btn::before,
+a.inline-flex[href="#booking"]::before,
+a.inline-flex[href="index.php#booking"]::before {
+    content: "";
+    position: absolute;
+    top: -45%;
+    bottom: -45%;
+    left: 0;
+    z-index: 1;
+    width: 42%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.34),
+        transparent
+    );
+    pointer-events: none;
+    transform: translateX(-170%) skewX(-24deg);
+    transition: transform 720ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ripple-btn:hover::before,
+.ripple-btn:focus-visible::before,
+a.inline-flex[href="#booking"]:hover::before,
+a.inline-flex[href="#booking"]:focus-visible::before,
+a.inline-flex[href="index.php#booking"]:hover::before,
+a.inline-flex[href="index.php#booking"]:focus-visible::before {
+    transform: translateX(320%) skewX(-24deg);
+}
+
+.ripple-btn > *,
+a.inline-flex[href="#booking"] > *,
+a.inline-flex[href="index.php#booking"] > * {
+    position: relative;
+    z-index: 2;
+}
+
+.ripple-btn .ripple-wave {
+    position: absolute;
+    z-index: 3;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    transform: scale(0);
+    animation: rippleExpand 600ms linear;
+    pointer-events: none;
+}
+
+@keyframes rippleExpand {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* ── Enhanced mobile menu ── */
+#mobileMenu {
+    transform: translateY(-8px);
+    opacity: 0;
+    transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 280ms ease;
+    pointer-events: none;
+}
+
+#mobileMenu.hidden {
+    display: none !important;
+}
+
+#mobileMenu.is-open,
+#mobileMenu:not(.hidden) {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@media (max-width: 1023px) {
+    #mobileMenu {
+        max-height: min(calc(100dvh - 4.25rem), 27rem);
+    }
+}
+
+@media (min-width: 1024px) {
+    #mobileMenu {
+        display: none !important;
+    }
+}
+
+/* ── Form field focus glow ── */
+.booking-form input:focus,
+.booking-form select:focus,
+.booking-form textarea:focus {
+    border-color: rgba(216, 191, 122, 0.6) !important;
+    box-shadow: 0 0 0 3px rgba(216, 191, 122, 0.12), 0 0 16px rgba(216, 191, 122, 0.08);
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+/* ── Service card hover ── */
+.service-card-hover {
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 300ms ease,
+                border-color 300ms ease;
+}
+
+.service-card-hover:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 28px 52px rgba(0, 0, 0, 0.28);
+    border-color: rgba(216, 191, 122, 0.36) !important;
+}
+
+/* ── Step dots animation ── */
+.step-dot {
+    position: relative;
+}
+
+.step-dot::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: rgba(216, 191, 122, 0.2);
+    transform: scale(0);
+    transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stagger-reveal.is-visible .step-dot::before {
+    transform: scale(1);
+}
+
+/* ── Counter animation ── */
+.count-up {
+    display: inline-block;
+    transition: transform 300ms ease;
+}
+
+/* ── Scroll progress bar ── */
+#scrollProgress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-soft), var(--accent));
+    z-index: 9998;
+    transition: width 80ms linear;
+    box-shadow: 0 0 8px rgba(216, 191, 122, 0.5);
+}
+
+/* ── Section divider glow ── */
+.section-divider {
+    position: relative;
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(216, 191, 122, 0.2), transparent);
+    margin: 0;
+}
+
+/* ── About card enhanced ── */
+.about-card {
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 300ms ease,
+                border-color 300ms ease,
+                background 300ms ease;
+}
+
+.about-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(216, 191, 122, 0.28) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 24px rgba(216, 191, 122, 0.06);
+}
+
+.about-card__icon {
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 300ms ease,
+                background 300ms ease;
+}
+
+.about-card:hover .about-card__icon {
+    transform: translateY(-3px) rotate(8deg);
+    box-shadow: 0 8px 20px rgba(200, 173, 99, 0.28);
+    background: linear-gradient(135deg, var(--gold-soft), var(--cream)) !important;
+}
+
+/* ── Reference card enhanced ── */
+.reference-card {
+    transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 320ms ease,
+                border-color 320ms ease;
+}
+
+.reference-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 32px 56px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(216, 191, 122, 0.16);
+    border-color: rgba(216, 191, 122, 0.22) !important;
+}
+
+/* ── Footer link hover ── */
+footer a {
+    transition: color 200ms ease, transform 200ms ease;
+    display: inline-block;
+}
+
+footer a:hover {
+    transform: translateX(3px);
+}
+
+/* ── Scroll top button pulse ── */
+.scroll-top-button.is-visible {
+    animation: scrollBtnAppear 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes scrollBtnAppear {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 12px, 0) scale(0.85);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+/* ── Hero badge pulse ── */
+@keyframes badgePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(216, 191, 122, 0.3); }
+    50% { box-shadow: 0 0 0 6px rgba(216, 191, 122, 0); }
+}
+
+.hero-badge-pulse {
+    animation: badgePulse 2.5s ease-in-out infinite;
+}
+
+/* ── Image hover zoom ── */
+.img-zoom-wrap {
+    overflow: hidden;
+    border-radius: inherit;
+}
+
+.img-zoom-wrap img {
+    transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.img-zoom-wrap:hover img {
+    transform: scale(1.05);
+}
+
+/* ── Reduced motion overrides ── */
+@media (prefers-reduced-motion: reduce) {
+    .section-reveal,
+    .stagger-reveal > *,
+    .reveal-item,
+    .lift-card,
+    .glow-card,
+    .about-card,
+    .reference-card,
+    .service-card-hover,
+    .ripple-btn .ripple-wave,
+    .hero-title-shimmer,
+    .ambient-glow,
+    .step-dot::before,
+    .img-zoom-wrap img,
+    footer a,
+    .nav-link::after {
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+
+    .section-reveal,
+    .stagger-reveal > *,
+    .reveal-item {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    #scrollProgress {
+        display: none;
+    }
+}
