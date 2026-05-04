@@ -511,6 +511,187 @@ $referenceCuts = [
             isolation: isolate;
         }
 
+        .homepage-hero {
+            position: relative;
+            isolation: isolate;
+            min-height: calc(100svh - 4.35rem);
+            width: 100vw;
+            margin-left: calc(50% - 50vw);
+            overflow: hidden;
+            padding: clamp(2.8rem, 7vh, 5.4rem) clamp(1.25rem, 4vw, 4rem) clamp(2rem, 5vh, 4rem);
+            background: #050504;
+        }
+
+        .homepage-hero__media {
+            position: absolute;
+            inset: -4% 0 -10%;
+            z-index: 0;
+            transform: translate3d(0, var(--hero-media-y, 0px), 0);
+            will-change: transform;
+        }
+
+        .homepage-hero__media::before {
+            display: none;
+        }
+
+        .homepage-hero__media img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: 58% 50%;
+            filter: grayscale(0.92) saturate(0.76) contrast(1.08) brightness(0.52);
+        }
+
+        .homepage-hero::before {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background:
+                linear-gradient(90deg, rgba(5, 5, 4, 0.82) 0%, rgba(5, 5, 4, 0.52) 38%, rgba(5, 5, 4, 0.14) 68%, rgba(5, 5, 4, 0.72) 100%),
+                linear-gradient(180deg, rgba(5, 5, 4, 0.08) 0%, rgba(5, 5, 4, 0.04) 54%, rgba(5, 5, 4, 0.72) 100%);
+            content: "";
+            pointer-events: none;
+        }
+
+        .homepage-hero__inner {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            min-height: calc(100svh - 7.35rem);
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .homepage-hero__copy {
+            opacity: 0;
+            transform: translate3d(0, -86px, 0);
+            animation: heroCopyDrop 1250ms cubic-bezier(0.16, 1, 0.3, 1) 160ms forwards;
+            will-change: opacity, transform;
+        }
+
+        .homepage-hero__eyebrow {
+            color: var(--gold-soft);
+        }
+
+        .homepage-hero__title {
+            max-width: 6.4em;
+            color: var(--cream);
+            font-family: Impact, "Arial Black", "Helvetica Neue", Arial, sans-serif;
+            font-size: clamp(4rem, 8.6vw, 7.9rem);
+            font-weight: 950;
+            letter-spacing: 0;
+            line-height: 0.92;
+            text-transform: uppercase;
+            text-wrap: balance;
+        }
+
+        .homepage-hero__title-accent {
+            color: var(--gold);
+        }
+
+        .homepage-hero__intro {
+            max-width: 42rem;
+            color: rgba(247, 243, 234, 0.86);
+        }
+
+        .homepage-hero__card {
+            justify-self: end;
+            width: min(100%, 26rem);
+            border: 1px solid rgba(247, 243, 234, 0.18);
+            border-radius: 1rem;
+            background: rgba(8, 8, 7, 0.72);
+            box-shadow: 0 24px 56px rgba(0, 0, 0, 0.34);
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            transform: translate3d(0, -54px, 0);
+            animation: heroCopyDrop 1050ms cubic-bezier(0.16, 1, 0.3, 1) 420ms forwards;
+        }
+
+        @keyframes heroCopyDrop {
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        .selected-service-card {
+            display: none;
+            align-items: stretch;
+            justify-content: space-between;
+            gap: 1rem;
+            border: 1px solid rgba(216, 191, 122, 0.38);
+            border-radius: 1rem;
+            background: linear-gradient(135deg, rgba(216, 191, 122, 0.12), rgba(31, 29, 25, 0.94));
+            padding: 1rem;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 18px 34px rgba(0, 0, 0, 0.16);
+        }
+
+        .selected-service-card.is-visible {
+            display: flex;
+        }
+
+        .selected-service-card__price {
+            display: flex;
+            min-width: 6.4rem;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(216, 191, 122, 0.28);
+            border-radius: 0.85rem;
+            background: rgba(13, 13, 11, 0.42);
+            padding: 0.85rem 0.75rem;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .homepage-hero__inner {
+                grid-template-columns: minmax(0, 0.9fr) minmax(18rem, 0.62fr);
+            }
+        }
+
+        @media (max-width: 767px) {
+            .homepage-hero {
+                min-height: calc(100svh - 4.35rem);
+                padding-top: 2.2rem;
+                padding-bottom: 2rem;
+            }
+
+            .homepage-hero__inner {
+                min-height: calc(100svh - 8.55rem);
+                align-items: end;
+            }
+
+            .homepage-hero__media img {
+                object-fit: cover;
+                object-position: 62% 50%;
+            }
+
+            .homepage-hero::before {
+                background:
+                    linear-gradient(90deg, rgba(5, 5, 4, 0.9) 0%, rgba(5, 5, 4, 0.48) 70%, rgba(5, 5, 4, 0.76) 100%),
+                    linear-gradient(180deg, rgba(5, 5, 4, 0.16) 0%, rgba(5, 5, 4, 0.12) 45%, rgba(5, 5, 4, 0.84) 100%);
+            }
+
+            .homepage-hero__card {
+                justify-self: start;
+            }
+
+            .homepage-hero__title {
+                max-width: 5.9em;
+                font-size: clamp(3.35rem, 17vw, 5.8rem);
+            }
+
+            .selected-service-card {
+                flex-direction: column;
+            }
+
+            .selected-service-card__price {
+                min-width: 0;
+                align-items: flex-start;
+                text-align: left;
+            }
+        }
+
         .hero-stage::before,
         .hero-stage::after {
             position: absolute;
@@ -740,6 +921,15 @@ $referenceCuts = [
             .booking-loading-pulse,
             .booking-loading-progress {
                 animation: none;
+                transition: none;
+            }
+
+            .homepage-hero__media,
+            .homepage-hero__copy,
+            .homepage-hero__card {
+                animation: none;
+                opacity: 1;
+                transform: none;
                 transition: none;
             }
         }
@@ -975,73 +1165,36 @@ $referenceCuts = [
 <main id="top" class="max-w-6xl mx-auto px-4 pb-14 sm:px-6 md:pb-16">
 
     <!-- HERO sekce-->
-    <section class="hero-stage grid gap-7 py-6 md:grid-cols-[0.92fr_1.08fr] md:items-center md:gap-10 md:py-16">
-        <div class="relative">
-            <p class="mb-4 inline-flex items-center gap-2 rounded-full border border-[rgba(17,17,17,0.18)] bg-[rgba(31,29,25,0.78)] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--muted-strong)] shadow-sm sm:text-xs sm:tracking-[0.28em]">
-                <span class="h-2 w-2 rounded-full bg-[var(--accent)]"></span>
-                Pánské kadeřnictví · Brno
-            </p>
-            <h1 class="mb-4 max-w-2xl text-3xl font-extrabold leading-[1.05] sm:text-4xl md:text-5xl">
-                Pánské střihy,
-                které působí
-                <span class="text-[color:var(--accent)]">čistě, přesně a přirozeně</span>
-            </h1>
-            <p class="max-w-xl text-sm text-[color:var(--muted)] md:text-base md:leading-7">
-                V našem kadeřnictví jde o pečlivý střih, pohodovou návštěvu a výsledek,
-                který funguje nejen při odchodu z křesla, ale i další dny.
-            </p>
-            <div class="mt-5 flex flex-wrap gap-2 text-xs font-semibold text-[color:var(--muted)] sm:text-sm">
-                <span class="inline-flex items-center rounded-full border border-[var(--line)] bg-[rgba(31,29,25,0.78)] px-3 py-1.5 shadow-sm">Online rezervace bez volání</span>
-                <span class="inline-flex items-center rounded-full border border-[var(--line)] bg-[rgba(31,29,25,0.78)] px-3 py-1.5 shadow-sm">Brno, Královo Pole</span>
-                <span class="inline-flex items-center rounded-full border border-[var(--line)] bg-[rgba(31,29,25,0.78)] px-3 py-1.5 shadow-sm">Potvrzení e-mailem</span>
-            </div>
-            <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <a href="#booking"
-                   class="ui-button w-full focus:outline-none focus:ring-2 focus:ring-[var(--accent)] sm:w-auto">
-                    Rezervovat termín
-                </a>
-                <a href="cenik.php"
-                   class="ui-button-secondary w-full focus:outline-none focus:ring-2 focus:ring-[var(--surface-soft)] sm:w-auto">
-                    Podívat se na ceník
-                </a>
-            </div>
-            <div class="mt-7 grid gap-3 sm:grid-cols-3 md:mt-8">
-                <div class="flex min-h-[5.75rem] flex-col justify-center rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.78)] px-4 py-3 shadow-sm">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Délka návštěvy</p>
-                    <p class="mt-1 text-sm font-semibold text-[color:var(--cream)]">35-50 min podle služby</p>
-                </div>
-                <div class="flex min-h-[5.75rem] flex-col justify-center rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.78)] px-4 py-3 shadow-sm">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Otevírací doba</p>
-                    <p class="mt-1 text-sm font-semibold text-[color:var(--cream)]">Po-Pá 9:00-18:00</p>
-                </div>
-                <a
-                    href="https://www.google.com/maps/search/?api=1&query=Vackova%201064%2F39%2C%20612%2000%20Brno-Kr%C3%A1lovo%20Pole"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="flex min-h-[5.75rem] flex-col justify-center rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.78)] px-4 py-3 text-left shadow-sm transition duration-200 hover:border-[rgba(17,17,17,0.32)] hover:bg-[rgba(37,35,31,0.86)]"
-                >
-                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-strong)]">Adresa</p>
-                    <p class="mt-1 text-sm font-semibold text-[color:var(--cream)]"><?= htmlspecialchars(app_business_full_address_inline(), ENT_QUOTES, 'UTF-8') ?></p>
-                    <p class="mt-1 text-sm font-semibold text-[color:var(--gold)]">Otevřít v mapě</p>
-                </a>
-            </div>
+    <section class="homepage-hero">
+        <div class="homepage-hero__media" aria-hidden="true">
+            <img src="assets/homepage-hero-wide.png" alt="">
         </div>
-        <div class="relative">
-            <div class="hero-media-frame p-3 sm:p-4">
-                <img
-                    src="assets/renca-kaderko.jpg"
-                    alt="Renata z Hair By ReneNeme s kadeřnickými strojky"
-                    class="h-[17rem] w-full rounded-[1.2rem] object-cover min-[420px]:h-[20rem] sm:h-[24rem] md:h-[31rem]"
-                >
-            </div>
-            <div class="hero-floating-card relative mt-3 rounded-2xl border border-[rgba(218,218,213,0.16)] p-4 text-[color:var(--cream)] md:absolute md:bottom-6 md:left-6 md:right-6 md:mt-0 sm:p-5">
-                <p class="text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold)] sm:text-xs sm:tracking-[0.24em]">Před návštěvou</p>
-                <div class="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-                    <div>
-                        <p class="text-base font-bold sm:text-lg">Vybereš službu, datum a čas</p>
-                        <p class="mt-1 text-sm text-[color:var(--cream-soft)]">Po potvrzení ti dorazí stručné shrnutí e-mailem.</p>
-                    </div>
+        <div class="homepage-hero__inner">
+            <div class="homepage-hero__copy">
+                <p class="homepage-hero__eyebrow mb-4 text-[11px] font-bold uppercase tracking-[0.24em] sm:text-xs">
+                    Pánské kadeřnictví · Brno
+                </p>
+                <h1 class="homepage-hero__title">
+                    Střih,<br>
+                    který vám<br>
+                    <span class="homepage-hero__title-accent">sluší.</span>
+                </h1>
+                <p class="homepage-hero__intro mt-6 text-base font-semibold leading-7 sm:text-lg">
+                    Pánské střihy s čistým tvarem, pohodovou domluvou a rezervací na pár kliknutí.
+                </p>
+                <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                    <a href="#booking" class="ui-button w-full focus:outline-none focus:ring-2 focus:ring-[var(--accent)] sm:w-auto">
+                        Rezervovat termín
+                    </a>
+                    <a href="cenik.php" class="ui-button-ghost-dark w-full focus:outline-none focus:ring-2 focus:ring-[var(--gold)] sm:w-auto">
+                        Ceník služeb
+                    </a>
                 </div>
+            </div>
+            <div class="homepage-hero__card p-5 text-[color:var(--cream)] sm:p-6">
+                <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-[color:var(--muted-strong)] sm:text-xs">Před návštěvou</p>
+                <p class="mt-3 text-lg font-extrabold sm:text-xl">Vybereš službu, datum a čas</p>
+                <p class="mt-2 text-sm leading-6 text-[color:var(--cream-soft)]">Po potvrzení ti dorazí stručné shrnutí e-mailem.</p>
             </div>
         </div>
     </section>
@@ -1445,6 +1598,17 @@ $referenceCuts = [
                         <p id="priceInfo" class="mt-1 text-xs text-[color:var(--cream-soft)] hidden">
                             Vybraná služba: <span id="priceValue"></span>
                         </p>
+                        <div id="selectedServiceCard" class="selected-service-card mt-3" aria-live="polite">
+                            <div class="min-w-0">
+                                <p class="text-[10px] font-black uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">Vybraná služba</p>
+                                <h3 id="selectedServiceName" class="mt-2 text-lg font-extrabold text-[color:var(--cream)]"></h3>
+                                <p id="selectedServiceCopy" class="mt-3 text-sm leading-6 text-[color:var(--cream-soft)]"></p>
+                            </div>
+                            <div class="selected-service-card__price shrink-0">
+                                <p id="selectedServicePrice" class="text-xl font-black text-[color:var(--gold-soft)]"></p>
+                                <p id="selectedServiceDuration" class="mt-2 text-xs font-bold text-[color:var(--cream)]"></p>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Poznámka -->
@@ -1688,6 +1852,11 @@ $referenceCuts = [
     const timeInput = document.getElementById('time');
     const priceInfo = document.getElementById('priceInfo');
     const priceValue = document.getElementById('priceValue');
+    const selectedServiceCard = document.getElementById('selectedServiceCard');
+    const selectedServiceName = document.getElementById('selectedServiceName');
+    const selectedServiceCopy = document.getElementById('selectedServiceCopy');
+    const selectedServicePrice = document.getElementById('selectedServicePrice');
+    const selectedServiceDuration = document.getElementById('selectedServiceDuration');
     const errorMsg = document.getElementById('errorMsg');
     const bookingFormElement = document.querySelector('#booking form');
     const bookingSubmitButton = document.getElementById('bookingSubmitButton');
@@ -1716,8 +1885,14 @@ $referenceCuts = [
         if (services[selected]) {
             priceValue.textContent = `${services[selected].price_label} · cca ${services[selected].duration} min`;
             priceInfo.classList.remove('hidden');
+            if (selectedServiceName) selectedServiceName.textContent = services[selected].service_title || selected;
+            if (selectedServiceCopy) selectedServiceCopy.textContent = services[selected].service_copy || services[selected].description || '';
+            if (selectedServicePrice) selectedServicePrice.textContent = services[selected].price_label || '';
+            if (selectedServiceDuration) selectedServiceDuration.textContent = `cca ${services[selected].duration} minut`;
+            selectedServiceCard?.classList.add('is-visible');
         } else {
             priceInfo.classList.add('hidden');
+            selectedServiceCard?.classList.remove('is-visible');
         }
     }
 
@@ -1841,6 +2016,8 @@ $referenceCuts = [
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const siteHeader = document.querySelector('.site-header');
+    const homepageHero = document.querySelector('.homepage-hero');
+    const homepageHeroMedia = document.querySelector('.homepage-hero__media');
     const mobileMenuButton = document.getElementById('mobileMenuButton');
     const mobileMenu = document.getElementById('mobileMenu');
     const menuIconOpen = document.getElementById('menuIconOpen');
@@ -1878,6 +2055,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateSiteHeader() {
         siteHeader?.classList.toggle('is-scrolled', window.scrollY > 16);
+    }
+
+    function updateHeroParallax() {
+        if (!homepageHero || !homepageHeroMedia || prefersReducedMotion.matches) return;
+
+        const rect = homepageHero.getBoundingClientRect();
+        const progress = Math.min(1, Math.max(0, -rect.top / Math.max(1, rect.height)));
+        homepageHeroMedia.style.setProperty('--hero-media-y', `${progress * 86}px`);
     }
 
     function getBookingScrollTarget() {
@@ -2092,8 +2277,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.addEventListener('scroll', updateScrollTopButton, { passive: true });
     window.addEventListener('scroll', updateSiteHeader, { passive: true });
+    window.addEventListener('scroll', updateHeroParallax, { passive: true });
     updateScrollTopButton();
     updateSiteHeader();
+    updateHeroParallax();
 
     function setGalleryStartFromTrigger(trigger) {
         if (!galleryPanel || !trigger) return;
@@ -2180,7 +2367,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    const revealSections = Array.from(document.querySelectorAll('main > section'));
+    const revealSections = Array.from(document.querySelectorAll('main > section')).filter(section => !section.classList.contains('homepage-hero'));
     if (revealSections.length > 0) {
         if (prefersReducedMotion.matches) {
             revealSections.forEach(section => section.classList.add('is-visible'));
