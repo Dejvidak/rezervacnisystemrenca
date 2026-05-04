@@ -605,6 +605,10 @@ $referenceCuts = [
             text-wrap: balance;
         }
 
+        .homepage-hero__title-line {
+            display: block;
+        }
+
         .homepage-hero__title-accent {
             color: var(--gold);
         }
@@ -1671,10 +1675,10 @@ $referenceCuts = [
                     </span>
                 </p>
                 <h1 class="homepage-hero__title">
-                    Pánské<br>
-                    kadeřnictví<br>
-                    v Brně<br>
-                    <span class="homepage-hero__title-accent hero-title-shimmer">By ReneNeme</span>
+                    <span class="homepage-hero__title-line" style="--hero-title-index: 0;">Pánské</span>
+                    <span class="homepage-hero__title-line" style="--hero-title-index: 1;">kadeřnictví</span>
+                    <span class="homepage-hero__title-line" style="--hero-title-index: 2;">v Brně</span>
+                    <span class="homepage-hero__title-line homepage-hero__title-accent hero-title-shimmer" style="--hero-title-index: 3;">By ReneNeme</span>
                 </h1>
                 <p class="homepage-hero__intro mt-6 text-base font-semibold leading-7 sm:text-lg">
                     Pánské střihy s čistým tvarem, pohodovou domluvou a rezervací na pár kliknutí.

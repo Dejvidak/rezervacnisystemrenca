@@ -103,6 +103,50 @@ body::before {
     transform: translate3d(0, 0, 0) scale(1);
 }
 
+/* ── Text cascade reveal ── */
+.text-cascade > .text-cascade-item {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    transition:
+        opacity 620ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 760ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--cascade-index, 0) * 85ms);
+    will-change: opacity, transform;
+}
+
+.text-cascade.is-visible > .text-cascade-item {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+.text-cascade.is-replaying > .text-cascade-item {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+    transition-delay: 0ms;
+}
+
+.homepage-hero__title-line {
+    opacity: 0;
+    transform: translate3d(0, 0.28em, 0);
+    transition:
+        opacity 760ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 920ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(260ms + var(--hero-title-index, 0) * 130ms);
+    will-change: opacity, transform;
+}
+
+.text-cascade.is-visible .homepage-hero__title-line,
+.homepage-hero__copy.is-visible .homepage-hero__title-line {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+.text-cascade.is-replaying .homepage-hero__title-line {
+    opacity: 0;
+    transform: translate3d(0, 0.18em, 0);
+    transition-delay: calc(var(--hero-title-index, 0) * 105ms);
+}
+
 /* ── Hero title shimmer ── */
 @keyframes heroShimmer {
     0% { background-position: -200% center; }
@@ -518,6 +562,8 @@ footer a:hover {
     .about-card,
     .reference-card,
     .service-card-hover,
+    .text-cascade > .text-cascade-item,
+    .homepage-hero__title-line,
     .ripple-btn .ripple-wave,
     .hero-title-shimmer,
     .ambient-glow,
@@ -533,7 +579,9 @@ footer a:hover {
 
     .section-reveal,
     .stagger-reveal > *,
-    .reveal-item {
+    .reveal-item,
+    .text-cascade > .text-cascade-item,
+    .homepage-hero__title-line {
         opacity: 1 !important;
         transform: none !important;
     }

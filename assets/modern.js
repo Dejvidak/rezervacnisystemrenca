@@ -61,6 +61,109 @@
         });
     }
 
+    /* ── Text cascade reveals for headings/copy ── */
+    function initTextCascades() {
+        const cascadeBlocks = Array.from(document.querySelectorAll([
+            '.homepage-hero__copy',
+            '.homepage-hero__card',
+            '#about .max-w-2xl',
+            '.reference-showcase .max-w-lg',
+            '#services > .section-reveal > .max-w-2xl',
+            '#services .glow-card > div > div:first-child',
+            '#booking .section-reveal > p + h2',
+            'footer .max-w-md',
+        ].join(','))).filter(Boolean);
+
+        const normalizedBlocks = new Set();
+        cascadeBlocks.forEach(block => {
+            const target = block.matches('h1, h2, h3') ? block.parentElement : block;
+            if (target) {
+                normalizedBlocks.add(target);
+            }
+        });
+
+        normalizedBlocks.forEach(block => {
+            block.classList.add('text-cascade');
+            Array.from(block.children)
+                .filter(child => {
+                    const tag = child.tagName.toLowerCase();
+                    return ['p', 'h1', 'h2', 'h3', 'div', 'a', 'details'].includes(tag);
+                })
+                .forEach((child, index) => {
+                    child.classList.add('text-cascade-item');
+                    child.style.setProperty('--cascade-index', String(index));
+                });
+        });
+
+        function reveal(block) {
+            block.classList.remove('is-replaying');
+            block.classList.add('is-visible');
+        }
+
+        function replay(container) {
+            if (prefersReducedMotion.matches) return;
+            const scope = container || document;
+            const blocks = scope.matches?.('.text-cascade')
+                ? [scope]
+                : Array.from(scope.querySelectorAll?.('.text-cascade') || []);
+
+            blocks.forEach(block => {
+                block.classList.add('is-replaying');
+                block.classList.remove('is-visible');
+                window.setTimeout(() => {
+                    reveal(block);
+                }, 70);
+            });
+        }
+
+        window.replayTextCascades = replay;
+
+        if (prefersReducedMotion.matches) {
+            normalizedBlocks.forEach(reveal);
+            return;
+        }
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    reveal(entry.target);
+                }
+            });
+        }, {
+            rootMargin: '0px 0px -10% 0px',
+            threshold: 0.14,
+        });
+
+        normalizedBlocks.forEach(block => observer.observe(block));
+
+        document.addEventListener('click', event => {
+            const link = event.target.closest?.('a[href^="#"]');
+            if (!link) return;
+
+            const hash = link.getAttribute('href');
+            if (!hash || hash === '#') return;
+
+            const target = document.querySelector(hash);
+            if (!target) return;
+
+            window.setTimeout(() => replay(target), 520);
+        });
+
+        window.addEventListener('hashchange', () => {
+            const target = document.querySelector(window.location.hash);
+            if (target) {
+                window.setTimeout(() => replay(target), 260);
+            }
+        });
+
+        if (window.location.hash) {
+            const target = document.querySelector(window.location.hash);
+            if (target) {
+                window.setTimeout(() => replay(target), 520);
+            }
+        }
+    }
+
     /* ── Ripple effect on buttons ── */
     function initRipple() {
         document.querySelectorAll('a.inline-flex[href="#booking"], a.inline-flex[href="index.php#booking"], a.inline-flex[href="rezervace.php"], a.inline-flex[href^="rezervace.php?"]').forEach(btn => {
@@ -274,6 +377,7 @@
     function init() {
         initScrollProgress();
         initScrollReveals();
+        initTextCascades();
         initRipple();
         initNavHighlight();
         initCounters();
