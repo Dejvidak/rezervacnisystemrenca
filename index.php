@@ -31,6 +31,10 @@ $servicePrices = array_map(static fn(array $service): int => (int) $service['pri
 $serviceDurations = array_map(static fn(array $service): int => (int) $service['duration'], $services);
 $instagramUrl = 'https://www.instagram.com/hairbyreneneme/';
 $instagramHandle = '@hairbyreneneme';
+$businessAddress = app_business_full_address_inline();
+$businessMapUrl = app_business_map_url();
+$businessMapEmbedUrl = app_business_map_embed_url();
+$businessOpeningHoursLabel = 'Po-Pá 9:00-18:00';
 $pageTitle = app_business_name() . ' - Pánské kadeřnictví & online rezervace';
 $pageDescription = 'Pánské kadeřnictví Hair By ReneNeme v Brně. Online rezervace, čistý pánský střih, kompletka i dětský střih na adrese Vackova 1064/39, Brno-Královo Pole.';
 $pageCanonical = app_absolute_url('/');
@@ -594,6 +598,59 @@ $referenceCuts = [
             color: rgba(247, 243, 234, 0.86);
         }
 
+        .hero-info-grid {
+            display: grid;
+            gap: 0.75rem;
+            max-width: 42rem;
+        }
+
+        .hero-info-pill {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            border: 1px solid rgba(216, 191, 122, 0.22);
+            border-radius: 0.9rem;
+            background: rgba(8, 8, 7, 0.5);
+            padding: 0.8rem 0.9rem;
+            color: var(--cream-soft);
+            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-info-pill__icon {
+            display: inline-flex;
+            flex: 0 0 auto;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 0.7rem;
+            background: rgba(216, 191, 122, 0.13);
+            color: var(--gold-soft);
+        }
+
+        .booking-map-card {
+            overflow: hidden;
+            border: 1px solid rgba(216, 191, 122, 0.2);
+            border-radius: 1.25rem;
+            background: linear-gradient(180deg, rgba(31, 29, 25, 0.94), rgba(18, 17, 15, 0.92));
+            box-shadow: 0 20px 44px rgba(0, 0, 0, 0.22);
+        }
+
+        .booking-map-card iframe {
+            display: block;
+            width: 100%;
+            height: 17rem;
+            border: 0;
+            filter: grayscale(0.32) contrast(1.08) brightness(0.86);
+        }
+
+        @media (min-width: 640px) {
+            .hero-info-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
         .homepage-hero__card {
             justify-self: end;
             width: min(100%, 26rem);
@@ -1155,6 +1212,32 @@ $referenceCuts = [
                 <p class="homepage-hero__intro mt-6 text-base font-semibold leading-7 sm:text-lg">
                     Pánské střihy s čistým tvarem, pohodovou domluvou a rezervací na pár kliknutí.
                 </p>
+                <div class="hero-info-grid mt-5">
+                    <div class="hero-info-pill">
+                        <span class="hero-info-pill__icon" aria-hidden="true">
+                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="2" />
+                            </svg>
+                        </span>
+                        <span>
+                            <span class="block text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Otevírací doba</span>
+                            <strong class="mt-1 block text-sm text-[color:var(--cream)]"><?= htmlspecialchars($businessOpeningHoursLabel, ENT_QUOTES, 'UTF-8') ?></strong>
+                        </span>
+                    </div>
+                    <a href="<?= htmlspecialchars($businessMapUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener noreferrer" class="hero-info-pill transition hover:-translate-y-0.5 hover:border-[rgba(216,191,122,0.42)] hover:text-[color:var(--gold-soft)]">
+                        <span class="hero-info-pill__icon" aria-hidden="true">
+                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z" stroke="currentColor" stroke-width="2" />
+                                <path d="M12 12.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z" stroke="currentColor" stroke-width="2" />
+                            </svg>
+                        </span>
+                        <span>
+                            <span class="block text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Adresa</span>
+                            <strong class="mt-1 block text-sm text-[color:var(--cream)]"><?= htmlspecialchars($businessAddress, ENT_QUOTES, 'UTF-8') ?></strong>
+                        </span>
+                    </a>
+                </div>
                 <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                     <a href="#booking" class="ui-button ripple-btn w-full focus:outline-none focus:ring-2 focus:ring-[var(--accent)] sm:w-auto">
                         Rezervovat termín
@@ -1470,7 +1553,33 @@ $referenceCuts = [
                         </div>
                     </div>
                     <div class="mt-5 border-t border-[rgba(218,218,213,0.16)] pt-4 text-sm text-[color:var(--cream-soft)]">
-                        <p><strong class="text-[color:var(--cream)]">Po-Pá 9:00-18:00</strong> · Vackova 1064/39, Brno-Královo Pole</p>
+                        <p><strong class="text-[color:var(--cream)]"><?= htmlspecialchars($businessOpeningHoursLabel, ENT_QUOTES, 'UTF-8') ?></strong> · <?= htmlspecialchars($businessAddress, ENT_QUOTES, 'UTF-8') ?></p>
+                    </div>
+                </div>
+
+                <div class="booking-map-card section-reveal section-reveal--left">
+                    <div class="p-4 sm:p-5">
+                        <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Kde nás najdeš</p>
+                        <h3 class="mt-2 text-lg font-bold">Vackova ulice, Brno-Královo Pole</h3>
+                        <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">
+                            Mapa je přímo tady, kdyby sis chtěl před rezervací rychle ověřit cestu.
+                        </p>
+                    </div>
+                    <iframe
+                        title="Mapa Hair By ReneNeme"
+                        src="<?= htmlspecialchars($businessMapEmbedUrl, ENT_QUOTES, 'UTF-8') ?>"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                    ></iframe>
+                    <div class="border-t border-[rgba(216,191,122,0.16)] p-4 sm:p-5">
+                        <a
+                            href="<?= htmlspecialchars($businessMapUrl, ENT_QUOTES, 'UTF-8') ?>"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--cream)] transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[color:var(--gold-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                        >
+                            Otevřít v Google Maps
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1641,7 +1750,7 @@ $referenceCuts = [
                         </div>
                         <div class="flex flex-col gap-3 sm:flex-row">
                             <a
-                                href="https://www.google.com/maps/search/?api=1&query=Vackova%201064%2F39%2C%20612%2000%20Brno-Kr%C3%A1lovo%20Pole"
+                                href="<?= htmlspecialchars($businessMapUrl, ENT_QUOTES, 'UTF-8') ?>"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--cream)] transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[color:var(--gold-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
@@ -1794,7 +1903,7 @@ $referenceCuts = [
                 <a href="tel:+420608419610" class="block hover:text-[color:var(--gold)]">+420 608 419 610</a>
                 <a href="mailto:renenemehair@seznam.cz" class="block break-words hover:text-[color:var(--gold)]">renenemehair@seznam.cz</a>
                 <a
-                    href="https://www.google.com/maps/search/?api=1&query=Vackova%201064%2F39%2C%20612%2000%20Brno-Kr%C3%A1lovo%20Pole"
+                    href="<?= htmlspecialchars($businessMapUrl, ENT_QUOTES, 'UTF-8') ?>"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="block hover:text-[color:var(--gold)]"

@@ -358,9 +358,201 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Rezervace</title>
+    <link rel="icon" href="<?= h(app_absolute_url('assets/favicon.svg?v=3')) ?>" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="<?= h(app_absolute_url('assets/favicon.svg?v=3')) ?>">
+    <link rel="manifest" href="<?= h(app_absolute_url('site.webmanifest?v=3')) ?>">
+    <meta name="theme-color" content="#080807">
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --page: #0D0D0B;
+            --cream: #F7F3EA;
+            --cream-soft: #DCD3C2;
+            --muted: #C8C1B4;
+            --surface: #11100E;
+            --surface-2: #1B1915;
+            --surface-3: #24211C;
+            --line: #302D27;
+            --line-soft: #3C3831;
+            --field: #171613;
+            --accent: #C8AD63;
+            --accent-dark: #A98A42;
+            --gold: #D8BF7A;
+            --gold-soft: #F0DFA9;
+            --danger: #9E382F;
+            --danger-soft: #3A211E;
+            --ok: #77A56E;
+            --ok-soft: #1D2A1B;
+            --pending-soft: #2A2417;
+        }
+
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .admin-shell {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, rgba(216, 191, 122, 0.12), transparent 34rem),
+                linear-gradient(180deg, #141310 0%, var(--page) 44%, #080807 100%) !important;
+            color: var(--cream) !important;
+        }
+
+        .admin-shell main {
+            position: relative;
+        }
+
+        .admin-shell main::before {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-size: 180px 180px;
+            content: "";
+        }
+
+        .admin-shell [class~="bg-[#1F1B18]"],
+        .admin-shell [class~="bg-[#241E1A]"] {
+            background: rgba(17, 16, 14, 0.9) !important;
+        }
+
+        .admin-shell [class~="bg-[#2A231E]"],
+        .admin-shell [class~="bg-[#3F332A]"] {
+            background: linear-gradient(180deg, rgba(31, 29, 25, 0.94), rgba(18, 17, 15, 0.92)) !important;
+        }
+
+        .admin-shell [class~="bg-[#3A2F20]"],
+        .admin-shell [class~="bg-[#332A1F]"] {
+            background: linear-gradient(180deg, rgba(216, 191, 122, 0.14), rgba(31, 29, 25, 0.92)) !important;
+        }
+
+        .admin-shell [class~="bg-[#21351F]"] {
+            background: linear-gradient(180deg, rgba(119, 165, 110, 0.16), rgba(29, 42, 27, 0.84)) !important;
+        }
+
+        .admin-shell [class~="bg-[#3A211E]"] {
+            background: linear-gradient(180deg, rgba(158, 56, 47, 0.16), rgba(58, 33, 30, 0.88)) !important;
+        }
+
+        .admin-shell [class~="bg-[#C9BFA7]"],
+        .admin-shell [class~="bg-[#D6A85E]"],
+        .admin-shell [class~="bg-[#8A6A2F]"] {
+            background: linear-gradient(180deg, var(--accent), var(--accent-dark)) !important;
+            color: #080807 !important;
+        }
+
+        .admin-shell [class~="bg-[#496A45]"] {
+            background: linear-gradient(180deg, rgba(119, 165, 110, 0.92), rgba(71, 110, 65, 0.94)) !important;
+            color: var(--cream) !important;
+        }
+
+        .admin-shell [class~="bg-[#7B2D26]"] {
+            background: linear-gradient(180deg, var(--danger), #7B2D26) !important;
+            color: var(--cream) !important;
+        }
+
+        .admin-shell [class~="border-[#6A654E]"],
+        .admin-shell [class~="border-[#3F332A]"] {
+            border-color: rgba(216, 191, 122, 0.2) !important;
+        }
+
+        .admin-shell [class~="border-[#8A6A2F]"],
+        .admin-shell [class~="border-[#D6A85E]"],
+        .admin-shell [class~="border-[#735A31]"] {
+            border-color: rgba(216, 191, 122, 0.42) !important;
+        }
+
+        .admin-shell [class~="border-[#496A45]"] {
+            border-color: rgba(119, 165, 110, 0.46) !important;
+        }
+
+        .admin-shell [class~="border-[#7B2D26]"] {
+            border-color: rgba(158, 56, 47, 0.62) !important;
+        }
+
+        .admin-shell [class~="text-[#F5EDE1]"] {
+            color: var(--cream) !important;
+        }
+
+        .admin-shell [class~="text-[#D8C8B0]"],
+        .admin-shell [class~="text-[#C9BFA7]"] {
+            color: var(--muted) !important;
+        }
+
+        .admin-shell [class~="text-[#9F927E]"],
+        .admin-shell [class~="text-[#8F8373]"] {
+            color: rgba(200, 193, 180, 0.72) !important;
+        }
+
+        .admin-shell [class~="text-[#F1C879]"] {
+            color: var(--gold-soft) !important;
+        }
+
+        .admin-shell [class~="text-[#BFE3B5]"] {
+            color: #C8E7BE !important;
+        }
+
+        .admin-shell [class~="text-[#F4B8B0]"] {
+            color: #F0B3AA !important;
+        }
+
+        .admin-shell [class~="text-[#1F1B18]"] {
+            color: #080807 !important;
+        }
+
+        .admin-shell a,
+        .admin-shell button {
+            transition: transform 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease, box-shadow 220ms ease;
+        }
+
+        .admin-shell a:hover,
+        .admin-shell button:hover {
+            transform: translateY(-1px);
+        }
+
+        .admin-shell input[type="date"] {
+            border-color: rgba(216, 191, 122, 0.28) !important;
+            background: var(--field) !important;
+            color: var(--cream) !important;
+            color-scheme: dark;
+        }
+
+        .admin-shell input[type="date"]:focus {
+            outline: none;
+            border-color: rgba(216, 191, 122, 0.62) !important;
+            box-shadow: 0 0 0 3px rgba(216, 191, 122, 0.12);
+        }
+
+        .admin-shell section,
+        .admin-shell article,
+        .admin-shell main > div:first-child + div > div {
+            box-shadow: 0 20px 44px rgba(0, 0, 0, 0.22);
+        }
+
+        .admin-shell table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .admin-shell thead {
+            background: rgba(36, 33, 28, 0.96) !important;
+        }
+
+        .admin-shell tbody tr:hover {
+            background: rgba(216, 191, 122, 0.08) !important;
+        }
+
+        .admin-shell pre {
+            color: #F0B3AA;
+            white-space: pre-wrap;
+        }
+    </style>
 </head>
-<body class="bg-[#1F1B18] text-[#F5EDE1] min-h-screen">
+<body class="admin-shell bg-[#1F1B18] text-[#F5EDE1] min-h-screen">
     <main class="max-w-6xl mx-auto px-3 py-6 sm:px-4 sm:py-10">
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
             <div>

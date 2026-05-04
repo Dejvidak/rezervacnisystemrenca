@@ -194,6 +194,11 @@ function app_business_map_url(): string
     return 'https://www.google.com/maps/search/?api=1&query=Vackova%201064%2F39%2C%20612%2000%20Brno-Kr%C3%A1lovo%20Pole';
 }
 
+function app_business_map_embed_url(): string
+{
+    return 'https://www.google.com/maps?q=Vackova%201064%2F39%2C%20612%2000%20Brno-Kr%C3%A1lovo%20Pole&output=embed';
+}
+
 function app_business_full_address_inline(): string
 {
     return app_business_street_address() . ', ' . app_business_postal_code() . ' ' . app_business_locality_display();

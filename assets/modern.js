@@ -63,7 +63,11 @@
 
     /* ── Ripple effect on buttons ── */
     function initRipple() {
-        document.querySelectorAll('.ripple-btn, .ui-button, .ui-button-secondary, .ui-button-ghost-dark, a.inline-flex[href="#booking"], a.inline-flex[href="index.php#booking"]').forEach(btn => {
+        document.querySelectorAll('a.inline-flex[href="#booking"], a.inline-flex[href="index.php#booking"]').forEach(btn => {
+            btn.classList.add('booking-shine');
+        });
+
+        document.querySelectorAll('.ripple-btn, .ui-button, .ui-button-secondary, .ui-button-ghost-dark').forEach(btn => {
             btn.classList.add('ripple-btn');
             btn.addEventListener('click', function (e) {
                 if (prefersReducedMotion.matches) return;
