@@ -456,6 +456,91 @@
         };
     }
 
+    function initLocationMapCards() {
+        const cards = document.querySelectorAll('[data-location-map-card]');
+        if (!cards.length) return;
+
+        cards.forEach(card => {
+            const links = card.querySelectorAll('a, button');
+            const toggle = card.querySelector('[data-location-map-toggle]');
+
+            function setExpanded(isExpanded) {
+                card.classList.toggle('is-expanded', isExpanded);
+                if (toggle) {
+                    toggle.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+                    toggle.setAttribute(
+                        'aria-label',
+                        isExpanded
+                            ? 'Sbalit mapu provozovny Hair By ReneNeme'
+                            : 'Rozbalit mapu provozovny Hair By ReneNeme'
+                    );
+                }
+            }
+
+            function toggleExpanded() {
+                setExpanded(!card.classList.contains('is-expanded'));
+            }
+
+            card.addEventListener('click', event => {
+                if (event.target.closest?.('a, button')) return;
+                toggleExpanded();
+            });
+
+            toggle?.addEventListener('click', toggleExpanded);
+
+            links.forEach(link => {
+                link.addEventListener('click', event => {
+                    event.stopPropagation();
+                });
+            });
+
+            if (prefersReducedMotion.matches || !prefersFinePointer.matches) return;
+
+            let bounds = null;
+            let raf = 0;
+
+            function update(event) {
+                raf = 0;
+                if (!bounds) bounds = card.getBoundingClientRect();
+                const localX = event.clientX - bounds.left;
+                const localY = event.clientY - bounds.top;
+                const pctX = Math.max(0, Math.min(1, localX / bounds.width));
+                const pctY = Math.max(0, Math.min(1, localY / bounds.height));
+                const rotateY = ((pctX - 0.5) * 10).toFixed(2) + 'deg';
+                const rotateX = ((0.5 - pctY) * 8).toFixed(2) + 'deg';
+
+                card.style.setProperty('--map-glow-x', (pctX * 100).toFixed(1) + '%');
+                card.style.setProperty('--map-glow-y', (pctY * 100).toFixed(1) + '%');
+                card.style.setProperty('--map-tilt-x', rotateX);
+                card.style.setProperty('--map-tilt-y', rotateY);
+                card.style.setProperty('--map-lift', '-5px');
+            }
+
+            card.addEventListener('pointerenter', () => {
+                bounds = card.getBoundingClientRect();
+            });
+
+            card.addEventListener('pointermove', event => {
+                if (!raf) {
+                    raf = requestAnimationFrame(() => update(event));
+                }
+            }, { passive: true });
+
+            card.addEventListener('pointerleave', () => {
+                bounds = null;
+                if (raf) {
+                    cancelAnimationFrame(raf);
+                    raf = 0;
+                }
+                card.style.setProperty('--map-tilt-x', '0deg');
+                card.style.setProperty('--map-tilt-y', '0deg');
+                card.style.setProperty('--map-lift', '0px');
+                card.style.setProperty('--map-glow-x', '50%');
+                card.style.setProperty('--map-glow-y', '50%');
+            });
+        });
+    }
+
     /* ── Parallax on hero image (enhanced) ── */
     function initHeroParallax() {
         const hero = document.querySelector('.homepage-hero');
@@ -527,6 +612,7 @@
         initFormAnimations();
         initAmbientGlows();
         initBookingStepMotion();
+        initLocationMapCards();
     }
 
     if (document.readyState === 'loading') {

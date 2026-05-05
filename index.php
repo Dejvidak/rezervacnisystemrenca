@@ -649,74 +649,9 @@ $referenceCuts = [
             color: var(--gold-soft);
         }
 
-        .booking-map-card {
-            overflow: hidden;
-            border: 1px solid rgba(216, 191, 122, 0.2);
-            border-radius: 1.25rem;
-            background: linear-gradient(180deg, rgba(31, 29, 25, 0.94), rgba(18, 17, 15, 0.92));
-            box-shadow: 0 20px 44px rgba(0, 0, 0, 0.22);
-        }
-
-        .booking-map-card iframe {
-            display: block;
-            width: 100%;
-            height: 17rem;
-            border: 0;
-            filter: grayscale(0.32) contrast(1.08) brightness(0.86);
-        }
-
-        .map-action-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.65rem;
-            width: 100%;
-            border: 1px solid rgba(216, 191, 122, 0.28);
-            border-radius: 0.85rem;
-            background: rgba(216, 191, 122, 0.1);
-            padding: 0.9rem 1rem;
-            color: var(--cream);
-            font-size: 0.94rem;
-            font-weight: 750;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-            transition: transform 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease, box-shadow 220ms ease;
-        }
-
-        .map-action-button:hover,
-        .map-action-button:focus-visible {
-            transform: translateY(-1px);
-            border-color: rgba(216, 191, 122, 0.52);
-            background: rgba(216, 191, 122, 0.18);
-            color: var(--gold-soft);
-            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
-        }
-
-        .map-action-button__icon {
-            display: inline-flex;
-            flex: 0 0 auto;
-            align-items: center;
-            justify-content: center;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 0.65rem;
-            background: rgba(216, 191, 122, 0.14);
-            color: var(--gold-soft);
-        }
-
-        .map-action-button__text {
-            min-width: 0;
-            overflow-wrap: anywhere;
-        }
-
         @media (min-width: 640px) {
             .hero-info-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .map-action-button {
-                width: auto;
-                min-width: 13rem;
-                padding-right: 1.15rem;
             }
         }
 
@@ -2010,6 +1945,114 @@ $referenceCuts = [
         </div>
     </section>
 
+    <section id="location" class="scroll-mt-28 border-t border-[var(--line)] py-8 md:scroll-mt-32 md:py-10">
+        <div class="grid gap-6 md:grid-cols-[0.85fr_1.15fr] md:items-center md:gap-8">
+            <div class="section-reveal section-reveal--left">
+                <p class="text-xs uppercase tracking-[0.24em] text-[color:var(--muted-strong)] font-bold">Kde nás najdeš</p>
+                <h2 class="mt-1 text-2xl font-bold md:text-3xl">Vackova 1064/39, Brno-Královo Pole</h2>
+                <p class="mt-3 max-w-lg text-sm leading-6 text-[color:var(--muted)]">
+                    Hair By ReneNeme najdeš ve Vackově ulici. Karta ukazuje reálný mapový podklad a pro přesnou navigaci zůstává připravený odkaz do Google Maps.
+                </p>
+                <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                    <a
+                        href="<?= htmlspecialchars($businessMapUrl, ENT_QUOTES, 'UTF-8') ?>"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-2.5 text-sm font-semibold text-[color:var(--cream)] transition hover:-translate-y-0.5 hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                    >
+                        Otevřít v Google Maps
+                    </a>
+                    <a
+                        href="contact.php"
+                        class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--cream)] transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[color:var(--gold-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                    >
+                        Kontakt
+                    </a>
+                </div>
+            </div>
+
+            <article
+                class="booking-map-card location-map-card section-reveal section-reveal--right"
+                data-location-map-card
+            >
+                <div class="location-map-card__shine" aria-hidden="true"></div>
+                <div class="location-map-card__header">
+                    <div>
+                        <p class="location-map-card__eyebrow">Mapa provozovny</p>
+                        <h3 class="location-map-card__title">Hair By ReneNeme</h3>
+                        <p class="location-map-card__copy">
+                            Kliknutím kartu zvětšíš. Podklad je skutečný Google Maps embed pro adresu Vackova 1064/39.
+                        </p>
+                    </div>
+                    <button
+                        type="button"
+                        class="location-map-card__badge"
+                        data-location-map-toggle
+                        aria-expanded="false"
+                        aria-label="Rozbalit mapu provozovny Hair By ReneNeme"
+                    >
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z" stroke="currentColor" stroke-width="2" />
+                            <path d="M12 12.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="location-map-card__canvas">
+                    <iframe
+                        class="location-map-card__embed"
+                        title="Mapa Hair By ReneNeme na adrese Vackova 1064/39"
+                        src="<?= htmlspecialchars($businessMapEmbedUrl, ENT_QUOTES, 'UTF-8') ?>"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        tabindex="-1"
+                    ></iframe>
+                    <div class="location-map-card__district"></div>
+                    <span class="location-map-card__road location-map-card__road--main"></span>
+                    <span class="location-map-card__road location-map-card__road--cross"></span>
+                    <span class="location-map-card__road location-map-card__road--north"></span>
+                    <span class="location-map-card__road location-map-card__road--south"></span>
+                    <span class="location-map-card__road location-map-card__road--lane-one"></span>
+                    <span class="location-map-card__road location-map-card__road--lane-two"></span>
+                    <span class="location-map-card__building location-map-card__building--one"></span>
+                    <span class="location-map-card__building location-map-card__building--two"></span>
+                    <span class="location-map-card__building location-map-card__building--three"></span>
+                    <span class="location-map-card__building location-map-card__building--four"></span>
+                    <span class="location-map-card__building location-map-card__building--five"></span>
+                    <span class="location-map-card__route-dot location-map-card__route-dot--one"></span>
+                    <span class="location-map-card__route-dot location-map-card__route-dot--two"></span>
+                    <span class="location-map-card__route-dot location-map-card__route-dot--three"></span>
+                    <span class="location-map-card__pin">
+                        <span class="location-map-card__pin-head"></span>
+                        <span class="location-map-card__pin-shadow"></span>
+                    </span>
+                </div>
+
+                <div class="location-map-card__footer">
+                    <div>
+                        <p class="location-map-card__place">Hair By ReneNeme</p>
+                        <p class="location-map-card__address">Vackova 1064/39, 612 00 Brno-Královo Pole</p>
+                    </div>
+                    <a
+                        href="<?= htmlspecialchars($businessMapUrl, ENT_QUOTES, 'UTF-8') ?>"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="map-action-button focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                        data-location-map-link
+                    >
+                        <span class="map-action-button__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M7 17 17 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                <path d="M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                        <span class="map-action-button__text">Otevřít v Google Maps</span>
+                    </a>
+                </div>
+            </article>
+        </div>
+    </section>
+
     <!-- REZERVAČNÍ FORMULÁŘ -->
     <section id="booking" class="hidden mt-2 scroll-mt-24 border-t border-[var(--line)] py-8 md:mt-4 md:scroll-mt-28 md:py-10">
         <div class="grid gap-6 md:grid-cols-[0.8fr_1.2fr] md:items-start md:gap-8">
@@ -2043,37 +2086,6 @@ $referenceCuts = [
                     </div>
                 </div>
 
-                <div class="booking-map-card section-reveal section-reveal--left">
-                    <div class="p-4 sm:p-5">
-                        <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Kde nás najdeš</p>
-                        <h3 class="mt-2 text-lg font-bold">Vackova ulice, Brno-Královo Pole</h3>
-                        <p class="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                            Mapa je přímo tady, kdyby sis chtěl před rezervací rychle ověřit cestu.
-                        </p>
-                    </div>
-                    <iframe
-                        title="Mapa Hair By ReneNeme"
-                        src="<?= htmlspecialchars($businessMapEmbedUrl, ENT_QUOTES, 'UTF-8') ?>"
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"
-                    ></iframe>
-                    <div class="border-t border-[rgba(216,191,122,0.16)] p-4 sm:p-5">
-                        <a
-                            href="<?= htmlspecialchars($businessMapUrl, ENT_QUOTES, 'UTF-8') ?>"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="map-action-button focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
-                        >
-                            <span class="map-action-button__icon" aria-hidden="true">
-                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
-                                    <path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z" stroke="currentColor" stroke-width="2" />
-                                    <path d="M12 12.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z" stroke="currentColor" stroke-width="2" />
-                                </svg>
-                            </span>
-                            <span class="map-action-button__text">Otevřít v Google Maps</span>
-                        </a>
-                    </div>
-                </div>
             </div>
 
             <div class="order-2 section-reveal section-reveal--right space-y-4">
