@@ -98,6 +98,41 @@ $referenceCuts = [
     <meta name="twitter:description" content="<?= htmlspecialchars($pageDescription, ENT_QUOTES, 'UTF-8') ?>">
     <meta name="twitter:image" content="<?= htmlspecialchars($pageImage, ENT_QUOTES, 'UTF-8') ?>">
     <script type="application/ld+json"><?= json_encode($pageSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+    <script>
+        (function () {
+            if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+            }
+
+            if (window.location.hash && window.location.hash !== '#top') return;
+
+            if (window.location.hash === '#top') {
+                history.replaceState(null, '', window.location.pathname + window.location.search);
+            }
+
+            var keepAtTop = true;
+            var stopForUser = function () {
+                keepAtTop = false;
+            };
+            var forceTop = function () {
+                if (keepAtTop) {
+                    window.scrollTo(0, 0);
+                }
+            };
+
+            ['wheel', 'touchmove', 'keydown', 'mousedown'].forEach(function (eventName) {
+                window.addEventListener(eventName, stopForUser, { once: true, passive: true });
+            });
+
+            forceTop();
+            ['pageshow', 'DOMContentLoaded', 'load'].forEach(function (eventName) {
+                window.addEventListener(eventName, forceTop, { once: true });
+            });
+            [0, 40, 120, 260, 520, 900].forEach(function (delay) {
+                window.setTimeout(forceTop, delay);
+            });
+        }());
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
@@ -522,7 +557,7 @@ $referenceCuts = [
             width: 100vw;
             margin-left: calc(50% - 50vw);
             overflow: hidden;
-            padding: clamp(2.8rem, 7vh, 5.4rem) clamp(1.25rem, 4vw, 4rem) clamp(2rem, 5vh, 4rem);
+            padding: clamp(2rem, 4.8vh, 3.6rem) clamp(1.25rem, 4vw, 4rem) clamp(1.5rem, 3.8vh, 3rem);
             background: #050504;
         }
 
@@ -577,16 +612,15 @@ $referenceCuts = [
             position: relative;
             z-index: 2;
             display: grid;
-            min-height: calc(100svh - 7.35rem);
+            min-height: calc(100svh - 6.35rem);
             align-items: center;
             gap: 2rem;
         }
 
         .homepage-hero__copy {
-            opacity: 0;
-            transform: translate3d(0, -86px, 0);
-            animation: heroCopyDrop 1250ms cubic-bezier(0.16, 1, 0.3, 1) 160ms forwards;
-            will-change: opacity, transform;
+            opacity: 1;
+            transform: none;
+            animation: none;
         }
 
         .homepage-hero__eyebrow {
@@ -594,19 +628,23 @@ $referenceCuts = [
         }
 
         .homepage-hero__title {
-            max-width: 6.4em;
+            max-width: 6.7em;
             color: var(--cream);
             font-family: Impact, "Arial Black", "Helvetica Neue", Arial, sans-serif;
-            font-size: clamp(3.7rem, 7.9vw, 7.2rem);
+            font-size: clamp(3.2rem, 6.55vw, 6rem);
             font-weight: 950;
             letter-spacing: 0;
-            line-height: 0.94;
+            line-height: 1.035;
             text-transform: uppercase;
             text-wrap: balance;
         }
 
         .homepage-hero__title-line {
             display: block;
+            padding-block: 0.02em;
+            opacity: 1;
+            transform: none;
+            transition: none;
         }
 
         .homepage-hero__title-accent {
@@ -659,15 +697,15 @@ $referenceCuts = [
             align-self: end;
             justify-self: end;
             width: min(100%, 22rem);
-            margin-bottom: clamp(4rem, 10vh, 6.5rem);
+            margin-bottom: clamp(1.5rem, 5vh, 3.8rem);
             border: 1px solid rgba(247, 243, 234, 0.18);
             border-radius: 1rem;
             background: rgba(8, 8, 7, 0.56);
             box-shadow: 0 18px 44px rgba(0, 0, 0, 0.24);
             backdrop-filter: blur(16px);
-            opacity: 0;
-            transform: translate3d(0, -54px, 0);
-            animation: heroCopyDrop 1050ms cubic-bezier(0.16, 1, 0.3, 1) 420ms forwards;
+            opacity: 1;
+            transform: none;
+            animation: none;
         }
 
         .homepage-hero__card summary {
@@ -773,18 +811,31 @@ $referenceCuts = [
             .homepage-hero__inner {
                 grid-template-columns: minmax(0, 0.9fr) minmax(18rem, 0.62fr);
             }
+
+            .homepage-hero__intro {
+                margin-top: 1.1rem !important;
+            }
+
+            .homepage-hero .hero-info-grid {
+                margin-top: 1rem !important;
+            }
+
+            .homepage-hero__copy > .mt-5 {
+                margin-top: 1rem !important;
+            }
         }
 
         @media (max-width: 767px) {
             .homepage-hero {
-                min-height: calc(100svh - 4.35rem);
-                padding-top: 2.2rem;
-                padding-bottom: 2rem;
+                min-height: auto;
+                padding-top: 2.8rem;
+                padding-bottom: 3rem;
             }
 
             .homepage-hero__inner {
-                min-height: calc(100svh - 8.55rem);
-                align-items: end;
+                min-height: auto;
+                align-items: center;
+                gap: 1.5rem;
             }
 
             .homepage-hero__media img {
@@ -804,10 +855,55 @@ $referenceCuts = [
                 margin-bottom: 0;
             }
 
+            .homepage-hero__eyebrow {
+                margin-bottom: 0.8rem !important;
+            }
+
             .homepage-hero__title {
-                max-width: 6.6em;
-                font-size: clamp(2.85rem, 13.8vw, 4.75rem);
-                line-height: 0.96;
+                max-width: 7.15em;
+                font-size: clamp(2.55rem, 12.2vw, 4.1rem);
+                line-height: 1.09;
+            }
+
+            .homepage-hero__intro {
+                margin-top: 1rem !important;
+                max-width: 22rem;
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
+            .hero-info-grid {
+                margin-top: 1rem !important;
+                gap: 0.65rem;
+            }
+
+            .hero-info-pill {
+                gap: 0.68rem;
+                border-radius: 0.8rem;
+                padding: 0.72rem 0.76rem;
+            }
+
+            .homepage-hero__copy > .mt-5 {
+                margin-top: 1rem !important;
+            }
+
+            .homepage-hero__copy .ui-button,
+            .homepage-hero__copy .ui-button-ghost-dark {
+                min-height: 3rem;
+                padding-top: 0.78rem;
+                padding-bottom: 0.78rem;
+            }
+
+            .homepage-hero__card {
+                max-width: 100%;
+                padding: 0.9rem !important;
+            }
+
+            #about,
+            #services,
+            #location {
+                padding-top: 3.2rem !important;
+                padding-bottom: 3.2rem !important;
             }
 
             .selected-service-card {
@@ -1535,21 +1631,20 @@ $referenceCuts = [
 <!-- NAV / HEADER -->
 <header class="site-header bg-[var(--surface)] border-b border-[var(--surface-soft)] shadow-lg">
     <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
-        <a href="#top" class="whitespace-nowrap text-xl font-extrabold tracking-tight transition hover:opacity-90 sm:text-2xl md:text-[1.65rem]" aria-label="Hair By ReneNeme">
-            <span class="text-[color:var(--cream)]">Hair By</span>
-            <span class="text-[color:var(--gold)]">ReneNeme</span>
+        <a href="index.php" class="brand-mark" aria-label="Hair By ReneNeme">
+            <img src="assets/logo-reneneme-navbar.png?v=3" alt="Hair By ReneNeme" class="brand-mark__logo">
         </a>
-        <nav class="hidden items-center gap-2 text-xs text-[color:var(--cream-soft)] lg:flex lg:gap-5 lg:text-sm">
-            <a href="#about" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">O nás</a>
-            <a href="#services" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Služby</a>
-            <a href="references.php" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Reference</a>
-            <a href="cenik.php" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Ceník</a>
-            <a href="contact.php" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Kontakt</a>
+        <nav class="premium-nav hidden lg:flex" data-pill-nav aria-label="Hlavní navigace">
+            <a href="#about" class="nav-link premium-nav__link">O nás</a>
+            <a href="#services" class="nav-link premium-nav__link">Služby</a>
+            <a href="references.php" class="nav-link premium-nav__link">Reference</a>
+            <a href="cenik.php" class="nav-link premium-nav__link">Ceník</a>
+            <a href="contact.php" class="nav-link premium-nav__link">Kontakt</a>
             <a
                 href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>"
                 target="_blank"
                 rel="noopener"
-                class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--surface-soft)] text-[color:var(--cream)] transition hover:-translate-y-0.5 hover:border-[var(--gold)] hover:text-[color:var(--gold)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                class="premium-nav__icon focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
                 aria-label="Instagram Hair By ReneNeme"
             >
                 <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1558,7 +1653,8 @@ $referenceCuts = [
                     <path d="M17 7.2h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
                 </svg>
             </a>
-            <a href="rezervace.php" class="inline-flex whitespace-nowrap rounded-lg bg-[var(--accent)] px-4 py-2 font-semibold text-[color:var(--cream)] shadow-sm transition hover:-translate-y-0.5 hover:bg-[var(--accent-dark)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervace</a>
+            <a href="rezervace.php" class="premium-nav__cta focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervace</a>
+            <span class="premium-nav__cursor" aria-hidden="true"></span>
         </nav>
         <button
             type="button"
@@ -1594,7 +1690,7 @@ $referenceCuts = [
     </nav>
 </header>
 
-<main id="top" class="max-w-6xl mx-auto px-4 pb-14 sm:px-6 md:pb-16">
+<main id="top" class="homepage-main max-w-6xl mx-auto px-4 pb-14 sm:px-6 md:pb-16">
 
     <!-- HERO sekce-->
     <section class="homepage-hero">
@@ -2880,6 +2976,17 @@ document.addEventListener('DOMContentLoaded', function () {
     let aboutCloseTimer = null;
     let activeGalleryTrigger = null;
     let galleryCloseTimer = null;
+
+    if (homepageHero && !window.location.hash) {
+        const forceTopOnLanding = () => {
+            window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        };
+
+        requestAnimationFrame(forceTopOnLanding);
+        [0, 80, 180, 420, 780].forEach(delay => {
+            window.setTimeout(forceTopOnLanding, delay);
+        });
+    }
 
     function updateSiteHeader() {
         siteHeader?.classList.toggle('is-scrolled', window.scrollY > 16);

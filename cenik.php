@@ -118,21 +118,20 @@ $pageSchema = app_public_business_schema('cenik.php', [
 
 <header class="site-header sticky top-0 z-50 border-b border-[var(--surface-soft)] bg-[var(--surface)] shadow-lg">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <a href="index.php" class="whitespace-nowrap text-xl font-extrabold tracking-tight transition hover:opacity-90 sm:text-2xl md:text-[1.65rem]" aria-label="Hair By ReneNeme">
-            <span class="text-[color:var(--cream)]">Hair By</span>
-            <span class="text-[color:var(--gold)]">ReneNeme</span>
+        <a href="index.php" class="brand-mark" aria-label="Hair By ReneNeme">
+            <img src="assets/logo-reneneme-navbar.png?v=3" alt="Hair By ReneNeme" class="brand-mark__logo">
         </a>
-        <nav class="hidden items-center gap-2 text-xs text-[color:var(--cream-soft)] lg:flex lg:gap-5 lg:text-sm">
-            <a href="index.php#about" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">O nás</a>
-            <a href="index.php#services" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Služby</a>
-            <a href="references.php" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Reference</a>
-            <a href="cenik.php" class="nav-link is-active whitespace-nowrap font-semibold text-[color:var(--gold)]">Ceník</a>
-            <a href="contact.php" class="nav-link whitespace-nowrap transition hover:text-[color:var(--gold)]">Kontakt</a>
+        <nav class="premium-nav hidden lg:flex" data-pill-nav aria-label="Hlavní navigace">
+            <a href="index.php#about" class="nav-link premium-nav__link">O nás</a>
+            <a href="index.php#services" class="nav-link premium-nav__link">Služby</a>
+            <a href="references.php" class="nav-link premium-nav__link">Reference</a>
+            <a href="cenik.php" class="nav-link premium-nav__link is-active">Ceník</a>
+            <a href="contact.php" class="nav-link premium-nav__link">Kontakt</a>
             <a
                 href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>"
                 target="_blank"
                 rel="noopener"
-                class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--surface-soft)] text-[color:var(--cream)] transition hover:-translate-y-0.5 hover:border-[var(--gold)] hover:text-[color:var(--gold)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                class="premium-nav__icon focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
                 aria-label="Instagram Hair By ReneNeme"
             >
                 <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -141,7 +140,8 @@ $pageSchema = app_public_business_schema('cenik.php', [
                     <path d="M17 7.2h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
                 </svg>
             </a>
-            <a href="index.php#booking" class="inline-flex whitespace-nowrap rounded-lg bg-[var(--accent)] px-4 py-2 font-semibold text-[color:var(--cream)] shadow-sm transition hover:-translate-y-0.5 hover:bg-[var(--accent-dark)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervace</a>
+            <a href="rezervace.php" class="premium-nav__cta focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervace</a>
+            <span class="premium-nav__cursor" aria-hidden="true"></span>
         </nav>
         <button
             type="button"
@@ -165,7 +165,7 @@ $pageSchema = app_public_business_schema('cenik.php', [
         <a href="references.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
         <a href="cenik.php" class="block rounded-lg px-3 py-3 font-semibold text-[color:var(--gold)] hover:bg-[var(--surface-soft)]">Ceník</a>
         <a href="contact.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Kontakt</a>
-        <a href="index.php#booking" class="mt-2 inline-flex w-full items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-3 font-semibold text-[color:var(--cream)] shadow-sm transition hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervovat termín</a>
+        <a href="rezervace.php" class="mt-2 inline-flex w-full items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-3 font-semibold text-[color:var(--cream)] shadow-sm transition hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">Rezervovat termín</a>
         <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="flex items-center gap-2 rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="2" />
@@ -192,7 +192,7 @@ $pageSchema = app_public_business_schema('cenik.php', [
                 <a href="index.php" class="inline-flex items-center justify-center rounded-lg border border-[rgba(216,191,122,0.28)] bg-[rgba(31,29,25,0.72)] px-5 py-3 text-sm font-semibold text-[color:var(--cream-soft)] shadow-sm transition hover:-translate-y-0.5 hover:border-[var(--gold)] hover:bg-[rgba(216,191,122,0.1)] hover:text-[color:var(--gold-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                     Na hlavní stránku
                 </a>
-                <a href="index.php#booking" class="inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[#080807] shadow-md shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[var(--gold)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+                <a href="rezervace.php" class="inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[#080807] shadow-md shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[var(--gold)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                     Přejít na rezervaci
                 </a>
             </div>
@@ -223,48 +223,60 @@ $pageSchema = app_public_business_schema('cenik.php', [
                 <p class="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--muted-strong)]">Kompletní ceník</p>
                 <h2 class="mt-1 text-2xl font-bold">Vyber si variantu, která ti sedí</h2>
             </div>
-            <a href="index.php#booking" class="text-sm font-semibold text-[color:var(--accent)] underline decoration-[var(--accent)] underline-offset-4 hover:text-[color:var(--gold-soft)]">
+            <a href="rezervace.php" class="text-sm font-semibold text-[color:var(--accent)] underline decoration-[var(--accent)] underline-offset-4 hover:text-[color:var(--gold-soft)]">
                 Otevřít formulář
             </a>
         </div>
-        <div class="grid gap-4 md:grid-cols-2">
+        <div class="services-grid grid gap-4 md:grid-cols-2">
             <?php foreach ($services as $serviceName => $service): ?>
                 <?php $isFeatured = !empty($service['featured']); ?>
-                <article class="group reveal-item relative overflow-hidden rounded-2xl border <?= $isFeatured ? 'border-[var(--accent)] bg-[linear-gradient(135deg,rgba(0,0,0,0.98),rgba(35,35,35,0.94))] text-[color:var(--cream)] shadow-xl' : 'border-[var(--line)] bg-[rgba(31,29,25,0.82)] text-[color:var(--cream)] shadow-sm' ?>" data-reveal-item>
-                    <div class="absolute inset-x-0 top-0 h-1 <?= $isFeatured ? 'bg-[linear-gradient(90deg,var(--gold),var(--gold-soft))]' : 'bg-[linear-gradient(90deg,var(--accent),rgba(17,17,17,0.12))]' ?>"></div>
-                    <div class="p-5 sm:p-6">
-                        <div class="flex flex-col items-start gap-4">
-                            <div class="w-full">
-                                <span class="inline-flex rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'border-[rgba(218,218,213,0.32)] bg-[rgba(218,218,213,0.12)] text-[color:var(--gold-soft)]' : 'border-[var(--line)] bg-[var(--field)] text-[color:var(--muted-strong)]' ?>">
-                                    <?= htmlspecialchars((string) ($service['badge'] ?? 'Služba'), ENT_QUOTES, 'UTF-8') ?>
-                                </span>
-                                <h3 class="mt-4 text-xl font-bold"><?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?></h3>
-                                <p class="mt-2 max-w-md text-sm leading-6 <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">
+                <article class="service-card service-card-hover reveal-item group <?= $isFeatured ? 'service-card--featured' : '' ?>" data-reveal-item>
+                    <div class="service-card__accent" aria-hidden="true"></div>
+                    <div class="service-card__halo" aria-hidden="true"></div>
+                    <div class="service-card__body">
+                        <div class="service-card__main">
+                            <div class="service-card__top">
+                                <div class="service-card__heading">
+                                    <span class="service-card__badge">
+                                        <?= htmlspecialchars((string) ($service['badge'] ?? 'Služba'), ENT_QUOTES, 'UTF-8') ?>
+                                    </span>
+                                    <h3 class="service-card__title"><?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?></h3>
+                                </div>
+                                <div class="service-card__price">
+                                    <p>Od</p>
+                                    <strong><?= htmlspecialchars((string) ($service['price_label'] ?? ''), ENT_QUOTES, 'UTF-8') ?></strong>
+                                </div>
+                            </div>
+
+                            <div class="service-card__content">
+                                <p class="service-card__description">
                                     <?= htmlspecialchars((string) ($service['description'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
                                 </p>
-                                <p class="mt-3 max-w-md text-sm leading-6 <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">
+                                <p class="service-card__copy">
                                     <?= htmlspecialchars((string) ($service['service_copy'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
                                 </p>
                             </div>
-                            <div class="price-badge <?= $isFeatured ? 'price-badge--featured' : '' ?> w-full rounded-2xl px-5 pb-4 pt-5 text-left">
-                                <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-                                    <div>
-                                        <p class="text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--muted-strong)]' ?>">Cena</p>
-                                        <p class="mt-2 text-3xl font-extrabold leading-none tracking-normal whitespace-nowrap <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--gold)]' ?>"><?= htmlspecialchars((string) $service['price_label'], ENT_QUOTES, 'UTF-8') ?></p>
-                                    </div>
-                                    <p class="text-sm font-semibold <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">cca <?= htmlspecialchars((string) $service['duration'], ENT_QUOTES, 'UTF-8') ?> minut</p>
-                                </div>
-                            </div>
+
+                            <?php if (!empty($service['meta'])): ?>
+                                <p class="service-card__meta">
+                                    <?= htmlspecialchars((string) $service['meta'], ENT_QUOTES, 'UTF-8') ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
-                        <div class="mt-5 flex flex-col items-start gap-3 border-t pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between <?= $isFeatured ? 'border-[rgba(218,218,213,0.18)]' : 'border-[var(--line-soft)]' ?>">
-                            <p class="text-sm <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">
-                                <?= htmlspecialchars((string) ($service['meta'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
+
+                        <div class="service-card__footer">
+                            <p class="service-card__duration">
+                                <span aria-hidden="true"></span>
+                                cca <?= htmlspecialchars((string) $service['duration'], ENT_QUOTES, 'UTF-8') ?> minut
                             </p>
                             <a
-                                href="index.php#booking"
-                                class="inline-flex items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[var(--gold)] <?= $isFeatured ? 'border-[rgba(216,191,122,0.28)] bg-[rgba(255,255,255,0.08)] text-[color:var(--gold-soft)] hover:-translate-y-0.5 hover:border-[rgba(216,191,122,0.5)] hover:bg-[rgba(216,191,122,0.18)] hover:text-[color:var(--cream)]' : 'border-[rgba(216,191,122,0.28)] bg-[rgba(216,191,122,0.16)] text-[color:var(--gold-soft)] shadow-sm hover:-translate-y-0.5 hover:border-[rgba(216,191,122,0.5)] hover:bg-[rgba(216,191,122,0.24)] hover:text-[color:var(--cream)]' ?>"
+                                href="rezervace.php?service=<?= rawurlencode($serviceName) ?>"
+                                class="service-card__button focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
                             >
-                                Vybrat a rezervovat
+                                <span>Vybrat a rezervovat</span>
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
                             </a>
                         </div>
                     </div>
@@ -322,7 +334,7 @@ $pageSchema = app_public_business_schema('cenik.php', [
         <div>
             <p class="text-xs font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Rychle</p>
             <div class="mt-3 space-y-2 text-sm">
-                <a href="index.php#booking" class="block hover:text-[color:var(--gold)]">Rezervace</a>
+                <a href="rezervace.php" class="block hover:text-[color:var(--gold)]">Rezervace</a>
                 <a href="cenik.php" class="block hover:text-[color:var(--gold)]">Ceník</a>
                 <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="block hover:text-[color:var(--gold)]">Instagram</a>
                 <a href="contact.php" class="block hover:text-[color:var(--gold)]">Kontakt</a>

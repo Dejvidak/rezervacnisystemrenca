@@ -105,8 +105,6 @@
     /* ── Text cascade reveals for headings/copy ── */
     function initTextCascades() {
         const cascadeBlocks = Array.from(document.querySelectorAll([
-            '.homepage-hero__copy',
-            '.homepage-hero__card',
             '#about .max-w-2xl',
             '.reference-showcase .max-w-lg',
             '#services > .section-reveal > .max-w-2xl',
@@ -302,6 +300,68 @@
         }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
 
         sections.forEach(s => observer.observe(s));
+    }
+
+    function initPremiumPillNav() {
+        const navs = document.querySelectorAll('[data-pill-nav]');
+        if (!navs.length) return;
+
+        navs.forEach(nav => {
+            const cursor = nav.querySelector('.premium-nav__cursor');
+            const items = Array.from(nav.querySelectorAll('.premium-nav__link, .premium-nav__icon, .premium-nav__cta'));
+            if (!cursor || !items.length) return;
+
+            const activeItem = () => nav.querySelector('.premium-nav__link.is-active');
+
+            function moveTo(item, visible = true) {
+                if (!item) {
+                    nav.style.setProperty('--pill-cursor-opacity', '0');
+                    return;
+                }
+
+                const navRect = nav.getBoundingClientRect();
+                const itemRect = item.getBoundingClientRect();
+                nav.style.setProperty('--pill-cursor-left', `${(itemRect.left - navRect.left).toFixed(1)}px`);
+                nav.style.setProperty('--pill-cursor-width', `${itemRect.width.toFixed(1)}px`);
+                nav.style.setProperty('--pill-cursor-opacity', visible ? '1' : '0');
+            }
+
+            function restoreActive() {
+                const active = activeItem();
+                if (active) {
+                    moveTo(active, true);
+                } else {
+                    moveTo(null, false);
+                }
+            }
+
+            items.forEach(item => {
+                item.addEventListener('pointerenter', () => moveTo(item, true));
+                item.addEventListener('focus', () => moveTo(item, true));
+            });
+
+            nav.addEventListener('pointerleave', restoreActive);
+            nav.addEventListener('focusout', event => {
+                if (!nav.contains(event.relatedTarget)) {
+                    restoreActive();
+                }
+            });
+
+            if (window.MutationObserver) {
+                const observer = new MutationObserver(() => {
+                    if (!nav.matches(':hover') && !nav.contains(document.activeElement)) {
+                        restoreActive();
+                    }
+                });
+
+                items.forEach(item => {
+                    observer.observe(item, { attributes: true, attributeFilter: ['class'] });
+                });
+            }
+
+            window.addEventListener('resize', restoreActive, { passive: true });
+            window.setTimeout(restoreActive, 80);
+        });
     }
 
     /* ── Counter animation ── */
@@ -609,6 +669,7 @@
         initTextCascades();
         initRipple();
         initNavHighlight();
+        initPremiumPillNav();
         initCounters();
         initCardGlow();
         initCardTilt();
