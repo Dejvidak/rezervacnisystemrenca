@@ -372,8 +372,12 @@
 
             let bounds = null;
             let raf = 0;
-            const maxTilt = card.matches('.booking-choice-card, .booking-date-card, .booking-time-card') ? 4.5 : 7;
-            const maxLift = card.matches('.booking-choice-card, .booking-date-card, .booking-time-card') ? -3 : -6;
+            const maxTilt = card.matches('.service-card-hover')
+                ? 2.8
+                : (card.matches('.booking-choice-card, .booking-date-card, .booking-time-card') ? 4.5 : 7);
+            const maxLift = card.matches('.service-card-hover')
+                ? -2.5
+                : (card.matches('.booking-choice-card, .booking-date-card, .booking-time-card') ? -3 : -6);
             const resetTransform = 'perspective(900px) translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) scale(1)';
 
             function update(event) {
@@ -388,7 +392,8 @@
 
                 card.style.setProperty('--mouse-x', (pctX * 100).toFixed(1) + '%');
                 card.style.setProperty('--mouse-y', (pctY * 100).toFixed(1) + '%');
-                card.style.transform = `perspective(900px) translate3d(0, ${maxLift}px, 0) rotateX(${rotateX}) rotateY(${rotateY}) scale(1.012)`;
+                const scale = card.matches('.service-card-hover') ? '1.006' : '1.012';
+                card.style.transform = `perspective(900px) translate3d(0, ${maxLift}px, 0) rotateX(${rotateX}) rotateY(${rotateY}) scale(${scale})`;
             }
 
             card.addEventListener('pointerenter', () => {

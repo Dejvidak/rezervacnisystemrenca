@@ -1871,53 +1871,61 @@ $referenceCuts = [
                 </a>
             </div>
         </div>
-        <div class="mt-6 grid gap-4 md:grid-cols-2 stagger-reveal">
+        <div class="services-grid mt-6 grid gap-4 md:grid-cols-2 stagger-reveal">
             <?php foreach ($serviceEntries as $entry): ?>
                 <?php
                 $serviceName = $entry['name'];
                 $service = $entry['data'];
                 $isFeatured = !empty($service['featured']);
                 ?>
-                <article class="service-card-hover group relative overflow-hidden rounded-2xl border <?= $isFeatured ? 'border-[var(--accent)] bg-[linear-gradient(135deg,rgba(0,0,0,0.98),rgba(35,35,35,0.94))] text-[color:var(--cream)] shadow-xl' : 'border-[var(--line)] bg-[rgba(31,29,25,0.82)] text-[color:var(--cream)] shadow-sm' ?>">
-                    <div class="absolute inset-x-0 top-0 h-1 <?= $isFeatured ? 'bg-[linear-gradient(90deg,var(--gold),var(--gold-soft))]' : 'bg-[linear-gradient(90deg,var(--accent),rgba(17,17,17,0.12))]' ?>"></div>
-                    <div class="p-5 sm:p-6">
-                        <div class="flex flex-col items-start gap-4">
-                            <div class="w-full">
-                                <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                                    <div>
-                                        <span class="inline-flex rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] <?= $isFeatured ? 'border-[rgba(218,218,213,0.32)] bg-[rgba(218,218,213,0.12)] text-[color:var(--gold-soft)]' : 'border-[var(--line)] bg-[var(--field)] text-[color:var(--muted-strong)]' ?>">
-                                            <?= htmlspecialchars((string) ($service['badge'] ?? 'Služba'), ENT_QUOTES, 'UTF-8') ?>
-                                        </span>
-                                        <h3 class="mt-4 text-xl font-bold"><?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?></h3>
-                                    </div>
-                                    <div class="rounded-2xl border px-4 py-3 text-left <?= $isFeatured ? 'border-[rgba(218,218,213,0.18)] bg-[rgba(255,255,255,0.06)] text-[color:var(--cream)]' : 'border-[var(--line)] bg-[rgba(31,29,25,0.82)] text-[color:var(--cream)]' ?>">
-                                        <p class="text-[11px] font-bold uppercase tracking-[0.18em] <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--muted-strong)]' ?>">Od</p>
-                                        <p class="mt-1 text-xl font-bold <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--gold)]' ?>"><?= htmlspecialchars((string) ($service['price_label'] ?? ''), ENT_QUOTES, 'UTF-8') ?></p>
-                                    </div>
+                <article class="service-card service-card-hover group <?= $isFeatured ? 'service-card--featured' : '' ?>">
+                    <div class="service-card__accent" aria-hidden="true"></div>
+                    <div class="service-card__halo" aria-hidden="true"></div>
+                    <div class="service-card__body">
+                        <div class="service-card__main">
+                            <div class="service-card__top">
+                                <div class="service-card__heading">
+                                    <span class="service-card__badge">
+                                        <?= htmlspecialchars((string) ($service['badge'] ?? 'Služba'), ENT_QUOTES, 'UTF-8') ?>
+                                    </span>
+                                    <h3 class="service-card__title"><?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?></h3>
                                 </div>
-                                <p class="mt-2 max-w-md text-sm leading-6 <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">
+                                <div class="service-card__price">
+                                    <p>Od</p>
+                                    <strong><?= htmlspecialchars((string) ($service['price_label'] ?? ''), ENT_QUOTES, 'UTF-8') ?></strong>
+                                </div>
+                            </div>
+
+                            <div class="service-card__content">
+                                <p class="service-card__description">
                                     <?= htmlspecialchars((string) ($service['description'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
                                 </p>
-                                <p class="mt-3 max-w-md text-sm leading-6 <?= $isFeatured ? 'text-[color:var(--cream-soft)]' : 'text-[color:var(--muted)]' ?>">
+                                <p class="service-card__copy">
                                     <?= htmlspecialchars((string) ($service['service_copy'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
                                 </p>
-                                <?php if (!empty($service['meta'])): ?>
-                                    <p class="mt-3 inline-flex rounded-full border px-3 py-1.5 text-xs font-semibold <?= $isFeatured ? 'border-[rgba(218,218,213,0.18)] bg-[rgba(255,255,255,0.05)] text-[color:var(--cream-soft)]' : 'border-[var(--line)] bg-[var(--field)] text-[color:var(--muted)]' ?>">
-                                        <?= htmlspecialchars((string) $service['meta'], ENT_QUOTES, 'UTF-8') ?>
-                                    </p>
-                                <?php endif; ?>
                             </div>
+
+                            <?php if (!empty($service['meta'])): ?>
+                                <p class="service-card__meta">
+                                    <?= htmlspecialchars((string) $service['meta'], ENT_QUOTES, 'UTF-8') ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
-                        <div class="mt-5 flex flex-col items-start gap-3 border-t pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between <?= $isFeatured ? 'border-[rgba(218,218,213,0.18)]' : 'border-[var(--line-soft)]' ?>">
-                            <p class="text-sm font-semibold <?= $isFeatured ? 'text-[color:var(--gold-soft)]' : 'text-[color:var(--gold)]' ?>">
+
+                        <div class="service-card__footer">
+                            <p class="service-card__duration">
+                                <span aria-hidden="true"></span>
                                 cca <?= htmlspecialchars((string) $service['duration'], ENT_QUOTES, 'UTF-8') ?> minut
                             </p>
                             <a
                                 href="rezervace.php?service=<?= rawurlencode($serviceName) ?>"
                                 data-book-service="<?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?>"
-                                class="inline-flex items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[var(--gold)] <?= $isFeatured ? 'border-[rgba(216,191,122,0.28)] bg-[rgba(255,255,255,0.08)] text-[color:var(--gold-soft)] hover:-translate-y-0.5 hover:border-[rgba(216,191,122,0.5)] hover:bg-[rgba(216,191,122,0.18)] hover:text-[color:var(--cream)]' : 'border-[rgba(216,191,122,0.28)] bg-[rgba(216,191,122,0.16)] text-[color:var(--gold-soft)] shadow-sm hover:-translate-y-0.5 hover:border-[rgba(216,191,122,0.5)] hover:bg-[rgba(216,191,122,0.24)] hover:text-[color:var(--cream)]' ?>"
+                                class="service-card__button focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
                             >
-                                Vybrat a rezervovat
+                                <span>Vybrat a rezervovat</span>
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
                             </a>
                         </div>
                     </div>
