@@ -6,6 +6,21 @@
     'use strict';
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const prefersFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const motionCardSelector = [
+        '.glow-card',
+        '.service-card-hover',
+        '.lift-card',
+        '.about-card',
+        '.reference-card',
+        '.price-stat',
+        '.booking-info-box',
+        '.booking-choice-card',
+        '.booking-date-card',
+        '.booking-time-card',
+        '.booking-summary-card',
+        '.reservation-result__box',
+    ].join(',');
 
     /* ── Scroll progress bar ── */
     function initScrollProgress() {
@@ -21,6 +36,32 @@
 
         window.addEventListener('scroll', update, { passive: true });
         update();
+    }
+
+    /* ── Consistent native smooth anchor scroll ── */
+    function initSmoothScroll() {
+        const headerOffset = 84;
+
+        document.addEventListener('click', event => {
+            const link = event.target.closest?.('a[href^="#"], a[href*=".php#"]');
+            if (!link) return;
+
+            const href = link.getAttribute('href') || '';
+            const hash = href.includes('#') ? href.slice(href.indexOf('#')) : href;
+            if (!hash || hash === '#') return;
+
+            const isSamePage = !href.includes('.php') || href.split('#')[0] === window.location.pathname.split('/').pop();
+            const target = isSamePage ? document.querySelector(hash) : null;
+            if (!target) return;
+
+            event.preventDefault();
+            const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+            window.scrollTo({
+                top: Math.max(0, top),
+                behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
+            });
+            history.pushState(null, '', hash);
+        });
     }
 
     /* ── Enhanced Intersection Observer for reveals ── */
@@ -318,6 +359,103 @@
         });
     }
 
+    /* ── Pointer tilt for cards and booking choices ── */
+    function initCardTilt(root = document) {
+        if (prefersReducedMotion.matches || !prefersFinePointer.matches) return;
+
+        const cards = Array.from(root.querySelectorAll?.(motionCardSelector) || []);
+        cards.forEach(card => {
+            if (card.dataset.tiltReady === 'true' || card.closest('.gallery-lightbox')) return;
+
+            card.dataset.tiltReady = 'true';
+            card.classList.add('tilt-card');
+
+            let bounds = null;
+            let raf = 0;
+            const maxTilt = card.matches('.booking-choice-card, .booking-date-card, .booking-time-card') ? 4.5 : 7;
+            const maxLift = card.matches('.booking-choice-card, .booking-date-card, .booking-time-card') ? -3 : -6;
+            const resetTransform = 'perspective(900px) translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) scale(1)';
+
+            function update(event) {
+                raf = 0;
+                if (!bounds) bounds = card.getBoundingClientRect();
+                const localX = event.clientX - bounds.left;
+                const localY = event.clientY - bounds.top;
+                const pctX = Math.max(0, Math.min(1, localX / bounds.width));
+                const pctY = Math.max(0, Math.min(1, localY / bounds.height));
+                const rotateY = ((pctX - 0.5) * maxTilt * 2).toFixed(2) + 'deg';
+                const rotateX = ((0.5 - pctY) * maxTilt * 2).toFixed(2) + 'deg';
+
+                card.style.setProperty('--mouse-x', (pctX * 100).toFixed(1) + '%');
+                card.style.setProperty('--mouse-y', (pctY * 100).toFixed(1) + '%');
+                card.style.transform = `perspective(900px) translate3d(0, ${maxLift}px, 0) rotateX(${rotateX}) rotateY(${rotateY}) scale(1.012)`;
+            }
+
+            card.addEventListener('pointerenter', () => {
+                bounds = card.getBoundingClientRect();
+                card.classList.add('is-tilting');
+                card.style.transition = 'transform 90ms linear, box-shadow 260ms ease, border-color 260ms ease, background 260ms ease';
+            });
+
+            card.addEventListener('pointermove', event => {
+                if (card.matches(':disabled, .is-unavailable, .is-closed, .is-loading')) return;
+                if (!raf) {
+                    raf = requestAnimationFrame(() => update(event));
+                }
+            }, { passive: true });
+
+            card.addEventListener('pointerleave', () => {
+                bounds = null;
+                card.classList.remove('is-tilting');
+                card.style.transition = 'transform 360ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 260ms ease, border-color 260ms ease, background 260ms ease';
+                card.style.transform = resetTransform;
+                window.setTimeout(() => {
+                    if (!card.classList.contains('is-tilting')) {
+                        card.style.transform = '';
+                        card.style.transition = '';
+                    }
+                }, 380);
+            });
+        });
+    }
+
+    function observeDynamicMotionCards() {
+        if (prefersReducedMotion.matches || !prefersFinePointer.matches || !window.MutationObserver) return;
+
+        const observer = new MutationObserver(mutations => {
+            mutations.forEach(mutation => {
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        initCardTilt(node);
+                        if (node.matches?.(motionCardSelector)) {
+                            initCardTilt(node.parentElement || document);
+                        }
+                    }
+                });
+            });
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    function initBookingStepMotion() {
+        window.animateBookingStepChange = function (step) {
+            if (prefersReducedMotion.matches || !step) return;
+
+            Array.from(step.children).forEach((child, index) => {
+                child.animate([
+                    { opacity: 0, transform: 'translate3d(0, 16px, 0)' },
+                    { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+                ], {
+                    duration: 440,
+                    delay: index * 45,
+                    easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                    fill: 'both',
+                });
+            });
+        };
+    }
+
     /* ── Parallax on hero image (enhanced) ── */
     function initHeroParallax() {
         const hero = document.querySelector('.homepage-hero');
@@ -376,15 +514,19 @@
     /* ── Init all ── */
     function init() {
         initScrollProgress();
+        initSmoothScroll();
         initScrollReveals();
         initTextCascades();
         initRipple();
         initNavHighlight();
         initCounters();
         initCardGlow();
+        initCardTilt();
+        observeDynamicMotionCards();
         initHeroParallax();
         initFormAnimations();
         initAmbientGlows();
+        initBookingStepMotion();
     }
 
     if (document.readyState === 'loading') {

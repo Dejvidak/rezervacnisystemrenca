@@ -1424,6 +1424,7 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
         bookingNextButton.classList.toggle('hidden', currentStep === bookingSteps.length - 1);
         bookingSubmitButton.classList.toggle('hidden', currentStep !== bookingSteps.length - 1);
         updateSummary();
+        window.animateBookingStepChange?.(bookingSteps[currentStep]);
 
         if (shouldScroll) {
             bookingForm.scrollIntoView({

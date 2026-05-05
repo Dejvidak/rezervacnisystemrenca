@@ -2,6 +2,10 @@
    HAIR BY RENENEME — Modern Animation & Design System
    ============================================================ */
 
+html {
+    scroll-behavior: smooth;
+}
+
 /* ── Grain texture overlay ── */
 body::before {
     content: "";
@@ -502,6 +506,73 @@ body::before {
     border-color: rgba(216, 191, 122, 0.22) !important;
 }
 
+/* ── Pointer-reactive card tilt ── */
+.tilt-card {
+    --tilt-lift: 0px;
+    --tilt-rotate-x: 0deg;
+    --tilt-rotate-y: 0deg;
+    --tilt-scale: 1;
+    --tilt-glow-x: 50%;
+    --tilt-glow-y: 50%;
+    position: relative;
+    transform:
+        perspective(900px)
+        translate3d(0, var(--tilt-lift), 0)
+        rotateX(var(--tilt-rotate-x))
+        rotateY(var(--tilt-rotate-y))
+        scale(var(--tilt-scale));
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.tilt-card.glow-card,
+.tilt-card.service-card-hover,
+.tilt-card.lift-card,
+.tilt-card.about-card,
+.tilt-card.reference-card,
+.tilt-card.price-stat,
+.tilt-card.booking-info-box,
+.tilt-card.booking-choice-card,
+.tilt-card.booking-date-card,
+.tilt-card.booking-time-card,
+.tilt-card.booking-summary-card,
+.tilt-card.reservation-result__box {
+    transition:
+        transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 260ms ease,
+        border-color 260ms ease,
+        background 260ms ease;
+}
+
+.tilt-card.glow-card:hover,
+.tilt-card.service-card-hover:hover,
+.tilt-card.lift-card:hover,
+.tilt-card.about-card:hover,
+.tilt-card.reference-card:hover,
+.tilt-card.price-stat:hover,
+.tilt-card.booking-info-box:hover,
+.tilt-card.booking-choice-card:hover,
+.tilt-card.booking-date-card:hover,
+.tilt-card.booking-time-card:hover,
+.tilt-card.booking-summary-card:hover,
+.tilt-card.reservation-result__box:hover {
+    transform:
+        perspective(900px)
+        translate3d(0, var(--tilt-lift), 0)
+        rotateX(var(--tilt-rotate-x))
+        rotateY(var(--tilt-rotate-y))
+        scale(var(--tilt-scale));
+}
+
+.tilt-card.booking-date-card.is-closed,
+.tilt-card.booking-date-card.is-loading,
+.tilt-card.booking-time-card.is-unavailable {
+    --tilt-lift: 0px !important;
+    --tilt-rotate-x: 0deg !important;
+    --tilt-rotate-y: 0deg !important;
+    --tilt-scale: 1 !important;
+}
+
 /* ── Footer link hover ── */
 footer a {
     transition: color 200ms ease, transform 200ms ease;
@@ -562,6 +633,7 @@ footer a:hover {
     .about-card,
     .reference-card,
     .service-card-hover,
+    .tilt-card,
     .text-cascade > .text-cascade-item,
     .homepage-hero__title-line,
     .ripple-btn .ripple-wave,
@@ -588,5 +660,9 @@ footer a:hover {
 
     #scrollProgress {
         display: none;
+    }
+
+    html {
+        scroll-behavior: auto;
     }
 }
