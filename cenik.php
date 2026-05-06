@@ -49,22 +49,23 @@ $pageSchema = app_public_business_schema('cenik.php', [
             --field: #171613;
             --cream: #F7F3EA;
             --cream-soft: #DCD3C2;
-            --accent: #C8AD63;
-            --accent-dark: #A98A42;
-            --gold: #D8BF7A;
-            --gold-soft: #F0DFA9;
+            --accent: #D4AF3C;
+            --accent-dark: #A96612;
+            --gold: #E0A936;
+            --gold-soft: #F6D487;
+            --accent-contrast: #F7F3EA;
         }
 
         .price-stat {
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(216, 191, 122, 0.24);
+            border: 1px solid rgba(224, 169, 54, 0.16);
             background: linear-gradient(180deg, rgba(31, 29, 25, 0.92), rgba(19, 18, 16, 0.92));
             box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18);
         }
 
         .site-header {
-            border-color: rgba(216, 191, 122, 0.18);
+            border-color: rgba(224, 169, 54, 0.18);
             background: linear-gradient(180deg, rgba(36, 34, 30, 0.96), rgba(20, 19, 17, 0.94));
             backdrop-filter: blur(14px);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
@@ -72,24 +73,24 @@ $pageSchema = app_public_business_schema('cenik.php', [
         }
 
         .site-header.is-scrolled {
-            border-color: rgba(216, 191, 122, 0.28);
+            border-color: rgba(224, 169, 54, 0.28);
             background: linear-gradient(180deg, rgba(43, 40, 34, 0.9), rgba(13, 13, 11, 0.88));
             backdrop-filter: blur(18px);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(216, 191, 122, 0.1);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(224, 169, 54, 0.1);
         }
 
         .price-stat::before {
             position: absolute;
             inset: 0 auto 0 0;
-            width: 4px;
-            background: linear-gradient(180deg, var(--gold-soft), var(--accent));
+            width: 3px;
+            background: linear-gradient(180deg, var(--gold), var(--accent));
             content: "";
         }
 
         .price-badge {
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(216, 191, 122, 0.26);
+            border: 1px solid rgba(224, 169, 54, 0.16);
             background: linear-gradient(180deg, rgba(31, 29, 25, 0.94), rgba(19, 18, 16, 0.94));
             box-shadow: 0 14px 26px rgba(0, 0, 0, 0.18);
         }
@@ -98,13 +99,13 @@ $pageSchema = app_public_business_schema('cenik.php', [
             position: absolute;
             inset: 0 0 auto;
             height: 4px;
-            background: linear-gradient(90deg, var(--gold-soft), var(--accent));
+            background: linear-gradient(90deg, var(--gold), var(--accent));
             content: "";
         }
 
         .price-badge--featured {
-            border-color: rgba(216, 191, 122, 0.48);
-            background: linear-gradient(180deg, rgba(216, 191, 122, 0.18), rgba(255, 255, 255, 0.06));
+            border-color: rgba(224, 169, 54, 0.32);
+            background: linear-gradient(180deg, rgba(224, 169, 54, 0.1), rgba(255, 255, 255, 0.045));
             box-shadow: 0 16px 28px rgba(0, 0, 0, 0.18);
         }
 
@@ -159,7 +160,7 @@ $pageSchema = app_public_business_schema('cenik.php', [
             </svg>
         </button>
     </div>
-    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(216,191,122,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
+    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(224,169,54,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
         <a href="index.php#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
         <a href="index.php#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
         <a href="references.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
@@ -189,10 +190,10 @@ $pageSchema = app_public_business_schema('cenik.php', [
                 V klidu si projdi všechny varianty, porovnej si cenu i délku služby a pak můžeš rovnou pokračovat k rezervaci bez dalšího hledání.
             </p>
             <div class="mt-6 flex flex-col gap-3 sm:flex-row">
-                <a href="index.php" class="inline-flex items-center justify-center rounded-lg border border-[rgba(216,191,122,0.28)] bg-[rgba(31,29,25,0.72)] px-5 py-3 text-sm font-semibold text-[color:var(--cream-soft)] shadow-sm transition hover:-translate-y-0.5 hover:border-[var(--gold)] hover:bg-[rgba(216,191,122,0.1)] hover:text-[color:var(--gold-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+                <a href="index.php" class="inline-flex items-center justify-center rounded-lg border border-[rgba(224,169,54,0.28)] bg-[rgba(31,29,25,0.72)] px-5 py-3 text-sm font-semibold text-[color:var(--cream-soft)] shadow-sm transition hover:-translate-y-0.5 hover:border-[var(--gold)] hover:bg-[rgba(224,169,54,0.1)] hover:text-[color:var(--gold-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                     Na hlavní stránku
                 </a>
-                <a href="rezervace.php" class="inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[#080807] shadow-md shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[var(--gold)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
+                <a href="rezervace.php" class="inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[color:var(--cream)] shadow-md shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[var(--gold)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                     Přejít na rezervaci
                 </a>
             </div>

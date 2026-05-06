@@ -22,6 +22,21 @@
         '.reservation-result__box',
     ].join(',');
 
+    /* ── Homepage hero load animation ── */
+    function triggerHeroLoadAnimation() {
+        if (!document.querySelector('.homepage-hero')) {
+            document.body.classList.add('is-loaded');
+            return;
+        }
+
+        document.body.classList.remove('is-loaded');
+        // Force a fresh animation timeline on hard refresh, normal navigation, and bfcache restore.
+        void document.body.offsetWidth;
+        requestAnimationFrame(() => {
+            document.body.classList.add('is-loaded');
+        });
+    }
+
     /* ── Scroll progress bar ── */
     function initScrollProgress() {
         const bar = document.getElementById('scrollProgress');
@@ -663,6 +678,7 @@
 
     /* ── Init all ── */
     function init() {
+        triggerHeroLoadAnimation();
         initScrollProgress();
         initSmoothScroll();
         initScrollReveals();
@@ -686,4 +702,10 @@
     } else {
         init();
     }
+
+    window.addEventListener('pageshow', event => {
+        if (event.persisted) {
+            triggerHeroLoadAnimation();
+        }
+    });
 })();

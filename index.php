@@ -149,10 +149,11 @@ $referenceCuts = [
             --field: #171613;
             --field-border: #5B554B;
             --field-text: #F7F3EA;
-            --accent: #C8AD63;
-            --accent-dark: #A98A42;
-            --gold: #D8BF7A;
-            --gold-soft: #F0DFA9;
+            --accent: #D4AF3C;
+            --accent-dark: #A96612;
+            --gold: #E0A936;
+            --gold-soft: #F6D487;
+            --accent-contrast: #F7F3EA;
             --shadow-soft: 0 20px 44px rgba(0, 0, 0, 0.28);
             --shadow-strong: 0 30px 70px rgba(0, 0, 0, 0.46);
         }
@@ -177,7 +178,7 @@ $referenceCuts = [
             position: fixed;
             inset: 0 0 auto 0;
             z-index: 50;
-            border-color: rgba(216, 191, 122, 0.18);
+            border-color: rgba(224, 169, 54, 0.18);
             background: linear-gradient(180deg, rgba(36, 34, 30, 0.96), rgba(20, 19, 17, 0.94));
             backdrop-filter: blur(14px);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
@@ -185,10 +186,10 @@ $referenceCuts = [
         }
 
         .site-header.is-scrolled {
-            border-color: rgba(216, 191, 122, 0.28);
+            border-color: rgba(224, 169, 54, 0.28);
             background: linear-gradient(180deg, rgba(43, 40, 34, 0.9), rgba(13, 13, 11, 0.88));
             backdrop-filter: blur(18px);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(216, 191, 122, 0.1);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(224, 169, 54, 0.1);
         }
 
         @media (max-width: 1023px) {
@@ -217,18 +218,18 @@ $referenceCuts = [
             justify-content: center;
             gap: 0.55rem;
             border-radius: 0.9rem;
-            background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+            background: linear-gradient(180deg, #B87517, #7A3F08);
             padding: 0.9rem 1.35rem;
-            color: var(--cream);
+            color: var(--accent-contrast);
             font-size: 0.95rem;
             font-weight: 700;
-            box-shadow: 0 14px 28px rgba(200, 173, 99, 0.2);
+            box-shadow: 0 14px 28px rgba(212, 175, 60, 0.18);
             transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease, background 220ms ease;
         }
 
         .ui-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 18px 34px rgba(200, 173, 99, 0.26);
+            box-shadow: 0 18px 34px rgba(212, 175, 60, 0.26);
             filter: saturate(1.04);
         }
 
@@ -237,7 +238,7 @@ $referenceCuts = [
             align-items: center;
             justify-content: center;
             gap: 0.55rem;
-            border: 1px solid rgba(216, 191, 122, 0.28);
+            border: 1px solid rgba(224, 169, 54, 0.28);
             border-radius: 0.9rem;
             background: rgba(31, 29, 25, 0.78);
             padding: 0.9rem 1.35rem;
@@ -250,8 +251,8 @@ $referenceCuts = [
 
         .ui-button-secondary:hover {
             transform: translateY(-2px);
-            border-color: rgba(216, 191, 122, 0.5);
-            background: rgba(216, 191, 122, 0.12);
+            border-color: rgba(224, 169, 54, 0.5);
+            background: rgba(224, 169, 54, 0.12);
             color: var(--gold-soft);
             box-shadow: 0 16px 28px rgba(0, 0, 0, 0.2);
         }
@@ -259,7 +260,7 @@ $referenceCuts = [
         .price-stat {
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(216, 191, 122, 0.24);
+            border: 1px solid rgba(224, 169, 54, 0.16);
             background: linear-gradient(180deg, rgba(31, 29, 25, 0.92), rgba(19, 18, 16, 0.92));
             box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18);
         }
@@ -267,15 +268,15 @@ $referenceCuts = [
         .price-stat::before {
             position: absolute;
             inset: 0 auto 0 0;
-            width: 4px;
-            background: linear-gradient(180deg, var(--gold-soft), var(--accent));
+            width: 3px;
+            background: linear-gradient(180deg, var(--gold), var(--accent));
             content: "";
         }
 
         .price-badge {
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(216, 191, 122, 0.26);
+            border: 1px solid rgba(224, 169, 54, 0.16);
             background: linear-gradient(180deg, rgba(31, 29, 25, 0.94), rgba(19, 18, 16, 0.94));
             box-shadow: 0 14px 26px rgba(0, 0, 0, 0.18);
         }
@@ -284,13 +285,13 @@ $referenceCuts = [
             position: absolute;
             inset: 0 0 auto;
             height: 4px;
-            background: linear-gradient(90deg, var(--gold-soft), var(--accent));
+            background: linear-gradient(90deg, var(--gold), var(--accent));
             content: "";
         }
 
         .price-badge--featured {
-            border-color: rgba(216, 191, 122, 0.48);
-            background: linear-gradient(180deg, rgba(216, 191, 122, 0.18), rgba(255, 255, 255, 0.06));
+            border-color: rgba(224, 169, 54, 0.32);
+            background: linear-gradient(180deg, rgba(224, 169, 54, 0.1), rgba(255, 255, 255, 0.045));
             box-shadow: 0 16px 28px rgba(0, 0, 0, 0.18);
         }
 
@@ -394,7 +395,7 @@ $referenceCuts = [
             inset: 0;
             background:
                 linear-gradient(180deg, rgba(8, 8, 7, 0.05), rgba(8, 8, 7, 0.44)),
-                radial-gradient(circle at 78% 18%, rgba(216, 191, 122, 0.18), transparent 36%);
+                radial-gradient(circle at 78% 18%, rgba(224, 169, 54, 0.18), transparent 36%);
             content: "";
             pointer-events: none;
         }
@@ -431,8 +432,8 @@ $referenceCuts = [
         .reference-card__eyebrow {
             display: inline-flex;
             border-radius: 999px;
-            border: 1px solid rgba(216, 191, 122, 0.22);
-            background: rgba(216, 191, 122, 0.1);
+            border: 1px solid rgba(224, 169, 54, 0.22);
+            background: rgba(224, 169, 54, 0.1);
             padding: 0.3rem 0.62rem;
             font-size: 0.62rem;
             font-weight: 800;
@@ -460,8 +461,8 @@ $referenceCuts = [
             align-items: center;
             justify-content: center;
             border-radius: 999px;
-            border: 1px solid rgba(216, 191, 122, 0.28);
-            background: rgba(216, 191, 122, 0.1);
+            border: 1px solid rgba(224, 169, 54, 0.28);
+            background: rgba(224, 169, 54, 0.1);
             color: var(--accent-dark);
             transition: transform 220ms ease, background 220ms ease, border-color 220ms ease;
         }
@@ -625,6 +626,9 @@ $referenceCuts = [
 
         .homepage-hero__eyebrow {
             color: var(--gold-soft);
+            opacity: 0;
+            transform: translate3d(0, 30px, 0);
+            will-change: opacity, transform;
         }
 
         .homepage-hero__title {
@@ -642,9 +646,9 @@ $referenceCuts = [
         .homepage-hero__title-line {
             display: block;
             padding-block: 0.02em;
-            opacity: 1;
-            transform: none;
-            transition: none;
+            opacity: 0;
+            transform: translate3d(0, 30px, 0);
+            will-change: opacity, transform;
         }
 
         .homepage-hero__title-accent {
@@ -654,6 +658,9 @@ $referenceCuts = [
         .homepage-hero__intro {
             max-width: 42rem;
             color: rgba(247, 243, 234, 0.86);
+            opacity: 0;
+            transform: translate3d(0, 30px, 0);
+            will-change: opacity, transform;
         }
 
         .hero-info-grid {
@@ -666,13 +673,22 @@ $referenceCuts = [
             display: flex;
             align-items: flex-start;
             gap: 0.75rem;
-            border: 1px solid rgba(216, 191, 122, 0.22);
+            border: 1px solid rgba(224, 169, 54, 0.22);
             border-radius: 0.9rem;
             background: rgba(8, 8, 7, 0.5);
             padding: 0.8rem 0.9rem;
             color: var(--cream-soft);
             box-shadow: 0 16px 34px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translate3d(0, 30px, 0);
+            will-change: opacity, transform;
+        }
+
+        .homepage-hero__copy > .mt-5 > a {
+            opacity: 0;
+            transform: translate3d(0, 30px, 0);
+            will-change: opacity, transform;
         }
 
         .hero-info-pill__icon {
@@ -683,7 +699,7 @@ $referenceCuts = [
             width: 2rem;
             height: 2rem;
             border-radius: 0.7rem;
-            background: rgba(216, 191, 122, 0.13);
+            background: rgba(224, 169, 54, 0.13);
             color: var(--gold-soft);
         }
 
@@ -705,7 +721,6 @@ $referenceCuts = [
             backdrop-filter: blur(16px);
             opacity: 1;
             transform: none;
-            animation: none;
         }
 
         .homepage-hero__card summary {
@@ -732,14 +747,14 @@ $referenceCuts = [
             width: 2.1rem;
             height: 2.1rem;
             border-radius: 0.7rem;
-            background: rgba(216, 191, 122, 0.12);
+            background: rgba(224, 169, 54, 0.12);
             color: var(--gold-soft);
             transition: transform 220ms ease, background 220ms ease;
         }
 
         .homepage-hero__card[open] .homepage-hero__card-icon {
             transform: rotate(45deg);
-            background: rgba(216, 191, 122, 0.2);
+            background: rgba(224, 169, 54, 0.2);
         }
 
         .homepage-hero__card-body {
@@ -771,6 +786,46 @@ $referenceCuts = [
             content: "";
         }
 
+        body.is-loaded .homepage-hero__eyebrow {
+            animation: heroItemRise 0.6s ease-out 0s both;
+        }
+
+        body.is-loaded .homepage-hero__title-line {
+            animation: heroItemRise 0.6s ease-out calc(0.15s + var(--hero-title-index, 0) * 0.15s) both;
+        }
+
+        body.is-loaded .homepage-hero__intro {
+            animation: heroItemRise 0.6s ease-out 0.75s both;
+        }
+
+        body.is-loaded .hero-info-pill:nth-child(1) {
+            animation: heroItemRise 0.6s ease-out 0.9s both;
+        }
+
+        body.is-loaded .hero-info-pill:nth-child(2) {
+            animation: heroItemRise 0.6s ease-out 1.05s both;
+        }
+
+        body.is-loaded .homepage-hero__copy > .mt-5 > a:nth-child(1) {
+            animation: heroItemRise 0.6s ease-out 1.2s both;
+        }
+
+        body.is-loaded .homepage-hero__copy > .mt-5 > a:nth-child(2) {
+            animation: heroItemRise 0.6s ease-out 1.35s both;
+        }
+
+        @keyframes heroItemRise {
+            0% {
+                opacity: 0;
+                transform: translate3d(0, 30px, 0);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
         @keyframes heroCopyDrop {
             to {
                 opacity: 1;
@@ -783,9 +838,9 @@ $referenceCuts = [
             align-items: stretch;
             justify-content: space-between;
             gap: 1rem;
-            border: 1px solid rgba(216, 191, 122, 0.38);
+            border: 1px solid rgba(224, 169, 54, 0.38);
             border-radius: 1rem;
-            background: linear-gradient(135deg, rgba(216, 191, 122, 0.12), rgba(31, 29, 25, 0.94));
+            background: linear-gradient(135deg, rgba(224, 169, 54, 0.12), rgba(31, 29, 25, 0.94));
             padding: 1rem;
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 18px 34px rgba(0, 0, 0, 0.16);
         }
@@ -800,7 +855,7 @@ $referenceCuts = [
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(216, 191, 122, 0.28);
+            border: 1px solid rgba(224, 169, 54, 0.28);
             border-radius: 0.85rem;
             background: rgba(13, 13, 11, 0.42);
             padding: 0.85rem 0.75rem;
@@ -991,7 +1046,7 @@ $referenceCuts = [
         }
 
         .booking-wizard-header {
-            border-bottom: 1px solid rgba(216, 191, 122, 0.14);
+            border-bottom: 1px solid rgba(224, 169, 54, 0.14);
             padding-bottom: 1rem;
         }
 
@@ -1004,7 +1059,7 @@ $referenceCuts = [
         .booking-stepper__item {
             position: relative;
             min-width: 0;
-            border: 1px solid rgba(216, 191, 122, 0.16);
+            border: 1px solid rgba(224, 169, 54, 0.16);
             border-radius: 0.75rem;
             background: rgba(255, 255, 255, 0.04);
             padding: 0.55rem 0.55rem 0.5rem;
@@ -1014,14 +1069,14 @@ $referenceCuts = [
         }
 
         .booking-stepper__item.is-active {
-            border-color: rgba(216, 191, 122, 0.72);
-            background: rgba(216, 191, 122, 0.13);
+            border-color: rgba(224, 169, 54, 0.72);
+            background: rgba(224, 169, 54, 0.13);
             color: var(--cream);
             transform: translateY(-1px);
         }
 
         .booking-stepper__item.is-complete {
-            border-color: rgba(216, 191, 122, 0.36);
+            border-color: rgba(224, 169, 54, 0.36);
             color: var(--gold-soft);
         }
 
@@ -1032,7 +1087,7 @@ $referenceCuts = [
             width: 1.35rem;
             height: 1.35rem;
             border-radius: 999px;
-            background: rgba(216, 191, 122, 0.14);
+            background: rgba(224, 169, 54, 0.14);
             color: var(--gold-soft);
             font-size: 0.72rem;
             font-weight: 900;
@@ -1089,7 +1144,7 @@ $referenceCuts = [
             display: flex;
             flex-direction: column-reverse;
             gap: 0.75rem;
-            border-top: 1px solid rgba(216, 191, 122, 0.14);
+            border-top: 1px solid rgba(224, 169, 54, 0.14);
             padding-top: 1rem;
         }
 
@@ -1111,22 +1166,22 @@ $referenceCuts = [
         }
 
         .booking-nav-button--ghost {
-            border: 1px solid rgba(216, 191, 122, 0.22);
+            border: 1px solid rgba(224, 169, 54, 0.22);
             color: var(--cream);
             background: rgba(255, 255, 255, 0.04);
         }
 
         .booking-nav-button--ghost:hover {
-            border-color: rgba(216, 191, 122, 0.46);
+            border-color: rgba(224, 169, 54, 0.46);
             color: var(--gold-soft);
-            background: rgba(216, 191, 122, 0.08);
+            background: rgba(224, 169, 54, 0.08);
         }
 
         .booking-nav-button--primary {
-            border: 1px solid rgba(216, 191, 122, 0.56);
-            background: linear-gradient(180deg, var(--accent), var(--accent-dark));
-            color: var(--surface);
-            box-shadow: 0 14px 26px rgba(200, 173, 99, 0.18);
+            border: 1px solid rgba(224, 169, 54, 0.56);
+            background: linear-gradient(180deg, #B87517, #7A3F08);
+            color: var(--cream);
+            box-shadow: 0 14px 26px rgba(212, 175, 60, 0.18);
         }
 
         .booking-summary-grid {
@@ -1135,7 +1190,7 @@ $referenceCuts = [
         }
 
         .booking-summary-card {
-            border: 1px solid rgba(216, 191, 122, 0.16);
+            border: 1px solid rgba(224, 169, 54, 0.16);
             border-radius: 0.9rem;
             background: rgba(255, 255, 255, 0.045);
             padding: 0.85rem;
@@ -1224,7 +1279,7 @@ $referenceCuts = [
         .booking-control:focus {
             outline: none;
             border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(216, 191, 122, 0.22);
+            box-shadow: 0 0 0 3px rgba(224, 169, 54, 0.22);
         }
 
         .booking-control:disabled {
@@ -1486,7 +1541,12 @@ $referenceCuts = [
             .homepage-hero__media,
             .homepage-hero__media img,
             .homepage-hero__copy,
-            .homepage-hero__card {
+            .homepage-hero__card,
+            .homepage-hero__eyebrow,
+            .homepage-hero__title-line,
+            .homepage-hero__intro,
+            .hero-info-pill,
+            .homepage-hero__copy > .mt-5 > a {
                 animation: none;
                 opacity: 1;
                 transform: none;
@@ -1672,7 +1732,7 @@ $referenceCuts = [
             </svg>
         </button>
     </div>
-    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(216,191,122,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
+    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(224,169,54,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
         <a href="#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
         <a href="#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
         <a href="references.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
@@ -1727,7 +1787,7 @@ $referenceCuts = [
                             <strong class="mt-1 block text-sm text-[color:var(--cream)]"><?= htmlspecialchars($businessOpeningHoursLabel, ENT_QUOTES, 'UTF-8') ?></strong>
                         </span>
                     </div>
-                    <a href="<?= htmlspecialchars($businessMapUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener noreferrer" class="hero-info-pill transition hover:-translate-y-0.5 hover:border-[rgba(216,191,122,0.42)] hover:text-[color:var(--gold-soft)]">
+                    <a href="<?= htmlspecialchars($businessMapUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener noreferrer" class="hero-info-pill transition hover:-translate-y-0.5 hover:border-[rgba(224,169,54,0.42)] hover:text-[color:var(--gold-soft)]">
                         <span class="hero-info-pill__icon" aria-hidden="true">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
                                 <path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z" stroke="currentColor" stroke-width="2" />

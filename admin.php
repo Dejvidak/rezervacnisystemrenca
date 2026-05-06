@@ -375,10 +375,11 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
             --line: #302D27;
             --line-soft: #3C3831;
             --field: #171613;
-            --accent: #C8AD63;
-            --accent-dark: #A98A42;
-            --gold: #D8BF7A;
-            --gold-soft: #F0DFA9;
+            --accent: #D4AF3C;
+            --accent-dark: #A96612;
+            --gold: #E0A936;
+            --gold-soft: #F6D487;
+            --accent-contrast: #F7F3EA;
             --danger: #9E382F;
             --danger-soft: #3A211E;
             --ok: #77A56E;
@@ -395,7 +396,7 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
         .admin-shell {
             min-height: 100vh;
             background:
-                radial-gradient(circle at top left, rgba(216, 191, 122, 0.12), transparent 34rem),
+                radial-gradient(circle at top left, rgba(224, 169, 54, 0.12), transparent 34rem),
                 linear-gradient(180deg, #141310 0%, var(--page) 44%, #080807 100%) !important;
             color: var(--cream) !important;
         }
@@ -427,7 +428,7 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
 
         .admin-shell [class~="bg-[#3A2F20]"],
         .admin-shell [class~="bg-[#332A1F]"] {
-            background: linear-gradient(180deg, rgba(216, 191, 122, 0.14), rgba(31, 29, 25, 0.92)) !important;
+            background: linear-gradient(180deg, rgba(224, 169, 54, 0.14), rgba(31, 29, 25, 0.92)) !important;
         }
 
         .admin-shell [class~="bg-[#21351F]"] {
@@ -457,13 +458,13 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
 
         .admin-shell [class~="border-[#6A654E]"],
         .admin-shell [class~="border-[#3F332A]"] {
-            border-color: rgba(216, 191, 122, 0.2) !important;
+            border-color: rgba(224, 169, 54, 0.2) !important;
         }
 
         .admin-shell [class~="border-[#8A6A2F]"],
         .admin-shell [class~="border-[#D6A85E]"],
         .admin-shell [class~="border-[#735A31]"] {
-            border-color: rgba(216, 191, 122, 0.42) !important;
+            border-color: rgba(224, 169, 54, 0.42) !important;
         }
 
         .admin-shell [class~="border-[#496A45]"] {
@@ -515,7 +516,7 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
         }
 
         .admin-shell input[type="date"] {
-            border-color: rgba(216, 191, 122, 0.28) !important;
+            border-color: rgba(224, 169, 54, 0.28) !important;
             background: var(--field) !important;
             color: var(--cream) !important;
             color-scheme: dark;
@@ -523,8 +524,8 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
 
         .admin-shell input[type="date"]:focus {
             outline: none;
-            border-color: rgba(216, 191, 122, 0.62) !important;
-            box-shadow: 0 0 0 3px rgba(216, 191, 122, 0.12);
+            border-color: rgba(224, 169, 54, 0.62) !important;
+            box-shadow: 0 0 0 3px rgba(224, 169, 54, 0.12);
         }
 
         .admin-shell section,
@@ -543,7 +544,7 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
         }
 
         .admin-shell tbody tr:hover {
-            background: rgba(216, 191, 122, 0.08) !important;
+            background: rgba(224, 169, 54, 0.08) !important;
         }
 
         .admin-shell pre {

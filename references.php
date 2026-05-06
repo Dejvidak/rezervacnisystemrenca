@@ -76,10 +76,11 @@ $referenceCuts = [
             --line: #302D27;
             --cream: #F7F3EA;
             --cream-soft: #DCD3C2;
-            --accent: #C8AD63;
-            --accent-dark: #A98A42;
-            --gold: #D8BF7A;
-            --gold-soft: #F0DFA9;
+            --accent: #D4AF3C;
+            --accent-dark: #A96612;
+            --gold: #E0A936;
+            --gold-soft: #F6D487;
+            --accent-contrast: #F7F3EA;
         }
 
         .premium-surface {
@@ -90,7 +91,7 @@ $referenceCuts = [
         }
 
         .site-header {
-            border-color: rgba(216, 191, 122, 0.18);
+            border-color: rgba(224, 169, 54, 0.18);
             background: linear-gradient(180deg, rgba(36, 34, 30, 0.96), rgba(20, 19, 17, 0.94));
             backdrop-filter: blur(14px);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
@@ -98,10 +99,10 @@ $referenceCuts = [
         }
 
         .site-header.is-scrolled {
-            border-color: rgba(216, 191, 122, 0.28);
+            border-color: rgba(224, 169, 54, 0.28);
             background: linear-gradient(180deg, rgba(43, 40, 34, 0.9), rgba(13, 13, 11, 0.88));
             backdrop-filter: blur(18px);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(216, 191, 122, 0.1);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(224, 169, 54, 0.1);
         }
 
         .accent-link {
@@ -121,7 +122,7 @@ $referenceCuts = [
         .reference-pill {
             display: inline-flex;
             align-items: center;
-            border: 1px solid rgba(216, 191, 122, 0.24);
+            border: 1px solid rgba(224, 169, 54, 0.24);
             border-radius: 999px;
             background: rgba(31, 29, 25, 0.78);
             box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
@@ -130,8 +131,8 @@ $referenceCuts = [
 
         .reference-pill:hover {
             transform: translate3d(0, -2px, 0);
-            border-color: rgba(216, 191, 122, 0.48);
-            background: rgba(216, 191, 122, 0.12);
+            border-color: rgba(224, 169, 54, 0.48);
+            background: rgba(224, 169, 54, 0.12);
             box-shadow: 0 16px 32px rgba(0, 0, 0, 0.11);
             color: var(--accent-dark);
         }
@@ -226,7 +227,7 @@ $referenceCuts = [
             </svg>
         </button>
     </div>
-    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(216,191,122,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
+    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(224,169,54,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
         <a href="index.php#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
         <a href="index.php#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
         <a href="references.php" class="block rounded-lg px-3 py-3 font-semibold text-[color:var(--gold)] hover:bg-[var(--surface-soft)]">Reference</a>

@@ -32,10 +32,11 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
             --field: #171613;
             --field-border: #5B554B;
             --field-text: #F7F3EA;
-            --accent: #C8AD63;
-            --accent-dark: #A98A42;
-            --gold: #D8BF7A;
-            --gold-soft: #F0DFA9;
+            --accent: #D4AF3C;
+            --accent-dark: #A96612;
+            --gold: #E0A936;
+            --gold-soft: #F6D487;
+            --accent-contrast: #F7F3EA;
         }
 
         html,
@@ -54,7 +55,7 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
             background:
                 linear-gradient(90deg, rgba(13, 13, 11, 0.98), rgba(13, 13, 11, 0.86)),
                 url("assets/homepage-hero-wide.png") center / cover fixed,
-                radial-gradient(circle at top left, rgba(216, 191, 122, 0.12), transparent 34rem),
+                radial-gradient(circle at top left, rgba(224, 169, 54, 0.12), transparent 34rem),
                 linear-gradient(180deg, #141310 0%, var(--page) 48%, #080807 100%);
             color: var(--cream);
             font-family: Arial, Helvetica, sans-serif;
@@ -65,8 +66,8 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
             inset: 0;
             z-index: -1;
             background:
-                radial-gradient(circle at 78% 18%, rgba(216, 191, 122, 0.16), transparent 24rem),
-                radial-gradient(circle at 12% 88%, rgba(169, 138, 66, 0.14), transparent 28rem);
+                radial-gradient(circle at 78% 18%, rgba(224, 169, 54, 0.16), transparent 24rem),
+                radial-gradient(circle at 12% 88%, rgba(169, 102, 18, 0.14), transparent 28rem);
             content: "";
             pointer-events: none;
         }
@@ -121,7 +122,7 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
         }
 
         .booking-aside {
-            border: 1px solid rgba(216, 191, 122, 0.18);
+            border: 1px solid rgba(224, 169, 54, 0.18);
             border-radius: 1.25rem;
             background: linear-gradient(145deg, rgba(8, 8, 7, 0.96), rgba(36, 34, 30, 0.94));
             padding: 1.25rem;
@@ -164,7 +165,7 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
             display: grid;
             gap: 0.8rem;
             margin-top: 1.5rem;
-            border: 1px solid rgba(216, 191, 122, 0.16);
+            border: 1px solid rgba(224, 169, 54, 0.16);
             border-radius: 1rem;
             background: rgba(255, 255, 255, 0.045);
             padding: 1rem;
@@ -193,7 +194,7 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
         .booking-form-header {
             display: grid;
             gap: 1rem;
-            border-bottom: 1px solid rgba(216, 191, 122, 0.14);
+            border-bottom: 1px solid rgba(224, 169, 54, 0.14);
             padding-bottom: 1rem;
         }
 
@@ -213,7 +214,7 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
 
         .booking-stepper__item {
             min-width: 0;
-            border: 1px solid rgba(216, 191, 122, 0.16);
+            border: 1px solid rgba(224, 169, 54, 0.16);
             border-radius: 0.75rem;
             background: rgba(255, 255, 255, 0.04);
             padding: 0.55rem;
@@ -223,14 +224,14 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
         }
 
         .booking-stepper__item.is-active {
-            border-color: rgba(216, 191, 122, 0.72);
-            background: rgba(216, 191, 122, 0.13);
+            border-color: rgba(224, 169, 54, 0.72);
+            background: rgba(224, 169, 54, 0.13);
             color: var(--cream);
             transform: translateY(-1px);
         }
 
         .booking-stepper__item.is-complete {
-            border-color: rgba(216, 191, 122, 0.36);
+            border-color: rgba(224, 169, 54, 0.36);
             color: var(--gold-soft);
         }
 
@@ -241,7 +242,7 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
             width: 1.35rem;
             height: 1.35rem;
             border-radius: 999px;
-            background: rgba(216, 191, 122, 0.14);
+            background: rgba(224, 169, 54, 0.14);
             color: var(--gold-soft);
             font-size: 0.72rem;
             font-weight: 900;
@@ -349,7 +350,7 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
         .booking-textarea:focus {
             outline: none;
             border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(216, 191, 122, 0.22);
+            box-shadow: 0 0 0 3px rgba(224, 169, 54, 0.22);
         }
 
         .booking-control:disabled {
@@ -402,7 +403,7 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
 
         .selected-service-card,
         .booking-summary-card {
-            border: 1px solid rgba(216, 191, 122, 0.16);
+            border: 1px solid rgba(224, 169, 54, 0.16);
             border-radius: 0.9rem;
             background: rgba(255, 255, 255, 0.045);
             padding: 0.9rem;
@@ -450,7 +451,7 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
             display: flex;
             flex-direction: column-reverse;
             gap: 0.75rem;
-            border-top: 1px solid rgba(216, 191, 122, 0.14);
+            border-top: 1px solid rgba(224, 169, 54, 0.14);
             padding-top: 1rem;
         }
 
@@ -490,22 +491,22 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
         }
 
         .booking-button--ghost {
-            border: 1px solid rgba(216, 191, 122, 0.22);
+            border: 1px solid rgba(224, 169, 54, 0.22);
             color: var(--cream);
             background: rgba(255, 255, 255, 0.04);
         }
 
         .booking-button--ghost:hover {
-            border-color: rgba(216, 191, 122, 0.46);
+            border-color: rgba(224, 169, 54, 0.46);
             color: var(--gold-soft);
-            background: rgba(216, 191, 122, 0.08);
+            background: rgba(224, 169, 54, 0.08);
         }
 
         .booking-button--primary {
-            border: 1px solid rgba(216, 191, 122, 0.56);
-            background: linear-gradient(180deg, var(--accent), var(--accent-dark));
-            color: #080807;
-            box-shadow: 0 14px 26px rgba(200, 173, 99, 0.18);
+            border: 1px solid rgba(224, 169, 54, 0.56);
+            background: linear-gradient(180deg, #B87517, #7A3F08);
+            color: var(--cream);
+            box-shadow: 0 14px 26px rgba(212, 175, 60, 0.18);
         }
 
         .booking-button:disabled {
@@ -517,8 +518,8 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
             display: inline-block;
             width: 1rem;
             height: 1rem;
-            border: 2px solid rgba(8, 8, 7, 0.42);
-            border-top-color: #080807;
+            border: 2px solid rgba(247, 243, 234, 0.42);
+            border-top-color: var(--cream);
             border-radius: 999px;
         }
 
@@ -687,7 +688,7 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
         .booking-time-card {
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(216, 191, 122, 0.18);
+            border: 1px solid rgba(224, 169, 54, 0.18);
             border-radius: 0.95rem;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025));
             color: var(--cream);
@@ -736,7 +737,7 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
         .booking-choice-card:hover,
         .booking-date-card:hover,
         .booking-time-card:hover {
-            border-color: rgba(216, 191, 122, 0.48);
+            border-color: rgba(224, 169, 54, 0.48);
             transform: translateY(-2px);
             box-shadow: 0 16px 28px rgba(0, 0, 0, 0.2);
         }
@@ -744,9 +745,9 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
         .booking-choice-card.is-selected,
         .booking-date-card.is-selected,
         .booking-time-card.is-selected {
-            border-color: rgba(216, 191, 122, 0.78);
-            background: linear-gradient(180deg, rgba(216, 191, 122, 0.22), rgba(216, 191, 122, 0.08));
-            box-shadow: 0 16px 32px rgba(200, 173, 99, 0.14);
+            border-color: rgba(224, 169, 54, 0.78);
+            background: linear-gradient(180deg, rgba(224, 169, 54, 0.22), rgba(224, 169, 54, 0.08));
+            box-shadow: 0 16px 32px rgba(212, 175, 60, 0.14);
         }
 
         .booking-choice-card__top {
@@ -836,7 +837,7 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
         .booking-time-card.is-unavailable:hover,
         .booking-date-card.is-closed:hover,
         .booking-date-card.is-loading:hover {
-            border-color: rgba(216, 191, 122, 0.18);
+            border-color: rgba(224, 169, 54, 0.18);
             transform: none;
             box-shadow: none;
         }
@@ -849,7 +850,7 @@ $pageDescription = 'Online rezervace termínu v pánském kadeřnictví Hair By 
 
         .booking-empty-state {
             margin: 1rem 0 0;
-            border: 1px solid rgba(216, 191, 122, 0.16);
+            border: 1px solid rgba(224, 169, 54, 0.16);
             border-radius: 0.9rem;
             background: rgba(255, 255, 255, 0.04);
             padding: 1rem;
