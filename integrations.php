@@ -197,20 +197,12 @@ function app_send_reservation_customer_request_email(array $reservation): array
         'Hair By ReneNeme',
     ]);
 
-    $htmlBody = '<p>Dobrý den, ' . app_email_escape((string) $reservation['name']) . ',</p>'
-        . '<p>děkujeme, žádost o rezervaci jsme přijali.</p>'
-        . '<p><strong>Termín:</strong> ' . app_email_escape($dateLabel) . ' v ' . app_email_escape((string) $reservation['time']) . '<br>'
-        . '<strong>Služba:</strong> ' . app_email_escape((string) $reservation['service']) . '<br>'
-        . '<strong>Délka:</strong> cca ' . app_email_escape((string) $reservation['duration']) . ' minut</p>'
-        . '<p>Termín zatím čeká na potvrzení. Jakmile ho schválíme, pošleme vám potvrzovací e-mail.</p>'
-        . '<p>Hair By ReneNeme</p>';
-
     $result['sent'] = app_send_plain_email(
         $reservation['email'],
         'Žádost o rezervaci přijata - Hair By ReneNeme',
         $body,
         app_owner_email(),
-        $htmlBody
+        app_customer_request_email_html_body($reservation)
     );
 
     if (!$result['sent']) {
@@ -508,20 +500,20 @@ function app_owner_email_html_body(array $reservation): string
                 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px;overflow:hidden;border:1px solid #302D27;border-radius:16px;background:#171613;">
                     <tr>
                         <td style="background:#080807;padding:22px 28px;border-bottom:1px solid #302D27;color:#F7F3EA;">
-                            <div style="font-size:18px;font-weight:800;letter-spacing:-0.2px;color:#F7F3EA;">Hair By <span style="color:#E0A936;">ReneNeme</span></div>
-                            <div style="margin-top:6px;font-size:11px;font-weight:700;letter-spacing:2.6px;text-transform:uppercase;color:#E0A936;">Administrace rezervací</div>
+                            <div style="font-size:18px;font-weight:800;letter-spacing:-0.2px;color:#F7F3EA;">Hair By <span style="color:#C8922A;">ReneNeme</span></div>
+                            <div style="margin-top:6px;font-size:11px;font-weight:700;letter-spacing:2.6px;text-transform:uppercase;color:#C8922A;">Administrace rezervací</div>
                         </td>
                     </tr>
                     <tr>
                         <td style="padding:26px 28px 24px;">
-                            <div style="font-size:12px;font-weight:700;letter-spacing:2.8px;text-transform:uppercase;color:#E0A936;">Nová rezervace čeká na schválení</div>
+                            <div style="font-size:12px;font-weight:700;letter-spacing:2.8px;text-transform:uppercase;color:#C8922A;">Nová rezervace čeká na schválení</div>
                             <h1 style="margin:10px 0 0;font-size:28px;line-height:1.2;color:#F7F3EA;">' . $name . ' chce termín</h1>
                             <p style="margin:12px 0 18px;font-size:15px;line-height:1.7;color:#DCD3C2;">Zkontroluj detail rezervace a v administraci ji potvrď nebo smaž.</p>
 
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                                 <tr>
                                     <td style="padding:18px;border:1px solid #3C3831;border-radius:14px;background:#080807;">
-                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#E0A936;">Termín ke kontrole</div>
+                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C8922A;">Termín ke kontrole</div>
                                         <div style="margin-top:7px;font-size:26px;line-height:1.2;font-weight:900;color:#F7F3EA;">' . app_email_escape($displayDate) . ' v ' . $time . '</div>
                                         <div style="margin-top:4px;font-size:14px;color:#C8C1B4;">cca ' . $duration . ' minut</div>
                                     </td>
@@ -531,7 +523,7 @@ function app_owner_email_html_body(array $reservation): string
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top:14px;">
                                 <tr>
                                     <td style="padding:14px;border:1px solid #302D27;border-radius:14px;background:#1F1D19;">
-                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#E0A936;">Služba</div>
+                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C8922A;">Služba</div>
                                         <div style="margin-top:6px;font-size:18px;font-weight:800;color:#F7F3EA;">' . $service . '</div>
                                         <div style="margin-top:4px;font-size:14px;color:#C8C1B4;">Cena: ' . $price . '</div>
                                     </td>
@@ -541,11 +533,11 @@ function app_owner_email_html_body(array $reservation): string
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top:14px;">
                                 <tr>
                                     <td style="padding:18px;border:1px solid #302D27;border-radius:14px;background:#080807;color:#F7F3EA;">
-                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#E0A936;">Kontakt na zákazníka</div>
+                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C8922A;">Kontakt na zákazníka</div>
                                         <p style="margin:10px 0 0;font-size:15px;line-height:1.7;color:#DCD3C2;">
                                             Jméno: ' . $name . '<br>
-                                            Telefon: <a href="tel:' . $phoneHref . '" style="color:#F6D487;text-decoration:none;">' . $phone . '</a><br>
-                                            E-mail: <a href="mailto:' . $email . '" style="color:#F6D487;text-decoration:none;">' . $email . '</a>
+                                            Telefon: <a href="tel:' . $phoneHref . '" style="color:#D4A340;text-decoration:none;">' . $phone . '</a><br>
+                                            E-mail: <a href="mailto:' . $email . '" style="color:#D4A340;text-decoration:none;">' . $email . '</a>
                                         </p>
                                     </td>
                                 </tr>
@@ -554,17 +546,17 @@ function app_owner_email_html_body(array $reservation): string
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top:14px;">
                                 <tr>
                                     <td style="padding:14px;border:1px solid #302D27;border-radius:14px;background:#1F1D19;">
-                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#E0A936;">Poznámka</div>
+                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C8922A;">Poznámka</div>
                                         <div style="margin-top:6px;font-size:14px;line-height:1.7;color:#C8C1B4;">' . $displayNote . '</div>
                                     </td>
                                 </tr>
                             </table>
 
                             <p style="margin:18px 0 0;">
-                                <a href="' . app_email_escape($adminUrl) . '" style="display:inline-block;border-radius:12px;background:#A96612;padding:13px 18px;color:#F7F3EA;font-size:14px;font-weight:800;text-decoration:none;">Otevřít den v administraci</a>
+                                <a href="' . app_email_escape($adminUrl) . '" style="display:inline-block;border-radius:12px;background:#C8922A;padding:13px 18px;color:#ffffff;font-size:14px;font-weight:800;text-decoration:none;">Otevřít den v administraci</a>
                             </p>
                             <p style="margin:12px 0 0;font-size:13px;line-height:1.7;color:#C8C1B4;">
-                                Celá administrace: <a href="' . app_email_escape($allAdminUrl) . '" style="color:#F6D487;font-weight:700;text-decoration:underline;">' . app_email_escape($allAdminUrl) . '</a>
+                                Celá administrace: <a href="' . app_email_escape($allAdminUrl) . '" style="color:#D4A340;font-weight:700;text-decoration:underline;">' . app_email_escape($allAdminUrl) . '</a>
                             </p>
                         </td>
                     </tr>
@@ -599,6 +591,86 @@ function app_customer_email_body(array $reservation): string
     ]);
 }
 
+function app_customer_request_email_html_body(array $reservation): string
+{
+    $date = DateTime::createFromFormat('!Y-m-d', (string) $reservation['date']);
+    $displayDate = $date ? $date->format('d.m.Y') : (string) $reservation['date'];
+    $time = app_email_escape((string) $reservation['time']);
+    $service = app_email_escape((string) $reservation['service']);
+    $duration = app_email_escape((string) $reservation['duration']);
+    $price = app_email_escape(app_price_label((string) $reservation['service']));
+    $name = app_email_escape((string) $reservation['name']);
+    $mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode('Vackova 1064/39, 612 00 Brno-Královo Pole');
+
+    return '<!doctype html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Žádost o rezervaci přijata</title>
+</head>
+<body style="margin:0;background:#0D0D0B;color:#F7F3EA;font-family:Arial,Helvetica,sans-serif;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#0D0D0B;padding:24px 12px;">
+        <tr>
+            <td align="center">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px;overflow:hidden;border:1px solid #302D27;border-radius:16px;background:#171613;">
+                    <tr>
+                        <td style="background:#080807;padding:22px 28px;border-bottom:1px solid #302D27;color:#F7F3EA;">
+                            <div style="font-size:18px;font-weight:800;letter-spacing:-0.2px;color:#F7F3EA;">Hair By <span style="color:#C8922A;">ReneNeme</span></div>
+                            <div style="margin-top:6px;font-size:11px;font-weight:700;letter-spacing:2.6px;text-transform:uppercase;color:#C8922A;">Pánské kadeřnictví v Brně</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:26px 28px 24px;">
+                            <div style="font-size:12px;font-weight:700;letter-spacing:2.8px;text-transform:uppercase;color:#C8922A;">Žádost přijata</div>
+                            <h1 style="margin:10px 0 0;font-size:28px;line-height:1.2;color:#F7F3EA;">Děkujeme, ' . $name . '</h1>
+                            <p style="margin:12px 0 18px;font-size:15px;line-height:1.7;color:#DCD3C2;">Žádost o rezervaci jsme přijali. Termín teď čeká na potvrzení a jakmile ho schválíme, pošleme vám potvrzovací e-mail.</p>
+
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td style="padding:18px;border:1px solid #3C3831;border-radius:14px;background:#080807;">
+                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C8922A;">Vybraný termín</div>
+                                        <div style="margin-top:7px;font-size:26px;line-height:1.2;font-weight:900;color:#F7F3EA;">' . app_email_escape($displayDate) . ' v ' . $time . '</div>
+                                        <div style="margin-top:4px;font-size:14px;color:#C8C1B4;">cca ' . $duration . ' minut</div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top:14px;">
+                                <tr>
+                                    <td style="padding:14px;border:1px solid #302D27;border-radius:14px;background:#1F1D19;">
+                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C8922A;">Služba</div>
+                                        <div style="margin-top:6px;font-size:18px;font-weight:800;color:#F7F3EA;">' . $service . '</div>
+                                        <div style="margin-top:4px;font-size:14px;color:#C8C1B4;">Cena: ' . $price . '</div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top:18px;">
+                                <tr>
+                                    <td style="padding:18px;border:1px solid #302D27;border-radius:14px;background:#080807;color:#F7F3EA;">
+                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C8922A;">Co bude dál</div>
+                                        <p style="margin:10px 0 0;font-size:15px;line-height:1.7;color:#DCD3C2;">
+                                            Rezervaci ručně zkontrolujeme. Pokud bude termín volný, přijde vám potvrzení s finálním shrnutím návštěvy.
+                                        </p>
+                                        <p style="margin:16px 0 0;">
+                                            <a href="' . app_email_escape($mapsUrl) . '" style="display:inline-block;border-radius:12px;background:#C8922A;padding:13px 18px;color:#ffffff;font-size:14px;font-weight:800;text-decoration:none;">Zobrazit adresu</a>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="margin:18px 0 0;font-size:14px;line-height:1.7;color:#C8C1B4;">Hair By ReneNeme · Vackova 1064/39, 612 00 Brno-Královo Pole</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>';
+}
+
 function app_customer_email_html_body(array $reservation): string
 {
     $date = DateTime::createFromFormat('!Y-m-d', (string) $reservation['date']);
@@ -624,20 +696,20 @@ function app_customer_email_html_body(array $reservation): string
                 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px;overflow:hidden;border:1px solid #302D27;border-radius:16px;background:#171613;">
                     <tr>
                         <td style="background:#080807;padding:22px 28px;border-bottom:1px solid #302D27;color:#F7F3EA;">
-                            <div style="font-size:18px;font-weight:800;letter-spacing:-0.2px;color:#F7F3EA;">Hair By <span style="color:#E0A936;">ReneNeme</span></div>
-                            <div style="margin-top:6px;font-size:11px;font-weight:700;letter-spacing:2.6px;text-transform:uppercase;color:#E0A936;">Pánské kadeřnictví v Brně</div>
+                            <div style="font-size:18px;font-weight:800;letter-spacing:-0.2px;color:#F7F3EA;">Hair By <span style="color:#C8922A;">ReneNeme</span></div>
+                            <div style="margin-top:6px;font-size:11px;font-weight:700;letter-spacing:2.6px;text-transform:uppercase;color:#C8922A;">Pánské kadeřnictví v Brně</div>
                         </td>
                     </tr>
                     <tr>
                         <td style="padding:26px 28px 24px;">
-                            <div style="font-size:12px;font-weight:700;letter-spacing:2.8px;text-transform:uppercase;color:#E0A936;">Rezervace potvrzena</div>
+                            <div style="font-size:12px;font-weight:700;letter-spacing:2.8px;text-transform:uppercase;color:#C8922A;">Rezervace potvrzena</div>
                             <h1 style="margin:10px 0 0;font-size:28px;line-height:1.2;color:#F7F3EA;">Těšíme se na vás, ' . $name . '</h1>
                             <p style="margin:12px 0 18px;font-size:15px;line-height:1.7;color:#DCD3C2;">Termín je potvrzený a uložený v kalendáři. Níže najdete všechny důležité informace k návštěvě.</p>
 
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                                 <tr>
                                     <td style="padding:18px;border:1px solid #3C3831;border-radius:14px;background:#080807;">
-                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#E0A936;">Termín</div>
+                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C8922A;">Termín</div>
                                         <div style="margin-top:7px;font-size:26px;line-height:1.2;font-weight:900;color:#F7F3EA;">' . app_email_escape($displayDate) . ' v ' . $time . '</div>
                                         <div style="margin-top:4px;font-size:14px;color:#C8C1B4;">cca ' . $duration . ' minut</div>
                                     </td>
@@ -647,7 +719,7 @@ function app_customer_email_html_body(array $reservation): string
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top:14px;">
                                 <tr>
                                     <td style="padding:14px;border:1px solid #302D27;border-radius:14px;background:#1F1D19;">
-                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#E0A936;">Služba</div>
+                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C8922A;">Služba</div>
                                         <div style="margin-top:6px;font-size:18px;font-weight:800;color:#F7F3EA;">' . $service . '</div>
                                         <div style="margin-top:4px;font-size:14px;color:#C8C1B4;">Cena: ' . $price . '</div>
                                     </td>
@@ -657,15 +729,15 @@ function app_customer_email_html_body(array $reservation): string
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top:18px;">
                                 <tr>
                                     <td style="padding:18px;border:1px solid #302D27;border-radius:14px;background:#080807;color:#F7F3EA;">
-                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#E0A936;">Kontakt a místo</div>
+                                        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C8922A;">Kontakt a místo</div>
                                         <p style="margin:10px 0 0;font-size:15px;line-height:1.7;color:#DCD3C2;">
                                             Hair By ReneNeme<br>
                                             Vackova 1064/39, 612 00 Brno-Královo Pole<br>
-                                            Telefon: <a href="tel:+420608419610" style="color:#F6D487;text-decoration:none;">+420 608 419 610</a><br>
-                                            E-mail: <a href="mailto:renenemehair@seznam.cz" style="color:#F6D487;text-decoration:none;">renenemehair@seznam.cz</a>
+                                            Telefon: <a href="tel:+420608419610" style="color:#D4A340;text-decoration:none;">+420 608 419 610</a><br>
+                                            E-mail: <a href="mailto:renenemehair@seznam.cz" style="color:#D4A340;text-decoration:none;">renenemehair@seznam.cz</a>
                                         </p>
                                         <p style="margin:16px 0 0;">
-                                            <a href="' . app_email_escape($mapsUrl) . '" style="display:inline-block;border-radius:12px;background:#A96612;padding:13px 18px;color:#F7F3EA;font-size:14px;font-weight:800;text-decoration:none;">Otevřít mapu</a>
+                                            <a href="' . app_email_escape($mapsUrl) . '" style="display:inline-block;border-radius:12px;background:#C8922A;padding:13px 18px;color:#ffffff;font-size:14px;font-weight:800;text-decoration:none;">Otevřít mapu</a>
                                         </p>
                                     </td>
                                 </tr>

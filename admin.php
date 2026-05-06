@@ -375,10 +375,10 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
             --line: #302D27;
             --line-soft: #3C3831;
             --field: #171613;
-            --accent: #D4AF3C;
-            --accent-dark: #A96612;
-            --gold: #E0A936;
-            --gold-soft: #F6D487;
+            --accent: #C8922A;
+            --accent-dark: #B07820;
+            --gold: #C8922A;
+            --gold-soft: #D4A340;
             --accent-contrast: #F7F3EA;
             --danger: #9E382F;
             --danger-soft: #3A211E;
@@ -396,7 +396,7 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
         .admin-shell {
             min-height: 100vh;
             background:
-                radial-gradient(circle at top left, rgba(224, 169, 54, 0.12), transparent 34rem),
+                radial-gradient(circle at top left, rgba(200, 146, 42, 0.12), transparent 34rem),
                 linear-gradient(180deg, #141310 0%, var(--page) 44%, #080807 100%) !important;
             color: var(--cream) !important;
         }
@@ -428,7 +428,7 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
 
         .admin-shell [class~="bg-[#3A2F20]"],
         .admin-shell [class~="bg-[#332A1F]"] {
-            background: linear-gradient(180deg, rgba(224, 169, 54, 0.14), rgba(31, 29, 25, 0.92)) !important;
+            background: linear-gradient(180deg, rgba(200, 146, 42, 0.14), rgba(31, 29, 25, 0.92)) !important;
         }
 
         .admin-shell [class~="bg-[#21351F]"] {
@@ -458,13 +458,13 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
 
         .admin-shell [class~="border-[#6A654E]"],
         .admin-shell [class~="border-[#3F332A]"] {
-            border-color: rgba(224, 169, 54, 0.2) !important;
+            border-color: rgba(200, 146, 42, 0.2) !important;
         }
 
         .admin-shell [class~="border-[#8A6A2F]"],
         .admin-shell [class~="border-[#D6A85E]"],
         .admin-shell [class~="border-[#735A31]"] {
-            border-color: rgba(224, 169, 54, 0.42) !important;
+            border-color: rgba(200, 146, 42, 0.42) !important;
         }
 
         .admin-shell [class~="border-[#496A45]"] {
@@ -515,8 +515,42 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
             transform: translateY(-1px);
         }
 
+        .admin-shell button,
+        .admin-shell a[class*="bg-"] {
+            border-color: #C8922A !important;
+            background: #C8922A !important;
+            color: #ffffff !important;
+        }
+
+        .admin-shell button:hover,
+        .admin-shell a[class*="bg-"]:hover {
+            border-color: #D4A340 !important;
+            background: #D4A340 !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 14px rgba(200, 146, 42, 0.45) !important;
+        }
+
+        .admin-shell button:active,
+        .admin-shell a[class*="bg-"]:active {
+            border-color: #B07820 !important;
+            background: #B07820 !important;
+        }
+
+        .admin-shell a[class*="border"]:not([class*="bg-"]) {
+            border-color: #C8922A !important;
+            background: transparent !important;
+            color: #C8922A !important;
+        }
+
+        .admin-shell a[class*="border"]:not([class*="bg-"]):hover {
+            border-color: #C8922A !important;
+            background: rgba(200, 146, 42, 0.12) !important;
+            color: #C8922A !important;
+            box-shadow: 0 0 14px rgba(200, 146, 42, 0.45) !important;
+        }
+
         .admin-shell input[type="date"] {
-            border-color: rgba(224, 169, 54, 0.28) !important;
+            border-color: rgba(200, 146, 42, 0.28) !important;
             background: var(--field) !important;
             color: var(--cream) !important;
             color-scheme: dark;
@@ -524,8 +558,8 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
 
         .admin-shell input[type="date"]:focus {
             outline: none;
-            border-color: rgba(224, 169, 54, 0.62) !important;
-            box-shadow: 0 0 0 3px rgba(224, 169, 54, 0.12);
+            border-color: rgba(200, 146, 42, 0.62) !important;
+            box-shadow: 0 0 0 3px rgba(200, 146, 42, 0.12);
         }
 
         .admin-shell section,
@@ -544,7 +578,7 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
         }
 
         .admin-shell tbody tr:hover {
-            background: rgba(224, 169, 54, 0.08) !important;
+            background: rgba(200, 146, 42, 0.08) !important;
         }
 
         .admin-shell pre {

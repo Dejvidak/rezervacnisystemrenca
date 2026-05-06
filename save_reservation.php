@@ -213,10 +213,10 @@ unset($_SESSION['booking_form_started_at']);
             --surface-dark: #080807;
             --line: #302D27;
             --line-soft: #5B554B;
-            --accent: #D4AF3C;
-            --accent-dark: #A96612;
-            --gold: #E0A936;
-            --gold-soft: #F6D487;
+            --accent: #C8922A;
+            --accent-dark: #B07820;
+            --gold: #C8922A;
+            --gold-soft: #D4A340;
             --accent-contrast: #F7F3EA;
             --danger: #7B2D26;
             --danger-soft: #3A211E;
@@ -233,7 +233,7 @@ unset($_SESSION['booking_form_started_at']);
         .reservation-result {
             min-height: 100vh;
             background:
-                radial-gradient(circle at top left, rgba(224, 169, 54, 0.12), transparent 34rem),
+                radial-gradient(circle at top left, rgba(200, 146, 42, 0.12), transparent 34rem),
                 linear-gradient(180deg, #141310 0%, var(--page) 46%, #080807 100%);
             color: var(--cream);
             font-family: Arial, Helvetica, sans-serif;
@@ -329,7 +329,7 @@ unset($_SESSION['booking_form_started_at']);
             height: 3.65rem;
             background: var(--accent);
             color: var(--surface-dark);
-            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.3), 0 0 0 8px rgba(224, 169, 54, 0.16);
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.3), 0 0 0 8px rgba(200, 146, 42, 0.16);
         }
 
         .reservation-result__icon--error {
@@ -374,7 +374,7 @@ unset($_SESSION['booking_form_started_at']);
         .reservation-result__steps,
         .reservation-result__box,
         .reservation-result__note {
-            border: 1px solid rgba(224, 169, 54, 0.34);
+            border: 1px solid rgba(200, 146, 42, 0.34);
             border-radius: 1rem;
             background: linear-gradient(180deg, rgba(31, 29, 25, 0.96), rgba(18, 17, 15, 0.94));
             padding: 0.95rem;
@@ -386,7 +386,7 @@ unset($_SESSION['booking_form_started_at']);
 
         .reservation-result__notice {
             border-color: var(--gold);
-            background: linear-gradient(145deg, rgba(224, 169, 54, 0.18), rgba(24, 22, 18, 0.88));
+            background: linear-gradient(145deg, rgba(200, 146, 42, 0.18), rgba(24, 22, 18, 0.88));
             box-shadow:
                 inset 0 1px 0 rgba(255, 255, 255, 0.08),
                 0 18px 34px rgba(0, 0, 0, 0.2);
@@ -410,7 +410,7 @@ unset($_SESSION['booking_form_started_at']);
             color: var(--surface-dark);
             box-shadow:
                 inset 0 0 0 1px rgba(8, 8, 7, 0.12),
-                0 0 0 5px rgba(224, 169, 54, 0.12);
+                0 0 0 5px rgba(200, 146, 42, 0.12);
         }
 
         .reservation-result__notice-icon svg {
@@ -524,23 +524,32 @@ unset($_SESSION['booking_form_started_at']);
         }
 
         .reservation-result__button--primary {
-            background: var(--accent);
-            color: var(--surface-dark);
+            background: #C8922A;
+            color: #ffffff;
             box-shadow: 0 18px 34px rgba(0, 0, 0, 0.24);
         }
 
         .reservation-result__button--primary:hover {
-            background: var(--gold);
+            background: #D4A340;
+            color: #ffffff;
+            box-shadow: 0 0 14px rgba(200, 146, 42, 0.45);
+        }
+
+        .reservation-result__button--primary:active {
+            background: #B07820;
         }
 
         .reservation-result__button--secondary {
-            border: 1px solid var(--line-soft);
-            color: var(--cream);
+            border: 1px solid #C8922A;
+            background: transparent;
+            color: #C8922A;
         }
 
         .reservation-result__button--secondary:hover {
-            border-color: var(--accent);
-            color: var(--gold-soft);
+            border-color: #C8922A;
+            background: rgba(200, 146, 42, 0.12);
+            color: #C8922A;
+            box-shadow: 0 0 14px rgba(200, 146, 42, 0.45);
         }
 
         .reservation-result__errors {
@@ -574,12 +583,12 @@ unset($_SESSION['booking_form_started_at']);
 
         @keyframes pendingGlow {
             0%, 100% {
-                box-shadow: 0 18px 34px rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(224, 169, 54, 0.3);
+                box-shadow: 0 18px 34px rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(200, 146, 42, 0.3);
                 transform: translate3d(0, 0, 0);
             }
 
             50% {
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.26), 0 0 0 8px rgba(224, 169, 54, 0);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.26), 0 0 0 8px rgba(200, 146, 42, 0);
                 transform: translate3d(0, -1px, 0);
             }
         }
@@ -639,9 +648,9 @@ unset($_SESSION['booking_form_started_at']);
         <div class="reservation-result__header mx-auto mb-6 flex max-w-4xl items-center justify-between gap-4">
             <a href="index.php" class="reservation-result__brand text-xl font-extrabold tracking-tight transition hover:opacity-85">
                 <span>Hair By</span>
-                <span class="text-[#E0A936]">ReneNeme</span>
+                <span class="text-[#C8922A]">ReneNeme</span>
             </a>
-            <a href="tel:+420608419610" class="reservation-result__call hidden rounded-full border border-[#302D27] px-4 py-2 text-sm font-semibold text-[#F7F3EA] transition hover:border-[#D4AF3C] hover:text-[#F6D487] sm:inline-flex">
+            <a href="tel:+420608419610" class="reservation-result__call hidden rounded-full border border-[#302D27] px-4 py-2 text-sm font-semibold text-[#F7F3EA] transition hover:border-[#C8922A] hover:bg-[rgba(200,146,42,0.12)] hover:shadow-[0_0_14px_rgba(200,146,42,0.45)] hover:text-[#D4A340] sm:inline-flex">
                 Zavolat
             </a>
         </div>
@@ -656,24 +665,24 @@ unset($_SESSION['booking_form_started_at']);
                             <path d="M10.3 4.2h3.4L21 18.5 19.3 21H4.7L3 18.5 10.3 4.2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <p class="reservation-result__eyebrow text-xs font-bold uppercase tracking-[0.24em] text-[#E0A936]">Ještě to doladíme</p>
+                    <p class="reservation-result__eyebrow text-xs font-bold uppercase tracking-[0.24em] text-[#C8922A]">Ještě to doladíme</p>
                     <h1 class="reservation-result__title mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">Rezervaci se nepodařilo odeslat</h1>
                     <p class="reservation-result__copy mt-4 text-sm leading-6 text-[#DCD3C2]">
                         Některý údaj nesedí nebo termín mezitím přestal být volný. Mrkni na přehled vedle a zkus to prosím znovu.
                     </p>
                 </div>
                 <div class="reservation-result__errors px-6 py-8 sm:px-8 md:py-10">
-                    <p class="reservation-result__eyebrow text-xs font-bold uppercase tracking-[0.22em] text-[#E0A936]">Co je potřeba upravit</p>
+                    <p class="reservation-result__eyebrow text-xs font-bold uppercase tracking-[0.22em] text-[#C8922A]">Co je potřeba upravit</p>
                     <ul class="reservation-result__error-list mt-4 space-y-2 text-sm">
                         <?php foreach ($errors as $error): ?>
                             <li class="reservation-result__error-item rounded-2xl border border-[#302D27] bg-[#1F1D19] px-4 py-3 text-[#DCD3C2]"><?= h($error) ?></li>
                         <?php endforeach; ?>
                     </ul>
                     <div class="reservation-result__actions mt-6 flex flex-col gap-3 sm:flex-row">
-                        <a href="rezervace.php" class="reservation-result__button reservation-result__button--primary inline-flex justify-center rounded-xl bg-[#A96612] px-5 py-3 text-sm font-semibold text-[#F7F3EA] shadow-md shadow-black/30 transition hover:bg-[#B87517]">
+                        <a href="rezervace.php" class="reservation-result__button reservation-result__button--primary inline-flex justify-center rounded-xl bg-[#C8922A] px-5 py-3 text-sm font-semibold text-[#F7F3EA] shadow-md shadow-black/30 transition hover:bg-[#D4A340]">
                             Upravit rezervaci
                         </a>
-                        <a href="tel:+420608419610" class="reservation-result__button reservation-result__button--secondary inline-flex justify-center rounded-xl border border-[#5B554B] px-5 py-3 text-sm font-semibold text-[#F7F3EA] transition hover:border-[#D4AF3C] hover:text-[#F6D487]">
+                        <a href="tel:+420608419610" class="reservation-result__button reservation-result__button--secondary inline-flex justify-center rounded-xl border border-[#5B554B] px-5 py-3 text-sm font-semibold text-[#F7F3EA] transition hover:border-[#C8922A] hover:bg-[rgba(200,146,42,0.12)] hover:shadow-[0_0_14px_rgba(200,146,42,0.45)] hover:text-[#D4A340]">
                             Zavolat
                         </a>
                     </div>
@@ -684,44 +693,44 @@ unset($_SESSION['booking_form_started_at']);
                 <div class="reservation-result__hero bg-[linear-gradient(145deg,#080807,#24221E)] px-6 py-8 text-[#F7F3EA] sm:px-8 md:py-10">
                     <div class="reservation-result__success-grid grid gap-6 md:grid-cols-[0.9fr_1.1fr] md:items-start">
                         <div>
-                            <div class="reservation-result__icon reservation-result__icon--success mb-5 inline-flex h-16 w-16 items-center justify-center rounded-full bg-[#A96612] text-[#F7F3EA] shadow-lg shadow-black/30 ring-8 ring-[rgba(224,169,54,0.16)]">
+                            <div class="reservation-result__icon reservation-result__icon--success mb-5 inline-flex h-16 w-16 items-center justify-center rounded-full bg-[#C8922A] text-[#F7F3EA] shadow-lg shadow-black/30 ring-8 ring-[rgba(200, 146, 42,0.16)]">
                                 <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                     <path d="M5 12.5l4.2 4.2L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </div>
-                            <p class="reservation-result__eyebrow text-xs font-bold uppercase tracking-[0.24em] text-[#E0A936]">Žádost přijata</p>
+                            <p class="reservation-result__eyebrow text-xs font-bold uppercase tracking-[0.24em] text-[#C8922A]">Žádost přijata</p>
                             <h1 class="reservation-result__title mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">Díky, <?= h($name) ?>. Termín držíme v přehledu.</h1>
                         </div>
                         <div class="reservation-result__side space-y-4">
-                            <div class="reservation-result__notice pending-confirmation-card rounded-2xl border border-[#E0A936] bg-[rgba(224,169,54,0.14)] p-4 shadow-lg shadow-black/20">
+                            <div class="reservation-result__notice pending-confirmation-card rounded-2xl border border-[#C8922A] bg-[rgba(200, 146, 42,0.14)] p-4 shadow-lg shadow-black/20">
                                 <div class="reservation-result__notice-row flex items-start gap-3">
-                                    <span class="reservation-result__notice-icon pending-confirmation-icon mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E0A936] text-[#F7F3EA]">
+                                    <span class="reservation-result__notice-icon pending-confirmation-icon mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#C8922A] text-[#F7F3EA]">
                                         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                             <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
                                             <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="2.4"/>
                                         </svg>
                                     </span>
                                     <div>
-                                        <p class="reservation-result__notice-title text-xs font-extrabold uppercase tracking-[0.22em] text-[#F6D487]">Čeká na potvrzení</p>
+                                        <p class="reservation-result__notice-title text-xs font-extrabold uppercase tracking-[0.22em] text-[#D4A340]">Čeká na potvrzení</p>
                                         <p class="reservation-result__notice-text mt-1 text-sm leading-6 text-[#F7F3EA]">
                                             Termín zatím není finálně potvrzený. Jakmile ho přijmeme, dorazí ti e-mail se shrnutím.
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="reservation-result__steps rounded-2xl border border-[rgba(224,169,54,0.22)] bg-[rgba(255,255,255,0.05)] p-4">
-                                <p class="reservation-result__eyebrow text-xs font-bold uppercase tracking-[0.2em] text-[#F6D487]">Co bude dál</p>
+                            <div class="reservation-result__steps rounded-2xl border border-[rgba(200, 146, 42,0.22)] bg-[rgba(255,255,255,0.05)] p-4">
+                                <p class="reservation-result__eyebrow text-xs font-bold uppercase tracking-[0.2em] text-[#D4A340]">Co bude dál</p>
                                 <div class="reservation-result__steps-grid mt-4 grid gap-3 text-sm text-[#DCD3C2] sm:grid-cols-3 md:grid-cols-1">
                                     <div class="reservation-result__step flex gap-3">
-                                        <span class="reservation-result__dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#E0A936]"></span>
+                                        <span class="reservation-result__dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#C8922A]"></span>
                                         <p>Rezervaci zkontrolujeme v administraci.</p>
                                     </div>
                                     <div class="reservation-result__step flex gap-3">
-                                        <span class="reservation-result__dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#E0A936]"></span>
+                                        <span class="reservation-result__dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#C8922A]"></span>
                                         <p>Po potvrzení ti přijde e-mail se všemi údaji.</p>
                                     </div>
                                     <div class="reservation-result__step flex gap-3">
-                                        <span class="reservation-result__dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#E0A936]"></span>
+                                        <span class="reservation-result__dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#C8922A]"></span>
                                         <p>Kdyby bylo potřeba něco doladit, ozveme se.</p>
                                     </div>
                                 </div>
@@ -730,34 +739,34 @@ unset($_SESSION['booking_form_started_at']);
                     </div>
                 </div>
                 <div class="reservation-result__summary border-t border-[#302D27] px-6 py-8 sm:px-8 md:py-10">
-                    <p class="reservation-result__eyebrow text-xs font-bold uppercase tracking-[0.22em] text-[#E0A936]">Shrnutí rezervace</p>
+                    <p class="reservation-result__eyebrow text-xs font-bold uppercase tracking-[0.22em] text-[#C8922A]">Shrnutí rezervace</p>
                     <div class="reservation-result__summary-grid mt-4 grid gap-3 sm:grid-cols-2">
                         <div class="reservation-result__box rounded-2xl border border-[#302D27] bg-[#1F1D19] p-4">
-                            <p class="reservation-result__box-label text-xs font-bold uppercase tracking-[0.18em] text-[#E0A936]">Služba</p>
+                            <p class="reservation-result__box-label text-xs font-bold uppercase tracking-[0.18em] text-[#C8922A]">Služba</p>
                             <p class="reservation-result__box-value mt-1 font-bold"><?= h($service) ?></p>
                             <?php if ($priceLabel !== ''): ?>
                                 <p class="reservation-result__box-muted mt-1 text-sm text-[#C8C1B4]"><?= h($priceLabel) ?></p>
                             <?php endif; ?>
                         </div>
                         <div class="reservation-result__box rounded-2xl border border-[#302D27] bg-[#1F1D19] p-4">
-                            <p class="reservation-result__box-label text-xs font-bold uppercase tracking-[0.18em] text-[#E0A936]">Termín</p>
+                            <p class="reservation-result__box-label text-xs font-bold uppercase tracking-[0.18em] text-[#C8922A]">Termín</p>
                             <p class="reservation-result__box-value mt-1 font-bold"><?= h($displayDate) ?> v <?= h($time) ?></p>
                             <p class="reservation-result__box-muted mt-1 text-sm text-[#C8C1B4]"><?= (int) $duration ?> minut</p>
                         </div>
                         <div class="reservation-result__box rounded-2xl border border-[#302D27] bg-[#1F1D19] p-4">
-                            <p class="reservation-result__box-label text-xs font-bold uppercase tracking-[0.18em] text-[#E0A936]">Kontakt</p>
+                            <p class="reservation-result__box-label text-xs font-bold uppercase tracking-[0.18em] text-[#C8922A]">Kontakt</p>
                             <p class="reservation-result__box-value mt-1 font-bold"><?= h($phone) ?></p>
                             <p class="reservation-result__box-muted mt-1 break-words text-sm text-[#C8C1B4]"><?= h($email) ?></p>
                         </div>
                         <div class="reservation-result__box rounded-2xl border border-[#302D27] bg-[#1F1D19] p-4">
-                            <p class="reservation-result__box-label text-xs font-bold uppercase tracking-[0.18em] text-[#E0A936]">Místo</p>
+                            <p class="reservation-result__box-label text-xs font-bold uppercase tracking-[0.18em] text-[#C8922A]">Místo</p>
                             <p class="reservation-result__box-value mt-1 font-bold">Hair By ReneNeme</p>
                             <p class="reservation-result__box-muted mt-1 text-sm text-[#C8C1B4]"><?= h($businessAddress) ?></p>
                         </div>
                     </div>
                     <?php if ($note !== ''): ?>
                         <div class="reservation-result__box mt-3 rounded-2xl border border-[#302D27] bg-[#1F1D19] p-4">
-                            <p class="reservation-result__box-label text-xs font-bold uppercase tracking-[0.18em] text-[#E0A936]">Přání ke střihu</p>
+                            <p class="reservation-result__box-label text-xs font-bold uppercase tracking-[0.18em] text-[#C8922A]">Přání ke střihu</p>
                             <p class="reservation-result__box-muted mt-1 text-sm leading-6 text-[#C8C1B4]"><?= nl2br(h($note)) ?></p>
                         </div>
                     <?php endif; ?>
@@ -766,10 +775,10 @@ unset($_SESSION['booking_form_started_at']);
                         <p>Zavolej na <?= h($businessPhone) ?> nebo napiš na <?= h($businessEmail) ?>.</p>
                     </div>
                     <div class="reservation-result__actions mt-6 flex flex-col gap-3 sm:flex-row">
-                        <a href="index.php" class="reservation-result__button reservation-result__button--primary inline-flex justify-center rounded-xl bg-[#A96612] px-5 py-3 text-sm font-semibold text-[#F7F3EA] shadow-md shadow-black/30 transition hover:bg-[#B87517]">
+                        <a href="index.php" class="reservation-result__button reservation-result__button--primary inline-flex justify-center rounded-xl bg-[#C8922A] px-5 py-3 text-sm font-semibold text-[#F7F3EA] shadow-md shadow-black/30 transition hover:bg-[#D4A340]">
                             Zpět na web
                         </a>
-                        <a href="rezervace.php" class="reservation-result__button reservation-result__button--secondary inline-flex justify-center rounded-xl border border-[#5B554B] px-5 py-3 text-sm font-semibold text-[#F7F3EA] transition hover:border-[#D4AF3C] hover:text-[#F6D487]">
+                        <a href="rezervace.php" class="reservation-result__button reservation-result__button--secondary inline-flex justify-center rounded-xl border border-[#5B554B] px-5 py-3 text-sm font-semibold text-[#F7F3EA] transition hover:border-[#C8922A] hover:bg-[rgba(200,146,42,0.12)] hover:shadow-[0_0_14px_rgba(200,146,42,0.45)] hover:text-[#D4A340]">
                             Vytvořit další rezervaci
                         </a>
                     </div>

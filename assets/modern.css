@@ -35,7 +35,7 @@ body::before {
 }
 
 .ambient-glow--gold {
-    background: radial-gradient(circle, rgba(212, 175, 60, 0.18) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(200, 146, 42, 0.18) 0%, transparent 70%);
 }
 
 .ambient-glow--warm {
@@ -218,7 +218,7 @@ body::before {
     height: 100%;
     object-fit: contain;
     object-position: left center;
-    filter: brightness(1.06) contrast(1.03) drop-shadow(0 10px 22px rgba(224, 169, 54, 0.1));
+    filter: brightness(1.06) contrast(1.03) drop-shadow(0 10px 22px rgba(200, 146, 42, 0.1));
 }
 
 .premium-nav {
@@ -226,11 +226,11 @@ body::before {
     align-items: center;
     gap: 0.2rem;
     overflow: hidden;
-    border: 1px solid rgba(224, 169, 54, 0.2);
+    border: 1px solid rgba(200, 146, 42, 0.2);
     border-radius: 999px;
     background:
         linear-gradient(180deg, rgba(31, 29, 25, 0.8), rgba(8, 8, 7, 0.74)),
-        radial-gradient(circle at 12% 0%, rgba(224, 169, 54, 0.14), transparent 36%);
+        radial-gradient(circle at 12% 0%, rgba(200, 146, 42, 0.14), transparent 36%);
     padding: 0.32rem;
     color: var(--cream-soft);
     box-shadow: 0 16px 34px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.045);
@@ -270,16 +270,14 @@ body::before {
     isolation: isolate;
     overflow: hidden;
     margin-left: 0.12rem;
-    border: 1px solid rgba(246, 212, 135, 0.58);
-    background:
-        linear-gradient(180deg, #B87517, #7A3F08),
-        radial-gradient(circle at 50% 0%, rgba(246, 212, 135, 0.34), transparent 68%);
+    border: 1px solid #C8922A;
+    background: #C8922A;
     padding: 0 1.08rem;
     color: var(--accent-contrast, #F7F3EA);
     font-size: 0.88rem;
     font-weight: 950;
     white-space: nowrap;
-    box-shadow: 0 12px 26px rgba(212, 175, 60, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    box-shadow: 0 12px 26px rgba(200, 146, 42, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 
 .premium-nav__cta::before {
@@ -304,8 +302,15 @@ body::before {
 .premium-nav__cta:hover,
 .premium-nav__cta:focus-visible {
     color: var(--accent-contrast, #F7F3EA);
+    background: #D4A340;
+    border-color: #D4A340;
     transform: translateY(-1px);
-    box-shadow: 0 16px 32px rgba(224, 169, 54, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    box-shadow: 0 0 14px rgba(200, 146, 42, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.premium-nav__cta:active {
+    background: #B07820;
+    border-color: #B07820;
 }
 
 .premium-nav__cta:hover::before,
@@ -315,7 +320,7 @@ body::before {
 
 .premium-nav__icon {
     width: 2.35rem;
-    border: 1px solid rgba(224, 169, 54, 0.16);
+    border: 1px solid rgba(200, 146, 42, 0.16);
     background: rgba(255, 255, 255, 0.035);
 }
 
@@ -332,12 +337,12 @@ body::before {
     z-index: 1;
     width: var(--pill-cursor-width, 0px);
     height: calc(100% - 0.64rem);
-    border: 1px solid rgba(224, 169, 54, 0.28);
+    border: 1px solid rgba(200, 146, 42, 0.28);
     border-radius: 999px;
     background:
-        linear-gradient(180deg, rgba(246, 212, 135, 0.24), rgba(212, 175, 60, 0.12)),
+        linear-gradient(180deg, rgba(246, 212, 135, 0.24), rgba(200, 146, 42, 0.12)),
         radial-gradient(circle at 50% 0%, rgba(255, 244, 207, 0.32), transparent 70%);
-    box-shadow: 0 10px 24px rgba(212, 175, 60, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 24px rgba(200, 146, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     opacity: var(--pill-cursor-opacity, 0);
     pointer-events: none;
     transform: translate3d(var(--pill-cursor-left, 0px), 0, 0);
@@ -364,7 +369,7 @@ body::before {
 
 .lift-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 28px 48px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(224, 169, 54, 0.12);
+    box-shadow: 0 28px 48px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(200, 146, 42, 0.12);
 }
 
 /* ── Card glow on hover ── */
@@ -380,7 +385,7 @@ body::before {
     position: absolute;
     inset: -1px;
     border-radius: inherit;
-    background: linear-gradient(135deg, rgba(224, 169, 54, 0.22), rgba(212, 175, 60, 0.08), transparent);
+    background: linear-gradient(135deg, rgba(200, 146, 42, 0.22), rgba(200, 146, 42, 0.08), transparent);
     opacity: 0;
     transition: opacity 300ms ease;
     pointer-events: none;
@@ -393,8 +398,8 @@ body::before {
 
 .glow-card:hover {
     transform: translateY(-5px);
-    border-color: rgba(224, 169, 54, 0.32) !important;
-    box-shadow: 0 24px 44px rgba(0, 0, 0, 0.24), 0 0 32px rgba(224, 169, 54, 0.08);
+    border-color: rgba(200, 146, 42, 0.32) !important;
+    box-shadow: 0 24px 44px rgba(0, 0, 0, 0.24), 0 0 32px rgba(200, 146, 42, 0.08);
 }
 
 /* ── Ripple button effect ── */
@@ -443,7 +448,94 @@ button.bg-\[var\(--accent\)\],
 .ui-button,
 .booking-nav-button--primary,
 .reservation-result__button--primary {
+    background: #C8922A !important;
+    border-color: #C8922A !important;
     color: var(--accent-contrast, #F7F3EA) !important;
+}
+
+a.bg-\[var\(--accent\)\]:hover,
+button.bg-\[var\(--accent\)\]:hover,
+.ui-button:hover,
+.booking-nav-button--primary:hover,
+.reservation-result__button--primary:hover {
+    background: #D4A340 !important;
+    border-color: #D4A340 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 14px rgba(200, 146, 42, 0.45) !important;
+}
+
+a.bg-\[var\(--accent\)\]:active,
+button.bg-\[var\(--accent\)\]:active,
+.ui-button:active,
+.booking-nav-button--primary:active,
+.reservation-result__button--primary:active {
+    background: #B07820 !important;
+    border-color: #B07820 !important;
+}
+
+.ui-button-secondary,
+.ui-button-ghost-dark,
+.booking-nav-button--ghost,
+.service-card__button,
+.map-action-button,
+.reservation-result__button--secondary {
+    background: transparent !important;
+    border-color: #C8922A !important;
+    color: #C8922A !important;
+}
+
+.ui-button-secondary:hover,
+.ui-button-secondary:focus-visible,
+.ui-button-ghost-dark:hover,
+.ui-button-ghost-dark:focus-visible,
+.booking-nav-button--ghost:hover,
+.booking-nav-button--ghost:focus-visible,
+.service-card__button:hover,
+.service-card__button:focus-visible,
+.map-action-button:hover,
+.map-action-button:focus-visible,
+.reservation-result__button--secondary:hover,
+.reservation-result__button--secondary:focus-visible {
+    background: rgba(200, 146, 42, 0.12) !important;
+    border-color: #C8922A !important;
+    color: #C8922A !important;
+    box-shadow: 0 0 14px rgba(200, 146, 42, 0.45) !important;
+}
+
+a.inline-flex.items-center.justify-center[class*="border"]:not(.premium-nav__cta):not(.ui-button):not([class*="bg-[var(--accent)]"]),
+button[class*="border"]:not([class*="bg-[var(--accent)]"]):not(.booking-nav-button--primary):not(.booking-button--primary) {
+    background: transparent !important;
+    border-color: #C8922A !important;
+    color: #C8922A !important;
+}
+
+a.inline-flex.items-center.justify-center[class*="border"]:not(.premium-nav__cta):not(.ui-button):not([class*="bg-[var(--accent)]"]):hover,
+a.inline-flex.items-center.justify-center[class*="border"]:not(.premium-nav__cta):not(.ui-button):not([class*="bg-[var(--accent)]"]):focus-visible,
+button[class*="border"]:not([class*="bg-[var(--accent)]"]):not(.booking-nav-button--primary):not(.booking-button--primary):hover,
+button[class*="border"]:not([class*="bg-[var(--accent)]"]):not(.booking-nav-button--primary):not(.booking-button--primary):focus-visible {
+    background: rgba(200, 146, 42, 0.12) !important;
+    border-color: #C8922A !important;
+    color: #C8922A !important;
+    box-shadow: 0 0 14px rgba(200, 146, 42, 0.45) !important;
+}
+
+.scroll-top-button {
+    background: #C8922A !important;
+    border-color: #C8922A !important;
+    color: #ffffff !important;
+}
+
+.scroll-top-button:hover,
+.scroll-top-button:focus-visible {
+    background: #D4A340 !important;
+    border-color: #D4A340 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 14px rgba(200, 146, 42, 0.45) !important;
+}
+
+.scroll-top-button:active {
+    background: #B07820 !important;
+    border-color: #B07820 !important;
 }
 
 .ripple-btn .ripple-wave {
@@ -482,10 +574,10 @@ button.bg-\[var\(--accent\)\],
 }
 
 #mobileMenu:not(.hidden) {
-    border-color: rgba(224, 169, 54, 0.22);
+    border-color: rgba(200, 146, 42, 0.22);
     background:
         linear-gradient(180deg, rgba(31, 29, 25, 0.98), rgba(12, 11, 10, 0.98)),
-        radial-gradient(circle at 12% 0%, rgba(224, 169, 54, 0.12), transparent 42%);
+        radial-gradient(circle at 12% 0%, rgba(200, 146, 42, 0.12), transparent 42%);
     box-shadow: 0 24px 44px rgba(0, 0, 0, 0.32);
 }
 
@@ -527,11 +619,11 @@ button.bg-\[var\(--accent\)\],
     .site-header {
         inset: 0.72rem 0.82rem auto 0.82rem !important;
         overflow: visible !important;
-        border: 1px solid rgba(224, 169, 54, 0.24) !important;
+        border: 1px solid rgba(200, 146, 42, 0.24) !important;
         border-radius: 999px !important;
         background:
             linear-gradient(180deg, rgba(32, 30, 26, 0.78), rgba(9, 9, 8, 0.72)),
-            radial-gradient(circle at 12% 0%, rgba(224, 169, 54, 0.18), transparent 42%) !important;
+            radial-gradient(circle at 12% 0%, rgba(200, 146, 42, 0.18), transparent 42%) !important;
         box-shadow: 0 18px 38px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
         backdrop-filter: blur(18px) saturate(1.12) !important;
     }
@@ -539,8 +631,8 @@ button.bg-\[var\(--accent\)\],
     .site-header.is-scrolled {
         background:
             linear-gradient(180deg, rgba(36, 34, 30, 0.88), rgba(9, 9, 8, 0.82)),
-            radial-gradient(circle at 12% 0%, rgba(224, 169, 54, 0.16), transparent 42%) !important;
-        box-shadow: 0 20px 42px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(224, 169, 54, 0.12) !important;
+            radial-gradient(circle at 12% 0%, rgba(200, 146, 42, 0.16), transparent 42%) !important;
+        box-shadow: 0 20px 42px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(200, 146, 42, 0.12) !important;
     }
 
     .site-header > div {
@@ -563,13 +655,13 @@ button.bg-\[var\(--accent\)\],
         right: 0;
         left: 0;
         max-height: min(calc(100dvh - 6.5rem), 27rem);
-        border: 1px solid rgba(224, 169, 54, 0.2) !important;
+        border: 1px solid rgba(200, 146, 42, 0.2) !important;
         border-radius: 1.35rem;
         padding-right: 0.72rem;
         padding-left: 0.72rem;
         background:
             linear-gradient(180deg, rgba(31, 29, 25, 0.94), rgba(10, 10, 9, 0.94)),
-            radial-gradient(circle at 10% 0%, rgba(224, 169, 54, 0.13), transparent 44%) !important;
+            radial-gradient(circle at 10% 0%, rgba(200, 146, 42, 0.13), transparent 44%) !important;
         box-shadow: 0 24px 48px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.055);
         backdrop-filter: blur(18px) saturate(1.08);
     }
@@ -595,19 +687,32 @@ button.bg-\[var\(--accent\)\],
 
     #mobileMenu a:hover,
     #mobileMenu a:focus-visible {
-        border-color: rgba(224, 169, 54, 0.18);
-        background: rgba(224, 169, 54, 0.1);
+        border-color: rgba(200, 146, 42, 0.18);
+        background: rgba(200, 146, 42, 0.1);
         color: var(--gold-soft);
         outline: none;
     }
 
     #mobileMenu a[href*="rezervace"] {
         justify-content: center;
-        border-color: rgba(246, 212, 135, 0.5);
-        background: linear-gradient(180deg, #B87517, #7A3F08);
+        border-color: #C8922A;
+        background: #C8922A;
         color: var(--accent-contrast, #F7F3EA);
         font-weight: 900;
-        box-shadow: 0 14px 28px rgba(212, 175, 60, 0.16);
+        box-shadow: 0 14px 28px rgba(200, 146, 42, 0.16);
+    }
+
+    #mobileMenu a[href*="rezervace"]:hover,
+    #mobileMenu a[href*="rezervace"]:focus-visible {
+        border-color: #D4A340;
+        background: #D4A340;
+        color: #ffffff;
+        box-shadow: 0 0 14px rgba(200, 146, 42, 0.45);
+    }
+
+    #mobileMenu a[href*="rezervace"]:active {
+        border-color: #B07820;
+        background: #B07820;
     }
 
     #mobileMenu.hidden a {
@@ -662,8 +767,8 @@ button.bg-\[var\(--accent\)\],
 .booking-form input:focus,
 .booking-form select:focus,
 .booking-form textarea:focus {
-    border-color: rgba(224, 169, 54, 0.6) !important;
-    box-shadow: 0 0 0 3px rgba(224, 169, 54, 0.12), 0 0 16px rgba(224, 169, 54, 0.08);
+    border-color: rgba(200, 146, 42, 0.6) !important;
+    box-shadow: 0 0 0 3px rgba(200, 146, 42, 0.12), 0 0 16px rgba(200, 146, 42, 0.08);
     transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
@@ -678,21 +783,21 @@ button.bg-\[var\(--accent\)\],
     display: flex;
     min-height: 19.5rem;
     overflow: hidden;
-    border: 1px solid rgba(224, 169, 54, 0.11);
+    border: 1px solid rgba(200, 146, 42, 0.11);
     border-radius: 1.1rem;
     background:
         linear-gradient(145deg, rgba(40, 37, 31, 0.9), rgba(15, 14, 12, 0.96)),
-        radial-gradient(circle at 88% 0%, rgba(224, 169, 54, 0.08), transparent 34%);
+        radial-gradient(circle at 88% 0%, rgba(200, 146, 42, 0.08), transparent 34%);
     color: var(--cream);
     box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.035);
 }
 
 .service-card--featured {
-    border-color: rgba(224, 169, 54, 0.34);
+    border-color: rgba(200, 146, 42, 0.34);
     background:
         linear-gradient(145deg, rgba(10, 10, 9, 0.98), rgba(30, 28, 24, 0.96)),
         radial-gradient(circle at 84% 0%, rgba(246, 212, 135, 0.12), transparent 34%);
-    box-shadow: 0 24px 54px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(224, 169, 54, 0.05);
+    box-shadow: 0 24px 54px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(200, 146, 42, 0.05);
 }
 
 .service-card__accent {
@@ -700,7 +805,7 @@ button.bg-\[var\(--accent\)\],
     inset: 0 0 auto;
     z-index: -1;
     height: 2px;
-    background: linear-gradient(90deg, rgba(224, 169, 54, 0.9), rgba(246, 212, 135, 0.34), transparent);
+    background: linear-gradient(90deg, rgba(200, 146, 42, 0.9), rgba(246, 212, 135, 0.34), transparent);
 }
 
 .service-card__halo {
@@ -711,7 +816,7 @@ button.bg-\[var\(--accent\)\],
     width: 12rem;
     height: 12rem;
     border-radius: 999px;
-    background: radial-gradient(circle, rgba(224, 169, 54, 0.1), transparent 68%);
+    background: radial-gradient(circle, rgba(200, 146, 42, 0.1), transparent 68%);
     opacity: 0.38;
     transition: opacity 260ms ease, transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -746,7 +851,7 @@ button.bg-\[var\(--accent\)\],
     display: inline-flex;
     max-width: 100%;
     align-items: center;
-    border: 1px solid rgba(224, 169, 54, 0.2);
+    border: 1px solid rgba(200, 146, 42, 0.2);
     border-radius: 999px;
     background: rgba(8, 8, 7, 0.32);
     padding: 0.38rem 0.7rem;
@@ -760,7 +865,7 @@ button.bg-\[var\(--accent\)\],
 
 .service-card--featured .service-card__badge {
     border-color: rgba(246, 212, 135, 0.28);
-    background: rgba(224, 169, 54, 0.08);
+    background: rgba(200, 146, 42, 0.08);
     color: var(--gold);
 }
 
@@ -777,7 +882,7 @@ button.bg-\[var\(--accent\)\],
     min-width: 6.25rem;
     min-height: 4.6rem;
     place-content: center;
-    border: 1px solid rgba(224, 169, 54, 0.14);
+    border: 1px solid rgba(200, 146, 42, 0.14);
     border-radius: 1rem;
     background:
         linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.01)),
@@ -829,7 +934,7 @@ button.bg-\[var\(--accent\)\],
     width: fit-content;
     max-width: 100%;
     align-items: center;
-    border: 1px solid rgba(224, 169, 54, 0.16);
+    border: 1px solid rgba(200, 146, 42, 0.16);
     border-radius: 999px;
     background: rgba(8, 8, 7, 0.28);
     padding: 0.42rem 0.72rem;
@@ -845,7 +950,7 @@ button.bg-\[var\(--accent\)\],
     justify-content: space-between;
     gap: 1rem;
     min-height: 4.45rem;
-    border-top: 1px solid rgba(224, 169, 54, 0.14);
+    border-top: 1px solid rgba(200, 146, 42, 0.14);
     padding-top: 1rem;
 }
 
@@ -865,7 +970,7 @@ button.bg-\[var\(--accent\)\],
     height: 0.48rem;
     border-radius: 999px;
     background: var(--gold);
-    box-shadow: 0 0 0 0 rgba(224, 169, 54, 0.38);
+    box-shadow: 0 0 0 0 rgba(200, 146, 42, 0.38);
     animation: badgePulse 2.5s ease-in-out infinite;
 }
 
@@ -877,7 +982,7 @@ button.bg-\[var\(--accent\)\],
     justify-content: center;
     gap: 0.55rem;
     min-height: 2.75rem;
-    border: 1px solid rgba(224, 169, 54, 0.24);
+    border: 1px solid rgba(200, 146, 42, 0.24);
     border-radius: 0.9rem;
     background: rgba(8, 8, 7, 0.24);
     padding: 0.72rem 0.95rem;
@@ -931,10 +1036,10 @@ button.bg-\[var\(--accent\)\],
 .service-card__button:hover,
 .service-card__button:focus-visible {
     transform: translateY(-1px);
-    border-color: rgba(246, 212, 135, 0.5);
-    background: linear-gradient(180deg, #B87517, #7A3F08);
-    color: var(--accent-contrast, #F7F3EA);
-    box-shadow: 0 14px 28px rgba(212, 175, 60, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    border-color: #C8922A;
+    background: rgba(200, 146, 42, 0.12);
+    color: #C8922A;
+    box-shadow: 0 0 14px rgba(200, 146, 42, 0.45);
 }
 
 .service-card__button:hover svg,
@@ -951,7 +1056,7 @@ button.bg-\[var\(--accent\)\],
 .service-card-hover:hover {
     transform: translateY(-3px);
     box-shadow: 0 22px 42px rgba(0, 0, 0, 0.24);
-    border-color: rgba(224, 169, 54, 0.3) !important;
+    border-color: rgba(200, 146, 42, 0.3) !important;
 }
 
 .service-card:hover .service-card__halo {
@@ -1090,7 +1195,7 @@ button.bg-\[var\(--accent\)\],
     position: absolute;
     inset: -3px;
     border-radius: 50%;
-    background: rgba(224, 169, 54, 0.2);
+    background: rgba(200, 146, 42, 0.2);
     transform: scale(0);
     transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -1115,7 +1220,7 @@ button.bg-\[var\(--accent\)\],
     background: linear-gradient(90deg, var(--gold), var(--gold-soft), var(--accent));
     z-index: 9998;
     transition: width 80ms linear;
-    box-shadow: 0 0 8px rgba(224, 169, 54, 0.5);
+    box-shadow: 0 0 8px rgba(200, 146, 42, 0.5);
 }
 
 /* ── Section divider glow ── */
@@ -1123,7 +1228,7 @@ button.bg-\[var\(--accent\)\],
     position: relative;
     border: none;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(224, 169, 54, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(200, 146, 42, 0.2), transparent);
     margin: 0;
 }
 
@@ -1137,8 +1242,8 @@ button.bg-\[var\(--accent\)\],
 
 .about-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(224, 169, 54, 0.28) !important;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 24px rgba(224, 169, 54, 0.06);
+    border-color: rgba(200, 146, 42, 0.28) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 24px rgba(200, 146, 42, 0.06);
 }
 
 .about-card__icon {
@@ -1149,7 +1254,7 @@ button.bg-\[var\(--accent\)\],
 
 .about-card:hover .about-card__icon {
     transform: translateY(-3px) rotate(8deg);
-    box-shadow: 0 8px 20px rgba(212, 175, 60, 0.28);
+    box-shadow: 0 8px 20px rgba(200, 146, 42, 0.28);
     background: linear-gradient(135deg, var(--gold-soft), var(--cream)) !important;
 }
 
@@ -1162,8 +1267,8 @@ button.bg-\[var\(--accent\)\],
 
 .reference-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 32px 56px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(224, 169, 54, 0.16);
-    border-color: rgba(224, 169, 54, 0.22) !important;
+    box-shadow: 0 32px 56px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(200, 146, 42, 0.16);
+    border-color: rgba(200, 146, 42, 0.22) !important;
 }
 
 /* ── Pointer-reactive card tilt ── */
@@ -1261,8 +1366,8 @@ footer a:hover {
 
 /* ── Hero badge pulse ── */
 @keyframes badgePulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(224, 169, 54, 0.3); }
-    50% { box-shadow: 0 0 0 6px rgba(224, 169, 54, 0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200, 146, 42, 0.3); }
+    50% { box-shadow: 0 0 0 6px rgba(200, 146, 42, 0); }
 }
 
 .hero-badge-pulse {
@@ -1292,10 +1397,10 @@ footer a:hover {
     --map-glow-y: 50%;
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(224, 169, 54, 0.22);
+    border: 1px solid rgba(200, 146, 42, 0.22);
     border-radius: 1.25rem;
     background:
-        radial-gradient(circle at var(--map-glow-x) var(--map-glow-y), rgba(224, 169, 54, 0.18), transparent 32%),
+        radial-gradient(circle at var(--map-glow-x) var(--map-glow-y), rgba(200, 146, 42, 0.18), transparent 32%),
         linear-gradient(150deg, rgba(40, 36, 29, 0.96), rgba(14, 13, 11, 0.95) 58%, rgba(8, 8, 7, 0.96));
     box-shadow: 0 24px 52px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.045);
     color: var(--cream);
@@ -1317,8 +1422,8 @@ footer a:hover {
 .booking-map-card.location-map-card:hover,
 .booking-map-card.location-map-card:focus-visible,
 .booking-map-card.location-map-card.is-expanded {
-    border-color: rgba(224, 169, 54, 0.42);
-    box-shadow: 0 32px 68px rgba(0, 0, 0, 0.42), 0 0 38px rgba(224, 169, 54, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    border-color: rgba(200, 146, 42, 0.42);
+    box-shadow: 0 32px 68px rgba(0, 0, 0, 0.42), 0 0 38px rgba(200, 146, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .location-map-card__shine {
@@ -1383,9 +1488,9 @@ footer a:hover {
     justify-content: center;
     width: 2.65rem;
     height: 2.65rem;
-    border: 1px solid rgba(224, 169, 54, 0.22);
+    border: 1px solid rgba(200, 146, 42, 0.22);
     border-radius: 0.9rem;
-    background: rgba(224, 169, 54, 0.12);
+    background: rgba(200, 146, 42, 0.12);
     color: var(--gold-soft);
     cursor: pointer;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -1394,8 +1499,8 @@ footer a:hover {
 
 .location-map-card__badge:hover,
 .location-map-card__badge:focus-visible {
-    border-color: rgba(224, 169, 54, 0.48);
-    background: rgba(224, 169, 54, 0.18);
+    border-color: rgba(200, 146, 42, 0.48);
+    background: rgba(200, 146, 42, 0.18);
     transform: translateY(-1px);
     outline: none;
 }
@@ -1412,10 +1517,10 @@ footer a:hover {
     height: 8.5rem;
     margin: 0 1rem;
     overflow: hidden;
-    border: 1px solid rgba(224, 169, 54, 0.17);
+    border: 1px solid rgba(200, 146, 42, 0.17);
     border-radius: 1rem;
     background:
-        radial-gradient(circle at 52% 48%, rgba(224, 169, 54, 0.16), transparent 24%),
+        radial-gradient(circle at 52% 48%, rgba(200, 146, 42, 0.16), transparent 24%),
         linear-gradient(145deg, rgba(26, 25, 22, 0.94), rgba(12, 12, 10, 0.96));
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045), inset 0 -24px 60px rgba(0, 0, 0, 0.24);
     opacity: 0.72;
@@ -1460,8 +1565,8 @@ footer a:hover {
     inset: 0;
     z-index: 2;
     background-image:
-        linear-gradient(rgba(224, 169, 54, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(224, 169, 54, 0.02) 1px, transparent 1px);
+        linear-gradient(rgba(200, 146, 42, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200, 146, 42, 0.02) 1px, transparent 1px);
     background-size: 34px 34px;
     mask-image: radial-gradient(circle at center, black 42%, transparent 82%);
     pointer-events: none;
@@ -1472,8 +1577,8 @@ footer a:hover {
     z-index: 3;
     display: block;
     border-radius: 999px;
-    background: linear-gradient(90deg, rgba(246, 212, 135, 0.04), rgba(224, 169, 54, 0.16), rgba(246, 212, 135, 0.04));
-    box-shadow: 0 0 18px rgba(224, 169, 54, 0.06);
+    background: linear-gradient(90deg, rgba(246, 212, 135, 0.04), rgba(200, 146, 42, 0.16), rgba(246, 212, 135, 0.04));
+    box-shadow: 0 0 18px rgba(200, 146, 42, 0.06);
     opacity: 0.58;
     pointer-events: none;
 }
@@ -1543,7 +1648,7 @@ footer a:hover {
     position: absolute;
     z-index: 2;
     display: block;
-    border: 1px solid rgba(224, 169, 54, 0.07);
+    border: 1px solid rgba(200, 146, 42, 0.07);
     border-radius: 0.45rem;
     background: linear-gradient(145deg, rgba(78, 68, 50, 0.18), rgba(24, 22, 19, 0.24));
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025), 0 12px 24px rgba(0, 0, 0, 0.08);
@@ -1565,7 +1670,7 @@ footer a:hover {
     height: 0.45rem;
     border-radius: 999px;
     background: var(--gold-soft);
-    box-shadow: 0 0 18px rgba(224, 169, 54, 0.55);
+    box-shadow: 0 0 18px rgba(200, 146, 42, 0.55);
     animation: mapRoutePulse 2.4s ease-in-out infinite;
 }
 
@@ -1596,7 +1701,7 @@ footer a:hover {
     border-radius: 50% 50% 50% 0;
     background: linear-gradient(145deg, var(--gold-soft), var(--accent) 58%, var(--accent-dark));
     transform: translateX(-50%) rotate(-45deg);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.34), 0 0 30px rgba(224, 169, 54, 0.24);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.34), 0 0 30px rgba(200, 146, 42, 0.24);
 }
 
 .location-map-card__pin-head::after {
@@ -1628,7 +1733,7 @@ footer a:hover {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    border-top: 1px solid rgba(224, 169, 54, 0.16);
+    border-top: 1px solid rgba(200, 146, 42, 0.16);
 }
 
 .location-map-card__place {
@@ -1650,9 +1755,9 @@ footer a:hover {
     justify-content: center;
     gap: 0.65rem;
     width: 100%;
-    border: 1px solid rgba(224, 169, 54, 0.28);
+    border: 1px solid rgba(200, 146, 42, 0.28);
     border-radius: 0.85rem;
-    background: rgba(224, 169, 54, 0.1);
+    background: rgba(200, 146, 42, 0.1);
     padding: 0.9rem 1rem;
     color: var(--cream);
     font-size: 0.94rem;
@@ -1665,8 +1770,8 @@ footer a:hover {
 .map-action-button:hover,
 .map-action-button:focus-visible {
     transform: translateY(-1px);
-    border-color: rgba(224, 169, 54, 0.52);
-    background: rgba(224, 169, 54, 0.18);
+    border-color: rgba(200, 146, 42, 0.52);
+    background: rgba(200, 146, 42, 0.18);
     color: var(--gold-soft);
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
 }
@@ -1679,7 +1784,7 @@ footer a:hover {
     width: 2rem;
     height: 2rem;
     border-radius: 0.65rem;
-    background: rgba(224, 169, 54, 0.14);
+    background: rgba(200, 146, 42, 0.14);
     color: var(--gold-soft);
 }
 

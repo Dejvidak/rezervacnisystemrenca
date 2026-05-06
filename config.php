@@ -218,8 +218,8 @@ function app_head_assets(): string
 {
     $favicon = htmlspecialchars(app_absolute_url('assets/favicon.svg?v=3'), ENT_QUOTES, 'UTF-8');
     $manifest = htmlspecialchars(app_absolute_url('site.webmanifest?v=3'), ENT_QUOTES, 'UTF-8');
-    $modernCss = htmlspecialchars(app_absolute_url('assets/modern.css?v=25'), ENT_QUOTES, 'UTF-8');
-    $modernJs = htmlspecialchars(app_absolute_url('assets/modern.js?v=25'), ENT_QUOTES, 'UTF-8');
+    $modernCss = htmlspecialchars(app_absolute_url('assets/modern.css?v=26'), ENT_QUOTES, 'UTF-8');
+    $modernJs = htmlspecialchars(app_absolute_url('assets/modern.js?v=26'), ENT_QUOTES, 'UTF-8');
 
     return <<<HTML
     <link rel="icon" href="{$favicon}" type="image/svg+xml">

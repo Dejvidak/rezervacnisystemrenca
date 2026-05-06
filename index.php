@@ -149,10 +149,10 @@ $referenceCuts = [
             --field: #171613;
             --field-border: #5B554B;
             --field-text: #F7F3EA;
-            --accent: #D4AF3C;
-            --accent-dark: #A96612;
-            --gold: #E0A936;
-            --gold-soft: #F6D487;
+            --accent: #C8922A;
+            --accent-dark: #B07820;
+            --gold: #C8922A;
+            --gold-soft: #D4A340;
             --accent-contrast: #F7F3EA;
             --shadow-soft: 0 20px 44px rgba(0, 0, 0, 0.28);
             --shadow-strong: 0 30px 70px rgba(0, 0, 0, 0.46);
@@ -178,7 +178,7 @@ $referenceCuts = [
             position: fixed;
             inset: 0 0 auto 0;
             z-index: 50;
-            border-color: rgba(224, 169, 54, 0.18);
+            border-color: rgba(200, 146, 42, 0.18);
             background: linear-gradient(180deg, rgba(36, 34, 30, 0.96), rgba(20, 19, 17, 0.94));
             backdrop-filter: blur(14px);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
@@ -186,10 +186,10 @@ $referenceCuts = [
         }
 
         .site-header.is-scrolled {
-            border-color: rgba(224, 169, 54, 0.28);
+            border-color: rgba(200, 146, 42, 0.28);
             background: linear-gradient(180deg, rgba(43, 40, 34, 0.9), rgba(13, 13, 11, 0.88));
             backdrop-filter: blur(18px);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(224, 169, 54, 0.1);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(200, 146, 42, 0.1);
         }
 
         @media (max-width: 1023px) {
@@ -218,19 +218,25 @@ $referenceCuts = [
             justify-content: center;
             gap: 0.55rem;
             border-radius: 0.9rem;
-            background: linear-gradient(180deg, #B87517, #7A3F08);
+            background: #C8922A;
             padding: 0.9rem 1.35rem;
-            color: var(--accent-contrast);
+            color: #ffffff;
             font-size: 0.95rem;
             font-weight: 700;
-            box-shadow: 0 14px 28px rgba(212, 175, 60, 0.18);
+            box-shadow: 0 14px 28px rgba(200, 146, 42, 0.18);
             transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease, background 220ms ease;
         }
 
         .ui-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 18px 34px rgba(212, 175, 60, 0.26);
+            background: #D4A340;
+            color: #ffffff;
+            box-shadow: 0 0 14px rgba(200, 146, 42, 0.45);
             filter: saturate(1.04);
+        }
+
+        .ui-button:active {
+            background: #B07820;
         }
 
         .ui-button-secondary {
@@ -238,11 +244,11 @@ $referenceCuts = [
             align-items: center;
             justify-content: center;
             gap: 0.55rem;
-            border: 1px solid rgba(224, 169, 54, 0.28);
+            border: 1px solid #C8922A;
             border-radius: 0.9rem;
-            background: rgba(31, 29, 25, 0.78);
+            background: transparent;
             padding: 0.9rem 1.35rem;
-            color: var(--cream);
+            color: #C8922A;
             font-size: 0.95rem;
             font-weight: 700;
             box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
@@ -251,16 +257,16 @@ $referenceCuts = [
 
         .ui-button-secondary:hover {
             transform: translateY(-2px);
-            border-color: rgba(224, 169, 54, 0.5);
-            background: rgba(224, 169, 54, 0.12);
-            color: var(--gold-soft);
-            box-shadow: 0 16px 28px rgba(0, 0, 0, 0.2);
+            border-color: #C8922A;
+            background: rgba(200, 146, 42, 0.12);
+            color: #C8922A;
+            box-shadow: 0 0 14px rgba(200, 146, 42, 0.45);
         }
 
         .price-stat {
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(224, 169, 54, 0.16);
+            border: 1px solid rgba(200, 146, 42, 0.16);
             background: linear-gradient(180deg, rgba(31, 29, 25, 0.92), rgba(19, 18, 16, 0.92));
             box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18);
         }
@@ -276,7 +282,7 @@ $referenceCuts = [
         .price-badge {
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(224, 169, 54, 0.16);
+            border: 1px solid rgba(200, 146, 42, 0.16);
             background: linear-gradient(180deg, rgba(31, 29, 25, 0.94), rgba(19, 18, 16, 0.94));
             box-shadow: 0 14px 26px rgba(0, 0, 0, 0.18);
         }
@@ -290,8 +296,8 @@ $referenceCuts = [
         }
 
         .price-badge--featured {
-            border-color: rgba(224, 169, 54, 0.32);
-            background: linear-gradient(180deg, rgba(224, 169, 54, 0.1), rgba(255, 255, 255, 0.045));
+            border-color: rgba(200, 146, 42, 0.32);
+            background: linear-gradient(180deg, rgba(200, 146, 42, 0.1), rgba(255, 255, 255, 0.045));
             box-shadow: 0 16px 28px rgba(0, 0, 0, 0.18);
         }
 
@@ -300,11 +306,11 @@ $referenceCuts = [
             align-items: center;
             justify-content: center;
             gap: 0.55rem;
-            border: 1px solid rgba(218, 218, 213, 0.18);
+            border: 1px solid #C8922A;
             border-radius: 0.9rem;
-            background: rgba(255, 255, 255, 0.04);
+            background: transparent;
             padding: 0.9rem 1.35rem;
-            color: var(--cream);
+            color: #C8922A;
             font-size: 0.95rem;
             font-weight: 700;
             transition: transform 220ms ease, border-color 220ms ease, color 220ms ease, background 220ms ease;
@@ -312,9 +318,9 @@ $referenceCuts = [
 
         .ui-button-ghost-dark:hover {
             transform: translateY(-2px);
-            border-color: rgba(218, 218, 213, 0.34);
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--gold-soft);
+            border-color: #C8922A;
+            background: rgba(200, 146, 42, 0.12);
+            color: #C8922A;
         }
 
         .lift-card {
@@ -395,7 +401,7 @@ $referenceCuts = [
             inset: 0;
             background:
                 linear-gradient(180deg, rgba(8, 8, 7, 0.05), rgba(8, 8, 7, 0.44)),
-                radial-gradient(circle at 78% 18%, rgba(224, 169, 54, 0.18), transparent 36%);
+                radial-gradient(circle at 78% 18%, rgba(200, 146, 42, 0.18), transparent 36%);
             content: "";
             pointer-events: none;
         }
@@ -432,8 +438,8 @@ $referenceCuts = [
         .reference-card__eyebrow {
             display: inline-flex;
             border-radius: 999px;
-            border: 1px solid rgba(224, 169, 54, 0.22);
-            background: rgba(224, 169, 54, 0.1);
+            border: 1px solid rgba(200, 146, 42, 0.22);
+            background: rgba(200, 146, 42, 0.1);
             padding: 0.3rem 0.62rem;
             font-size: 0.62rem;
             font-weight: 800;
@@ -461,8 +467,8 @@ $referenceCuts = [
             align-items: center;
             justify-content: center;
             border-radius: 999px;
-            border: 1px solid rgba(224, 169, 54, 0.28);
-            background: rgba(224, 169, 54, 0.1);
+            border: 1px solid rgba(200, 146, 42, 0.28);
+            background: rgba(200, 146, 42, 0.1);
             color: var(--accent-dark);
             transition: transform 220ms ease, background 220ms ease, border-color 220ms ease;
         }
@@ -673,7 +679,7 @@ $referenceCuts = [
             display: flex;
             align-items: flex-start;
             gap: 0.75rem;
-            border: 1px solid rgba(224, 169, 54, 0.22);
+            border: 1px solid rgba(200, 146, 42, 0.22);
             border-radius: 0.9rem;
             background: rgba(8, 8, 7, 0.5);
             padding: 0.8rem 0.9rem;
@@ -699,7 +705,7 @@ $referenceCuts = [
             width: 2rem;
             height: 2rem;
             border-radius: 0.7rem;
-            background: rgba(224, 169, 54, 0.13);
+            background: rgba(200, 146, 42, 0.13);
             color: var(--gold-soft);
         }
 
@@ -747,14 +753,14 @@ $referenceCuts = [
             width: 2.1rem;
             height: 2.1rem;
             border-radius: 0.7rem;
-            background: rgba(224, 169, 54, 0.12);
+            background: rgba(200, 146, 42, 0.12);
             color: var(--gold-soft);
             transition: transform 220ms ease, background 220ms ease;
         }
 
         .homepage-hero__card[open] .homepage-hero__card-icon {
             transform: rotate(45deg);
-            background: rgba(224, 169, 54, 0.2);
+            background: rgba(200, 146, 42, 0.2);
         }
 
         .homepage-hero__card-body {
@@ -838,9 +844,9 @@ $referenceCuts = [
             align-items: stretch;
             justify-content: space-between;
             gap: 1rem;
-            border: 1px solid rgba(224, 169, 54, 0.38);
+            border: 1px solid rgba(200, 146, 42, 0.38);
             border-radius: 1rem;
-            background: linear-gradient(135deg, rgba(224, 169, 54, 0.12), rgba(31, 29, 25, 0.94));
+            background: linear-gradient(135deg, rgba(200, 146, 42, 0.12), rgba(31, 29, 25, 0.94));
             padding: 1rem;
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 18px 34px rgba(0, 0, 0, 0.16);
         }
@@ -855,7 +861,7 @@ $referenceCuts = [
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(224, 169, 54, 0.28);
+            border: 1px solid rgba(200, 146, 42, 0.28);
             border-radius: 0.85rem;
             background: rgba(13, 13, 11, 0.42);
             padding: 0.85rem 0.75rem;
@@ -1046,7 +1052,7 @@ $referenceCuts = [
         }
 
         .booking-wizard-header {
-            border-bottom: 1px solid rgba(224, 169, 54, 0.14);
+            border-bottom: 1px solid rgba(200, 146, 42, 0.14);
             padding-bottom: 1rem;
         }
 
@@ -1059,7 +1065,7 @@ $referenceCuts = [
         .booking-stepper__item {
             position: relative;
             min-width: 0;
-            border: 1px solid rgba(224, 169, 54, 0.16);
+            border: 1px solid rgba(200, 146, 42, 0.16);
             border-radius: 0.75rem;
             background: rgba(255, 255, 255, 0.04);
             padding: 0.55rem 0.55rem 0.5rem;
@@ -1069,14 +1075,14 @@ $referenceCuts = [
         }
 
         .booking-stepper__item.is-active {
-            border-color: rgba(224, 169, 54, 0.72);
-            background: rgba(224, 169, 54, 0.13);
+            border-color: rgba(200, 146, 42, 0.72);
+            background: rgba(200, 146, 42, 0.13);
             color: var(--cream);
             transform: translateY(-1px);
         }
 
         .booking-stepper__item.is-complete {
-            border-color: rgba(224, 169, 54, 0.36);
+            border-color: rgba(200, 146, 42, 0.36);
             color: var(--gold-soft);
         }
 
@@ -1087,7 +1093,7 @@ $referenceCuts = [
             width: 1.35rem;
             height: 1.35rem;
             border-radius: 999px;
-            background: rgba(224, 169, 54, 0.14);
+            background: rgba(200, 146, 42, 0.14);
             color: var(--gold-soft);
             font-size: 0.72rem;
             font-weight: 900;
@@ -1144,7 +1150,7 @@ $referenceCuts = [
             display: flex;
             flex-direction: column-reverse;
             gap: 0.75rem;
-            border-top: 1px solid rgba(224, 169, 54, 0.14);
+            border-top: 1px solid rgba(200, 146, 42, 0.14);
             padding-top: 1rem;
         }
 
@@ -1166,22 +1172,35 @@ $referenceCuts = [
         }
 
         .booking-nav-button--ghost {
-            border: 1px solid rgba(224, 169, 54, 0.22);
-            color: var(--cream);
-            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid #C8922A;
+            color: #C8922A;
+            background: transparent;
         }
 
         .booking-nav-button--ghost:hover {
-            border-color: rgba(224, 169, 54, 0.46);
-            color: var(--gold-soft);
-            background: rgba(224, 169, 54, 0.08);
+            border-color: #C8922A;
+            color: #C8922A;
+            background: rgba(200, 146, 42, 0.12);
+            box-shadow: 0 0 14px rgba(200, 146, 42, 0.45);
         }
 
         .booking-nav-button--primary {
-            border: 1px solid rgba(224, 169, 54, 0.56);
-            background: linear-gradient(180deg, #B87517, #7A3F08);
-            color: var(--cream);
-            box-shadow: 0 14px 26px rgba(212, 175, 60, 0.18);
+            border: 1px solid #C8922A;
+            background: #C8922A;
+            color: #ffffff;
+            box-shadow: 0 14px 26px rgba(200, 146, 42, 0.18);
+        }
+
+        .booking-nav-button--primary:hover {
+            border-color: #D4A340;
+            background: #D4A340;
+            color: #ffffff;
+            box-shadow: 0 0 14px rgba(200, 146, 42, 0.45);
+        }
+
+        .booking-nav-button--primary:active {
+            border-color: #B07820;
+            background: #B07820;
         }
 
         .booking-summary-grid {
@@ -1190,7 +1209,7 @@ $referenceCuts = [
         }
 
         .booking-summary-card {
-            border: 1px solid rgba(224, 169, 54, 0.16);
+            border: 1px solid rgba(200, 146, 42, 0.16);
             border-radius: 0.9rem;
             background: rgba(255, 255, 255, 0.045);
             padding: 0.85rem;
@@ -1279,7 +1298,7 @@ $referenceCuts = [
         .booking-control:focus {
             outline: none;
             border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(224, 169, 54, 0.22);
+            box-shadow: 0 0 0 3px rgba(200, 146, 42, 0.22);
         }
 
         .booking-control:disabled {
@@ -1732,7 +1751,7 @@ $referenceCuts = [
             </svg>
         </button>
     </div>
-    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(224,169,54,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
+    <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(200, 146, 42,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
         <a href="#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
         <a href="#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
         <a href="references.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
@@ -1787,7 +1806,7 @@ $referenceCuts = [
                             <strong class="mt-1 block text-sm text-[color:var(--cream)]"><?= htmlspecialchars($businessOpeningHoursLabel, ENT_QUOTES, 'UTF-8') ?></strong>
                         </span>
                     </div>
-                    <a href="<?= htmlspecialchars($businessMapUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener noreferrer" class="hero-info-pill transition hover:-translate-y-0.5 hover:border-[rgba(224,169,54,0.42)] hover:text-[color:var(--gold-soft)]">
+                    <a href="<?= htmlspecialchars($businessMapUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener noreferrer" class="hero-info-pill transition hover:-translate-y-0.5 hover:border-[rgba(200, 146, 42,0.42)] hover:text-[color:var(--gold-soft)]">
                         <span class="hero-info-pill__icon" aria-hidden="true">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
                                 <path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z" stroke="currentColor" stroke-width="2" />
