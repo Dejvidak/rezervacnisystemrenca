@@ -64,21 +64,6 @@ $pageSchema = app_public_business_schema('cenik.php', [
             box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18);
         }
 
-        .site-header {
-            border-color: rgba(200, 146, 42, 0.18);
-            background: linear-gradient(180deg, rgba(36, 34, 30, 0.96), rgba(20, 19, 17, 0.94));
-            backdrop-filter: blur(14px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-            transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease, backdrop-filter 220ms ease;
-        }
-
-        .site-header.is-scrolled {
-            border-color: rgba(200, 146, 42, 0.28);
-            background: linear-gradient(180deg, rgba(43, 40, 34, 0.9), rgba(13, 13, 11, 0.88));
-            backdrop-filter: blur(18px);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(200, 146, 42, 0.1);
-        }
-
         .price-stat::before {
             position: absolute;
             inset: 0 auto 0 0;
@@ -117,7 +102,7 @@ $pageSchema = app_public_business_schema('cenik.php', [
 <!-- Scroll progress bar -->
 <div id="scrollProgress" aria-hidden="true"></div>
 
-<header class="site-header sticky top-0 z-50 border-b border-[var(--surface-soft)] bg-[var(--surface)] shadow-lg">
+<header class="site-header">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <a href="index.php" class="brand-mark" aria-label="Hair By ReneNeme">
             <img src="assets/logo-reneneme-navbar.png?v=3" alt="Hair By ReneNeme" class="brand-mark__logo">

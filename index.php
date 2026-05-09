@@ -165,37 +165,13 @@ $referenceCuts = [
         }
 
         body {
-            padding-top: 4.35rem;
+            padding-top: 0;
         }
 
         header,
         main,
         footer {
             max-width: 100vw;
-        }
-
-        .site-header {
-            position: fixed;
-            inset: 0 0 auto 0;
-            z-index: 50;
-            border-color: rgba(200, 146, 42, 0.18);
-            background: linear-gradient(180deg, rgba(36, 34, 30, 0.96), rgba(20, 19, 17, 0.94));
-            backdrop-filter: blur(14px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-            transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease, backdrop-filter 220ms ease;
-        }
-
-        .site-header.is-scrolled {
-            border-color: rgba(200, 146, 42, 0.28);
-            background: linear-gradient(180deg, rgba(43, 40, 34, 0.9), rgba(13, 13, 11, 0.88));
-            backdrop-filter: blur(18px);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(200, 146, 42, 0.1);
-        }
-
-        @media (max-width: 1023px) {
-            .site-header {
-                position: fixed;
-            }
         }
 
         .premium-surface {
@@ -560,11 +536,11 @@ $referenceCuts = [
         .homepage-hero {
             position: relative;
             isolation: isolate;
-            min-height: calc(100svh - 4.35rem);
+            min-height: 100svh;
             width: 100vw;
             margin-left: calc(50% - 50vw);
             overflow: hidden;
-            padding: clamp(2rem, 4.8vh, 3.6rem) clamp(1.25rem, 4vw, 4rem) clamp(1.5rem, 3.8vh, 3rem);
+            padding: clamp(6.1rem, 9.5vh, 7.2rem) clamp(1.25rem, 4vw, 4rem) clamp(1.25rem, 3.2vh, 2.4rem);
             background: #050504;
         }
 
@@ -619,7 +595,7 @@ $referenceCuts = [
             position: relative;
             z-index: 2;
             display: grid;
-            min-height: calc(100svh - 6.35rem);
+            min-height: calc(100svh - clamp(7.35rem, 12.7vh, 9.6rem));
             align-items: center;
             gap: 2rem;
         }
@@ -641,7 +617,7 @@ $referenceCuts = [
             max-width: 6.7em;
             color: var(--cream);
             font-family: Impact, "Arial Black", "Helvetica Neue", Arial, sans-serif;
-            font-size: clamp(3.2rem, 6.55vw, 6rem);
+            font-size: clamp(3rem, 5.45vw, 5.25rem);
             font-weight: 950;
             letter-spacing: 0;
             line-height: 1.035;
@@ -801,29 +777,79 @@ $referenceCuts = [
         }
 
         body.is-loaded .homepage-hero__intro {
-            animation: heroItemRise 0.6s ease-out 0.75s both;
+            animation: heroItemRise 0.56s ease-out 0.45s both;
         }
 
         body.is-loaded .hero-info-pill:nth-child(1) {
-            animation: heroItemRise 0.6s ease-out 0.9s both;
+            animation: heroItemRise 0.56s ease-out 0.56s both;
         }
 
         body.is-loaded .hero-info-pill:nth-child(2) {
-            animation: heroItemRise 0.6s ease-out 1.05s both;
+            animation: heroItemRise 0.56s ease-out 0.67s both;
         }
 
         body.is-loaded .homepage-hero__copy > .mt-5 > a:nth-child(1) {
-            animation: heroItemRise 0.6s ease-out 1.2s both;
+            animation: heroItemRise 0.56s ease-out 0.78s both;
         }
 
         body.is-loaded .homepage-hero__copy > .mt-5 > a:nth-child(2) {
-            animation: heroItemRise 0.6s ease-out 1.35s both;
+            animation: heroItemRise 0.56s ease-out 0.89s both;
+        }
+
+        @media (max-width: 767px) {
+            .homepage-hero__eyebrow,
+            .homepage-hero__title-line,
+            .homepage-hero__intro,
+            .hero-info-pill,
+            .homepage-hero__copy > .mt-5 > a {
+                transform: translate3d(0, 24px, 0);
+            }
+
+            body.is-loaded .homepage-hero__eyebrow {
+                animation: heroItemRiseMobile 0.82s cubic-bezier(0.22, 1, 0.36, 1) 0s both;
+            }
+
+            body.is-loaded .homepage-hero__title-line {
+                animation: heroItemRiseMobile 0.82s cubic-bezier(0.22, 1, 0.36, 1) calc(0.2s + var(--hero-title-index, 0) * 0.18s) both;
+            }
+
+            body.is-loaded .homepage-hero__intro {
+                animation: heroItemRiseMobile 0.82s cubic-bezier(0.22, 1, 0.36, 1) 0.98s both;
+            }
+
+            body.is-loaded .hero-info-pill:nth-child(1) {
+                animation: heroItemRiseMobile 0.82s cubic-bezier(0.22, 1, 0.36, 1) 1.16s both;
+            }
+
+            body.is-loaded .hero-info-pill:nth-child(2) {
+                animation: heroItemRiseMobile 0.82s cubic-bezier(0.22, 1, 0.36, 1) 1.34s both;
+            }
+
+            body.is-loaded .homepage-hero__copy > .mt-5 > a:nth-child(1) {
+                animation: heroItemRiseMobile 0.82s cubic-bezier(0.22, 1, 0.36, 1) 1.52s both;
+            }
+
+            body.is-loaded .homepage-hero__copy > .mt-5 > a:nth-child(2) {
+                animation: heroItemRiseMobile 0.82s cubic-bezier(0.22, 1, 0.36, 1) 1.7s both;
+            }
         }
 
         @keyframes heroItemRise {
             0% {
                 opacity: 0;
                 transform: translate3d(0, 30px, 0);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        @keyframes heroItemRiseMobile {
+            0% {
+                opacity: 0;
+                transform: translate3d(0, 24px, 0);
             }
 
             100% {
@@ -878,18 +904,33 @@ $referenceCuts = [
             }
 
             .homepage-hero .hero-info-grid {
-                margin-top: 1rem !important;
+                margin-top: 0.82rem !important;
             }
 
             .homepage-hero__copy > .mt-5 {
-                margin-top: 1rem !important;
+                margin-top: 0.85rem !important;
+            }
+        }
+
+        @media (min-width: 1280px) and (max-height: 980px) {
+            .homepage-hero {
+                padding-top: clamp(5.7rem, 8.8vh, 6.7rem);
+            }
+
+            .homepage-hero__title {
+                font-size: clamp(3rem, 5vw, 4.9rem);
+            }
+
+            .hero-info-pill {
+                padding-top: 0.72rem;
+                padding-bottom: 0.72rem;
             }
         }
 
         @media (max-width: 767px) {
             .homepage-hero {
                 min-height: auto;
-                padding-top: 2.8rem;
+                padding-top: 6.35rem;
                 padding-bottom: 3rem;
             }
 
@@ -922,8 +963,8 @@ $referenceCuts = [
 
             .homepage-hero__title {
                 max-width: 7.15em;
-                font-size: clamp(2.55rem, 12.2vw, 4.1rem);
-                line-height: 1.09;
+                font-size: clamp(2.32rem, 10.8vw, 3.65rem);
+                line-height: 1.06;
             }
 
             .homepage-hero__intro {
@@ -1708,7 +1749,7 @@ $referenceCuts = [
 <div id="scrollProgress" aria-hidden="true"></div>
 
 <!-- NAV / HEADER -->
-<header class="site-header bg-[var(--surface)] border-b border-[var(--surface-soft)] shadow-lg">
+<header class="site-header">
     <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
         <a href="index.php" class="brand-mark" aria-label="Hair By ReneNeme">
             <img src="assets/logo-reneneme-navbar.png?v=3" alt="Hair By ReneNeme" class="brand-mark__logo">

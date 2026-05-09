@@ -41,15 +41,24 @@
     function initScrollProgress() {
         const bar = document.getElementById('scrollProgress');
         if (!bar || prefersReducedMotion.matches) return;
+        let ticking = false;
 
         function update() {
             const scrollTop = window.scrollY || document.documentElement.scrollTop;
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            bar.style.width = pct.toFixed(2) + '%';
+            const progress = docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0;
+            bar.style.transform = `scaleX(${progress.toFixed(4)})`;
+            ticking = false;
         }
 
-        window.addEventListener('scroll', update, { passive: true });
+        function requestUpdate() {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(update);
+        }
+
+        window.addEventListener('scroll', requestUpdate, { passive: true });
+        window.addEventListener('resize', requestUpdate, { passive: true });
         update();
     }
 
