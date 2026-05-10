@@ -219,7 +219,7 @@ function app_head_assets(): string
     $faviconIco = htmlspecialchars(app_absolute_url('favicon.ico?v=5'), ENT_QUOTES, 'UTF-8');
     $favicon = htmlspecialchars(app_absolute_url('assets/favicon.png?v=5'), ENT_QUOTES, 'UTF-8');
     $manifest = htmlspecialchars(app_absolute_url('site.webmanifest?v=5'), ENT_QUOTES, 'UTF-8');
-    $modernCss = htmlspecialchars(app_absolute_url('assets/modern.css?v=29'), ENT_QUOTES, 'UTF-8');
+    $modernCss = htmlspecialchars(app_absolute_url('assets/modern.css?v=30'), ENT_QUOTES, 'UTF-8');
     $modernJs = htmlspecialchars(app_absolute_url('assets/modern.js?v=27'), ENT_QUOTES, 'UTF-8');
 
     return <<<HTML

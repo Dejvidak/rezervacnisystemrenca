@@ -634,7 +634,33 @@ $referenceCuts = [
         }
 
         .homepage-hero__title-accent {
+            position: relative;
+            display: block;
             color: var(--gold);
+        }
+
+        .homepage-hero__title-accent::after {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                105deg,
+                transparent 0%,
+                transparent 42%,
+                rgba(255, 244, 207, 0.92) 49%,
+                rgba(255, 244, 207, 0.32) 52%,
+                transparent 59%,
+                transparent 100%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            content: "";
+            content: attr(data-title);
+            opacity: 0;
+            pointer-events: none;
+            -webkit-text-fill-color: transparent;
+            transform: translateX(-58%);
+            will-change: background-position, opacity, transform;
         }
 
         .homepage-hero__intro {
@@ -776,6 +802,14 @@ $referenceCuts = [
             animation: heroItemRise 0.6s ease-out calc(0.15s + var(--hero-title-index, 0) * 0.15s) both;
         }
 
+        body.is-loaded .homepage-hero__title-accent {
+            animation: heroItemRise 0.6s ease-out calc(0.15s + var(--hero-title-index, 0) * 0.15s) both, heroShimmer 7s linear 1.35s infinite;
+        }
+
+        body.is-loaded .homepage-hero__title-accent::after {
+            animation: heroAccentSweep 0.96s cubic-bezier(0.16, 1, 0.3, 1) 1.02s both;
+        }
+
         body.is-loaded .homepage-hero__intro {
             animation: heroItemRise 0.56s ease-out 0.45s both;
         }
@@ -843,6 +877,22 @@ $referenceCuts = [
             100% {
                 opacity: 1;
                 transform: translate3d(0, 0, 0);
+            }
+        }
+
+        @keyframes heroAccentSweep {
+            0% {
+                opacity: 0;
+                transform: translateX(-58%);
+            }
+
+            24% {
+                opacity: 0.82;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(58%);
             }
         }
 
@@ -1604,6 +1654,7 @@ $referenceCuts = [
             .homepage-hero__card,
             .homepage-hero__eyebrow,
             .homepage-hero__title-line,
+            .homepage-hero__title-accent::after,
             .homepage-hero__intro,
             .hero-info-pill,
             .homepage-hero__copy > .mt-5 > a {
@@ -1829,7 +1880,7 @@ $referenceCuts = [
                     <span class="homepage-hero__title-line" style="--hero-title-index: 0;">Pánské</span>
                     <span class="homepage-hero__title-line" style="--hero-title-index: 1;">kadeřnictví</span>
                     <span class="homepage-hero__title-line" style="--hero-title-index: 2;">v Brně</span>
-                    <span class="homepage-hero__title-line homepage-hero__title-accent hero-title-shimmer" style="--hero-title-index: 3;">By ReneNeme</span>
+                    <span class="homepage-hero__title-line homepage-hero__title-accent hero-title-shimmer" style="--hero-title-index: 3;" data-title="By ReneNeme">By ReneNeme</span>
                 </h1>
                 <p class="homepage-hero__intro mt-6 text-base font-semibold leading-7 sm:text-lg">
                     Pánské střihy s čistým tvarem, pohodovou domluvou a rezervací na pár kliknutí.
