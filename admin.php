@@ -358,9 +358,10 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Rezervace</title>
-    <link rel="icon" href="<?= h(app_absolute_url('assets/favicon.svg?v=3')) ?>" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="<?= h(app_absolute_url('assets/favicon.svg?v=3')) ?>">
-    <link rel="manifest" href="<?= h(app_absolute_url('site.webmanifest?v=3')) ?>">
+    <link rel="icon" href="<?= h(app_absolute_url('favicon.ico?v=5')) ?>" sizes="any">
+    <link rel="icon" href="<?= h(app_absolute_url('assets/favicon.png?v=5')) ?>" type="image/png">
+    <link rel="apple-touch-icon" href="<?= h(app_absolute_url('assets/favicon.png?v=5')) ?>">
+    <link rel="manifest" href="<?= h(app_absolute_url('site.webmanifest?v=5')) ?>">
     <meta name="theme-color" content="#080807">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>

@@ -62,7 +62,7 @@ $pageSchema = app_public_business_schema('contact.php', [
 <header class="site-header">
     <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
         <a href="index.php" class="brand-mark" aria-label="Hair By ReneNeme">
-            <img src="assets/logo-reneneme-navbar.png?v=3" alt="Hair By ReneNeme" class="brand-mark__logo">
+            <img src="assets/logo-reneneme-navbar.png?v=4" alt="Hair By ReneNeme" class="brand-mark__logo">
         </a>
         <nav class="premium-nav hidden lg:flex" data-pill-nav aria-label="Hlavní navigace">
             <a href="index.php#about" class="nav-link premium-nav__link">O nás</a>

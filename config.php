@@ -216,13 +216,15 @@ function app_absolute_url(string $path = ''): string
 
 function app_head_assets(): string
 {
-    $favicon = htmlspecialchars(app_absolute_url('assets/favicon.svg?v=3'), ENT_QUOTES, 'UTF-8');
-    $manifest = htmlspecialchars(app_absolute_url('site.webmanifest?v=3'), ENT_QUOTES, 'UTF-8');
+    $faviconIco = htmlspecialchars(app_absolute_url('favicon.ico?v=5'), ENT_QUOTES, 'UTF-8');
+    $favicon = htmlspecialchars(app_absolute_url('assets/favicon.png?v=5'), ENT_QUOTES, 'UTF-8');
+    $manifest = htmlspecialchars(app_absolute_url('site.webmanifest?v=5'), ENT_QUOTES, 'UTF-8');
     $modernCss = htmlspecialchars(app_absolute_url('assets/modern.css?v=29'), ENT_QUOTES, 'UTF-8');
     $modernJs = htmlspecialchars(app_absolute_url('assets/modern.js?v=27'), ENT_QUOTES, 'UTF-8');
 
     return <<<HTML
-    <link rel="icon" href="{$favicon}" type="image/svg+xml">
+    <link rel="icon" href="{$faviconIco}" sizes="any">
+    <link rel="icon" href="{$favicon}" type="image/png">
     <link rel="apple-touch-icon" href="{$favicon}">
     <link rel="manifest" href="{$manifest}">
     <meta name="theme-color" content="#080807">
