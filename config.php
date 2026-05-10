@@ -219,7 +219,7 @@ function app_head_assets(): string
     $faviconIco = htmlspecialchars(app_absolute_url('favicon.ico?v=5'), ENT_QUOTES, 'UTF-8');
     $favicon = htmlspecialchars(app_absolute_url('assets/favicon.png?v=5'), ENT_QUOTES, 'UTF-8');
     $manifest = htmlspecialchars(app_absolute_url('site.webmanifest?v=5'), ENT_QUOTES, 'UTF-8');
-    $modernCss = htmlspecialchars(app_absolute_url('assets/modern.css?v=30'), ENT_QUOTES, 'UTF-8');
+    $modernCss = htmlspecialchars(app_absolute_url('assets/modern.css?v=32'), ENT_QUOTES, 'UTF-8');
     $modernJs = htmlspecialchars(app_absolute_url('assets/modern.js?v=27'), ENT_QUOTES, 'UTF-8');
 
     return <<<HTML
@@ -230,6 +230,104 @@ function app_head_assets(): string
     <meta name="theme-color" content="#080807">
     <link rel="stylesheet" href="{$modernCss}">
     <script src="{$modernJs}" defer></script>
+
+HTML;
+}
+
+function app_html(string $value): string
+{
+    return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+}
+
+function app_site_footer(): string
+{
+    $businessName = app_html(app_business_name());
+    $phone = app_html(app_business_phone());
+    $phoneDisplay = app_html(app_business_phone_display());
+    $email = app_html(app_business_email());
+    $address = app_html(app_business_full_address_inline());
+    $mapUrl = app_html(app_business_map_url());
+    $instagramUrl = app_html(app_business_instagram_url());
+    $instagramHandle = app_html(app_business_instagram_handle());
+    $year = app_html((string) date('Y'));
+
+    $serviceLinks = '';
+    foreach (app_services() as $serviceName => $service) {
+        $serviceLabel = app_html($serviceName);
+        $priceLabel = app_html((string) ($service['price_label'] ?? ''));
+        $duration = app_html((string) ((int) ($service['duration'] ?? 0)));
+        $serviceLinks .= <<<HTML
+                <a class="site-footer__service-link" href="cenik.php">
+                    <span>{$serviceLabel}</span>
+                    <small>{$priceLabel} · {$duration} min</small>
+                </a>
+
+HTML;
+    }
+
+    return <<<HTML
+<footer id="footer" class="site-footer">
+    <div class="site-footer__inner">
+        <div class="site-footer__cta">
+            <div class="site-footer__cta-copy">
+                <p class="site-footer__eyebrow">Termín bez zbytečného čekání</p>
+                <h2>Čistý střih, jasný ceník a rezervace na pár kliknutí.</h2>
+                <p>Všechno důležité pro návštěvu Hair By ReneNeme najdeš rovnou tady: služby, adresa, otevíračka i rychlý kontakt.</p>
+            </div>
+            <div class="site-footer__actions" aria-label="Rychlé akce ve footeru">
+                <a class="site-footer__button site-footer__button--primary" href="rezervace.php">Rezervovat termín</a>
+                <a class="site-footer__button site-footer__button--ghost" href="cenik.php">Ceník služeb</a>
+            </div>
+        </div>
+
+        <div class="site-footer__grid">
+            <section class="site-footer__brand" aria-labelledby="site-footer-brand">
+                <p id="site-footer-brand" class="site-footer__brand-title">
+                    <span>Hair By</span>
+                    <strong>ReneNeme</strong>
+                </p>
+                <p class="site-footer__brand-copy">
+                    Pánské kadeřnictví v Brně pro střih, který drží tvar a návštěvu, která nepůsobí jako další povinnost v kalendáři.
+                </p>
+                <p class="site-footer__tagline">Pánské kadeřnictví · Brno-Královo Pole</p>
+            </section>
+
+            <section aria-labelledby="site-footer-services">
+                <h2 id="site-footer-services" class="site-footer__heading">Služby</h2>
+                <div class="site-footer__service-list">
+{$serviceLinks}                </div>
+            </section>
+
+            <section aria-labelledby="site-footer-visit">
+                <h2 id="site-footer-visit" class="site-footer__heading">Návštěva</h2>
+                <div class="site-footer__stack">
+                    <p>
+                        <span>Otevírací doba</span>
+                        <strong>Po-Pá 9:00-18:00</strong>
+                    </p>
+                    <a href="{$mapUrl}" target="_blank" rel="noopener noreferrer">
+                        <span>Adresa</span>
+                        <strong>{$address}</strong>
+                    </a>
+                </div>
+            </section>
+
+            <section aria-labelledby="site-footer-contact">
+                <h2 id="site-footer-contact" class="site-footer__heading">Kontakt</h2>
+                <div class="site-footer__links">
+                    <a href="tel:{$phone}">{$phoneDisplay}</a>
+                    <a href="mailto:{$email}">{$email}</a>
+                    <a href="{$instagramUrl}" target="_blank" rel="noopener noreferrer">Instagram {$instagramHandle}</a>
+                    <a href="references.php">Reference střihů</a>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="site-footer__bottom">
+        <p>© {$year} {$businessName}</p>
+        <p>Web vytvořil Dejvidaak</p>
+    </div>
+</footer>
 
 HTML;
 }

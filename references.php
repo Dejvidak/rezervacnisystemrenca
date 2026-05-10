@@ -364,39 +364,7 @@ $referenceCuts = [
     </div>
 </div>
 
-<footer class="border-t border-[var(--surface-soft)] bg-[var(--surface)] text-[color:var(--cream-soft)]">
-    <div class="mx-auto grid max-w-6xl gap-6 px-4 py-8 sm:px-6 md:grid-cols-[1.2fr_0.8fr_0.8fr] stagger-reveal">
-        <div>
-            <p class="text-xl font-extrabold tracking-tight">
-                <span class="text-[color:var(--cream)]">Hair By</span>
-                <span class="text-[color:var(--gold)]">ReneNeme</span>
-            </p>
-            <p class="mt-3 max-w-sm text-sm leading-6 text-[color:var(--cream-soft)]">
-                Pánské kadeřnictví v Brně pro čistý střih, pohodovou návštěvu a rezervaci bez zbytečného čekání.
-            </p>
-        </div>
-        <div>
-            <p class="text-xs font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Kontakt</p>
-            <div class="mt-3 space-y-2 text-sm">
-                <a href="tel:+420608419610" class="block hover:text-[color:var(--gold)]">+420 608 419 610</a>
-                <a href="mailto:renenemehair@seznam.cz" class="block break-words hover:text-[color:var(--gold)]">renenemehair@seznam.cz</a>
-                <a href="contact.php" class="block hover:text-[color:var(--gold)]">Kontaktní stránka</a>
-            </div>
-        </div>
-        <div>
-            <p class="text-xs font-bold uppercase tracking-[0.22em] text-[color:var(--gold)]">Rychle</p>
-            <div class="mt-3 space-y-2 text-sm">
-                <a href="rezervace.php" class="block hover:text-[color:var(--gold)]">Rezervace</a>
-                <a href="cenik.php" class="block hover:text-[color:var(--gold)]">Ceník</a>
-                <a href="references.php" class="block hover:text-[color:var(--gold)]">Reference</a>
-                <a href="<?= htmlspecialchars($instagramUrl, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="block hover:text-[color:var(--gold)]">Instagram</a>
-            </div>
-        </div>
-    </div>
-    <div class="border-t border-[var(--surface-soft)] px-4 py-4 text-center text-xs text-[color:var(--cream-soft)]">
-        <p>© <?php echo date('Y'); ?> Hair By ReneNeme · Web vytvořil Dejvidaak</p>
-    </div>
-</footer>
+<?= app_site_footer() ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
