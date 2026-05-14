@@ -3,6 +3,9 @@ require_once __DIR__ . '/config.php';
 
 $instagramUrl = app_business_instagram_url();
 $instagramHandle = app_business_instagram_handle();
+$businessMapUrl = app_business_map_url();
+$businessMapEmbedUrl = app_business_map_embed_url();
+$businessAddress = app_business_full_address_inline();
 $pageTitle = 'Kontakt - ' . app_business_name();
 $pageDescription = 'Kontakt na Hair By ReneNeme v Brně. Telefon, e-mail, adresa provozovny ve Vackově ulici a nejrychlejší cesta k termínu přes online rezervaci.';
 $pageCanonical = app_absolute_url('contact.php');
@@ -137,6 +140,81 @@ $pageSchema = app_public_business_schema('contact.php', [
                     Přejít na rezervaci
                 </a>
             </div>
+
+            <article
+                class="booking-map-card location-map-card location-map-card--compact section-reveal section-reveal--left mt-7"
+                data-location-map-card
+            >
+                <div class="location-map-card__shine" aria-hidden="true"></div>
+                <div class="location-map-card__header">
+                    <div>
+                        <p class="location-map-card__eyebrow">Mapa provozovny</p>
+                        <h2 class="location-map-card__title">Vackova 1064/39</h2>
+                        <p class="location-map-card__copy">Kliknutím kartu rozbalíš pro rychlou kontrolu adresy.</p>
+                    </div>
+                    <button
+                        type="button"
+                        class="location-map-card__badge"
+                        data-location-map-toggle
+                        aria-expanded="false"
+                        aria-label="Rozbalit mapu provozovny Hair By ReneNeme"
+                    >
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z" stroke="currentColor" stroke-width="2" />
+                            <path d="M12 12.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="location-map-card__canvas">
+                    <iframe
+                        class="location-map-card__embed"
+                        title="Mapa Hair By ReneNeme na adrese Vackova 1064/39"
+                        src="<?= htmlspecialchars($businessMapEmbedUrl, ENT_QUOTES, 'UTF-8') ?>"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        tabindex="-1"
+                    ></iframe>
+                    <div class="location-map-card__district"></div>
+                    <span class="location-map-card__road location-map-card__road--main"></span>
+                    <span class="location-map-card__road location-map-card__road--cross"></span>
+                    <span class="location-map-card__road location-map-card__road--north"></span>
+                    <span class="location-map-card__road location-map-card__road--south"></span>
+                    <span class="location-map-card__road location-map-card__road--lane-one"></span>
+                    <span class="location-map-card__road location-map-card__road--lane-two"></span>
+                    <span class="location-map-card__building location-map-card__building--one"></span>
+                    <span class="location-map-card__building location-map-card__building--two"></span>
+                    <span class="location-map-card__building location-map-card__building--three"></span>
+                    <span class="location-map-card__building location-map-card__building--four"></span>
+                    <span class="location-map-card__building location-map-card__building--five"></span>
+                    <span class="location-map-card__route-dot location-map-card__route-dot--one"></span>
+                    <span class="location-map-card__route-dot location-map-card__route-dot--two"></span>
+                    <span class="location-map-card__route-dot location-map-card__route-dot--three"></span>
+                    <span class="location-map-card__pin">
+                        <span class="location-map-card__pin-head"></span>
+                        <span class="location-map-card__pin-shadow"></span>
+                    </span>
+                </div>
+
+                <div class="location-map-card__footer">
+                    <p class="location-map-card__address"><?= htmlspecialchars($businessAddress, ENT_QUOTES, 'UTF-8') ?></p>
+                    <a
+                        href="<?= htmlspecialchars($businessMapUrl, ENT_QUOTES, 'UTF-8') ?>"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="map-action-button focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+                        data-location-map-link
+                    >
+                        <span class="map-action-button__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M7 17 17 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                <path d="M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                        <span class="map-action-button__text">Otevřít v mapě</span>
+                    </a>
+                </div>
+            </article>
         </div>
 
         <div class="section-reveal section-reveal--right rounded-lg border border-[var(--line)] bg-[rgba(31,29,25,0.82)] p-5 shadow-xl shadow-[rgba(0,0,0,0.18)] sm:p-7">
@@ -175,7 +253,7 @@ $pageSchema = app_public_business_schema('contact.php', [
                 <p class="mt-2 text-lg font-bold">Vackova 1064/39</p>
                 <p class="text-sm text-[color:var(--cream-soft)]">612 00 Brno-Královo Pole</p>
                 <a
-                    href="https://www.google.com/maps/search/?api=1&query=Vackova%201064%2F39%2C%20612%2000%20Brno-Kr%C3%A1lovo%20Pole"
+                    href="<?= htmlspecialchars($businessMapUrl, ENT_QUOTES, 'UTF-8') ?>"
                     target="_blank"
                     rel="noopener"
                     class="mt-4 inline-flex rounded-lg border border-[var(--gold)] px-4 py-2 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:bg-[var(--gold)] hover:text-[color:var(--surface)]"

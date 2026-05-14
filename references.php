@@ -130,6 +130,71 @@ $pageSchema = app_public_business_schema('references.php', [
             transform: translate3d(0, 0, 0) scale(1);
         }
 
+        .reference-grid-card img {
+            display: block;
+            width: 100%;
+            height: 10.5rem;
+            object-fit: cover;
+        }
+
+        .reference-grid-card__footer {
+            min-height: 2.85rem;
+        }
+
+        .gallery-lightbox__figure {
+            display: grid;
+            max-height: calc(100vh - 2rem);
+            grid-template-rows: minmax(0, 1fr);
+        }
+
+        .gallery-lightbox__image {
+            width: 100%;
+            max-height: min(86vh, calc(100vh - 2rem));
+            object-fit: contain;
+        }
+
+        @media (max-width: 639px) {
+            .gallery-lightbox {
+                align-items: stretch;
+                padding: 0;
+            }
+
+            .gallery-lightbox__panel {
+                display: flex;
+                width: 100%;
+                max-width: none;
+                max-height: none;
+                min-height: 100vh;
+                border-radius: 0;
+                overflow: hidden;
+            }
+
+            .gallery-lightbox__figure {
+                width: 100%;
+                min-height: 100vh;
+                max-height: none;
+                border-radius: 0;
+            }
+
+            .gallery-lightbox__image {
+                max-height: 100vh;
+                background: #000;
+            }
+        }
+
+        @media (min-width: 640px) {
+            .reference-grid-card img {
+                height: 18rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .reference-grid-card img {
+                height: auto;
+                aspect-ratio: 4 / 5;
+            }
+        }
+
         /* section-reveal and reveal-item styles are now in assets/modern.css */
     </style>
 </head>
@@ -259,7 +324,7 @@ $pageSchema = app_public_business_schema('references.php', [
             </div>
             <a href="rezervace.php" class="text-sm font-semibold accent-link">Přejít k rezervaci</a>
         </div>
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
             <?php foreach ($referenceCuts as $cut): ?>
                 <?php
                 $hasImage = is_file(__DIR__ . '/' . $cut['image']);
@@ -273,7 +338,7 @@ $pageSchema = app_public_business_schema('references.php', [
                         data-gallery-image="<?= htmlspecialchars($galleryImage, ENT_QUOTES, 'UTF-8') ?>"
                         data-gallery-title="<?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?>"
                         data-gallery-description="<?= htmlspecialchars($cut['description'], ENT_QUOTES, 'UTF-8') ?>"
-                        class="group premium-surface reveal-item lift-card flex h-full flex-col overflow-hidden"
+                        class="reference-grid-card group premium-surface reveal-item lift-card flex h-full flex-col overflow-hidden"
                         data-reveal-item
                     >
                         <div class="img-zoom-wrap">
@@ -286,16 +351,14 @@ $pageSchema = app_public_business_schema('references.php', [
                                 alt="<?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?>"
                                 width="1012"
                                 height="1800"
-                                class="h-56 w-full object-cover sm:h-72 lg:aspect-[4/5] lg:h-auto"
+                                class="h-auto w-full object-cover"
                                 loading="lazy"
                                 decoding="async"
                             >
                         </picture>
                         </div>
-                        <div class="flex flex-1 flex-col p-4">
-                            <p class="font-semibold"><?= htmlspecialchars($cut['title'], ENT_QUOTES, 'UTF-8') ?></p>
-                            <p class="mt-1 text-sm text-[color:var(--muted)]"><?= htmlspecialchars($cut['description'], ENT_QUOTES, 'UTF-8') ?></p>
-                            <p class="mt-auto pt-3 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--accent)]">Otevřít foto</p>
+                        <div class="reference-grid-card__footer flex flex-1 items-center px-3 py-2 sm:p-4">
+                            <p class="text-[10px] font-semibold uppercase tracking-[0.14em] text-[color:var(--accent)] sm:text-xs sm:tracking-[0.18em]">Otevřít foto</p>
                         </div>
                     </a>
                 <?php endif; ?>
@@ -306,11 +369,11 @@ $pageSchema = app_public_business_schema('references.php', [
 
 <div
     id="galleryLightbox"
-    class="gallery-lightbox fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-md"
+    class="gallery-lightbox fixed inset-0 z-[100] flex items-center justify-center bg-black/75 p-4 backdrop-blur-md"
     aria-hidden="true"
 >
     <button type="button" id="galleryBackdrop" class="absolute inset-0 cursor-default" aria-label="Zavřít fotografii"></button>
-    <div class="gallery-lightbox__panel relative z-10 max-h-[calc(100vh-2rem)] w-full max-w-4xl overflow-y-auto rounded-[1.75rem]">
+    <div class="gallery-lightbox__panel relative z-10 w-full max-w-4xl rounded-[1.75rem]">
         <button
             type="button"
             id="galleryClose"
@@ -321,9 +384,9 @@ $pageSchema = app_public_business_schema('references.php', [
                 <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>
         </button>
-        <figure class="overflow-hidden rounded-[1.75rem] bg-[var(--surface)] shadow-2xl">
-            <img id="galleryImage" src="" alt="" class="max-h-[68vh] w-full object-contain bg-[var(--surface)] sm:max-h-[78vh]">
-            <figcaption class="border-t border-[var(--surface-soft)] px-4 py-3 text-[color:var(--cream)] sm:px-5">
+        <figure class="gallery-lightbox__figure overflow-hidden rounded-[1.75rem] bg-[var(--surface)] shadow-2xl">
+            <img id="galleryImage" src="" alt="" class="gallery-lightbox__image bg-[var(--surface)]">
+            <figcaption class="sr-only">
                 <p id="galleryTitle" class="font-semibold"></p>
                 <p id="galleryDescription" class="mt-1 text-sm text-[color:var(--cream-soft)]"></p>
             </figcaption>

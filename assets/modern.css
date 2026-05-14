@@ -2200,6 +2200,63 @@ button[class*="border"]:not([class*="bg-[var(--accent)]"]):not(.booking-nav-butt
     overflow-wrap: anywhere;
 }
 
+.location-map-card--compact {
+    max-width: 28rem;
+}
+
+.location-map-card--compact .location-map-card__header,
+.location-map-card--compact .location-map-card__footer {
+    padding: 0.9rem;
+}
+
+.location-map-card--compact .location-map-card__title {
+    margin-top: 0.35rem;
+    font-size: 1rem;
+}
+
+.location-map-card--compact .location-map-card__copy {
+    max-width: 20rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.location-map-card--compact .location-map-card__badge {
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 0.8rem;
+}
+
+.location-map-card--compact .location-map-card__canvas {
+    height: 6.9rem;
+    margin-right: 0.9rem;
+    margin-left: 0.9rem;
+}
+
+.location-map-card--compact.is-expanded .location-map-card__canvas,
+.location-map-card--compact:hover .location-map-card__canvas {
+    height: 11.5rem;
+}
+
+.location-map-card--compact .location-map-card__footer {
+    gap: 0.85rem;
+}
+
+.location-map-card--compact .location-map-card__address {
+    margin-top: 0;
+    font-size: 0.84rem;
+}
+
+.location-map-card--compact .map-action-button {
+    min-width: 0;
+    padding: 0.72rem 0.82rem;
+    font-size: 0.86rem;
+}
+
+.location-map-card--compact .map-action-button__icon {
+    width: 1.85rem;
+    height: 1.85rem;
+}
+
 @keyframes mapRoutePulse {
     0%, 100% {
         opacity: 0.32;

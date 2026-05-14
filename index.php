@@ -284,6 +284,8 @@ $referenceCuts = app_home_reference_cuts();
 
         .reference-card {
             position: relative;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
             border: 1px solid rgba(74, 58, 48, 0.14);
             border-radius: 1.2rem;
@@ -316,8 +318,8 @@ $referenceCuts = app_home_reference_cuts();
             position: absolute;
             inset: 0;
             background:
-                linear-gradient(180deg, rgba(8, 8, 7, 0.05), rgba(8, 8, 7, 0.44)),
-                radial-gradient(circle at 78% 18%, rgba(200, 146, 42, 0.18), transparent 36%);
+                linear-gradient(180deg, rgba(8, 8, 7, 0.02), rgba(8, 8, 7, 0.12)),
+                radial-gradient(circle at 78% 18%, rgba(200, 146, 42, 0.08), transparent 36%);
             content: "";
             pointer-events: none;
         }
@@ -342,12 +344,15 @@ $referenceCuts = app_home_reference_cuts();
         }
 
         .reference-card__image--transparent {
-            opacity: 0.78;
-            filter: saturate(0.9) contrast(1.06);
-            mix-blend-mode: screen;
+            opacity: 1;
+            filter: saturate(1.04) contrast(1.02) brightness(1.04);
+            mix-blend-mode: normal;
         }
 
         .reference-card__content {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
             padding: 1rem;
         }
 
@@ -365,19 +370,30 @@ $referenceCuts = app_home_reference_cuts();
         }
 
         .reference-card__panel {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
             margin-top: 0.85rem;
         }
 
         .reference-card__cta {
-            display: inline-flex;
+            display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 0.55rem;
+            width: 100%;
             color: var(--accent-dark);
             transition: gap 220ms ease, color 220ms ease, transform 220ms ease;
         }
 
+        .reference-card__cta > span:first-child {
+            min-width: 0;
+            white-space: nowrap;
+        }
+
         .reference-card__cta-icon {
             display: inline-flex;
+            flex: 0 0 auto;
             height: 1.9rem;
             width: 1.9rem;
             align-items: center;
@@ -391,6 +407,11 @@ $referenceCuts = app_home_reference_cuts();
 
         .reference-card__hint {
             color: var(--muted);
+        }
+
+        .reference-card__panel .reference-card__cta {
+            margin-top: auto;
+            padding-top: 0.85rem;
         }
 
         .reference-card:hover .reference-card__panel,
@@ -424,6 +445,87 @@ $referenceCuts = app_home_reference_cuts();
 
         .reference-card--compact {
             min-height: 0;
+        }
+
+        @media (max-width: 639px) {
+            .reference-showcase {
+                border-radius: 1.1rem;
+            }
+
+            .reference-gallery-grid {
+                gap: 0.7rem;
+            }
+
+            .reference-card {
+                display: grid;
+                grid-template-columns: minmax(0, 42%) minmax(0, 1fr);
+                height: 12.75rem;
+                min-height: 0;
+                border-radius: 1rem;
+            }
+
+            .reference-card__media {
+                height: 100%;
+                aspect-ratio: auto;
+            }
+
+            .reference-card__media img,
+            .reference-card__media picture {
+                height: 100%;
+            }
+
+            .reference-card__content {
+                min-width: 0;
+                padding: 0.82rem;
+            }
+
+            .reference-card__eyebrow {
+                width: fit-content;
+                max-width: 100%;
+                padding: 0.26rem 0.5rem;
+                font-size: 0.55rem;
+                letter-spacing: 0.12em;
+                white-space: nowrap;
+            }
+
+            .reference-card__panel {
+                margin-top: 0.6rem;
+            }
+
+            .reference-card__panel > p:first-child {
+                display: -webkit-box;
+                overflow: hidden;
+                font-size: 0.98rem;
+                line-height: 1.22;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+            }
+
+            .reference-card__hint {
+                display: -webkit-box;
+                overflow: hidden;
+                margin-top: 0.45rem;
+                font-size: 0.78rem;
+                line-height: 1.45;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+            }
+
+            .reference-card__panel .reference-card__cta {
+                padding-top: 0.7rem;
+            }
+
+            .reference-card__cta {
+                gap: 0.45rem;
+                justify-content: flex-start;
+                font-size: 0.64rem;
+                letter-spacing: 0.14em;
+            }
+
+            .reference-card__cta-icon {
+                width: 1.7rem;
+                height: 1.7rem;
+            }
         }
 
         @media (min-width: 1024px) {
@@ -1970,7 +2072,7 @@ $referenceCuts = app_home_reference_cuts();
     </section>
 
     <!-- REFERENCE STŘIHŮ -->
-    <section class="border-t border-[var(--line)] py-8 md:py-10">
+    <section id="home-references" class="border-t border-[var(--line)] py-8 md:py-10">
         <div class="reference-showcase section-reveal--left section-reveal p-4 sm:p-5 lg:p-6">
             <div class="grid gap-5 lg:grid-cols-[0.68fr_1.32fr] lg:items-start">
                 <div class="reference-intro p-5 sm:p-6 lg:p-7">

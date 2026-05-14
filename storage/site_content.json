@@ -1,0 +1,100 @@
+{
+    "services": {
+        "Pánský střih": {
+            "price": 420,
+            "price_label": "420 Kč",
+            "duration": 35,
+            "badge": "Nejčastější volba",
+            "description": "Čistý střih pro svěží každodenní look bez zbytečného zdržování",
+            "service_copy": "Rychlý, čistý střih na sucho bez mytí a úpravy vousů",
+            "meta": "Ideální pro pravidelnou údržbu a rychlý refresh"
+        },
+        "Kompletka 1": {
+            "price": 520,
+            "price_label": "520 Kč",
+            "duration": 45,
+            "badge": "Více času na detail",
+            "description": "Delší slot pro pečlivější doladění střihu a pohodovější návštěvu",
+            "service_copy": "Střih s mytím, případně úpravou vousů podle domluvy",
+            "meta": "Skvělá volba, když chceš jít o kus víc do detailu",
+            "service_title": "Kompletka 1 (zahrnuje střih a mytí)"
+        },
+        "Kompletka 2": {
+            "price": 620,
+            "price_label": "620 Kč",
+            "duration": 50,
+            "badge": "Premium čas",
+            "description": "Nejdelší varianta pro maximální prostor na tvar, detail a finální úpravu",
+            "service_copy": "Střih vlasů, úprava vousů a finální styling v jednom termínu",
+            "meta": "Pro chvíle, kdy chceš rezervaci bez kompromisů",
+            "featured": true
+        },
+        "Dětský střih": {
+            "price": 310,
+            "price_label": "310-420 Kč",
+            "duration": 30,
+            "badge": "Pro mladší klienty",
+            "description": "Krátká a svižná návštěva s ohledem na věk, délku vlasů i náročnost střihu",
+            "service_copy": "Chlapecký i holčičí střih. Cena se liší podle náročnosti, například výrazně vyholené boky mohou být za 420 Kč",
+            "meta": "Cena se odvíjí podle délky a náročnosti střihu"
+        }
+    },
+    "home_references": [
+        {
+            "title": "Texturovaný mullet s vyholeným bokem",
+            "description": "Delší vršek a zátylek, výrazně vyčištěný bok kolem ucha a volnější ofina do čela",
+            "image": "assets/references/uploads/admin-20260514-202713-0144e549.png",
+            "transparent_media": false
+        },
+        {
+            "title": "Krátký fade ze zadního profilu",
+            "description": "Plynulý přechod do ztracena v zátylku a kratší texturovaný vršek s čistou siluetou",
+            "image": "assets/references/uploads/admin-20260514-202959-dd4e906b.png",
+            "transparent_media": false
+        },
+        {
+            "title": "Dětský střih s linkou",
+            "description": "Krátký dětský střih s jemným přechodem, rovnou ofinou a výrazným vyholeným detailem na boku",
+            "image": "assets/references/uploads/admin-20260514-203012-04c00dbc.png",
+            "transparent_media": false
+        }
+    ],
+    "references": [
+        {
+            "title": "Klasický taper s objemem",
+            "description": "Delší vršek vyčesaný dozadu, čistě zkrácené boky a měkký přechod bez tvrdé linie",
+            "image": "assets/references/uploads/admin-20260514-203029-2890c81d.png",
+            "transparent_media": false
+        },
+        {
+            "title": "Krátký crop fade",
+            "description": "Nízký až střední fade do ztracena, krátký texturovaný vršek a čistý profil kolem vousů",
+            "image": "assets/references/uploads/admin-20260514-203052-d832c65e.png",
+            "transparent_media": false
+        },
+        {
+            "title": "Texturovaný taper v zátylku",
+            "description": "Delší rozcuchaná textura nahoře, plynule stažený zátylek a přirozeně zakončená zadní linie",
+            "image": "assets/references/uploads/admin-20260514-203104-7a417b5f.png",
+            "transparent_media": false
+        },
+        {
+            "title": "Vysoký skin fade",
+            "description": "Výrazně vyholený přechod kolem ucha a zátylku, tmavší vršek a čistě srovnaný zadní profil",
+            "image": "assets/references/uploads/admin-20260514-203121-7a1d87a1.png",
+            "transparent_media": false
+        },
+        {
+            "title": "Texturovaný taper fade",
+            "description": "Měkce vyčištěný zátylek, postupný přechod kolem ucha a delší strukturovaný vršek",
+            "image": "assets/references/uploads/admin-20260514-203141-b7e68efa.png",
+            "transparent_media": false
+        },
+        {
+            "title": "Krátký fade s upraveným vrškem",
+            "description": "Kompaktní délka nahoře, čistý fade v bocích a vzadu a upravený tvar pro snadné nošení",
+            "image": "assets/references/uploads/admin-20260514-203211-0a82b1b1.png",
+            "transparent_media": false
+        }
+    ]
+}

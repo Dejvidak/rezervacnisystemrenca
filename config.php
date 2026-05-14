@@ -219,7 +219,7 @@ function app_head_assets(): string
     $faviconIco = htmlspecialchars(app_absolute_url('favicon.ico?v=5'), ENT_QUOTES, 'UTF-8');
     $favicon = htmlspecialchars(app_absolute_url('assets/favicon.png?v=5'), ENT_QUOTES, 'UTF-8');
     $manifest = htmlspecialchars(app_absolute_url('site.webmanifest?v=5'), ENT_QUOTES, 'UTF-8');
-    $modernCss = htmlspecialchars(app_absolute_url('assets/modern.css?v=32'), ENT_QUOTES, 'UTF-8');
+    $modernCss = htmlspecialchars(app_absolute_url('assets/modern.css?v=33'), ENT_QUOTES, 'UTF-8');
     $modernJs = htmlspecialchars(app_absolute_url('assets/modern.js?v=27'), ENT_QUOTES, 'UTF-8');
 
     return <<<HTML
@@ -422,13 +422,13 @@ function app_default_home_reference_cuts(): array
 {
     return [
         [
-            'title' => 'Přirozený pánský střih',
-            'description' => 'Lehce upravený tvar, čistší kontury a přirozený objem',
+            'title' => 'Delší přirozený střih',
+            'description' => 'Zachovaná délka nahoře i vzadu, měkce upravený profil a přirozený objem bez tvrdého přechodu',
             'image' => 'assets/references/moderni-pansky-strih.jpg',
         ],
         [
-            'title' => 'Krátký fade',
-            'description' => 'Kratší boky, čistý přechod a upravený horní objem',
+            'title' => 'Mullet s vyholeným bokem',
+            'description' => 'Výrazně vyčištěný bok kolem ucha, delší textura nahoře a ponechaná délka v zátylku',
             'image' => 'assets/references/home-reference-fade-test.png',
             'transparent_media' => true,
         ],
@@ -445,33 +445,33 @@ function app_default_reference_cuts(): array
 {
     return [
         [
-            'title' => 'Přirozený pánský střih',
-            'description' => 'Lehce upravený tvar, čistší kontury a přirozený objem',
+            'title' => 'Delší přirozený střih',
+            'description' => 'Vzdušnější délka nahoře, lehce zkrácené boky a měkký tvar, který nepůsobí přestřiženě',
             'image' => 'assets/references/moderni-pansky-strih.jpg',
         ],
         [
-            'title' => 'Krátký fade',
-            'description' => 'Kratší boky, čistý přechod a upravený horní objem',
+            'title' => 'Moderní mullet fade',
+            'description' => 'Krátce vyčištěný bok s přechodem kolem ucha, delší rozcuchaná textura nahoře a ponechaný zátylek',
             'image' => 'assets/references/kratky-fade.jpg',
         ],
         [
-            'title' => 'Upravený střih',
-            'description' => 'Vyčištěné boky, uhlazený profil a střih připravený na běžné nošení',
+            'title' => 'Texturovaný mullet',
+            'description' => 'Delší vršek a zadní partie, ostrý kontrast u spánku a volnější ofina směrem dopředu',
             'image' => 'assets/references/upraveny-strih.jpg',
         ],
         [
-            'title' => 'Klasický styl',
-            'description' => 'Nadčasový pánský střih s přirozenou délkou a měkkým tvarem',
+            'title' => 'Klasický taper s objemem',
+            'description' => 'Čistě zkrácené boky a zátylek, delší uhlazený vršek a přirozený přechod bez tvrdé linie',
             'image' => 'assets/references/klasicky-styl.jpg',
         ],
         [
-            'title' => 'Čistý fade',
-            'description' => 'Výraznější přechod, čistá linie kolem uší a svěží celkový vzhled',
+            'title' => 'Krátký crop fade',
+            'description' => 'Nízký až střední fade do ztracena, krátký texturovaný vršek a čistý profil kolem vousů',
             'image' => 'assets/references/cisty-fade.jpg',
         ],
         [
-            'title' => 'Finální styling',
-            'description' => 'Dokončený střih s lehkým stylingem pro upravený výsledný efekt',
+            'title' => 'Zadní detail taper fade',
+            'description' => 'Plynule vyčištěný zátylek, měkký přechod do delší textury a přirozeně zakončená zadní linie',
             'image' => 'assets/references/finalni-styling.jpg',
         ],
     ];

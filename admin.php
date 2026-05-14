@@ -475,6 +475,94 @@ function admin_take_flash(): array
     return is_array($flash) ? $flash : [];
 }
 
+function admin_ini_bytes(string $value): int
+{
+    $value = trim($value);
+    if ($value === '') {
+        return 0;
+    }
+
+    $unit = strtolower($value[strlen($value) - 1]);
+    $bytes = (float) $value;
+
+    if ($unit === 'g') {
+        $bytes *= 1024;
+    }
+    if ($unit === 'g' || $unit === 'm') {
+        $bytes *= 1024;
+    }
+    if ($unit === 'g' || $unit === 'm' || $unit === 'k') {
+        $bytes *= 1024;
+    }
+
+    return (int) max(0, $bytes);
+}
+
+function admin_format_bytes(int $bytes): string
+{
+    if ($bytes >= 1024 * 1024) {
+        $mb = $bytes / 1024 / 1024;
+        return rtrim(rtrim(number_format($mb, 1, ',', ' '), '0'), ',') . ' MB';
+    }
+
+    if ($bytes >= 1024) {
+        $kb = $bytes / 1024;
+        return rtrim(rtrim(number_format($kb, 1, ',', ' '), '0'), ',') . ' KB';
+    }
+
+    return $bytes . ' B';
+}
+
+function admin_app_upload_limit_bytes(): int
+{
+    return 8 * 1024 * 1024;
+}
+
+function admin_effective_upload_limit_bytes(): int
+{
+    $limits = array_filter([
+        admin_app_upload_limit_bytes(),
+        admin_ini_bytes((string) ini_get('upload_max_filesize')),
+        admin_ini_bytes((string) ini_get('post_max_size')),
+    ], static fn(int $bytes): bool => $bytes > 0);
+
+    return !empty($limits) ? min($limits) : admin_app_upload_limit_bytes();
+}
+
+function admin_effective_post_limit_bytes(): int
+{
+    return admin_ini_bytes((string) ini_get('post_max_size'));
+}
+
+function admin_post_exceeds_limit(): bool
+{
+    $postLimit = admin_effective_post_limit_bytes();
+    $contentLength = (int) ($_SERVER['CONTENT_LENGTH'] ?? 0);
+
+    return $postLimit > 0 && $contentLength > $postLimit;
+}
+
+function admin_upload_error_message(int $error): string
+{
+    $uploadLimit = admin_format_bytes(admin_effective_upload_limit_bytes());
+
+    switch ($error) {
+        case UPLOAD_ERR_INI_SIZE:
+        case UPLOAD_ERR_FORM_SIZE:
+            return 'Fotka je větší než povolený limit ' . $uploadLimit . '. Zkus menší fotku nebo ji před nahráním zmenši.';
+        case UPLOAD_ERR_PARTIAL:
+            return 'Fotka se nahrála jen částečně. Zkus ji prosím vybrat a uložit znovu.';
+        case UPLOAD_ERR_NO_TMP_DIR:
+            return 'Server nemá nastavenou dočasnou složku pro uploady.';
+        case UPLOAD_ERR_CANT_WRITE:
+            return 'Server nedokázal zapsat nahranou fotku na disk.';
+        case UPLOAD_ERR_EXTENSION:
+            return 'Nahrání fotky zastavilo serverové rozšíření PHP.';
+        default:
+            return 'Soubor se nepodařilo nahrát.';
+    }
+}
+
 function admin_upload_reference_image(string $inputName, array &$errors): ?string
 {
     $file = $_FILES[$inputName] ?? null;
@@ -482,8 +570,9 @@ function admin_upload_reference_image(string $inputName, array &$errors): ?strin
         return null;
     }
 
-    if ((int) ($file['error'] ?? UPLOAD_ERR_OK) !== UPLOAD_ERR_OK) {
-        $errors[] = 'Soubor se nepodařilo nahrát.';
+    $uploadError = (int) ($file['error'] ?? UPLOAD_ERR_OK);
+    if ($uploadError !== UPLOAD_ERR_OK) {
+        $errors[] = admin_upload_error_message($uploadError);
         return null;
     }
 
@@ -494,8 +583,9 @@ function admin_upload_reference_image(string $inputName, array &$errors): ?strin
         return null;
     }
 
-    if ($size > 8 * 1024 * 1024) {
-        $errors[] = 'Fotka je moc velká. Maximum je 8 MB.';
+    $uploadLimit = admin_effective_upload_limit_bytes();
+    if ($size > $uploadLimit) {
+        $errors[] = 'Fotka je moc velká. Maximum je ' . admin_format_bytes($uploadLimit) . '.';
         return null;
     }
 
@@ -514,8 +604,14 @@ function admin_upload_reference_image(string $inputName, array &$errors): ?strin
     }
 
     $targetDir = __DIR__ . '/assets/references/uploads';
-    if (!is_dir($targetDir)) {
-        mkdir($targetDir, 0755, true);
+    if (!is_dir($targetDir) && !mkdir($targetDir, 0755, true) && !is_dir($targetDir)) {
+        $errors[] = 'Složku pro fotky se nepodařilo vytvořit: assets/references/uploads.';
+        return null;
+    }
+
+    if (!is_dir($targetDir) || !is_writable($targetDir)) {
+        $errors[] = 'Složka pro fotky není zapisovatelná: assets/references/uploads.';
+        return null;
     }
 
     $filename = 'admin-' . date('Ymd-His') . '-' . bin2hex(random_bytes(4)) . '.' . $extensions[$mime];
@@ -701,6 +797,15 @@ function admin_query_string(?string $date, string $status, array $extra = []): s
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (admin_post_exceeds_limit()) {
+        admin_set_flash(
+            'error',
+            'Odeslaná data jsou moc velká pro limit serveru ' . admin_format_bytes(admin_effective_post_limit_bytes()) . '. Nahraj prosím méně fotek najednou nebo menší soubory.'
+        );
+        header('Location: admin.php?view=content');
+        exit;
+    }
+
     if (!app_verify_csrf_token($_POST['csrf_token'] ?? null)) {
         header('HTTP/1.1 400 Bad Request');
         echo 'Požadavek se nepodařilo ověřit. Obnov prosím stránku administrace a zkus to znovu.';
@@ -954,6 +1059,8 @@ if (!in_array($adminView, ['reservations', 'content'], true)) {
 }
 $adminFlashMessages = admin_take_flash();
 $siteContent = app_site_content();
+$adminUploadLimitBytes = admin_effective_upload_limit_bytes();
+$adminUploadLimitLabel = admin_format_bytes($adminUploadLimitBytes);
 
 ?>
 <!DOCTYPE html>
@@ -1272,9 +1379,10 @@ $siteContent = app_site_content();
         <?php endforeach; ?>
 
         <?php if ($adminView === 'content'): ?>
-            <form method="post" enctype="multipart/form-data" class="space-y-6">
+            <form method="post" enctype="multipart/form-data" class="space-y-6" data-admin-content-form data-upload-limit-bytes="<?= h((string) $adminUploadLimitBytes) ?>">
                 <?= app_csrf_field() ?>
                 <input type="hidden" name="action" value="save_content">
+                <input type="hidden" name="MAX_FILE_SIZE" value="<?= h((string) $adminUploadLimitBytes) ?>">
 
                 <section class="overflow-hidden rounded-2xl border border-[#6A654E] bg-[#2A231E]">
                     <div class="border-b border-[#3F332A] px-4 py-4 sm:px-5">
@@ -1306,6 +1414,7 @@ $siteContent = app_site_content();
                                     <label class="block text-sm">
                                         <span class="mb-1 block font-semibold text-[#D8C8B0]">Nahrát novou fotku</span>
                                         <input type="file" name="home_reference_image_<?= (int) $index ?>" accept="image/jpeg,image/png,image/webp,image/gif" class="w-full rounded-lg px-3 py-2 text-sm">
+                                        <span class="mt-1 block text-xs text-[#9F927E]">JPG, PNG, WebP nebo GIF do <?= h($adminUploadLimitLabel) ?>.</span>
                                     </label>
                                     <label class="flex items-center gap-2 text-sm text-[#D8C8B0]">
                                         <input type="checkbox" name="home_references[<?= (int) $index ?>][transparent_media]" value="1" <?= !empty($cut['transparent_media']) ? 'checked' : '' ?>>
@@ -1347,6 +1456,7 @@ $siteContent = app_site_content();
                                     <label class="block text-sm">
                                         <span class="mb-1 block font-semibold text-[#D8C8B0]">Nahrát novou fotku</span>
                                         <input type="file" name="reference_image_<?= (int) $index ?>" accept="image/jpeg,image/png,image/webp,image/gif" class="w-full rounded-lg px-3 py-2 text-sm">
+                                        <span class="mt-1 block text-xs text-[#9F927E]">JPG, PNG, WebP nebo GIF do <?= h($adminUploadLimitLabel) ?>.</span>
                                     </label>
                                 </div>
                             </article>
@@ -1417,11 +1527,12 @@ $siteContent = app_site_content();
                 </section>
 
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <p class="text-sm text-[#9F927E]">Fotky se ukládají do <code>assets/references/uploads</code>, texty a ceny do <code>storage/site_content.json</code>.</p>
-                    <button type="submit" class="rounded-full bg-[#C9BFA7] px-6 py-3 font-semibold text-[#1F1B18]">
+                    <p class="text-sm text-[#9F927E]">Fotky se ukládají do <code>assets/references/uploads</code>, texty a ceny do <code>storage/site_content.json</code>. Aktuální limit jedné fotky je <?= h($adminUploadLimitLabel) ?>.</p>
+                    <button type="submit" class="rounded-full bg-[#C9BFA7] px-6 py-3 font-semibold text-[#1F1B18]" data-admin-content-submit>
                         Uložit obsah webu
                     </button>
                 </div>
+                <p class="hidden rounded-xl border border-[#8A6A2F] bg-[#3A2F20] px-4 py-3 text-sm text-[#F1C879]" data-admin-upload-status></p>
             </form>
         <?php else: ?>
 
@@ -1767,5 +1878,157 @@ $siteContent = app_site_content();
         <?php endif; ?>
         <?php endif; ?>
     </main>
+    <script>
+    (function () {
+        const form = document.querySelector('[data-admin-content-form]');
+        if (!form || !window.File || !window.DataTransfer) return;
+
+        const uploadLimit = Number(form.dataset.uploadLimitBytes || 0);
+        const targetSize = uploadLimit > 0 ? Math.max(256 * 1024, Math.floor(uploadLimit * 0.9)) : 0;
+        const status = form.querySelector('[data-admin-upload-status]');
+        const submitButton = form.querySelector('[data-admin-content-submit]');
+        let isSubmitting = false;
+
+        function setStatus(message, isError) {
+            if (!status) return;
+            status.textContent = message;
+            status.classList.remove('hidden', 'border-[#8A6A2F]', 'bg-[#3A2F20]', 'text-[#F1C879]', 'border-[#7B2D26]', 'bg-[#3A211E]', 'text-[#F4B8B0]');
+            status.classList.add(
+                isError ? 'border-[#7B2D26]' : 'border-[#8A6A2F]',
+                isError ? 'bg-[#3A211E]' : 'bg-[#3A2F20]',
+                isError ? 'text-[#F4B8B0]' : 'text-[#F1C879]'
+            );
+        }
+
+        function readImage(file) {
+            return new Promise((resolve, reject) => {
+                const url = URL.createObjectURL(file);
+                const image = new Image();
+
+                image.onload = () => {
+                    URL.revokeObjectURL(url);
+                    resolve(image);
+                };
+                image.onerror = () => {
+                    URL.revokeObjectURL(url);
+                    reject(new Error('Fotku se nepodařilo načíst pro zmenšení.'));
+                };
+                image.src = url;
+            });
+        }
+
+        function canvasToBlob(canvas, type, quality) {
+            return new Promise(resolve => {
+                canvas.toBlob(resolve, type, quality);
+            });
+        }
+
+        function resizedCanvas(image, scale) {
+            const width = Math.max(1, Math.round(image.naturalWidth * scale));
+            const height = Math.max(1, Math.round(image.naturalHeight * scale));
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d', { alpha: true });
+
+            canvas.width = width;
+            canvas.height = height;
+            context.drawImage(image, 0, 0, width, height);
+
+            return canvas;
+        }
+
+        function webpName(name) {
+            return name.replace(/\.[^.]+$/, '') + '.webp';
+        }
+
+        async function compressImage(file) {
+            if (!targetSize || file.size <= targetSize) {
+                return { file, changed: false };
+            }
+
+            if (!/^image\/(jpeg|png|webp)$/i.test(file.type)) {
+                return { file, changed: false, skipped: true };
+            }
+
+            const image = await readImage(file);
+            const maxSide = 1920;
+            const largestSide = Math.max(image.naturalWidth, image.naturalHeight);
+            let scale = largestSide > maxSide ? maxSide / largestSide : 1;
+            const qualities = [0.86, 0.78, 0.7, 0.62, 0.54, 0.46];
+
+            for (let pass = 0; pass < 4; pass++) {
+                const canvas = resizedCanvas(image, scale);
+
+                for (const quality of qualities) {
+                    const blob = await canvasToBlob(canvas, 'image/webp', quality);
+                    if (!blob) continue;
+
+                    if (blob.size <= targetSize && blob.size < file.size) {
+                        return {
+                            file: new File([blob], webpName(file.name), {
+                                type: 'image/webp',
+                                lastModified: Date.now(),
+                            }),
+                            changed: true,
+                        };
+                    }
+                }
+
+                scale *= 0.82;
+            }
+
+            return { file, changed: false, failed: true };
+        }
+
+        function replaceInputFile(input, file) {
+            const transfer = new DataTransfer();
+            transfer.items.add(file);
+            input.files = transfer.files;
+        }
+
+        form.addEventListener('submit', async event => {
+            if (isSubmitting || !targetSize) return;
+
+            const inputs = Array.from(form.querySelectorAll('input[type="file"]'))
+                .filter(input => input.files && input.files.length === 1);
+
+            if (!inputs.some(input => input.files[0].size > targetSize)) return;
+
+            event.preventDefault();
+            isSubmitting = true;
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Zmenšuji fotky...';
+            }
+            setStatus('Vybrané větší fotky se teď automaticky zmenšují před uložením.', false);
+
+            try {
+                let changedCount = 0;
+
+                for (const input of inputs) {
+                    const result = await compressImage(input.files[0]);
+                    if (result.changed) {
+                        replaceInputFile(input, result.file);
+                        changedCount++;
+                    }
+
+                    if (result.failed) {
+                        throw new Error('Jednu fotku se nepodařilo zmenšit pod aktuální limit. Zkus ji prosím oříznout nebo zmenšit ručně.');
+                    }
+                }
+
+                setStatus(changedCount > 0 ? 'Fotky jsou zmenšené, ukládám obsah webu.' : 'Ukládám obsah webu.', false);
+                form.requestSubmit();
+            } catch (error) {
+                isSubmitting = false;
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Uložit obsah webu';
+                }
+                setStatus(error instanceof Error ? error.message : 'Fotku se nepodařilo zmenšit.', true);
+            }
+        });
+    }());
+    </script>
 </body>
 </html>
