@@ -109,7 +109,6 @@ $pageSchema = app_public_business_schema('cenik.php', [
         </a>
         <nav class="premium-nav hidden lg:flex" data-pill-nav aria-label="Hlavní navigace">
             <a href="index.php#about" class="nav-link premium-nav__link">O nás</a>
-            <a href="index.php#services" class="nav-link premium-nav__link">Služby</a>
             <a href="references.php" class="nav-link premium-nav__link">Reference</a>
             <a href="cenik.php" class="nav-link premium-nav__link is-active">Ceník</a>
             <a href="contact.php" class="nav-link premium-nav__link">Kontakt</a>
@@ -147,7 +146,6 @@ $pageSchema = app_public_business_schema('cenik.php', [
     </div>
     <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(200, 146, 42,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
         <a href="index.php#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
-        <a href="index.php#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
         <a href="references.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
         <a href="cenik.php" class="block rounded-lg px-3 py-3 font-semibold text-[color:var(--gold)] hover:bg-[var(--surface-soft)]">Ceník</a>
         <a href="contact.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Kontakt</a>

@@ -6,42 +6,11 @@ $instagramHandle = app_business_instagram_handle();
 $pageTitle = 'Reference střihů - ' . app_business_name();
 $pageDescription = 'Vybrané reference střihů Hair By ReneNeme v Brně. Projdi si galerii, inspiruj se tvarem i délkou a pak přejdi rovnou k rezervaci termínu.';
 $pageCanonical = app_absolute_url('references.php');
-$pageImage = app_absolute_url('assets/references/moderni-pansky-strih.jpg');
+$referenceCuts = app_reference_cuts();
+$pageImage = app_absolute_url((string) ($referenceCuts[0]['image'] ?? 'assets/references/moderni-pansky-strih.jpg'));
 $pageSchema = app_public_business_schema('references.php', [
     'description' => $pageDescription,
 ]);
-$referenceCuts = [
-    [
-        'title' => 'Přirozený pánský střih',
-        'description' => 'Lehce upravený tvar, čistší kontury a přirozený objem',
-        'image' => 'assets/references/moderni-pansky-strih.jpg',
-    ],
-    [
-        'title' => 'Krátký fade',
-        'description' => 'Kratší boky, čistý přechod a upravený horní objem',
-        'image' => 'assets/references/kratky-fade.jpg',
-    ],
-    [
-        'title' => 'Upravený střih',
-        'description' => 'Vyčištěné boky, uhlazený profil a střih připravený na běžné nošení',
-        'image' => 'assets/references/upraveny-strih.jpg',
-    ],
-    [
-        'title' => 'Klasický styl',
-        'description' => 'Nadčasový pánský střih s přirozenou délkou a měkkým tvarem',
-        'image' => 'assets/references/klasicky-styl.jpg',
-    ],
-    [
-        'title' => 'Čistý fade',
-        'description' => 'Výraznější přechod, čistá linie kolem uší a svěží celkový vzhled',
-        'image' => 'assets/references/cisty-fade.jpg',
-    ],
-    [
-        'title' => 'Finální styling',
-        'description' => 'Dokončený střih s lehkým stylingem pro upravený výsledný efekt',
-        'image' => 'assets/references/finalni-styling.jpg',
-    ],
-];
 ?>
 <!DOCTYPE html>
 <html lang="cs">
@@ -176,7 +145,6 @@ $referenceCuts = [
         </a>
         <nav class="premium-nav hidden lg:flex" data-pill-nav aria-label="Hlavní navigace">
             <a href="index.php#about" class="nav-link premium-nav__link">O nás</a>
-            <a href="index.php#services" class="nav-link premium-nav__link">Služby</a>
             <a href="references.php" class="nav-link premium-nav__link is-active">Reference</a>
             <a href="cenik.php" class="nav-link premium-nav__link">Ceník</a>
             <a href="contact.php" class="nav-link premium-nav__link">Kontakt</a>
@@ -214,7 +182,6 @@ $referenceCuts = [
     </div>
     <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(200, 146, 42,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
         <a href="index.php#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
-        <a href="index.php#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
         <a href="references.php" class="block rounded-lg px-3 py-3 font-semibold text-[color:var(--gold)] hover:bg-[var(--surface-soft)]">Reference</a>
         <a href="cenik.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Ceník</a>
         <a href="contact.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Kontakt</a>

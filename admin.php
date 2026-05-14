@@ -3,33 +3,626 @@
 require __DIR__ . '/db.php';
 require_once __DIR__ . '/integrations.php';
 
-require_admin_auth();
-
-function require_admin_auth(): void
-{
-    $user = getenv('ADMIN_USER') ?: '';
-    $password = getenv('ADMIN_PASSWORD') ?: '';
-
-    if ($user === '' || $password === '') {
-        header('HTTP/1.0 503 Service Unavailable');
-        echo 'Administrace není nastavená. Doplň ADMIN_USER a ADMIN_PASSWORD v konfiguraci serveru.';
-        exit;
-    }
-
-    $givenUser = $_SERVER['PHP_AUTH_USER'] ?? '';
-    $givenPassword = $_SERVER['PHP_AUTH_PW'] ?? '';
-
-    if (!hash_equals($user, $givenUser) || !hash_equals($password, $givenPassword)) {
-        header('WWW-Authenticate: Basic realm="Rezervace"');
-        header('HTTP/1.0 401 Unauthorized');
-        echo 'Pro vstup do administrace je potřeba přihlášení.';
-        exit;
-    }
-}
-
 function h(string $value): string
 {
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+}
+
+function admin_credentials(): array
+{
+    return [
+        'user' => getenv('ADMIN_USER') ?: '',
+        'password' => getenv('ADMIN_PASSWORD') ?: '',
+    ];
+}
+
+function admin_is_authenticated(): bool
+{
+    $credentials = admin_credentials();
+    $sessionUser = $_SESSION['admin_user'] ?? '';
+
+    return !empty($_SESSION['admin_authenticated'])
+        && is_string($sessionUser)
+        && $credentials['user'] !== ''
+        && hash_equals($credentials['user'], $sessionUser);
+}
+
+function admin_render_login_page(?string $error = null, bool $configured = true): void
+{
+    $title = $configured ? 'Přihlášení - Administrace' : 'Administrace není nastavená';
+    $logoUrl = h(app_absolute_url('assets/logo-reneneme-navbar.png?v=5'));
+    $heroUrl = h(app_absolute_url('assets/barbershop-hero.webp?v=5'));
+    $faviconUrl = h(app_absolute_url('favicon.ico?v=5'));
+    $faviconPngUrl = h(app_absolute_url('assets/favicon.png?v=5'));
+    ?>
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= h($title) ?></title>
+    <link rel="icon" href="<?= $faviconUrl ?>" sizes="any">
+    <link rel="icon" href="<?= $faviconPngUrl ?>" type="image/png">
+    <link rel="apple-touch-icon" href="<?= $faviconPngUrl ?>">
+    <meta name="theme-color" content="#080807">
+    <style>
+        :root {
+            --page: #080807;
+            --cream: #F7F3EA;
+            --cream-soft: #DCD3C2;
+            --muted: #AFA594;
+            --surface: #11100E;
+            --surface-2: #1B1915;
+            --line: rgba(200, 146, 42, 0.24);
+            --gold: #C8922A;
+            --gold-soft: #D4A340;
+            --danger: #F0B3AA;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+        }
+
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            background:
+                radial-gradient(circle at 16% 8%, rgba(200, 146, 42, 0.18), transparent 28rem),
+                radial-gradient(circle at 88% 14%, rgba(247, 243, 234, 0.07), transparent 22rem),
+                linear-gradient(180deg, #15130F 0%, var(--page) 54%, #050504 100%);
+            color: var(--cream);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            letter-spacing: 0;
+        }
+
+        body::before {
+            position: fixed;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-size: 180px 180px;
+            content: "";
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .admin-login {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            min-height: 100vh;
+            padding: 1rem;
+            place-items: center;
+        }
+
+        .admin-login__frame {
+            display: grid;
+            width: min(100%, 64rem);
+            min-height: min(44rem, calc(100vh - 2rem));
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 1.5rem;
+            background:
+                linear-gradient(180deg, rgba(17, 16, 14, 0.96), rgba(8, 8, 7, 0.98)),
+                radial-gradient(circle at 16% 0%, rgba(200, 146, 42, 0.16), transparent 34%);
+            box-shadow:
+                0 34px 90px rgba(0, 0, 0, 0.48),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .admin-login__media {
+            position: relative;
+            min-height: 16rem;
+            overflow: hidden;
+            background-image:
+                linear-gradient(180deg, rgba(8, 8, 7, 0.18), rgba(8, 8, 7, 0.78)),
+                url("<?= $heroUrl ?>");
+            background-position: center;
+            background-size: cover;
+        }
+
+        .admin-login__media::after {
+            position: absolute;
+            inset: auto 0 0;
+            height: 46%;
+            background: linear-gradient(180deg, transparent, rgba(8, 8, 7, 0.86));
+            content: "";
+        }
+
+        .admin-login__brand {
+            position: absolute;
+            left: 1rem;
+            right: 1rem;
+            top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .admin-login__brand img {
+            width: 12.5rem;
+            max-width: 62vw;
+            height: auto;
+            filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.44));
+        }
+
+        .admin-login__badge {
+            border: 1px solid rgba(247, 243, 234, 0.22);
+            border-radius: 999px;
+            background: rgba(8, 8, 7, 0.58);
+            padding: 0.55rem 0.85rem;
+            color: var(--cream-soft);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            backdrop-filter: blur(14px);
+        }
+
+        .admin-login__copy {
+            position: absolute;
+            left: 1.25rem;
+            right: 1.25rem;
+            bottom: 1.25rem;
+            z-index: 1;
+        }
+
+        .admin-login__copy p {
+            margin: 0;
+            max-width: 28rem;
+            color: rgba(247, 243, 234, 0.78);
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
+        .admin-login__copy strong {
+            display: block;
+            margin-bottom: 0.45rem;
+            color: var(--cream);
+            font-size: clamp(1.7rem, 5vw, 3rem);
+            line-height: 0.98;
+        }
+
+        .admin-login__panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: clamp(1.25rem, 5vw, 3.5rem);
+        }
+
+        .admin-login__eyebrow {
+            margin: 0 0 0.85rem;
+            color: var(--gold-soft);
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+        }
+
+        .admin-login h1 {
+            margin: 0;
+            color: var(--cream);
+            font-size: clamp(2rem, 5.4vw, 3.7rem);
+            line-height: 0.94;
+        }
+
+        .admin-login__lead {
+            margin: 1rem 0 0;
+            max-width: 27rem;
+            color: var(--cream-soft);
+            font-size: 1rem;
+            line-height: 1.65;
+        }
+
+        .admin-login__form {
+            display: grid;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .admin-login__field {
+            display: grid;
+            gap: 0.45rem;
+        }
+
+        .admin-login__field span {
+            color: rgba(247, 243, 234, 0.82);
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
+
+        .admin-login__field input {
+            width: 100%;
+            border: 1px solid rgba(200, 146, 42, 0.24);
+            border-radius: 0.85rem;
+            background:
+                linear-gradient(180deg, rgba(27, 25, 21, 0.94), rgba(13, 13, 11, 0.94));
+            color: var(--cream);
+            font: inherit;
+            padding: 0.98rem 1rem;
+            outline: none;
+            transition: border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+        }
+
+        .admin-login__field input:focus {
+            border-color: rgba(200, 146, 42, 0.72);
+            box-shadow: 0 0 0 4px rgba(200, 146, 42, 0.13);
+        }
+
+        .admin-login__field input::placeholder {
+            color: rgba(220, 211, 194, 0.42);
+        }
+
+        .admin-login__button {
+            display: inline-flex;
+            min-height: 3.25rem;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--gold);
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--gold-soft), var(--gold));
+            color: #080807;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 900;
+            padding: 0.9rem 1.25rem;
+            transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
+        }
+
+        .admin-login__button:hover {
+            box-shadow: 0 0 24px rgba(200, 146, 42, 0.36);
+            filter: brightness(1.04);
+            transform: translateY(-1px);
+        }
+
+        .admin-login__message {
+            border: 1px solid rgba(158, 56, 47, 0.58);
+            border-radius: 0.9rem;
+            background: linear-gradient(180deg, rgba(58, 33, 30, 0.78), rgba(28, 18, 17, 0.9));
+            color: var(--danger);
+            line-height: 1.5;
+            margin: 1.25rem 0 0;
+            padding: 0.9rem 1rem;
+        }
+
+        .admin-login__note {
+            margin: 1.3rem 0 0;
+            color: var(--muted);
+            font-size: 0.88rem;
+            line-height: 1.55;
+        }
+
+        .admin-login__back {
+            display: inline-flex;
+            width: fit-content;
+            margin-top: 1.35rem;
+            color: var(--gold-soft);
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        @media (min-width: 860px) {
+            .admin-login {
+                padding: 2rem;
+            }
+
+            .admin-login__frame {
+                grid-template-columns: minmax(0, 0.95fr) minmax(24rem, 0.72fr);
+            }
+
+            .admin-login__media {
+                min-height: 44rem;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .admin-login {
+                align-items: stretch;
+                padding: 0;
+            }
+
+            .admin-login__frame {
+                min-height: 100vh;
+                border: 0;
+                border-radius: 0;
+            }
+
+            .admin-login__brand {
+                align-items: flex-start;
+            }
+
+            .admin-login__badge {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="admin-login">
+        <section class="admin-login__frame" aria-labelledby="admin-login-title">
+            <div class="admin-login__media" aria-hidden="true">
+                <div class="admin-login__brand">
+                    <img src="<?= $logoUrl ?>" alt="">
+                    <span class="admin-login__badge">Admin</span>
+                </div>
+                <div class="admin-login__copy">
+                    <strong>Rezervace pod kontrolou.</strong>
+                    <p>Rychlý vstup do přehledu termínů, potvrzení rezervací a kontroly kalendáře.</p>
+                </div>
+            </div>
+
+            <div class="admin-login__panel">
+                <p class="admin-login__eyebrow">Hair by Reneneme</p>
+                <h1 id="admin-login-title"><?= $configured ? 'Přihlášení' : 'Nastavení chybí' ?></h1>
+                <p class="admin-login__lead">
+                    <?= $configured
+                        ? 'Zadej přístupové údaje pro administraci rezervací.'
+                        : 'Administrace zatím nemá nastavené přístupové údaje na serveru.' ?>
+                </p>
+
+                <?php if ($error !== null): ?>
+                    <div class="admin-login__message" role="alert"><?= h($error) ?></div>
+                <?php endif; ?>
+
+                <?php if ($configured): ?>
+                    <form method="post" class="admin-login__form" autocomplete="on">
+                        <?= app_csrf_field() ?>
+                        <input type="hidden" name="action" value="admin_login">
+                        <label class="admin-login__field">
+                            <span>Uživatelské jméno</span>
+                            <input type="text" name="username" autocomplete="username" placeholder="admin" required autofocus>
+                        </label>
+                        <label class="admin-login__field">
+                            <span>Heslo</span>
+                            <input type="password" name="password" autocomplete="current-password" placeholder="••••••••" required>
+                        </label>
+                        <button type="submit" class="admin-login__button">Vstoupit do administrace</button>
+                    </form>
+                    <p class="admin-login__note">Přístup zůstane uložený jen v této relaci prohlížeče.</p>
+                <?php else: ?>
+                    <p class="admin-login__note">Doplň `ADMIN_USER` a `ADMIN_PASSWORD` v konfiguraci serveru a stránku znovu načti.</p>
+                <?php endif; ?>
+
+                <a href="index.php" class="admin-login__back">Zpět na web</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+    <?php
+}
+
+function require_admin_auth(): void
+{
+    $credentials = admin_credentials();
+    $user = $credentials['user'];
+    $password = $credentials['password'];
+
+    if ($user === '' || $password === '') {
+        http_response_code(503);
+        admin_render_login_page(null, false);
+        exit;
+    }
+
+    if (admin_is_authenticated()) {
+        return;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'admin_login') {
+        if (!app_verify_csrf_token($_POST['csrf_token'] ?? null)) {
+            http_response_code(400);
+            admin_render_login_page('Přihlášení se nepodařilo ověřit. Obnov stránku a zkus to znovu.');
+            exit;
+        }
+
+        $givenUser = trim((string) ($_POST['username'] ?? ''));
+        $givenPassword = (string) ($_POST['password'] ?? '');
+
+        if (hash_equals($user, $givenUser) && hash_equals($password, $givenPassword)) {
+            session_regenerate_id(true);
+            $_SESSION['admin_authenticated'] = true;
+            $_SESSION['admin_user'] = $user;
+
+            header('Location: admin.php');
+            exit;
+        }
+
+        http_response_code(401);
+        admin_render_login_page('Nesprávné jméno nebo heslo.');
+        exit;
+    }
+
+    http_response_code(401);
+    admin_render_login_page();
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'admin_logout') {
+    if (admin_is_authenticated() && app_verify_csrf_token($_POST['csrf_token'] ?? null)) {
+        unset($_SESSION['admin_authenticated'], $_SESSION['admin_user']);
+        session_regenerate_id(true);
+    }
+
+    header('Location: admin.php');
+    exit;
+}
+
+require_admin_auth();
+
+function admin_set_flash(string $type, string $message): void
+{
+    $_SESSION['admin_flash'][] = [
+        'type' => $type,
+        'message' => $message,
+    ];
+}
+
+function admin_take_flash(): array
+{
+    $flash = $_SESSION['admin_flash'] ?? [];
+    unset($_SESSION['admin_flash']);
+
+    return is_array($flash) ? $flash : [];
+}
+
+function admin_upload_reference_image(string $inputName, array &$errors): ?string
+{
+    $file = $_FILES[$inputName] ?? null;
+    if (!is_array($file) || (int) ($file['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
+        return null;
+    }
+
+    if ((int) ($file['error'] ?? UPLOAD_ERR_OK) !== UPLOAD_ERR_OK) {
+        $errors[] = 'Soubor se nepodařilo nahrát.';
+        return null;
+    }
+
+    $tmpName = (string) ($file['tmp_name'] ?? '');
+    $size = (int) ($file['size'] ?? 0);
+    if ($tmpName === '' || $size <= 0) {
+        $errors[] = 'Nahraný soubor je prázdný.';
+        return null;
+    }
+
+    if ($size > 8 * 1024 * 1024) {
+        $errors[] = 'Fotka je moc velká. Maximum je 8 MB.';
+        return null;
+    }
+
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mime = (string) $finfo->file($tmpName);
+    $extensions = [
+        'image/jpeg' => 'jpg',
+        'image/png' => 'png',
+        'image/webp' => 'webp',
+        'image/gif' => 'gif',
+    ];
+
+    if (!isset($extensions[$mime])) {
+        $errors[] = 'Fotka musí být JPG, PNG, WebP nebo GIF.';
+        return null;
+    }
+
+    $targetDir = __DIR__ . '/assets/references/uploads';
+    if (!is_dir($targetDir)) {
+        mkdir($targetDir, 0755, true);
+    }
+
+    $filename = 'admin-' . date('Ymd-His') . '-' . bin2hex(random_bytes(4)) . '.' . $extensions[$mime];
+    $targetPath = $targetDir . '/' . $filename;
+
+    if (!move_uploaded_file($tmpName, $targetPath)) {
+        $errors[] = 'Fotku se nepodařilo uložit na server.';
+        return null;
+    }
+
+    return 'assets/references/uploads/' . $filename;
+}
+
+function admin_collect_reference_list(string $fieldName, string $uploadPrefix, array $currentItems, array &$errors): array
+{
+    $postedItems = $_POST[$fieldName] ?? [];
+    if (!is_array($postedItems)) {
+        $postedItems = [];
+    }
+
+    $items = [];
+    foreach ($currentItems as $index => $currentItem) {
+        $postedItem = $postedItems[$index] ?? [];
+        if (!is_array($postedItem)) {
+            $postedItem = [];
+        }
+
+        $image = trim((string) ($postedItem['image'] ?? ($currentItem['image'] ?? '')));
+        $uploadedImage = admin_upload_reference_image($uploadPrefix . '_' . $index, $errors);
+        if ($uploadedImage !== null) {
+            $image = $uploadedImage;
+        }
+
+        $items[] = [
+            'title' => trim((string) ($postedItem['title'] ?? ($currentItem['title'] ?? ''))),
+            'description' => trim((string) ($postedItem['description'] ?? ($currentItem['description'] ?? ''))),
+            'image' => $image,
+            'transparent_media' => !empty($postedItem['transparent_media']),
+        ];
+    }
+
+    return $items;
+}
+
+function admin_collect_services(array $currentServices): array
+{
+    $postedServices = $_POST['services'] ?? [];
+    if (!is_array($postedServices)) {
+        $postedServices = [];
+    }
+
+    $services = [];
+    foreach (array_values($currentServices) as $index => $currentService) {
+        $serviceName = array_keys($currentServices)[$index] ?? '';
+        $postedService = $postedServices[$index] ?? [];
+        if (!is_array($postedService)) {
+            $postedService = [];
+        }
+
+        $name = (string) ($postedService['name'] ?? $serviceName);
+        if (!isset($currentServices[$name])) {
+            $name = $serviceName;
+        }
+
+        $services[$name] = array_merge($currentServices[$name], [
+            'price' => max(0, (int) ($postedService['price'] ?? $currentServices[$name]['price'] ?? 0)),
+            'price_label' => trim((string) ($postedService['price_label'] ?? $currentServices[$name]['price_label'] ?? '')),
+            'duration' => max(5, (int) ($postedService['duration'] ?? $currentServices[$name]['duration'] ?? 30)),
+            'badge' => trim((string) ($postedService['badge'] ?? $currentServices[$name]['badge'] ?? '')),
+            'description' => trim((string) ($postedService['description'] ?? $currentServices[$name]['description'] ?? '')),
+            'service_copy' => trim((string) ($postedService['service_copy'] ?? $currentServices[$name]['service_copy'] ?? '')),
+            'meta' => trim((string) ($postedService['meta'] ?? $currentServices[$name]['meta'] ?? '')),
+        ]);
+
+        if (array_key_exists('service_title', $currentServices[$name])) {
+            $services[$name]['service_title'] = trim((string) ($postedService['service_title'] ?? $currentServices[$name]['service_title'] ?? ''));
+        }
+    }
+
+    return $services;
+}
+
+function admin_handle_content_save(): void
+{
+    $currentContent = app_site_content();
+    $errors = [];
+    $content = [
+        'services' => admin_collect_services($currentContent['services']),
+        'home_references' => admin_collect_reference_list('home_references', 'home_reference_image', $currentContent['home_references'], $errors),
+        'references' => admin_collect_reference_list('references', 'reference_image', $currentContent['references'], $errors),
+    ];
+
+    if (!empty($errors)) {
+        admin_set_flash('error', implode(' ', array_unique($errors)));
+        header('Location: admin.php?view=content');
+        exit;
+    }
+
+    if (!app_save_site_content($content)) {
+        admin_set_flash('error', 'Změny se nepodařilo uložit.');
+        header('Location: admin.php?view=content');
+        exit;
+    }
+
+    admin_set_flash('success', 'Obsah webu je uložený.');
+    header('Location: admin.php?view=content&saved=1');
+    exit;
 }
 
 function admin_time_label(string $time, int $duration): string
@@ -115,6 +708,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $action = $_POST['action'] ?? '';
+    if ($action === 'save_content') {
+        admin_handle_content_save();
+    }
+
     $id = (int) ($_POST['id'] ?? 0);
 
     if ($action === 'accept' && $id > 0) {
@@ -351,6 +948,13 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
     exit;
 }
 
+$adminView = trim((string) ($_GET['view'] ?? 'reservations'));
+if (!in_array($adminView, ['reservations', 'content'], true)) {
+    $adminView = 'reservations';
+}
+$adminFlashMessages = admin_take_flash();
+$siteContent = app_site_content();
+
 ?>
 <!DOCTYPE html>
 <html lang="cs">
@@ -517,14 +1121,16 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
         }
 
         .admin-shell button,
-        .admin-shell a[class*="bg-"] {
+        .admin-shell a[class^="bg-[#"],
+        .admin-shell a[class*=" bg-[#"] {
             border-color: #C8922A !important;
             background: #C8922A !important;
             color: #ffffff !important;
         }
 
         .admin-shell button:hover,
-        .admin-shell a[class*="bg-"]:hover {
+        .admin-shell a[class^="bg-[#"]:hover,
+        .admin-shell a[class*=" bg-[#"]:hover {
             border-color: #D4A340 !important;
             background: #D4A340 !important;
             color: #ffffff !important;
@@ -532,7 +1138,8 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
         }
 
         .admin-shell button:active,
-        .admin-shell a[class*="bg-"]:active {
+        .admin-shell a[class^="bg-[#"]:active,
+        .admin-shell a[class*=" bg-[#"]:active {
             border-color: #B07820 !important;
             background: #B07820 !important;
         }
@@ -557,7 +1164,36 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
             color-scheme: dark;
         }
 
-        .admin-shell input[type="date"]:focus {
+        .admin-shell input[type="text"],
+        .admin-shell input[type="number"],
+        .admin-shell input[type="file"],
+        .admin-shell textarea {
+            border-color: rgba(200, 146, 42, 0.28) !important;
+            background: var(--field) !important;
+            color: var(--cream) !important;
+        }
+
+        .admin-shell textarea {
+            min-height: 5.5rem;
+            resize: vertical;
+        }
+
+        .admin-shell input[type="file"]::file-selector-button {
+            margin-right: 0.8rem;
+            border: 0;
+            border-radius: 999px;
+            background: var(--accent);
+            color: #080807;
+            cursor: pointer;
+            font-weight: 700;
+            padding: 0.5rem 0.85rem;
+        }
+
+        .admin-shell input[type="date"]:focus,
+        .admin-shell input[type="text"]:focus,
+        .admin-shell input[type="number"]:focus,
+        .admin-shell input[type="file"]:focus,
+        .admin-shell textarea:focus {
             outline: none;
             border-color: rgba(200, 146, 42, 0.62) !important;
             box-shadow: 0 0 0 3px rgba(200, 146, 42, 0.12);
@@ -593,13 +1229,201 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
             <div>
                 <p class="text-xs uppercase tracking-[0.3em] text-[#C9BFA7] mb-2">Administrace</p>
-                <h1 class="text-3xl font-bold">Rezervace</h1>
-                <p class="text-sm text-[#D8C8B0] mt-2">Přehled termínů a rychlá kontrola, co je potřeba vyřídit.</p>
+                <h1 class="text-3xl font-bold"><?= $adminView === 'content' ? 'Obsah webu' : 'Rezervace' ?></h1>
+                <p class="text-sm text-[#D8C8B0] mt-2">
+                    <?= $adminView === 'content'
+                        ? 'Správa fotek v referencích a úpravy ceníku bez zásahu do kódu.'
+                        : 'Přehled termínů a rychlá kontrola, co je potřeba vyřídit.' ?>
+                </p>
             </div>
-            <a href="index.php" class="inline-flex items-center justify-center rounded-full border border-[#6A654E] px-4 py-2 text-sm hover:bg-[#2A231E]">
-                Zpět na web
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <a href="index.php" class="inline-flex items-center justify-center rounded-full border border-[#6A654E] px-4 py-2 text-sm hover:bg-[#2A231E]">
+                    Zpět na web
+                </a>
+                <form method="post">
+                    <?= app_csrf_field() ?>
+                    <input type="hidden" name="action" value="admin_logout">
+                    <button class="inline-flex w-full items-center justify-center rounded-full border border-[#6A654E] px-4 py-2 text-sm font-semibold sm:w-auto">
+                        Odhlásit
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="mb-6 flex flex-wrap gap-2">
+            <a href="admin.php" class="rounded-full border px-3 py-1.5 text-sm <?= $adminView === 'reservations' ? 'border-[#C9BFA7] bg-[#C9BFA7] text-[#1F1B18]' : 'border-[#6A654E] text-[#F5EDE1]' ?>">
+                Rezervace
+            </a>
+            <a href="admin.php?view=content" class="rounded-full border px-3 py-1.5 text-sm <?= $adminView === 'content' ? 'border-[#D6A85E] bg-[#D6A85E] text-[#1F1B18]' : 'border-[#6A654E] text-[#F5EDE1]' ?>">
+                Obsah webu
             </a>
         </div>
+
+        <?php foreach ($adminFlashMessages as $message): ?>
+            <?php
+            $messageType = is_array($message) ? (string) ($message['type'] ?? 'success') : 'success';
+            $messageText = is_array($message) ? (string) ($message['message'] ?? '') : (string) $message;
+            ?>
+            <?php if ($messageText !== ''): ?>
+                <div class="mb-6 rounded-xl border px-4 py-3 text-sm <?= $messageType === 'error' ? 'border-[#7B2D26] bg-[#3A211E] text-[#F4B8B0]' : 'border-[#496A45] bg-[#21351F] text-[#BFE3B5]' ?>">
+                    <?= h($messageText) ?>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+
+        <?php if ($adminView === 'content'): ?>
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                <?= app_csrf_field() ?>
+                <input type="hidden" name="action" value="save_content">
+
+                <section class="overflow-hidden rounded-2xl border border-[#6A654E] bg-[#2A231E]">
+                    <div class="border-b border-[#3F332A] px-4 py-4 sm:px-5">
+                        <p class="text-xs uppercase tracking-[0.24em] text-[#C9BFA7]">Homepage</p>
+                        <h2 class="mt-1 text-xl font-bold">Tři fotky v sekci reference</h2>
+                        <p class="mt-1 text-sm text-[#D8C8B0]">Tyhle tři karty se zobrazují na hlavní stránce.</p>
+                    </div>
+                    <div class="grid gap-4 p-4 lg:grid-cols-3">
+                        <?php foreach ($siteContent['home_references'] as $index => $cut): ?>
+                            <?php $imagePath = (string) ($cut['image'] ?? ''); ?>
+                            <article class="rounded-2xl border border-[#3F332A] bg-[#241E1A] p-4">
+                                <div class="mb-3 overflow-hidden rounded-xl border border-[#3F332A] bg-[#1F1B18]">
+                                    <?php if ($imagePath !== '' && is_file(__DIR__ . '/' . $imagePath)): ?>
+                                        <img src="<?= h($imagePath) ?>" alt="" class="h-40 w-full object-cover">
+                                    <?php else: ?>
+                                        <div class="flex h-40 items-center justify-center text-sm text-[#9F927E]">Fotka nenalezena</div>
+                                    <?php endif; ?>
+                                </div>
+                                <input type="hidden" name="home_references[<?= (int) $index ?>][image]" value="<?= h($imagePath) ?>">
+                                <div class="space-y-3">
+                                    <label class="block text-sm">
+                                        <span class="mb-1 block font-semibold text-[#D8C8B0]">Nadpis</span>
+                                        <input type="text" name="home_references[<?= (int) $index ?>][title]" value="<?= h((string) ($cut['title'] ?? '')) ?>" class="w-full rounded-lg px-3 py-2">
+                                    </label>
+                                    <label class="block text-sm">
+                                        <span class="mb-1 block font-semibold text-[#D8C8B0]">Popis</span>
+                                        <textarea name="home_references[<?= (int) $index ?>][description]" class="w-full rounded-lg px-3 py-2"><?= h((string) ($cut['description'] ?? '')) ?></textarea>
+                                    </label>
+                                    <label class="block text-sm">
+                                        <span class="mb-1 block font-semibold text-[#D8C8B0]">Nahrát novou fotku</span>
+                                        <input type="file" name="home_reference_image_<?= (int) $index ?>" accept="image/jpeg,image/png,image/webp,image/gif" class="w-full rounded-lg px-3 py-2 text-sm">
+                                    </label>
+                                    <label class="flex items-center gap-2 text-sm text-[#D8C8B0]">
+                                        <input type="checkbox" name="home_references[<?= (int) $index ?>][transparent_media]" value="1" <?= !empty($cut['transparent_media']) ? 'checked' : '' ?>>
+                                        Průhledné/produktové foto bez ořezu
+                                    </label>
+                                </div>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                </section>
+
+                <section class="overflow-hidden rounded-2xl border border-[#6A654E] bg-[#2A231E]">
+                    <div class="border-b border-[#3F332A] px-4 py-4 sm:px-5">
+                        <p class="text-xs uppercase tracking-[0.24em] text-[#C9BFA7]">Reference</p>
+                        <h2 class="mt-1 text-xl font-bold">Galerie referencí</h2>
+                        <p class="mt-1 text-sm text-[#D8C8B0]">Fotky a texty na stránce Reference.</p>
+                    </div>
+                    <div class="grid gap-4 p-4 md:grid-cols-2 xl:grid-cols-3">
+                        <?php foreach ($siteContent['references'] as $index => $cut): ?>
+                            <?php $imagePath = (string) ($cut['image'] ?? ''); ?>
+                            <article class="rounded-2xl border border-[#3F332A] bg-[#241E1A] p-4">
+                                <div class="mb-3 overflow-hidden rounded-xl border border-[#3F332A] bg-[#1F1B18]">
+                                    <?php if ($imagePath !== '' && is_file(__DIR__ . '/' . $imagePath)): ?>
+                                        <img src="<?= h($imagePath) ?>" alt="" class="h-44 w-full object-cover">
+                                    <?php else: ?>
+                                        <div class="flex h-44 items-center justify-center text-sm text-[#9F927E]">Fotka nenalezena</div>
+                                    <?php endif; ?>
+                                </div>
+                                <input type="hidden" name="references[<?= (int) $index ?>][image]" value="<?= h($imagePath) ?>">
+                                <div class="space-y-3">
+                                    <label class="block text-sm">
+                                        <span class="mb-1 block font-semibold text-[#D8C8B0]">Nadpis</span>
+                                        <input type="text" name="references[<?= (int) $index ?>][title]" value="<?= h((string) ($cut['title'] ?? '')) ?>" class="w-full rounded-lg px-3 py-2">
+                                    </label>
+                                    <label class="block text-sm">
+                                        <span class="mb-1 block font-semibold text-[#D8C8B0]">Popis</span>
+                                        <textarea name="references[<?= (int) $index ?>][description]" class="w-full rounded-lg px-3 py-2"><?= h((string) ($cut['description'] ?? '')) ?></textarea>
+                                    </label>
+                                    <label class="block text-sm">
+                                        <span class="mb-1 block font-semibold text-[#D8C8B0]">Nahrát novou fotku</span>
+                                        <input type="file" name="reference_image_<?= (int) $index ?>" accept="image/jpeg,image/png,image/webp,image/gif" class="w-full rounded-lg px-3 py-2 text-sm">
+                                    </label>
+                                </div>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                </section>
+
+                <section class="overflow-hidden rounded-2xl border border-[#6A654E] bg-[#2A231E]">
+                    <div class="border-b border-[#3F332A] px-4 py-4 sm:px-5">
+                        <p class="text-xs uppercase tracking-[0.24em] text-[#C9BFA7]">Ceník</p>
+                        <h2 class="mt-1 text-xl font-bold">Služby a ceny</h2>
+                        <p class="mt-1 text-sm text-[#D8C8B0]">Změny se propíšou do ceníku, rezervačního formuláře a potvrzení rezervací.</p>
+                    </div>
+                    <div class="grid gap-4 p-4 lg:grid-cols-2">
+                        <?php $serviceIndex = 0; ?>
+                        <?php foreach ($siteContent['services'] as $serviceName => $service): ?>
+                            <article class="rounded-2xl border border-[#3F332A] bg-[#241E1A] p-4">
+                                <input type="hidden" name="services[<?= (int) $serviceIndex ?>][name]" value="<?= h((string) $serviceName) ?>">
+                                <div class="mb-4 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                                    <div>
+                                        <p class="text-xs uppercase tracking-[0.2em] text-[#C9BFA7]">Služba</p>
+                                        <h3 class="mt-1 text-lg font-bold"><?= h((string) $serviceName) ?></h3>
+                                    </div>
+                                    <?php if (!empty($service['featured'])): ?>
+                                        <span class="w-fit rounded-full border border-[#8A6A2F] bg-[#3A2F20] px-3 py-1 text-xs text-[#F1C879]">Zvýrazněná</span>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="grid gap-3 sm:grid-cols-2">
+                                    <label class="block text-sm">
+                                        <span class="mb-1 block font-semibold text-[#D8C8B0]">Cena pro výpočty</span>
+                                        <input type="number" min="0" step="1" name="services[<?= (int) $serviceIndex ?>][price]" value="<?= h((string) ($service['price'] ?? 0)) ?>" class="w-full rounded-lg px-3 py-2">
+                                    </label>
+                                    <label class="block text-sm">
+                                        <span class="mb-1 block font-semibold text-[#D8C8B0]">Viditelná cena</span>
+                                        <input type="text" name="services[<?= (int) $serviceIndex ?>][price_label]" value="<?= h((string) ($service['price_label'] ?? '')) ?>" class="w-full rounded-lg px-3 py-2">
+                                    </label>
+                                    <label class="block text-sm">
+                                        <span class="mb-1 block font-semibold text-[#D8C8B0]">Délka v minutách</span>
+                                        <input type="number" min="5" step="5" name="services[<?= (int) $serviceIndex ?>][duration]" value="<?= h((string) ($service['duration'] ?? 30)) ?>" class="w-full rounded-lg px-3 py-2">
+                                    </label>
+                                    <label class="block text-sm">
+                                        <span class="mb-1 block font-semibold text-[#D8C8B0]">Štítek</span>
+                                        <input type="text" name="services[<?= (int) $serviceIndex ?>][badge]" value="<?= h((string) ($service['badge'] ?? '')) ?>" class="w-full rounded-lg px-3 py-2">
+                                    </label>
+                                </div>
+                                <?php if (array_key_exists('service_title', $service)): ?>
+                                    <label class="mt-3 block text-sm">
+                                        <span class="mb-1 block font-semibold text-[#D8C8B0]">Název v rezervaci</span>
+                                        <input type="text" name="services[<?= (int) $serviceIndex ?>][service_title]" value="<?= h((string) ($service['service_title'] ?? '')) ?>" class="w-full rounded-lg px-3 py-2">
+                                    </label>
+                                <?php endif; ?>
+                                <label class="mt-3 block text-sm">
+                                    <span class="mb-1 block font-semibold text-[#D8C8B0]">Krátký popis</span>
+                                    <textarea name="services[<?= (int) $serviceIndex ?>][description]" class="w-full rounded-lg px-3 py-2"><?= h((string) ($service['description'] ?? '')) ?></textarea>
+                                </label>
+                                <label class="mt-3 block text-sm">
+                                    <span class="mb-1 block font-semibold text-[#D8C8B0]">Detail služby</span>
+                                    <textarea name="services[<?= (int) $serviceIndex ?>][service_copy]" class="w-full rounded-lg px-3 py-2"><?= h((string) ($service['service_copy'] ?? '')) ?></textarea>
+                                </label>
+                                <label class="mt-3 block text-sm">
+                                    <span class="mb-1 block font-semibold text-[#D8C8B0]">Doplňující věta</span>
+                                    <textarea name="services[<?= (int) $serviceIndex ?>][meta]" class="w-full rounded-lg px-3 py-2"><?= h((string) ($service['meta'] ?? '')) ?></textarea>
+                                </label>
+                            </article>
+                            <?php $serviceIndex++; ?>
+                        <?php endforeach; ?>
+                    </div>
+                </section>
+
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <p class="text-sm text-[#9F927E]">Fotky se ukládají do <code>assets/references/uploads</code>, texty a ceny do <code>storage/site_content.json</code>.</p>
+                    <button type="submit" class="rounded-full bg-[#C9BFA7] px-6 py-3 font-semibold text-[#1F1B18]">
+                        Uložit obsah webu
+                    </button>
+                </div>
+            </form>
+        <?php else: ?>
 
         <div class="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <div class="rounded-2xl border border-[#6A654E] bg-[#2A231E] p-4">
@@ -940,6 +1764,7 @@ if (trim((string) ($_GET['export'] ?? '')) === 'csv') {
                     </section>
                 <?php endforeach; ?>
             </div>
+        <?php endif; ?>
         <?php endif; ?>
     </main>
 </body>

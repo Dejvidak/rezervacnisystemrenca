@@ -2,33 +2,6 @@
 require_once __DIR__ . '/config.php';
 
 $services = app_services();
-$serviceEntries = array_values(array_map(
-    static fn(string $name, array $service): array => ['name' => $name, 'data' => $service],
-    array_keys($services),
-    $services
-));
-$featuredServiceEntry = null;
-foreach ($serviceEntries as $entry) {
-    if (!empty($entry['data']['featured'])) {
-        $featuredServiceEntry = $entry;
-        break;
-    }
-}
-$teaserServices = [];
-if ($featuredServiceEntry !== null) {
-    $teaserServices[] = $featuredServiceEntry;
-}
-foreach ($serviceEntries as $entry) {
-    if (count($teaserServices) >= 2) {
-        break;
-    }
-    if (($featuredServiceEntry['name'] ?? null) === $entry['name']) {
-        continue;
-    }
-    $teaserServices[] = $entry;
-}
-$servicePrices = array_map(static fn(array $service): int => (int) $service['price'], $services);
-$serviceDurations = array_map(static fn(array $service): int => (int) $service['duration'], $services);
 $instagramUrl = 'https://www.instagram.com/hairbyreneneme/';
 $instagramHandle = '@hairbyreneneme';
 $businessAddress = app_business_full_address_inline();
@@ -42,40 +15,7 @@ $pageImage = app_absolute_url('assets/renca-kaderko.jpg');
 $pageSchema = app_public_business_schema('', [
     'description' => $pageDescription,
 ]);
-$referenceCuts = [
-    [
-        'title' => 'Přirozený pánský střih',
-        'description' => 'Lehce upravený tvar, čistší kontury a přirozený objem',
-        'image' => 'assets/references/moderni-pansky-strih.jpg',
-    ],
-    [
-        'title' => 'Krátký fade',
-        'description' => 'Kratší boky, čistý přechod a upravený horní objem',
-        'image' => 'assets/references/home-reference-fade-test.png',
-        'transparent_media' => true,
-    ],
-    [
-        'title' => 'Dětský střih',
-        'description' => 'Čistý dětský střih s jemným detailem a pohodovou návštěvou',
-        'image' => 'assets/references/home-reference-child-test.png',
-        'transparent_media' => true,
-    ],
-    [
-        'title' => 'Klasický styl',
-        'description' => 'Nadčasový pánský střih s přirozenou délkou a měkkým tvarem',
-        'image' => 'assets/references/klasicky-styl.jpg',
-    ],
-    [
-        'title' => 'Čistý fade',
-        'description' => 'Výraznější přechod, čistá linie kolem uší a svěží celkový vzhled',
-        'image' => 'assets/references/cisty-fade.jpg',
-    ],
-    [
-        'title' => 'Finální styling',
-        'description' => 'Dokončený střih s lehkým stylingem pro upravený výsledný efekt',
-        'image' => 'assets/references/finalni-styling.jpg',
-    ],
-];
+$referenceCuts = app_home_reference_cuts();
 ?>
 <!DOCTYPE html>
 <html lang="cs" class="scroll-smooth">
@@ -1052,7 +992,6 @@ $referenceCuts = [
             }
 
             #about,
-            #services,
             #location {
                 padding-top: 3.2rem !important;
                 padding-bottom: 3.2rem !important;
@@ -1807,7 +1746,6 @@ $referenceCuts = [
         </a>
         <nav class="premium-nav hidden lg:flex" data-pill-nav aria-label="Hlavní navigace">
             <a href="#about" class="nav-link premium-nav__link">O nás</a>
-            <a href="#services" class="nav-link premium-nav__link">Služby</a>
             <a href="references.php" class="nav-link premium-nav__link">Reference</a>
             <a href="cenik.php" class="nav-link premium-nav__link">Ceník</a>
             <a href="contact.php" class="nav-link premium-nav__link">Kontakt</a>
@@ -1845,7 +1783,6 @@ $referenceCuts = [
     </div>
     <nav id="mobileMenu" class="hidden max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-[rgba(200, 146, 42,0.18)] bg-[#1F1D19] px-4 pb-4 pt-2 text-sm text-[color:var(--cream-soft)] shadow-lg lg:hidden">
         <a href="#about" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">O nás</a>
-        <a href="#services" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Služby</a>
         <a href="references.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Reference</a>
         <a href="cenik.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Ceník</a>
         <a href="contact.php" class="block rounded-lg px-3 py-3 hover:bg-[var(--surface-soft)] hover:text-[color:var(--gold)]">Kontakt</a>
@@ -2121,105 +2058,6 @@ $referenceCuts = [
             </div>
         </div>
     </section>
-    <!-- SLUŽBY -->
-    <section id="services" class="scroll-mt-28 border-t border-[var(--line)] py-8 md:scroll-mt-32 md:py-10">
-        <div class="section-reveal flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div class="max-w-2xl">
-                <p class="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--muted-strong)]">Služby</p>
-                <h2 class="mt-2 text-2xl font-bold sm:text-[2rem]">Vyber si, co ti sedí</h2>
-                <p class="mt-4 text-sm leading-7 text-[color:var(--muted)] sm:text-[15px]">
-                    Tady najdeš nejčastější volby. Pokud chceš detailnější porovnání, ceny i délky návštěvy,
-                    mrkni do kompletního ceníku.
-                </p>
-            </div>
-            <div>
-                <a href="cenik.php" class="ui-button focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
-                    Zobrazit celý ceník
-                </a>
-            </div>
-        </div>
-        <div class="services-grid mt-6 grid gap-4 md:grid-cols-2 stagger-reveal">
-            <?php foreach ($serviceEntries as $entry): ?>
-                <?php
-                $serviceName = $entry['name'];
-                $service = $entry['data'];
-                $isFeatured = !empty($service['featured']);
-                ?>
-                <article class="service-card service-card-hover group <?= $isFeatured ? 'service-card--featured' : '' ?>">
-                    <div class="service-card__accent" aria-hidden="true"></div>
-                    <div class="service-card__halo" aria-hidden="true"></div>
-                    <div class="service-card__body">
-                        <div class="service-card__main">
-                            <div class="service-card__top">
-                                <div class="service-card__heading">
-                                    <span class="service-card__badge">
-                                        <?= htmlspecialchars((string) ($service['badge'] ?? 'Služba'), ENT_QUOTES, 'UTF-8') ?>
-                                    </span>
-                                    <h3 class="service-card__title"><?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?></h3>
-                                </div>
-                                <div class="service-card__price">
-                                    <p>Od</p>
-                                    <strong><?= htmlspecialchars((string) ($service['price_label'] ?? ''), ENT_QUOTES, 'UTF-8') ?></strong>
-                                </div>
-                            </div>
-
-                            <div class="service-card__content">
-                                <p class="service-card__description">
-                                    <?= htmlspecialchars((string) ($service['description'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
-                                </p>
-                                <p class="service-card__copy">
-                                    <?= htmlspecialchars((string) ($service['service_copy'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
-                                </p>
-                            </div>
-
-                            <?php if (!empty($service['meta'])): ?>
-                                <p class="service-card__meta">
-                                    <?= htmlspecialchars((string) $service['meta'], ENT_QUOTES, 'UTF-8') ?>
-                                </p>
-                            <?php endif; ?>
-                        </div>
-
-                        <div class="service-card__footer">
-                            <p class="service-card__duration">
-                                <span aria-hidden="true"></span>
-                                cca <?= htmlspecialchars((string) $service['duration'], ENT_QUOTES, 'UTF-8') ?> minut
-                            </p>
-                            <a
-                                href="rezervace.php?service=<?= rawurlencode($serviceName) ?>"
-                                data-book-service="<?= htmlspecialchars($serviceName, ENT_QUOTES, 'UTF-8') ?>"
-                                class="service-card__button focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
-                            >
-                                <span>Vybrat a rezervovat</span>
-                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                    <path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-            <?php endforeach; ?>
-        </div>
-        <div class="mt-5 section-reveal glow-card rounded-2xl border border-[var(--line)] bg-[rgba(31,29,25,0.82)] p-5 shadow-sm">
-            <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <div>
-                    <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted-strong)]">Dárkové poukazy</p>
-                    <h3 class="mt-2 text-xl font-bold">Poukaz na střih jako dárek</h3>
-                    <p class="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
-                        Poukaz připravíme podle domluvy. Ozvi se telefonicky nebo e-mailem a doladíme částku i předání.
-                    </p>
-                </div>
-                <div class="flex flex-col gap-3 sm:flex-row">
-                    <a href="tel:+420608419610" class="inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-2.5 text-sm font-semibold text-[color:var(--cream)] transition hover:bg-[var(--accent-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
-                        Zavolat
-                    </a>
-                    <a href="mailto:renenemehair@seznam.cz?subject=D%C3%A1rkov%C3%BD%20poukaz%20Hair%20By%20ReneNeme" class="inline-flex items-center justify-center rounded-lg border border-[var(--line)] px-4 py-2.5 text-sm font-semibold text-[color:var(--cream)] transition hover:border-[var(--accent)] hover:text-[color:var(--gold-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
-                        Napsat e-mail
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="location" class="scroll-mt-28 border-t border-[var(--line)] py-8 md:scroll-mt-32 md:py-10">
         <div class="grid gap-6 md:grid-cols-[0.85fr_1.15fr] md:items-center md:gap-8">
             <div class="section-reveal section-reveal--left">

@@ -251,20 +251,6 @@ function app_site_footer(): string
     $instagramHandle = app_html(app_business_instagram_handle());
     $year = app_html((string) date('Y'));
 
-    $serviceLinks = '';
-    foreach (app_services() as $serviceName => $service) {
-        $serviceLabel = app_html($serviceName);
-        $priceLabel = app_html((string) ($service['price_label'] ?? ''));
-        $duration = app_html((string) ((int) ($service['duration'] ?? 0)));
-        $serviceLinks .= <<<HTML
-                <a class="site-footer__service-link" href="cenik.php">
-                    <span>{$serviceLabel}</span>
-                    <small>{$priceLabel} · {$duration} min</small>
-                </a>
-
-HTML;
-    }
-
     return <<<HTML
 <footer id="footer" class="site-footer">
     <div class="site-footer__inner">
@@ -290,12 +276,6 @@ HTML;
                     Pánské kadeřnictví v Brně pro střih, který drží tvar a návštěvu, která nepůsobí jako další povinnost v kalendáři.
                 </p>
                 <p class="site-footer__tagline">Pánské kadeřnictví · Brno-Královo Pole</p>
-            </section>
-
-            <section aria-labelledby="site-footer-services">
-                <h2 id="site-footer-services" class="site-footer__heading">Služby</h2>
-                <div class="site-footer__service-list">
-{$serviceLinks}                </div>
             </section>
 
             <section aria-labelledby="site-footer-visit">
@@ -334,6 +314,14 @@ HTML;
 
 function app_public_business_schema(string $pagePath = '', array $overrides = []): array
 {
+    $servicePrices = array_filter(
+        array_map(static fn(array $service): int => (int) ($service['price'] ?? 0), app_services()),
+        static fn(int $price): bool => $price > 0
+    );
+    $priceRange = !empty($servicePrices)
+        ? min($servicePrices) . '-' . max($servicePrices) . ' CZK'
+        : '310-620 CZK';
+
     $data = [
         '@context' => 'https://schema.org',
         '@type' => 'HairSalon',
@@ -342,7 +330,7 @@ function app_public_business_schema(string $pagePath = '', array $overrides = []
         'image' => app_absolute_url('assets/barbershop-hero.png'),
         'telephone' => app_business_phone(),
         'email' => app_business_email(),
-        'priceRange' => '310-620 CZK',
+        'priceRange' => $priceRange,
         'address' => [
             '@type' => 'PostalAddress',
             'streetAddress' => app_business_street_address(),
@@ -381,7 +369,12 @@ function app_booking_last_date(): DateTime
     return $lastDate;
 }
 
-function app_services(): array
+function app_content_storage_path(): string
+{
+    return __DIR__ . '/storage/site_content.json';
+}
+
+function app_default_services(): array
 {
     return [
         'Pánský střih' => [
@@ -423,6 +416,205 @@ function app_services(): array
             'meta' => 'Cena se odvíjí podle délky a náročnosti střihu',
         ],
     ];
+}
+
+function app_default_home_reference_cuts(): array
+{
+    return [
+        [
+            'title' => 'Přirozený pánský střih',
+            'description' => 'Lehce upravený tvar, čistší kontury a přirozený objem',
+            'image' => 'assets/references/moderni-pansky-strih.jpg',
+        ],
+        [
+            'title' => 'Krátký fade',
+            'description' => 'Kratší boky, čistý přechod a upravený horní objem',
+            'image' => 'assets/references/home-reference-fade-test.png',
+            'transparent_media' => true,
+        ],
+        [
+            'title' => 'Dětský střih',
+            'description' => 'Čistý dětský střih s jemným detailem a pohodovou návštěvou',
+            'image' => 'assets/references/home-reference-child-test.png',
+            'transparent_media' => true,
+        ],
+    ];
+}
+
+function app_default_reference_cuts(): array
+{
+    return [
+        [
+            'title' => 'Přirozený pánský střih',
+            'description' => 'Lehce upravený tvar, čistší kontury a přirozený objem',
+            'image' => 'assets/references/moderni-pansky-strih.jpg',
+        ],
+        [
+            'title' => 'Krátký fade',
+            'description' => 'Kratší boky, čistý přechod a upravený horní objem',
+            'image' => 'assets/references/kratky-fade.jpg',
+        ],
+        [
+            'title' => 'Upravený střih',
+            'description' => 'Vyčištěné boky, uhlazený profil a střih připravený na běžné nošení',
+            'image' => 'assets/references/upraveny-strih.jpg',
+        ],
+        [
+            'title' => 'Klasický styl',
+            'description' => 'Nadčasový pánský střih s přirozenou délkou a měkkým tvarem',
+            'image' => 'assets/references/klasicky-styl.jpg',
+        ],
+        [
+            'title' => 'Čistý fade',
+            'description' => 'Výraznější přechod, čistá linie kolem uší a svěží celkový vzhled',
+            'image' => 'assets/references/cisty-fade.jpg',
+        ],
+        [
+            'title' => 'Finální styling',
+            'description' => 'Dokončený střih s lehkým stylingem pro upravený výsledný efekt',
+            'image' => 'assets/references/finalni-styling.jpg',
+        ],
+    ];
+}
+
+function app_default_site_content(): array
+{
+    return [
+        'services' => app_default_services(),
+        'home_references' => app_default_home_reference_cuts(),
+        'references' => app_default_reference_cuts(),
+    ];
+}
+
+function app_normalize_reference_cut(array $cut, array $fallback): array
+{
+    $title = trim((string) ($cut['title'] ?? ''));
+    $description = trim((string) ($cut['description'] ?? ''));
+    $image = trim((string) ($cut['image'] ?? ''));
+
+    return [
+        'title' => $title !== '' ? $title : (string) ($fallback['title'] ?? ''),
+        'description' => $description !== '' ? $description : (string) ($fallback['description'] ?? ''),
+        'image' => $image !== '' ? $image : (string) ($fallback['image'] ?? ''),
+        'transparent_media' => !empty($cut['transparent_media']),
+    ];
+}
+
+function app_normalize_reference_list($items, array $fallback): array
+{
+    if (!is_array($items)) {
+        $items = [];
+    }
+
+    $normalized = [];
+    foreach ($fallback as $index => $fallbackCut) {
+        $cut = $items[$index] ?? [];
+        $normalized[] = app_normalize_reference_cut(is_array($cut) ? $cut : [], $fallbackCut);
+    }
+
+    return $normalized;
+}
+
+function app_normalize_services($services, array $fallback): array
+{
+    if (!is_array($services)) {
+        $services = [];
+    }
+
+    $normalized = [];
+    foreach ($fallback as $serviceName => $fallbackService) {
+        $service = $services[$serviceName] ?? [];
+        if (!is_array($service)) {
+            $service = [];
+        }
+
+        $price = (int) ($service['price'] ?? $fallbackService['price']);
+        $duration = (int) ($service['duration'] ?? $fallbackService['duration']);
+
+        $normalized[$serviceName] = [
+            'price' => max(0, $price),
+            'price_label' => trim((string) ($service['price_label'] ?? '')) !== '' ? trim((string) $service['price_label']) : (string) $fallbackService['price_label'],
+            'duration' => max(5, $duration),
+            'badge' => trim((string) ($service['badge'] ?? '')) !== '' ? trim((string) $service['badge']) : (string) ($fallbackService['badge'] ?? 'Služba'),
+            'description' => trim((string) ($service['description'] ?? '')) !== '' ? trim((string) $service['description']) : (string) ($fallbackService['description'] ?? ''),
+            'service_copy' => trim((string) ($service['service_copy'] ?? '')) !== '' ? trim((string) $service['service_copy']) : (string) ($fallbackService['service_copy'] ?? ''),
+            'meta' => trim((string) ($service['meta'] ?? '')) !== '' ? trim((string) $service['meta']) : (string) ($fallbackService['meta'] ?? ''),
+        ];
+
+        if (!empty($fallbackService['service_title']) || !empty($service['service_title'])) {
+            $normalized[$serviceName]['service_title'] = trim((string) ($service['service_title'] ?? '')) !== ''
+                ? trim((string) $service['service_title'])
+                : (string) ($fallbackService['service_title'] ?? '');
+        }
+
+        if (!empty($fallbackService['featured'])) {
+            $normalized[$serviceName]['featured'] = true;
+        }
+    }
+
+    return $normalized;
+}
+
+function app_normalize_site_content(array $content): array
+{
+    $fallback = app_default_site_content();
+
+    return [
+        'services' => app_normalize_services($content['services'] ?? [], $fallback['services']),
+        'home_references' => app_normalize_reference_list($content['home_references'] ?? [], $fallback['home_references']),
+        'references' => app_normalize_reference_list($content['references'] ?? [], $fallback['references']),
+    ];
+}
+
+function app_site_content(bool $refresh = false): array
+{
+    static $content = null;
+
+    if ($content !== null && !$refresh) {
+        return $content;
+    }
+
+    $path = app_content_storage_path();
+    if (!is_file($path)) {
+        $content = app_default_site_content();
+        return $content;
+    }
+
+    $decoded = json_decode((string) file_get_contents($path), true);
+    $content = app_normalize_site_content(is_array($decoded) ? $decoded : []);
+
+    return $content;
+}
+
+function app_save_site_content(array $content): bool
+{
+    $normalized = app_normalize_site_content($content);
+    $dir = dirname(app_content_storage_path());
+    if (!is_dir($dir)) {
+        mkdir($dir, 0755, true);
+    }
+
+    $json = json_encode($normalized, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    if (!is_string($json)) {
+        return false;
+    }
+
+    return file_put_contents(app_content_storage_path(), $json . "\n", LOCK_EX) !== false;
+}
+
+function app_services(): array
+{
+    return app_site_content()['services'];
+}
+
+function app_home_reference_cuts(): array
+{
+    return app_site_content()['home_references'];
+}
+
+function app_reference_cuts(): array
+{
+    return app_site_content()['references'];
 }
 
 function app_time_slots_for_date(string $date): array
